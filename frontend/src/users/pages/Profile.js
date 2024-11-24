@@ -5,12 +5,11 @@ import "../css/Profile.css";
 import { usersAPI } from '../../api';
 
 const Profile = () => {
-    const dispatch = useDispatch();
-    const { userInfo, isLoading, isError } = useSelector((state) => state.auth);
     const [desiredAmount, setDesiredAmount] = useState('');
     const [calculatedAmount, setCalculatedAmount] = useState(0);
     const [profile, setProfile] = useState(null);
     const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         fetchProfile();
@@ -18,32 +17,54 @@ const Profile = () => {
 
     const fetchProfile = async () => {
         try {
+            setLoading(true);
             const data = await usersAPI.getProfile();
             setProfile(data);
+            setError(null);
         } catch (error) {
             setError('Помилка завантаження профілю');
+            console.error('Error fetching profile:', error);
+        } finally {
+            setLoading(false);
         }
     };
 
     const handleAmountChange = (e) => {
         const value = e.target.value;
-        setDesiredAmount(value);
-        setCalculatedAmount(value * 10);
-    };
-
-    const handlePurchase = async () => {
-        try {
-            await usersAPI.updateProfile({ amount: parseInt(desiredAmount) });
-            setDesiredAmount('');
-            setCalculatedAmount(0);
-            fetchProfile();
-        } catch (error) {
-            setError('Помилка при поповненні балансу');
+        if (value >= 0) {
+            setDesiredAmount(value);
+            setCalculatedAmount(value * 10);
         }
     };
 
-    if (isLoading) return <p>Загрузка...</p>;
-    if (isError) return <p>Ошибка загрузки профиля</p>;
+    const handlePurchase = async () => {
+        if (!desiredAmount || desiredAmount <= 0) {
+            setError('Будь ласка, введіть коректну кількість розділів');
+            return;
+        }
+
+        try {
+            setLoading(true);
+            setError(null);
+            const response = await usersAPI.updateBalance(parseInt(desiredAmount));
+            
+            if (response.new_balance !== undefined) {
+                setProfile(prev => ({
+                    ...prev,
+                    balance: response.new_balance
+                }));
+                setDesiredAmount('');
+                setCalculatedAmount(0);
+            }
+        } catch (error) {
+            console.error('Error updating balance:', error);
+            setError(error.response?.data?.message || 'Помилка при поповненні балансу. Спробуйте пізніше.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    if (loading && !profile) return <p>Завантаження...</p>;
 
     return (
         <section>
@@ -54,22 +75,30 @@ const Profile = () => {
                         {profile && (
                             <>
                                 <p>Доступні розділи: {profile.balance}</p>
-                                <div>
-                                    <label>Бажана кількість розділів:</label>
-                                    <input
-                                        type="number"
-                                        value={desiredAmount}
-                                        onChange={handleAmountChange}
-                                        min="1"
-                                    />
+                                <div className="balance-form">
+                                    <label>
+                                        Бажана кількість розділів:
+                                        <input
+                                            type="number"
+                                            value={desiredAmount}
+                                            onChange={handleAmountChange}
+                                            min="1"
+                                            disabled={loading}
+                                        />
+                                    </label>
+                                    <div className="amount-display">
+                                        <p>Сума до сплати: {calculatedAmount} грн</p>
+                                    </div>
+                                    <button 
+                                        onClick={handlePurchase}
+                                        disabled={loading || !desiredAmount}
+                                    >
+                                        {loading ? 'Обробка...' : 'Купити'}
+                                    </button>
                                 </div>
-                                <div>
-                                    <p>Сума до сплати: {calculatedAmount} грн</p>
-                                </div>
-                                <button onClick={handlePurchase}>Купити</button>
                             </>
                         )}
-                        {error && <p style={{ color: 'red' }}>{error}</p>}
+                        {error && <p className="error-message">{error}</p>}
                     </div>
                 </Container>
             </Container>

@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux'; 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { fetchBook, getChapterList, updateChapterStatus } from '../api';
+import { catalogAPI } from '../../api/catalog/catalogAPI';
+import { editorsAPI } from '../../api/editors/editorsAPI';
 import "../css/Catalog.css";
 import { Container } from 'react-bootstrap';
 import RatingBar from '../../rating/RatingBar';
 import BookComments from '../../reviews/components/BookComments'; 
 import BookmarkButton from '../../navigation/components/BookmarkButton'; 
 import axios from 'axios';
-import { updateChapterOrder } from '../../editors/api';
 
 
 const BookDetail = () => {
@@ -39,7 +39,7 @@ const BookDetail = () => {
 
   const { data: book, isLoading: bookLoading, error: bookError } = useQuery({
     queryKey: ['book', slug],
-    queryFn: () => fetchBook(slug),
+    queryFn: () => catalogAPI.fetchBook(slug),
     enabled: !!slug,
   });
 
@@ -47,7 +47,7 @@ const BookDetail = () => {
     queryKey: ['chapters', slug],
     queryFn: async () => {
       try {
-        const response = await getChapterList(slug);
+        const response = await catalogAPI.getChapterList(slug);
         return response.data;
       } catch (error) {
         throw error;
@@ -165,7 +165,7 @@ const BookDetail = () => {
       });
       setChapterPositions(newPositions);
       
-      await updateChapterOrder('no-volume', updates);
+      await editorsAPI.updateChapterOrder('no-volume', updates);
       await queryClient.invalidateQueries(['chapters', slug]);
     } catch (error) {
       alert('Помилка при оновленні позицій глав');
@@ -340,7 +340,7 @@ const BookDetail = () => {
 
   const handleChapterStatusChange = async (chapterId, isPaid) => {
     try {
-        await updateChapterStatus(chapterId, isPaid);
+        await catalogAPI.updateChapterStatus(chapterId, isPaid);
         // Обновляем локальное состояние
         setChapterStatuses(prev => ({
             ...prev,
@@ -350,6 +350,15 @@ const BookDetail = () => {
         queryClient.invalidateQueries(['chapters', slug]);
     } catch (error) {
         alert('Помилка при зміні статусу глави');
+    }
+  };
+
+  const handleUpdateOrder = async () => {
+    try {
+        await editorsAPI.updateChapterOrder(volumeId, chapterOrders);
+        // ... остальной код ...
+    } catch (error) {
+        console.error('Error updating chapter order:', error);
     }
   };
 

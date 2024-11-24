@@ -296,4 +296,80 @@ def create_volume(request, book_slug):
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
 
+
+@api_view(['POST'])
+@parser_classes([MultiPartParser, FormParser])
+def create_book(request):
+    try:
+        if not request.user.is_authenticated:
+            return Response(
+                {'error': 'Необхідна авторизація'}, 
+                status=status.HTTP_401_UNAUTHORIZED
+            )
+
+        serializer = BookSerializer(
+            data=request.data,
+            context={'request': request}
+        )
+        
+        if serializer.is_valid():
+            # Создаем книгу с указанием создателя и владельца
+            book = serializer.save(
+                creator=request.user,
+                owner=request.user
+            )
+            
+            # Обрабатываем ManyToMany поля
+            if 'genres' in request.data:
+                genres_ids = request.data.getlist('genres[]')
+                book.genres.set(genres_ids)
+            
+            if 'tags' in request.data:
+                tags_ids = request.data.getlist('tags[]')
+                book.tags.set(tags_ids)
+            
+            if 'fandoms' in request.data:
+                fandoms_ids = request.data.getlist('fandoms[]')
+                book.fandoms.set(fandoms_ids)
+            
+            # Обрабатываем изображение
+            if 'image' in request.FILES:
+                book.image = request.FILES['image']
+                book.save()
+            
+            logger.info(f"Книга успешно создана: {book.id}, создатель: {request.user.username}")
+            return Response(
+                serializer.data,
+                status=status.HTTP_201_CREATED
+            )
+        
+        logger.error(f"Ошибка валидации: {serializer.errors}")
+        return Response(
+            serializer.errors,
+            status=status.HTTP_400_BAD_REQUEST
+        )
+        
+    except Exception as e:
+        logger.error(f"Ошибка при создании книги: {str(e)}")
+        return Response(
+            {'error': str(e)},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+
+@api_view(['GET'])
+def owned_books(request):
+    if not request.user.is_authenticated:
+        return Response(
+            {'error': 'Необхідна авторизація'}, 
+            status=status.HTTP_401_UNAUTHORIZED
+        )
+    
+    books = Book.objects.filter(owner=request.user)
+    serializer = BookSerializer(books, many=True, context={'request': request})
+    return Response(serializer.data)
+
+
+
+
   

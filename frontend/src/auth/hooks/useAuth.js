@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProfile } from './authSlice';
+import { getProfile } from '../authSlice';
 
 export const useAuth = () => {
     const dispatch = useDispatch();

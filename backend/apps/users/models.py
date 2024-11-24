@@ -55,6 +55,11 @@ class Profile(models.Model):
         else:
             return f"Id:{self.id}, {self.user.username}"
 
+    def update_balance(self, amount):
+        self.balance += amount
+        self.save()
+        return self.balance
+
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

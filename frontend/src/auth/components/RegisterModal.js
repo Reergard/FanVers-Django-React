@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { register, reset } from './authSlice';
+import { register, reset } from '../authSlice';
 import { useNavigate } from 'react-router-dom';
 
 const RegisterModal = ({ isOpen, onRequestClose }) => {

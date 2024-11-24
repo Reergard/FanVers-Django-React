@@ -3,25 +3,31 @@ import { api } from '../instance';
 export const usersAPI = {
     getProfile: async () => {
         try {
-            const response = await api.get('/auth/users/me/');
+            const response = await api.get('/users/profile/');
             return response.data;
         } catch (error) {
             throw error;
         }
     },
     
-    updateProfile: async (userData) => {
-        const response = await api.put('/auth/users/me/', userData);
-        return response.data;
-    },
-    
-    fetchProfile: async () => {
-        const response = await api.get('/profile/');
-        return response.data;
+    updateBalance: async (amount) => {
+        try {
+            const response = await api.post('/users/update-balance/', { amount });
+            return response.data;
+        } catch (error) {
+            if (error.response?.status === 404) {
+                throw new Error('Сервіс тимчасово недоступний');
+            }
+            throw error;
+        }
     },
     
     purchaseChapter: async (chapterId) => {
-        const response = await api.post(`/users/purchase-chapter/${chapterId}/`);
-        return response.data;
+        try {
+            const response = await api.post(`/users/purchase-chapter/${chapterId}/`);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
     }
 };

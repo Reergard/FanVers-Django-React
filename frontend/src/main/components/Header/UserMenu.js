@@ -5,9 +5,9 @@ import image_messages from '../../../assets/images/icons/profile-decoration-2.sv
 import profile_menu from '../../../assets/images/icons/profile-menu.svg';
 import { useNavigate, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { logout } from '../../../users/auth/authSlice';
-import LoginModal from '../../../users/auth/LoginModal';
-import RegisterModal from '../../../users/auth/RegisterModal';
+import { logout } from '../../../auth/authSlice';
+import LoginModal from '../../../auth/components/LoginModal';
+import RegisterModal from '../../../auth/components/RegisterModal';
 import { toast } from 'react-toastify';
 import { authAPI } from '../../../api';
 
@@ -82,7 +82,7 @@ export const UserMenu = ({ name, socialIcons, unreadNotifications }) => {
     };
 
     const menuItems = [
-        { text: 'Власні переклади', href: '/my-translations', icon: '📚' },
+        { text: 'Власні переклади', href: '/User-translations', icon: '📚' },
         { text: 'Створити переклад', href: '/create-translation', icon: '✏️' },
         { text: 'Закладки', href: '/bookmarks', icon: '🔖' },
         { text: 'Профіль', href: '/profile', icon: '👤' },

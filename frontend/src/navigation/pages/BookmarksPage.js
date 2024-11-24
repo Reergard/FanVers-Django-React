@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { getBookmarksByStatus } from '../api';
+import { getBookmarksByStatus } from '../../api/navigation/navigationAPI';
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import '../css/BookmarksPage.css'; 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getChapterForEdit, updateChapter } from '../api';
+import { editorsAPI } from '../../api/editors/editorsAPI';
 import axios from 'axios';
 import { Container } from 'react-bootstrap';
 
@@ -18,7 +18,7 @@ const EditChapter = () => {
     useEffect(() => {
         const fetchChapterData = async () => {
             try {
-                const data = await getChapterForEdit(chapterId);
+                const data = await editorsAPI.getChapterForEdit(chapterId);
                 setTitle(data.title);
                 setSelectedVolume(data.volume || '');
                 setOriginalData(data);
@@ -71,7 +71,7 @@ const EditChapter = () => {
                 return;
             }
 
-            await updateChapter(chapterId, formData);
+            await editorsAPI.updateChapter(chapterId, formData);
             
             // Возвращаемся на страницу книги
             navigate(`/books/${originalData.book_slug}`);

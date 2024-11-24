@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { fetchBookComments, postBookComment, updateReaction } from '../api';
+import { fetchBookComments, postBookComment, updateReaction } from '../../api/reviews/reviewsAPI';
 import CommentForm from './CommentForm';
 
 const BookComments = ({ bookSlug }) => {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { uploadChapter as apiUploadChapter } from "../api";
+import { uploadChapter as apiUploadChapter } from "../../api/catalog/catalogAPI";
 import "../css/Catalog.css";
 import { Container } from 'react-bootstrap';
 import axios from 'axios';

@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from rest_framework import status, generics, permissions
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.views import APIView
@@ -10,7 +10,7 @@ from rest_framework import serializers
 from django.shortcuts import get_object_or_404
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
-from apps.users.api.serializers import ProfileSerializer
+from apps.users.api.serializers import ProfileSerializer, UpdateBalanceSerializer
 from apps.catalog.models import Chapter
 
 
@@ -173,3 +173,19 @@ class PurchaseChapterView(APIView):
             'message': 'Глава успішно придбана',
             'is_purchased': True
         })
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def update_balance(request):
+    serializer = UpdateBalanceSerializer(data=request.data)
+    if serializer.is_valid():
+        amount = serializer.validated_data['amount']
+        profile = request.user.profile
+        profile.balance += amount
+        profile.save()
+        return Response({
+            'message': 'Баланс успішно оновлено',
+            'new_balance': profile.balance
+        })
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

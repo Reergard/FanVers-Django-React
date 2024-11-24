@@ -54,11 +54,28 @@ class BookSerializer(serializers.ModelSerializer):
     bookmark_status = serializers.SerializerMethodField()
     bookmark_id = serializers.SerializerMethodField()
     image = serializers.SerializerMethodField()
+    owner_username = serializers.SerializerMethodField()
+    creator_username = serializers.SerializerMethodField()
+    country = serializers.PrimaryKeyRelatedField(
+        queryset=Country.objects.all(),
+        required=True
+    )
 
     class Meta:
         model = Book
         fields = '__all__'
         depth = 1
+        read_only_fields = ['slug', 'last_updated', 'owner', 'creator']
+        extra_kwargs = {
+            'country': {'required': True},
+        }
+
+    def validate(self, data):
+        if 'country' not in data:
+            raise serializers.ValidationError({
+                'country': 'Это поле обязательно для заполнения.'
+            })
+        return data
 
     def get_image(self, obj):
         if obj.image:
@@ -87,6 +104,19 @@ class BookSerializer(serializers.ModelSerializer):
             ).first()
             return bookmark.id if bookmark else None
         return None
+
+    def get_owner_username(self, obj):
+        return obj.owner.username if obj.owner else None
+
+    def get_creator_username(self, obj):
+        return obj.creator.username if obj.creator else None
+
+    def create(self, validated_data):
+        request = self.context.get('request')
+        if request and request.user.is_authenticated:
+            validated_data['owner'] = request.user
+            validated_data['creator'] = request.user
+        return super().create(validated_data)
 
 
 class GenresSerializer(serializers.ModelSerializer):

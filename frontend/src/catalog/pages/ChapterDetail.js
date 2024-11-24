@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { getChapterDetail } from '../api';
+import { getChapterDetail } from '../../api/catalog/catalogAPI';
 import { Container } from 'react-bootstrap';
 import ChapterNavigation from '../../navigation/components/ChapterNavigation';
 import CommentForm from '../../reviews/components/CommentForm';
@@ -9,8 +9,8 @@ import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
 import '../../navigation/css/BookmarkButton.css';
 
 // Импорты для пагинации и отзывов нужно будет добавить или создать
-import { getChapterNavigation } from '../../navigation/api';
-import { fetchChapterComments, postChapterComment, updateReaction } from '../../reviews/api';
+import { getChapterNavigation } from '../../api/navigation/navigationAPI';
+import { fetchChapterComments, postChapterComment, updateReaction } from '../../api/reviews/reviewsAPI';
 
 const Comment = ({ comment, onReply, onReaction, isAuthenticated, depth = 0 }) => {
     const [showReplyForm, setShowReplyForm] = useState(false);

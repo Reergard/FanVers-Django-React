@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { login, reset, setIsAuthenticated, getProfile } from './authSlice';
-import './styles/AuthModal.css';
+import { login, reset, setIsAuthenticated, getProfile } from '../../auth/authSlice';
+import '../../auth/styles/AuthModal.css';
 
 const LoginModal = ({ isOpen, onRequestClose }) => {
   const [formData, setFormData] = useState({

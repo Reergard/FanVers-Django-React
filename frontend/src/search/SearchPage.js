@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import {searchBooks} from './api';
+import {searchBooks} from '../api/search/searchAPI';
 import { Container } from 'react-bootstrap';
 import './css/Search.css';
-import {fetchCountries, fetchFandoms, fetchGenres, fetchTags} from "../catalog/api";
+import {fetchCountries, fetchFandoms, fetchGenres, fetchTags} from "../api/catalog/catalogAPI";
 import MultiSelect from "./components/MultiSelect";
 
 function SearchPage() {

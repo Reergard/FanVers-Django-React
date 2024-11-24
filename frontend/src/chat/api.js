@@ -1,5 +1,5 @@
 import axios from 'axios';
-import authService from '../users/auth/authService';
+import authService from '../auth/authService';
 
 const BACKEND_DOMAIN = "http://localhost:8000";
 const CHAT_URL = `${BACKEND_DOMAIN}/api/chat/`;

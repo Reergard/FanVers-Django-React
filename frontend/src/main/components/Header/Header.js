@@ -6,7 +6,7 @@ import { UserMenu } from './UserMenu';
 import logoImage from '../../../assets/images/logo/logo.jpg';
 import searchIcon from '../../../assets/images/icons/Search_light.svg';
 import hoverFrame from '../../../assets/images/icons/frame.svg';
-import { useAuth } from '../../../users/auth/useAuth';
+import { useAuth } from '../../../auth/hooks/useAuth';
 import { useSelector } from 'react-redux';
 
 const Header = () => {

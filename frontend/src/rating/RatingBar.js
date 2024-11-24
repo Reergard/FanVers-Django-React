@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchRating, postRating } from './api';
+import { fetchRating, postRating } from '../api/rating/ratingAPI';
 import './RatingBar.css';
 
 const RatingBar = ({ bookSlug }) => {

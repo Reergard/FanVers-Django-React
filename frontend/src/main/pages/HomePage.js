@@ -3,7 +3,7 @@ import '../styles/HomePage.css';
 import Home2 from "./HomePage2";
 import Home3 from "./HomePage3";
 import bookImage from '../assets/book.png';
-import { useAuth } from '../../users/auth/useAuth';
+import { useAuth } from '../../auth/hooks/useAuth';
 
 // Данные новелл
 const novelData = [

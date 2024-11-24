@@ -24,3 +24,12 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'email', 'profile']
 
 
+class UpdateBalanceSerializer(serializers.Serializer):
+    amount = serializers.IntegerField(min_value=1)
+
+    def validate_amount(self, value):
+        if value <= 0:
+            raise serializers.ValidationError("Сума повинна бути більше нуля")
+        return value
+
+

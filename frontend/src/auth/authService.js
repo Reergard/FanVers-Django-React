@@ -1,4 +1,4 @@
-import { api } from '../../api/instance';
+import { api } from '../api/instance';
 
 const authService = {
     register: async (userData) => {

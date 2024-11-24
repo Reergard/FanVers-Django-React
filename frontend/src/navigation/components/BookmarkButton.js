@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query';
-import { addBookmark, updateBookmark, getBookmarkStatus } from '../api';
+import { addBookmark, updateBookmark, getBookmarkStatus } from '../../api/navigation/navigationAPI';
 import '../css/BookmarkButton.css'; // Создайте этот файл для стилей
 
 const STATUS_LABELS = {

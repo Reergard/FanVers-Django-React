@@ -115,10 +115,28 @@ class Book(models.Model):
     title = models.CharField(max_length=255)
     title_en = models.CharField(max_length=255, null=True)
     author = models.CharField(max_length=255)
+    creator = models.ForeignKey(
+        'users.User',
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='created_books'
+    )
+    owner = models.ForeignKey(
+        'users.User',
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='owned_books'
+    )
     tags = models.ManyToManyField(Tag)
     genres = models.ManyToManyField(Genres)
     fandoms = models.ManyToManyField(Fandom)
-    country = models.ForeignKey(Country, on_delete=models.CASCADE, null=True)
+    country = models.ForeignKey(
+        Country, 
+        on_delete=models.PROTECT,  # Используем PROTECT чтобы нельзя было удалить страну, если есть связанные книги
+        null=False,  # Страна обязательна
+        blank=False,  # Поле должно быть заполнено в формах
+        verbose_name='Країна'
+    )
     slug = models.SlugField(unique=True, blank=True, max_length=255)
     description = models.TextField(blank=True, null=True)
     image = models.ImageField(
