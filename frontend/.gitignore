@@ -1,0 +1,14 @@
+node_modules
+Команды для Django+React(AI).docx
+~$манды для Django+React(AI).docx
+.idea
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+.env
+.venv
+env/
+ENV/

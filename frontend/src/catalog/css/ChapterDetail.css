@@ -1,0 +1,13 @@
+.ChapterDetail {
+  position: relative; /* Відносне позиціонування для накладення вмісту */
+  z-index: -1; /* На задньому плані по відношенню до інших елементів */
+ background-position: top center; /* Позиція фону зверху по центру */
+  background-repeat: no-repeat; /* Без повторення фонового зображення */
+  padding-bottom: 30px !important; /* Відступ знизу в 30 пікселів */
+  padding-top: 30px !important; /* Відступ зверху в 30 пікселів */
+}
+
+/* Стилі для основного вмісту домашньої сторінки */
+.catalog-content {
+
+}

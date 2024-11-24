@@ -1,0 +1,18 @@
+.env
+db.sqlite3
+*/__pycache__/*
+*/migrations/__pycache__/*
+media
+static
+Команды для Django+React(AI).docx
+~$манды для Django+React(AI).docx
+.idea
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+.venv
+env/
+ENV/

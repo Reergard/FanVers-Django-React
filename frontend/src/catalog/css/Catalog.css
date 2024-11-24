@@ -1,0 +1,306 @@
+/*  Catalog.css
+/* Стиль для секції домашньої сторінки */
+.catalog-section {
+  position: relative; /* Відносне позиціонування для накладення вмісту */
+  z-index: 0; /* Меняем с -1 на 0 */
+   background-position: top center; /* Позиція фону зверху по центру */
+  background-repeat: no-repeat; /* Без повторення фонового зображення */
+  padding-bottom: 30px !important; /* Відступ знизу в 30 пікселів */
+  padding-top: 30px !important; /* Відступ зверху в 30 пікселів */
+}
+
+/* Стилі для основного вмісту домашньої сторінки */
+.catalog-content {
+  padding: 9rem 0 2rem !important; /* Відступи навколо вмісту (зверху 9rem, знизу 2rem) */
+  color: whitesmoke; /* Колір тексту (світло-сірий) */
+  text-align: left; /* Вирівнювання тексту по лівому краю */
+  position: relative;
+  z-index: 1;
+}
+
+.book-image {
+  max-width: 100px;
+  height: auto;
+  margin-right: 20px;
+}
+
+.book-details {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.book-list {
+  list-style-type: none;
+  padding: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.book-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Добавляем стили для ссылки */
+.read-link {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+}
+
+.read-link:hover {
+  background-color: #0056b3;
+  color: white;
+  text-decoration: none;
+}
+
+.volume-section {
+  margin: 20px 0;
+}
+
+.volume-form {
+  margin-top: 10px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.volume-form input {
+  margin: 10px 0;
+  padding: 5px;
+  width: 100%;
+}
+
+.volume-form .error {
+  color: red;
+  margin-bottom: 10px;
+}
+
+.volume-chapters {
+  margin-bottom: 20px;
+  padding: 15px;
+  border: 1px solid #eee;
+  border-radius: 5px;
+}
+
+.volume-title {
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #eee;
+}
+
+.volume-chapters-list {
+  padding-left: 15px;
+}
+
+.chapter-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  gap: 10px;
+}
+
+.chapter-item button,
+.chapter-item a {
+  min-width: 80px;
+  padding: 5px 10px;
+  text-align: center;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.chapter-item button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 2px 8px;
+}
+
+.chapter-item button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.chapter-item a {
+  background-color: #28a745;
+  color: white;
+}
+
+.chapter-item input[type="number"] {
+  width: 60px;
+  padding: 2px 4px;
+}
+
+.chapters-controls {
+  margin: 20px 0;
+}
+
+.edit-order-btn {
+  padding: 8px 16px;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.edit-order-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.chapter-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.chapter-order-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-right: 15px;
+}
+
+.move-btn {
+  padding: 4px 8px;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.move-btn:hover:not(:disabled) {
+  background-color: #e0e0e0;
+}
+
+.position-input {
+  width: 60px;
+  padding: 4px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.book-controls {
+  display: flex;
+  gap: 15px;
+  margin: 20px 0;
+  align-items: center;
+}
+
+.order-controls {
+  margin-bottom: 20px;
+}
+
+.no-chapters-message {
+  color: #666;
+  font-style: italic;
+  padding: 10px 0;
+}
+
+/* Стили для кнопок действий в главах */
+.chapter-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-left: auto; /* Прижимаем кнопки к правому краю */
+}
+
+.read-btn,
+.purchase-btn,
+.login-btn,
+.edit-chapter-btn {
+  min-width: 80px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  text-decoration: none;
+  text-align: center;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.read-btn {
+  background-color: #28a745;
+  color: white;
+}
+
+.read-btn:hover {
+  background-color: #218838;
+  color: white;
+  text-decoration: none;
+}
+
+.purchase-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.purchase-btn:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.purchase-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.login-btn {
+  background-color: #6c757d;
+  color: white;
+}
+
+.login-btn:hover {
+  background-color: #5a6268;
+  color: white;
+  text-decoration: none;
+}
+
+.edit-chapter-btn {
+  background-color: #17a2b8;
+  color: white;
+}
+
+.edit-chapter-btn:hover {
+  background-color: #138496;
+  color: white;
+  text-decoration: none;
+}
+
+/* Обновляем стиль chapter-item для лучшего расположения элементов */
+.chapter-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  gap: 10px;
+}
+
+.chapter-position {
+  margin-right: 10px;
+  min-width: 30px;
+  text-align: right;
+}
+
+.chapter-title {
+  flex: 1;
+  margin-right: 15px;
+}

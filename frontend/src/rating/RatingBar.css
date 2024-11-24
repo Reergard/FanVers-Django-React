@@ -1,0 +1,45 @@
+.rating-bar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.rating-bar {
+  display: flex;
+  width: 100%;
+  max-width: 300px;
+  height: 20px;
+  border: 2px solid yellow;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.rating-segment {
+  flex: 1;
+  transition: background-color 0.3s;
+}
+
+.rating-segment.filled {
+  background-color: yellow;
+}
+
+.rating-stars {
+  display: flex;
+}
+
+.star {
+  cursor: pointer;
+  font-size: 24px;
+  margin: 0 2px;
+  color: transparent;
+  transition: color 0.3s;
+}
+
+.star.filled {
+  color: yellow;
+}
+
+.rating-percentage {
+  margin-top: 10px;
+  font-size: 14px;
+}

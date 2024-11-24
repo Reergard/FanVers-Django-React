@@ -1,0 +1,17 @@
+.chapter-edit-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.chapter-status-toggle {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.9em;
+    cursor: pointer;
+}
+
+.chapter-status-toggle input[type="checkbox"] {
+    margin: 0;
+} 
