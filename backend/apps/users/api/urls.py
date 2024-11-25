@@ -12,4 +12,5 @@ urlpatterns = [
     path('add-balance/', views.AddBalanceView.as_view(), name='add_balance'),
     path('purchase-chapter/<int:chapter_id>/', views.PurchaseChapterView.as_view(), name='purchase_chapter'),
     path('update-balance/', views.update_balance, name='update-balance'),
+    path('become-translator/', views.become_translator, name='become-translator'),
 ]

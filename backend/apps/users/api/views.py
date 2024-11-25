@@ -9,6 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import serializers
 from django.shortcuts import get_object_or_404
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from django.contrib.auth.models import Group
 
 from apps.users.api.serializers import ProfileSerializer, UpdateBalanceSerializer
 from apps.catalog.models import Chapter
@@ -189,3 +190,28 @@ def update_balance(request):
             'new_balance': profile.balance
         })
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def become_translator(request):
+    user = request.user
+    profile = user.profile
+    reader_group = Group.objects.get(name='Читач')
+    translator_group = Group.objects.get(name='Перекладач')
+    
+    if translator_group in user.groups.all():
+        return Response({
+            'error': 'Ви вже є перекладачем'
+        }, status=status.HTTP_400_BAD_REQUEST)
+    
+    user.groups.remove(reader_group)
+    user.groups.add(translator_group)
+    
+    profile.role = 'Перекладач'
+    profile.save()
+    
+    return Response({
+        'message': 'Ви успішно стали перекладачем',
+        'role': profile.role
+    })

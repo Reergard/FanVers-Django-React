@@ -3,6 +3,8 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import Profile, User
 from .forms import CustomUserChangeForm, CustomUserCreationForm
 from django.urls import reverse
+from django.contrib.auth.models import Group
+from django import forms
 
 
 @admin.register(User)
@@ -12,10 +14,15 @@ class UserAdmin(BaseUserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
 
-    list_display = ["email", "username", "created", "is_active"]
+    list_display = ["email", "username", "created", "is_active", "get_user_group"]
     list_display_links = ["email"]
-    list_filter = ["is_active"]
+    list_filter = ["is_active", "groups"]
     search_fields = ["email", "username"]
+
+    def get_user_group(self, obj):
+        groups = obj.groups.all()
+        return 'Перекладач' if groups.filter(name='Перекладач').exists() else 'Читач'
+    get_user_group.short_description = 'Роль'
 
     fieldsets = (
         (None, {'fields': ('username', 'email', 'password')}),
@@ -34,8 +41,9 @@ class UserAdmin(BaseUserAdmin):
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('username', 'email', 'created', 'image', 'get_owned_books_count')
+    list_display = ('username', 'email', 'created', 'image', 'get_owned_books_count', 'role')
     search_fields = ('username', 'email')
+    list_filter = ('role',)
     
     def get_owned_books_count(self, obj):
         return obj.user.owned_books.count()
@@ -52,6 +60,10 @@ class ProfileAdmin(admin.ModelAdmin):
         ('Основна інформація', {
             'fields': ('user', 'username', 'email', 'about', 'image', 'balance')
         }),
+        ('Роль користувача', {
+            'fields': ('role',),
+            'description': 'Оберіть роль користувача'
+        }),
         ('Книги користувача', {
             'fields': ('get_owned_books_list',),
         }),
@@ -60,3 +72,11 @@ class ProfileAdmin(admin.ModelAdmin):
             'classes': ('collapse',)
         }),
     )
+
+    def save_model(self, request, obj, form, change):
+        if 'role' in form.changed_data:  # Если роль была изменена
+            obj.user.groups.clear()
+            group, _ = Group.objects.get_or_create(name=form.cleaned_data['role'])
+            obj.user.groups.add(group)
+        super().save_model(request, obj, form, change)
+

@@ -11,9 +11,17 @@ class CreateUserSerializer(UserCreateSerializer):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
+    role = serializers.SerializerMethodField()
+
     class Meta:
         model = Profile
-        fields = ['id', 'username', 'email', 'about', 'image', 'balance']
+        fields = ['id', 'username', 'email', 'about', 'image', 'balance', 'role']
+
+    def get_role(self, obj):
+        user_groups = obj.user.groups.all()
+        if user_groups.filter(name='Перекладач').exists():
+            return 'Перекладач'
+        return 'Читач'
 
 
 class UserSerializer(serializers.ModelSerializer):

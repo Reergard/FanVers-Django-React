@@ -1,6 +1,6 @@
 import uuid
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, Group
 from django.utils.translation import gettext_lazy as _
 from .managers import CustomUserManager
 
@@ -44,6 +44,12 @@ class Profile(models.Model):
     is_default = models.BooleanField(default=False)
     balance = models.IntegerField(default=0)
     purchased_chapters = models.ManyToManyField('catalog.Chapter', blank=True, related_name='purchased_by')
+    role = models.CharField(
+        max_length=20,
+        choices=[('Читач', 'Читач'), ('Перекладач', 'Перекладач')],
+        default='Читач',
+        verbose_name='Роль користувача'
+    )
 
     class Meta:
         verbose_name = 'Профіль'
@@ -60,6 +66,22 @@ class Profile(models.Model):
         self.save()
         return self.balance
 
+    def save(self, *args, **kwargs):
+        # Если это новый профиль без роли, устанавливаем роль из группы
+        if not self.role:
+            groups = self.user.groups.all()
+            self.role = 'Перекладач' if groups.filter(name='Перекладач').exists() else 'Читач'
+        
+        # Если роль изменилась, обновляем группы
+        if self.pk:  # Если объект уже существует
+            old_profile = Profile.objects.get(pk=self.pk)
+            if old_profile.role != self.role:
+                self.user.groups.clear()
+                group, _ = Group.objects.get_or_create(name=self.role)
+                self.user.groups.add(group)
+        
+        super().save(*args, **kwargs)
+
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
@@ -69,6 +91,8 @@ def create_user_profile(sender, instance, created, **kwargs):
             username=instance.username,
             email=instance.email
         )
+        reader_group = Group.objects.get(name='Читач')
+        instance.groups.add(reader_group)
 
 
 @receiver(post_save, sender=User)
