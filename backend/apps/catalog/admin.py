@@ -9,8 +9,8 @@ logger = logging.getLogger(__name__)
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
 
-    list_display = ['title', 'title_en', 'author', 'get_creator', 'get_owner', 'get_tags', 'get_fandoms', 'get_country', 'get_genres']
-    list_filter = ['author', 'creator', 'owner', 'tags', 'fandoms', 'country', 'genres']
+    list_display = ['title', 'title_en', 'author', 'get_creator', 'get_owner', 'translation_status', 'original_status', 'get_tags', 'get_fandoms', 'get_country', 'get_genres']
+    list_filter = ['author', 'creator', 'owner', 'tags', 'fandoms', 'country', 'genres', 'translation_status', 'original_status']
     search_fields = ['title', 'author', 'creator__username', 'owner__username']
 
     def get_creator(self, obj):

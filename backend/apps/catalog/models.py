@@ -111,6 +111,19 @@ class Genres(models.Model):
 
 
 class Book(models.Model):
+    TRANSLATION_STATUS_CHOICES = [
+        ('TRANSLATING', 'Перекладається'),
+        ('WAITING', 'В очікуванні розділів'),
+        ('PAUSED', 'Перерва'),
+        ('ABANDONED', 'Покинутий'),
+    ]
+    
+    ORIGINAL_STATUS_CHOICES = [
+        ('ONGOING', 'Виходить'),
+        ('STOPPED', 'Припинено'),
+        ('COMPLETED', 'Завершений'),
+    ]
+
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255)
     title_en = models.CharField(max_length=255, null=True)
@@ -148,6 +161,18 @@ class Book(models.Model):
 
     last_updated = models.DateTimeField(auto_now=True)
     adult_content = models.BooleanField(default=False)
+    translation_status = models.CharField(
+        max_length=20,
+        choices=TRANSLATION_STATUS_CHOICES,
+        default='TRANSLATING',
+        verbose_name='Статус перекладу'
+    )
+    
+    original_status = models.CharField(
+        max_length=20,
+        choices=ORIGINAL_STATUS_CHOICES,
+        verbose_name='Статус випуску оригіналу'
+    )
 
     def generate_slug(self):
         if not self.slug:
@@ -160,6 +185,8 @@ class Book(models.Model):
             self.slug = unique_slug
 
     def save(self, *args, **kwargs):
+        if not self.translation_status:
+            self.translation_status = 'TRANSLATING'
         self.generate_slug()
         super().save(*args, **kwargs)
 

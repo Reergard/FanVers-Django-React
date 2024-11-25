@@ -378,6 +378,22 @@ const BookDetail = () => {
         <Container className="catalog-content">
           <h1>{book.title}</h1>
 
+          {/* Добавляем блок статусов после заголовка */}
+          <div className="book-statuses">
+            <div className="status-block">
+              <span className="status-label">Статус перекладу:</span>
+              <span className="status-value translation-status">
+                {book.translation_status_display}
+              </span>
+            </div>
+            <div className="status-block">
+              <span className="status-label">Статус випуску оригіналу:</span>
+              <span className="status-value original-status">
+                {book.original_status_display}
+              </span>
+            </div>
+          </div>
+
           {/* Добавляем кнопку редактирования сразу после заголовка */}
           <div className="book-controls">
             {isAuthenticated && (

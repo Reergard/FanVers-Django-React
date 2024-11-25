@@ -20,7 +20,9 @@ const CreateBook = () => {
         country: '',
         fandoms: [],
         adult_content: false,
-        image: null
+        image: null,
+        translation_status: 'TRANSLATING',
+        original_status: '',
     });
     const [imagePreview, setImagePreview] = useState(null);
     const [errors, setErrors] = useState({});
@@ -54,6 +56,19 @@ const CreateBook = () => {
         }
     });
 
+    const translationStatuses = [
+        { value: 'TRANSLATING', label: 'Перекладається' },
+        { value: 'WAITING', label: 'В очікуванні розділів' },
+        { value: 'PAUSED', label: 'Перерва' },
+        { value: 'ABANDONED', label: 'Покинутий' },
+    ];
+
+    const originalStatuses = [
+        { value: 'ONGOING', label: 'Виходить' },
+        { value: 'STOPPED', label: 'Припинено' },
+        { value: 'COMPLETED', label: 'Завершений' },
+    ];
+
     const validateForm = () => {
         const newErrors = {};
         
@@ -75,6 +90,10 @@ const CreateBook = () => {
         
         if (!formData.country) {
             newErrors.country = 'Виберіть країну';
+        }
+        
+        if (!formData.original_status) {
+            newErrors.original_status = "Оберіть статус випуску оригіналу";
         }
         
         setErrors(newErrors);
@@ -284,6 +303,46 @@ const CreateBook = () => {
                             </div>
                         ))}
                     </div>
+                </Form.Group>
+
+                <Form.Group className="mb-3">
+                    <Form.Label>Статус перекладу</Form.Label>
+                    <Form.Select
+                        value={formData.translation_status}
+                        onChange={(e) => setFormData({ 
+                            ...formData, 
+                            translation_status: e.target.value 
+                        })}
+                        disabled  // Так как по умолчанию всегда "Перекладається"
+                    >
+                        {translationStatuses.map(status => (
+                            <option key={status.value} value={status.value}>
+                                {status.label}
+                            </option>
+                        ))}
+                    </Form.Select>
+                </Form.Group>
+
+                <Form.Group className="mb-3">
+                    <Form.Label>Статус випуску оригіналу *</Form.Label>
+                    <Form.Select
+                        value={formData.original_status}
+                        onChange={(e) => setFormData({ 
+                            ...formData, 
+                            original_status: e.target.value 
+                        })}
+                        isInvalid={!!errors.original_status}
+                    >
+                        <option value="">Оберіть статус</option>
+                        {originalStatuses.map(status => (
+                            <option key={status.value} value={status.value}>
+                                {status.label}
+                            </option>
+                        ))}
+                    </Form.Select>
+                    <Form.Control.Feedback type="invalid">
+                        {errors.original_status}
+                    </Form.Control.Feedback>
                 </Form.Group>
 
                 <Button variant="primary" type="submit">

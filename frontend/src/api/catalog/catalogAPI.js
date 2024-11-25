@@ -51,7 +51,11 @@ const fetchBook = async (slug) => {
 
     try {
         const response = await api.get(`/catalog/books/${slug}/`, config);
-        return response.data;
+        return {
+            ...response.data,
+            translation_status_display: response.data.translation_status_display || 'Невідомо',
+            original_status_display: response.data.original_status_display || 'Невідомо'
+        };
     } catch (error) {
         throw new Error(error.response?.data?.message || 'Помилка при завантаженні книги');
     }

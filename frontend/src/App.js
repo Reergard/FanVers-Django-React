@@ -15,7 +15,7 @@ import Footer from './main/components/Footer';
 import HomePage from './main/pages/HomePage';
 import CreateTranslation from './catalog/pages/BookCreate';
 import UserTranslations from './users/pages/UserTranslations';
-
+import NotificationPage from './notification/pages/NotificationPage';
 import Preloader from "./components/Preloader";
 import ScrollToTop from "./components/ScrollToTop";
 import "./components/Preloader.css";
@@ -73,6 +73,11 @@ function App() {
                 <ChatPage />
               </PrivateRoute>
             } />
+            <Route path="/notification" element={
+              <PrivateRoute>
+                <NotificationPage />
+              </PrivateRoute>
+            } /> 
             <Route path="/books/:slug/add-chapter" element={
               <PrivateRoute>
                 <AddChapter />

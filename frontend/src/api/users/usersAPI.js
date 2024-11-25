@@ -29,5 +29,14 @@ export const usersAPI = {
         } catch (error) {
             throw error;
         }
+    },
+    
+    becomeTranslator: async () => {
+        try {
+            const response = await api.post('/users/become-translator/');
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
     }
 };

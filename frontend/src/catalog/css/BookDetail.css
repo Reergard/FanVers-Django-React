@@ -14,4 +14,40 @@
 
 .chapter-status-toggle input[type="checkbox"] {
     margin: 0;
+}
+
+.book-statuses {
+  display: flex;
+  gap: 20px;
+  margin: 15px 0;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+}
+
+.status-block {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.status-label {
+  font-weight: 600;
+  color: #666;
+}
+
+.status-value {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.translation-status {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.original-status {
+  background-color: #f3e5f5;
+  color: #7b1fa2;
 } 

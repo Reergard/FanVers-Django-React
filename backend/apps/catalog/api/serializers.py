@@ -56,19 +56,20 @@ class BookSerializer(serializers.ModelSerializer):
     image = serializers.SerializerMethodField()
     owner_username = serializers.SerializerMethodField()
     creator_username = serializers.SerializerMethodField()
-    country = serializers.PrimaryKeyRelatedField(
-        queryset=Country.objects.all(),
-        required=True
-    )
+    translation_status_display = serializers.CharField(source='get_translation_status_display', read_only=True)
+    original_status_display = serializers.CharField(source='get_original_status_display', read_only=True)
 
     class Meta:
         model = Book
-        fields = '__all__'
-        depth = 1
+        fields = [
+            'id', 'title', 'title_en', 'author', 'description', 'image',
+            'translation_status', 'translation_status_display',
+            'original_status', 'original_status_display',
+            'country', 'slug', 'last_updated', 'owner', 'creator',
+            'bookmark_status', 'bookmark_id',
+            'owner_username', 'creator_username'
+        ]
         read_only_fields = ['slug', 'last_updated', 'owner', 'creator']
-        extra_kwargs = {
-            'country': {'required': True},
-        }
 
     def validate(self, data):
         if 'country' not in data:

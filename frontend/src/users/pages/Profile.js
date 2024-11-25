@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Container } from 'react-bootstrap';
 import "../css/Profile.css";
 import { usersAPI } from '../../api';
+import { toast } from 'react-toastify';
 
 const Profile = () => {
     const [desiredAmount, setDesiredAmount] = useState('');
@@ -64,6 +65,19 @@ const Profile = () => {
         }
     };
 
+    const handleBecomeTranslator = async () => {
+        try {
+            setLoading(true);
+            const response = await usersAPI.becomeTranslator();
+            await fetchProfile(); // Обновляем данные профиля
+            toast.success(response.message);
+        } catch (error) {
+            setError(error.response?.data?.error || 'Помилка при зміні ролі');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     if (loading && !profile) return <p>Завантаження...</p>;
 
     return (
@@ -74,6 +88,19 @@ const Profile = () => {
                         <h1>Профіль</h1>
                         {profile && (
                             <>
+                                <p>Ваша роль: {profile.role}</p>
+                                {profile.role === 'Читач' && (
+                                    <div className="role-upgrade">
+                                        <p>На данний момент ви "Читач" але можете</p>
+                                        <button 
+                                            onClick={handleBecomeTranslator}
+                                            disabled={loading}
+                                            className="btn btn-primary"
+                                        >
+                                            Стати Перекладачем
+                                        </button>
+                                    </div>
+                                )}
                                 <p>Доступні розділи: {profile.balance}</p>
                                 <div className="balance-form">
                                     <label>

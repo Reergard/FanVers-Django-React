@@ -1,4 +1,7 @@
 .book-create-container {
+    color: black;
+}
+.book-create-container {
     max-width: 800px;
     padding: 20px;
 }
@@ -54,7 +57,7 @@
 .country-item.selected,
 .fandom-item.selected {
     background-color: #007bff;
-    color: white;
+    color: rgb(7, 7, 7);
 }
 
 .genre-item.selected:hover,
