@@ -8260,3 +8260,25 @@ Found 0 books to update.
 Task check_abandoned_books finished
 Task apps.notification.tasks.check_abandoned_books[eaad31aa-a344-4966-87a5-1ebd018716da] succeeded in 0.0s: None
 Watching for file changes with StatReloader
+Task apps.notification.tasks.send_abandoned_notification[cb33050a-78f0-4ee6-839d-7b8e44a4416d] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[cb33050a-78f0-4ee6-839d-7b8e44a4416d] succeeded in 0.015999999828636646s: None
+Received data: {'text': '99999999999999999999999999999999999999999999999999', 'parent': None}
+Received data: {'text': '999999999999999999999999999999999999999999999999999999999999', 'parent': None}
+Task apps.notification.tasks.send_abandoned_notification[4132c91d-e798-4f29-8525-eba510ba7066] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[4132c91d-e798-4f29-8525-eba510ba7066] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[2d670d22-093d-48a6-87ee-2641f96afe0e] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[2d670d22-093d-48a6-87ee-2641f96afe0e] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[49d6ff88-5b09-414a-96c4-6e732934d1f0] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[49d6ff88-5b09-414a-96c4-6e732934d1f0] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[ffacbd6f-58a9-41d4-8bf4-c47c098d759f] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[ffacbd6f-58a9-41d4-8bf4-c47c098d759f] succeeded in 0.015999999828636646s: None
+Task apps.notification.tasks.send_abandoned_notification[c30acf92-2708-40b3-aa01-da37816a43a6] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[c30acf92-2708-40b3-aa01-da37816a43a6] succeeded in 0.0s: None
