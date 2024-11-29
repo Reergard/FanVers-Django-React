@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'apps.navigation',
     'apps.chat',
     'apps.editors', 
+    'apps.notification.apps.NotificationConfig',
 
     
     'rest_framework',
@@ -54,6 +55,7 @@ INSTALLED_APPS = [
     'djoser',
     'apps.rating.apps.RatingConfig',
     'channels',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -83,6 +85,31 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
 
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+    "x-request-id",  # Добавляем заголовок для отслеживания запросов
+    "cache-control"  # Добавляем для no-cache
+]
+
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]
+
+CORS_PREFLIGHT_MAX_AGE = 86400  # 24 часа
+CORS_EXPOSE_HEADERS = ["Content-Type", "X-CSRFToken"]
 
 
 ROOT_URLCONF = 'FanVers_project.urls'
@@ -162,6 +189,42 @@ SIMPLE_JWT = {
     "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
 }
 
+
+
+
+
+
+
+# Сначала определяем настройки Redis (перемещаем в начало настроек Celery)
+REDIS_HOST = os.getenv('REDIS_HOST', '127.0.0.1')
+REDIS_PORT = os.getenv('REDIS_PORT', '6379')
+REDIS_DB = os.getenv('REDIS_DB', '0')
+
+# Затем настройки Celery
+CELERY_BROKER_URL = f'redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB}'
+CELERY_RESULT_BACKEND = f'redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB}'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers.DatabaseScheduler'
+
+
+
+
+# Настройки Redis
+# Эти строки можно удалить, так как они уже определены выше
+# REDIS_HOST = os.getenv('REDIS_HOST', '127.0.0.1')
+# REDIS_PORT = os.getenv('REDIS_PORT', '6379')
+# REDIS_DB = os.getenv('REDIS_DB', '0')
+
+
+
+
+
+
+
 USE_POSTGRES = env("USE_POSTGRES")
 
 if USE_POSTGRES:
@@ -237,3 +300,29 @@ ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/gif']
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.User'
+
+# Настройки логирования для Celery
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+        'file': {
+            'class': 'logging.FileHandler',
+            'filename': 'celery.log',
+        },
+    },
+    'root': {
+        'handlers': ['console', 'file'],
+        'level': 'INFO',
+    },
+    'loggers': {
+        'celery': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    },
+}

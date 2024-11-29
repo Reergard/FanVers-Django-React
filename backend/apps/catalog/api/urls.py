@@ -24,6 +24,6 @@ urlpatterns = [
     path('books/<slug:book_slug>/chapters/', views.chapter_list, name='chapter_list'),
     path('books/<slug:book_slug>/chapters/<slug:chapter_slug>/', views.chapter_detail, name='chapter_detail'),
     path('books/<slug:book_slug>/volumes/', views.volume_list, name='volume_list'),
-    path('books/<slug:book_slug>/volumes/', views.create_volume, name='create_volume'),
+    path('books/<slug:book_slug>/create-volume/', views.create_volume, name='create_volume'),
     path('owned-books/', views.owned_books, name='owned-books'),
 ] + router.urls

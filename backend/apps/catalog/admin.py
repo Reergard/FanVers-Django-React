@@ -9,8 +9,8 @@ logger = logging.getLogger(__name__)
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
 
-    list_display = ['title', 'title_en', 'author', 'get_creator', 'get_owner', 'translation_status', 'original_status', 'get_tags', 'get_fandoms', 'get_country', 'get_genres']
-    list_filter = ['author', 'creator', 'owner', 'tags', 'fandoms', 'country', 'genres', 'translation_status', 'original_status']
+    list_display = ['title', 'title_en', 'author', 'get_creator', 'get_owner', 'translation_status', 'original_status', 'get_tags', 'get_fandoms', 'get_country', 'get_genres', 'last_updated']
+    list_filter = ['author', 'creator', 'owner', 'tags', 'fandoms', 'country', 'genres', 'translation_status', 'original_status', 'last_updated']
     search_fields = ['title', 'author', 'creator__username', 'owner__username']
 
     def get_creator(self, obj):
@@ -36,6 +36,11 @@ class BookAdmin(admin.ModelAdmin):
 
     def get_chapter(self, obj):
         return ",".join([chapter.title for chapter in obj.chapters.all()])
+
+    def get_last_updated(self, obj):
+        return obj.last_updated.strftime("%d.%m.%Y %H:%M")
+    get_last_updated.short_description = 'Последнее обновление'
+    get_last_updated.admin_order_field = 'last_updated'
 
 
 @admin.register(Chapter)

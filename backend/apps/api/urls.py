@@ -15,6 +15,7 @@ urlpatterns = [
     path('navigation/', include('apps.navigation.api.urls')), 
     path('chat/', include('apps.chat.api.urls')), 
     path('editors/', include('apps.editors.api.urls')),
+    path('notification/', include('apps.notification.api.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

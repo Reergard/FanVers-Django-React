@@ -9,6 +9,11 @@ from .serializers import ChapterEditSerializer
 import os
 from django.db import transaction
 from rest_framework.permissions import IsAuthenticated
+from rest_framework import viewsets
+from ..models import ErrorReport
+from .serializers import ErrorReportSerializer
+from apps.notification.models import Notification
+from apps.catalog.models import Book
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -24,10 +29,8 @@ def update_chapter(request, chapter_id):
     chapter = get_object_or_404(Chapter, id=chapter_id)
     
     try:
-        # Получаем текущие данные
         old_file = chapter.file if chapter.file else None
         
-        # Обновляем основные поля
         if 'title' in request.data:
             chapter.title = request.data['title']
             
@@ -38,9 +41,7 @@ def update_chapter(request, chapter_id):
             volume_id = request.data.get('volume')
             chapter.volume = Volume.objects.get(id=volume_id) if volume_id else None
 
-        # Обрабатываем файл
         if 'file' in request.FILES:
-            # Если есть старый файл, удаляем его
             if old_file:
                 if os.path.isfile(old_file.path):
                     os.remove(old_file.path)
@@ -76,7 +77,6 @@ def update_chapter_order_no_volume(request):
         
         chapters = Chapter.objects.all().order_by('volume_id', '_position')
         serializer = ChapterSerializer(chapters, many=True, context={'request': request})
-        
         return Response(serializer.data)
         
     except Exception as e:
@@ -84,7 +84,6 @@ def update_chapter_order_no_volume(request):
             {'error': str(e)}, 
             status=status.HTTP_400_BAD_REQUEST
         )
-
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -103,5 +102,62 @@ def update_chapter_order(request, volume_id):
         return Response(serializer.data)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+class ErrorReportViewSet(viewsets.ModelViewSet):
+    serializer_class = ErrorReportSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def get_queryset(self):
+        return ErrorReport.objects.filter(
+            book__owner=self.request.user
+        ) | ErrorReport.objects.filter(
+            user=self.request.user
+        )
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+
+    def perform_create(self, serializer):
+        error_report = serializer.save(user=self.request.user)
+        
+        notification_exists = Notification.objects.filter(
+            user=error_report.book.owner,
+            error_report=error_report
+        ).exists()
+        
+        if not notification_exists:
+            Notification.objects.create(
+                user=error_report.book.owner,
+                book=error_report.book,
+                message=f'Увага, користувач {self.request.user.username} пропонує виправлення у книзі "{error_report.book.title}"',
+                error_report=error_report
+            )
+
+    def create(self, request, *args, **kwargs):
+        try:
+            book_id = request.data.get('book')
+            book = Book.objects.get(id=book_id)
+            
+            if not book.owner:
+                return Response(
+                    {
+                        'error': 'no_owner',
+                        'message': 'У книги відсутній перекладач'
+                    },
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            
+            return super().create(request, *args, **kwargs)
+            
+        except Book.DoesNotExist:
+            return Response(
+                {
+                    'error': 'book_not_found',
+                    'message': 'Книга не знайдена'
+                },
+                status=status.HTTP_404_NOT_FOUND
+            )
 
 

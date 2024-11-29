@@ -2,7 +2,7 @@ from rest_framework.response import Response
 from apps.catalog.models import Book, Chapter, Genres, Tag, Country, Fandom, Volume, ChapterOrder
 from apps.catalog.api.serializers import (
     BookSerializer, ChapterSerializer, GenresSerializer, TagSerializer,
-    CountrySerializer, FandomSerializer, VolumeSerializer, ChapterOrderSerializer
+    CountrySerializer, FandomSerializer, VolumeSerializer, ChapterOrderSerializer,
 )
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
@@ -139,9 +139,14 @@ def chapter_detail(request, book_slug, chapter_slug):
                     status=status.HTTP_500_INTERNAL_SERVER_ERROR
                 )
 
+        logger.info(f"Returning chapter detail with book title: {chapter.book.title}")
         return Response({
             'title': chapter.title,
             'content': html_content,
+            'book_title': chapter.book.title,
+            'book': chapter.book.id,
+            'id': chapter.id,
+            'book_id': chapter.book.id
         })
         
     except Chapter.DoesNotExist:
@@ -161,8 +166,18 @@ def chapter_detail(request, book_slug, chapter_slug):
 def add_chapter(request, slug):
     try:
         book = get_object_or_404(Book, slug=slug)
+        
+        # Проверяем, является ли пользователь владельцем книги
+        if request.user != book.owner:
+            return Response(
+                {'error': 'У вас немає прав для додавання глав до цієї книги'}, 
+                status=status.HTTP_403_FORBIDDEN
+            )
+            
         volume_id = request.data.get('volume')
         is_paid = request.data.get('is_paid')
+        
+        logger.debug(f"Получены данные: title={request.data.get('title')}, volume_id={volume_id}, is_paid={is_paid}")
         
         if 'file' not in request.FILES:
             return Response(
@@ -177,7 +192,7 @@ def add_chapter(request, slug):
             book=book,
             title=request.data['title'],
             file=file,
-            volume_id=volume_id,
+            volume_id=volume_id if volume_id else None,
             is_paid=str(is_paid).lower() == 'true'
         )
         
@@ -186,18 +201,16 @@ def add_chapter(request, slug):
             with open(chapter.file.path, "rb") as docx_file:
                 result = mammoth.convert_to_html(docx_file)
                 html_content = result.value
-                
-                # Сохраняем HTML контент
                 chapter.save_html_content(html_content)
                 
         except Exception as e:
             logger.error(f"Error converting chapter {chapter.id} to HTML: {str(e)}")
-            # Даже если конвертация не удалась, глава все равно создана
             
         serializer = ChapterSerializer(chapter)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
         
     except Exception as e:
+        logger.error(f"Error creating chapter: {str(e)}")
         return Response(
             {'error': str(e)}, 
             status=status.HTTP_400_BAD_REQUEST
@@ -271,6 +284,13 @@ def create_volume(request, book_slug):
     try:
         book = Book.objects.get(slug=book_slug)
         
+        # Проверяем, является ли пользователь владельцем книги
+        if request.user != book.owner:
+            return Response(
+                {'error': 'У вас немає прав для створення томів у цій книзі'}, 
+                status=status.HTTP_403_FORBIDDEN
+            )
+            
         if 'title' not in request.data:
             return Response(
                 {'error': 'Назва тому обов\'язкова'}, 
@@ -313,7 +333,7 @@ def create_book(request):
         )
         
         if serializer.is_valid():
-            # Создаем книгу с указанием создателя и владельца
+            # Создае�� книгу с указанием создателя и владельца
             book = serializer.save(
                 creator=request.user,
                 owner=request.user
@@ -368,8 +388,3 @@ def owned_books(request):
     books = Book.objects.filter(owner=request.user)
     serializer = BookSerializer(books, many=True, context={'request': request})
     return Response(serializer.data)
-
-
-
-
-  

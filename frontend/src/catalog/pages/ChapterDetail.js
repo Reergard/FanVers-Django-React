@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { getChapterDetail } from '../../api/catalog/catalogAPI';
-import { Container } from 'react-bootstrap';
+import { Container, Button } from 'react-bootstrap';
 import ChapterNavigation from '../../navigation/components/ChapterNavigation';
 import CommentForm from '../../reviews/components/CommentForm';
 import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
 import '../../navigation/css/BookmarkButton.css';
+import ModalErrorReport from '../../editors/components/ModalErrorReport';
+import '../css/ChapterDetail.css';
 
 // Импорты для пагинации и отзывов нужно будет добавить или создать
 import { getChapterNavigation } from '../../api/navigation/navigationAPI';
@@ -57,13 +59,22 @@ const Comment = ({ comment, onReply, onReaction, isAuthenticated, depth = 0 }) =
 
 const ChapterDetail = () => {
     const { bookSlug, chapterSlug } = useParams();
-    const [chapterData, setChapterData] = useState({ title: '', content: '' });
+    const [chapterData, setChapterData] = useState({ 
+        title: '', 
+        content: '',
+        book_title: '',
+        id: null,
+        book_id: null
+    });
     const [navigationData, setNavigationData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [comments, setComments] = useState([]);
     const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
     const user = useSelector(state => state.auth.user);
+    const [showErrorModal, setShowErrorModal] = useState(false);
+    const [selectedText, setSelectedText] = useState('');
+    const [isSelectionMode, setIsSelectionMode] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -71,25 +82,25 @@ const ChapterDetail = () => {
                 setLoading(true);
                 setError(null);
 
-                console.log('Начало загрузки данных главы');
-                console.log(`Параметры: bookSlug=${bookSlug}, chapterSlug=${chapterSlug}`);
-
-                // Загружаем все данные параллельно
                 const [chapterResponse, navigationResponse, commentsResponse] = await Promise.all([
                     getChapterDetail(bookSlug, chapterSlug),
                     getChapterNavigation(bookSlug, chapterSlug),
                     fetchChapterComments(chapterSlug)
                 ]);
+                
+                const chapterData = {
+                    ...chapterResponse.data,
+                    book_id: chapterResponse.data.book_id || bookSlug,
+                    id: chapterResponse.data.id || chapterSlug,
+                    book_title: chapterResponse.data.book_title || '',
+                    title: chapterResponse.data.title || ''
+                };
 
-                console.log('Данные главы:', chapterResponse.data);
-                console.log('Данные навигации:', navigationResponse.data);
-
-                setChapterData(chapterResponse.data);
+                setChapterData(chapterData);
                 setNavigationData(navigationResponse.data);
                 setComments(commentsResponse || []);
                 
             } catch (error) {
-                console.error('Ошибка при загрузке данных:', error);
                 setError(error.message || 'Произошла ошибка при загрузке данных');
             } finally {
                 setLoading(false);
@@ -128,6 +139,22 @@ const ChapterDetail = () => {
             );
         } catch (error) {
             console.error('Ошибка при обновлении реакции:', error);
+        }
+    };
+
+    const handleStartSelection = () => {
+        setIsSelectionMode(true);
+        document.addEventListener('mouseup', handleTextSelection);
+    };
+
+    const handleTextSelection = () => {
+        const selection = window.getSelection();
+        const text = selection.toString().trim();
+        if (text) {
+            setSelectedText(text);
+            setShowErrorModal(true);
+            setIsSelectionMode(false);
+            document.removeEventListener('mouseup', handleTextSelection);
         }
     };
 
@@ -173,6 +200,44 @@ const ChapterDetail = () => {
                         <p>Содержимое главы отсутствует.</p>
                     )}
                 </div>
+
+                <div className="error-report-container">
+                    {!isSelectionMode ? (
+                        <Button 
+                            variant="warning" 
+                            onClick={handleStartSelection}
+                            className="error-report-button"
+                        >
+                            Повідомити про помилку
+                        </Button>
+                    ) : (
+                        <div className="selection-mode">
+                            {isSelectionMode && (
+                                <div className="instructions-text">
+                                    Виделіть будь ласка текст в якому ви знайшли помилку!
+                                </div>
+                            )}
+                            <Button 
+                                variant="primary"
+                                onClick={() => setShowErrorModal(true)}
+                                disabled={!selectedText}
+                                className="confirm-selection-button"
+                            >
+                                Підтвердити вибраний текст
+                            </Button>
+                        </div>
+                    )}
+                </div>
+
+                <ModalErrorReport 
+                    show={showErrorModal}
+                    onHide={() => setShowErrorModal(false)}
+                    bookId={chapterData.book_id}
+                    chapterId={chapterData.id}
+                    bookTitle={chapterData.book_title}
+                    chapterTitle={chapterData.title}
+                    selectedText={selectedText}
+                />
 
                 {navigationData && (
                     <div className="chapter-navigation-buttons">

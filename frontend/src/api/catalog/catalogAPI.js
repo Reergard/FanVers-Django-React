@@ -96,9 +96,21 @@ const getChapterList = async (bookSlug) => {
     }
 };
 
-const getChapterDetail = (bookSlug, chapterSlug) => {
-    const url = `/catalog/books/${bookSlug}/chapters/${chapterSlug}/`;
-    return api.get(url);
+const getChapterDetail = async (bookSlug, chapterSlug) => {
+    try {
+        const response = await api.get(`/catalog/books/${bookSlug}/chapters/${chapterSlug}/`);
+        return {
+            data: {
+                ...response.data,
+                book: response.data.book || bookSlug,
+                id: response.data.id || chapterSlug,
+                book_id: response.data.book || bookSlug,
+                book_title: response.data.book_title || ''
+            }
+        };
+    } catch (error) {
+        throw new Error('Помилка при завантаженні даних розділу');
+    }
 };
 
 const uploadChapter = async (bookSlug, title, file, isPaid, selectedVolume = null) => {
@@ -248,6 +260,15 @@ const getOwnedBooks = async () => {
     }
 };
 
+const getBookTitle = async (bookSlug) => {
+    try {
+        const response = await api.get(`/catalog/books/${bookSlug}/title/`);
+        return response.data.title;
+    } catch (error) {
+        throw new Error('Помилка при завантаженні назви книги');
+    }
+};
+
 export const catalogAPI = {
     fetchGenres,
     fetchTags,
@@ -262,6 +283,7 @@ export const catalogAPI = {
     updateChapterStatus,
     createBook,
     getOwnedBooks,
+    getBookTitle,
 };
 
 export {
@@ -278,4 +300,5 @@ export {
     updateChapterStatus,
     createBook,
     getOwnedBooks,
+    getBookTitle,
 };

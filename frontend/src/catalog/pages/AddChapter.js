@@ -4,6 +4,9 @@ import { uploadChapter as apiUploadChapter } from "../../api/catalog/catalogAPI"
 import "../css/Catalog.css";
 import { Container } from 'react-bootstrap';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { catalogAPI } from "../../api/catalog/catalogAPI";
 
 const AddChapter = () => {
   const { slug } = useParams();
@@ -14,6 +17,8 @@ const AddChapter = () => {
   const [volumes, setVolumes] = useState([]);
   const [selectedVolume, setSelectedVolume] = useState('');
   const navigate = useNavigate();
+  const [book, setBook] = useState(null);
+  const user = useSelector(state => state.auth.user);
 
   useEffect(() => {
     const fetchVolumes = async () => {
@@ -26,6 +31,28 @@ const AddChapter = () => {
     };
     fetchVolumes();
   }, [slug]);
+
+  useEffect(() => {
+    const fetchBookDetails = async () => {
+      try {
+        const response = await catalogAPI.fetchBook(slug);
+        setBook(response);
+        
+        if (response.owner !== user?.id) {
+          navigate(`/books/${slug}`);
+          toast.error('У вас немає прав для додавання глав до цієї книги');
+          return;
+        }
+      } catch (error) {
+        setError('Помилка при завантаженні даних книги');
+        navigate(`/books/${slug}`);
+      }
+    };
+
+    if (user) {
+      fetchBookDetails();
+    }
+  }, [slug, user, navigate]);
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];

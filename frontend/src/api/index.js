@@ -7,4 +7,5 @@ export { ratingAPI } from './rating/ratingAPI';
 export { reviewsAPI } from './reviews/reviewsAPI';
 export { searchAPI } from './search/searchAPI';
 export { catalogAPI } from './catalog/catalogAPI';
+export { notificationAPI } from './notification/notificationAPI';
 

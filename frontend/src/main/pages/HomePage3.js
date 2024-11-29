@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/HomePage3.css';
-import { catalogAPI } from '../../api/main/mainAPI';
+import { catalogAPI } from '../../api';
 import bookImage from '../assets/book.png';
 
 const NovelCard = ({ title, description, imageUrl }) => {

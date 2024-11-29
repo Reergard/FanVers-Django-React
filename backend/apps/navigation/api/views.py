@@ -15,50 +15,72 @@ logger = logging.getLogger(__name__)
 class ChapterNavigationView(APIView):
     def get(self, request, book_slug, chapter_slug):
         try:
+            # Получаем книгу и текущую главу
             book = get_object_or_404(Book, slug=book_slug)
             current_chapter = get_object_or_404(Chapter, book=book, slug=chapter_slug)
             
-            # Получаем все главы с информацией о томах
-            all_chapters = book.chapters.select_related('volume').all()
+            # Получаем все главы книги, отсортированные по позиции
+            all_chapters = list(book.chapters.all().order_by('_position'))
             
-            # Сортируем главы
-            sorted_chapters = sorted(all_chapters, key=lambda x: (
-                float('inf') if x.volume is None else x.volume.id,
-                x._position
-            ))
+            if not all_chapters:
+                return Response({
+                    'current_chapter': None,
+                    'prev_chapter': None,
+                    'next_chapter': None,
+                    'all_chapters': []
+                })
             
             # Находим индекс текущей главы
-            current_index = next(i for i, ch in enumerate(sorted_chapters) if ch.id == current_chapter.id)
+            try:
+                current_index = all_chapters.index(current_chapter)
+            except ValueError:
+                return Response(
+                    {'error': 'Глава не найдена в списке глав книги'}, 
+                    status=status.HTTP_404_NOT_FOUND
+                )
             
-            prev_chapter = sorted_chapters[current_index - 1] if current_index > 0 else None
-            next_chapter = sorted_chapters[current_index + 1] if current_index < len(sorted_chapters) - 1 else None
+            # Определяем предыдущую и следующую главы
+            prev_chapter = all_chapters[current_index - 1] if current_index > 0 else None
+            next_chapter = all_chapters[current_index + 1] if current_index < len(all_chapters) - 1 else None
 
-            # Проверяем статус покупки для каждой главы
             def get_chapter_data(chapter):
+                if not chapter:
+                    return None
+                    
                 is_purchased = False
                 if request.user.is_authenticated:
-                    is_purchased = chapter.purchases.filter(user=request.user).exists()
+                    is_purchased = request.user.profile.purchased_chapters.filter(id=chapter.id).exists()
+                
                 return {
-                    'title': f"Том {chapter.volume.id if chapter.volume else 'без тома'} - {chapter.title}",
+                    'title': chapter.title,
                     'slug': chapter.slug,
                     'is_paid': chapter.is_paid,
                     'is_purchased': is_purchased,
-                    'id': chapter.id
+                    'id': chapter.id,
+                    'volume': chapter.volume.id if chapter.volume else None
                 }
 
-            navigation_data = {
+            return Response({
                 'current_chapter': get_chapter_data(current_chapter),
-                'prev_chapter': get_chapter_data(prev_chapter) if prev_chapter else None,
-                'next_chapter': get_chapter_data(next_chapter) if next_chapter else None,
-                'all_chapters': [get_chapter_data(ch) for ch in sorted_chapters]
-            }
+                'prev_chapter': get_chapter_data(prev_chapter),
+                'next_chapter': get_chapter_data(next_chapter),
+                'all_chapters': [get_chapter_data(ch) for ch in all_chapters]
+            })
             
-            return Response(navigation_data)
-            
-        except Exception as e:
-            print(f"Ошибка при получении навигации: {str(e)}")
+        except Book.DoesNotExist:
             return Response(
-                {'error': str(e)}, 
+                {'error': 'Книга не найдена'}, 
+                status=status.HTTP_404_NOT_FOUND
+            )
+        except Chapter.DoesNotExist:
+            return Response(
+                {'error': 'Глава не найдена'}, 
+                status=status.HTTP_404_NOT_FOUND
+            )
+        except Exception as e:
+            logger.error(f"Ошибка при получении навигации: {str(e)}")
+            return Response(
+                {'error': 'Внутренняя ошибка сервера'}, 
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 

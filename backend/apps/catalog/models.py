@@ -6,6 +6,10 @@ from django.urls import reverse
 import docx
 from django.core.exceptions import ValidationError
 from django.conf import settings
+from django.utils import timezone
+from unidecode import unidecode
+import re
+from datetime import timedelta
 
 logger = logging.getLogger(__name__)
 
@@ -34,7 +38,7 @@ def book_directory_path(instance, filename):
 
 def chapter_directory_path(instance, filename):
     local_cleaned_filename = clean_chapter_filename(filename)
-    # Создаем путь для книги и главы
+    # оздаем путь для книги и главы
     path = os.path.join('books', instance.book.slug, 'chapters')
 
     return os.path.join(path, local_cleaned_filename)
@@ -145,9 +149,9 @@ class Book(models.Model):
     fandoms = models.ManyToManyField(Fandom)
     country = models.ForeignKey(
         Country, 
-        on_delete=models.PROTECT,  # Используем PROTECT чтобы нельзя было удалить страну, если есть связанные книги
-        null=False,  # Страна обязательна
-        blank=False,  # Поле должно быть заполнено в формах
+        on_delete=models.PROTECT,  
+        null=False,
+        blank=False,
         verbose_name='Країна'
     )
     slug = models.SlugField(unique=True, blank=True, max_length=255)
@@ -159,7 +163,10 @@ class Book(models.Model):
         verbose_name='Зображення книги'
     )
 
-    last_updated = models.DateTimeField(auto_now=True)
+    last_updated = models.DateTimeField(
+        auto_now=True,
+        verbose_name='Останнє оновлення'
+    )
     adult_content = models.BooleanField(default=False)
     translation_status = models.CharField(
         max_length=20,
@@ -174,20 +181,61 @@ class Book(models.Model):
         verbose_name='Статус випуску оригіналу'
     )
 
-    def generate_slug(self):
+    created_at = models.DateTimeField(
+        default=timezone.now,
+        verbose_name='Дата створення'
+    )
+
+    def generate_unique_slug(self):
+        """Генерирует уникальный слаг для книги"""
+        # Транслитерация и базовая очистка
+        slug = slugify(unidecode(self.title))
+        
+        # Если title_en существует, используем его как основу
+        if self.title_en:
+            slug = slugify(unidecode(self.title_en))
+            
+        # Удаляем все специальные символы кроме дефиса
+        slug = re.sub(r'[^a-zA-Z0-9-]', '', slug)
+        
+        # Заменяем множественные дефисы на один
+        slug = re.sub(r'-+', '-', slug)
+        
+        # Ограничиваем длину слага
+        max_length = self._meta.get_field('slug').max_length
+        if len(slug) > max_length:
+            slug = slug[:max_length]
+        
+        # Проверяем уникальность и добавляем числовой суффикс если нужно
+        original_slug = slug
+        counter = 1
+        while Book.objects.filter(slug=slug).exists():
+            # Добавляем числовой суффикс
+            suffix = f'-{counter}'
+            # Обрезаем оригинальный слаг чтобы уместить суффикс
+            slug = f'{original_slug[:max_length - len(suffix)]}{suffix}'
+            counter += 1
+            
+        return slug
+
+    def clean(self):
+        """Валидация модели"""
+        super().clean()
         if not self.slug:
-            base_slug = slugify(str(self.title))
-            unique_slug = base_slug
-            num = 1
-            while Book.objects.filter(slug=unique_slug).exists():
-                unique_slug = f"{base_slug}-{num}"
-                num += 1
-            self.slug = unique_slug
+            self.slug = self.generate_unique_slug()
 
     def save(self, *args, **kwargs):
+        """Сохранение модели"""
+        if not self.slug:
+            self.slug = self.generate_unique_slug()
+        
         if not self.translation_status:
             self.translation_status = 'TRANSLATING'
-        self.generate_slug()
+            
+        # Обновляем last_updated только при создании или изменении важных полей
+        if not self.pk or kwargs.get('update_fields') is None:
+            self.last_updated = timezone.now()
+            
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -198,8 +246,14 @@ class Book(models.Model):
         chapters = self.chapters.count()
         return chapters
 
-    # def is_adult(self):
-    #     return self.is_adult
+    def has_recent_activity(self):
+        """Проверяет, была ли активность за последний месяц"""
+        month_ago = timezone.now() - timedelta(days=30)
+        return (
+            self.chapters.filter(created_at__gte=month_ago).exists() or
+            self.last_updated >= month_ago
+        )
+
 
 
 def process_table(table):
@@ -218,18 +272,13 @@ class Volume(models.Model):
     book = models.ForeignKey(Book, related_name="volumes", on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
-    slug = models.SlugField(unique=True, blank=True)
-
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(str(self.title))
-        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.book.title} - {self.title}"
 
     class Meta:
         ordering = ['created_at']
+        unique_together = ('book', 'title')
 
 
 class Chapter(models.Model):
@@ -258,18 +307,35 @@ class Chapter(models.Model):
     class Meta:
         ordering = ['_position']
 
+    def generate_unique_slug(self):
+        """Генерирует уникальный слаг для главы"""
+        base_slug = slugify(unidecode(self.title))
+        
+        # Удаляем специальные символы
+        slug = re.sub(r'[^a-zA-Z0-9-]', '', base_slug)
+        
+        # Заменяем множественные дефисы
+        slug = re.sub(r'-+', '-', slug)
+        
+        # Проверяем уникальность
+        original_slug = slug
+        counter = 1
+        while Chapter.objects.filter(
+            book=self.book,
+            slug=slug
+        ).exists():
+            suffix = f'-{counter}'
+            slug = f'{original_slug}{suffix}'
+            counter += 1
+            
+        return slug
+
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(str(self.title))
-        
-        # Если позиция не установлена, устанавливаем последнюю + 1
-        if self._position == 0:
-            last_chapter = Chapter.objects.filter(
-                book=self.book,
-                volume=self.volume
-            ).order_by('-_position').first()
+            self.slug = self.generate_unique_slug()    
             
-            self._position = (last_chapter._position + 1) if last_chapter else 1.0
+        if not self.pk or kwargs.get('update_fields') is None:
+            self.last_updated = timezone.now()
             
         super().save(*args, **kwargs)
 

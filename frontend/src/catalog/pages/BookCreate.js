@@ -108,7 +108,7 @@ const CreateBook = () => {
                 return;
             }
             if (file.size > 5 * 1024 * 1024) { // 5MB
-                toast.error('Розмір файлу не повинен перевищувати 5MB');
+                toast.error('Розмір файлу не повинен первищувати 5MB');
                 return;
             }
             setFormData({ ...formData, image: file });
@@ -125,33 +125,7 @@ const CreateBook = () => {
         }
 
         try {
-            createBookMutation.mutate(formData, {
-                onSuccess: () => {
-                    toast.success('Книга успішно створена!');
-                    navigate('/catalog');
-                },
-                onError: (error) => {
-                    let errorMessage = 'Помилка при створенні книги';
-                    
-                    if (error.response?.data) {
-                        const missingFields = [];
-                        const serverErrors = error.response.data;
-                        
-                        if (serverErrors.title) missingFields.push('назва');
-                        if (serverErrors.author) missingFields.push('автор');
-                        if (serverErrors.genres) missingFields.push('жанри');
-                        if (serverErrors.country) missingFields.push('країна');
-                        
-                        if (missingFields.length > 0) {
-                            errorMessage = `Не заповнені обов'язкові поля: ${missingFields.join(', ')}`;
-                        } else if (typeof serverErrors === 'string') {
-                            errorMessage = serverErrors;
-                        }
-                    }
-                    
-                    toast.error(errorMessage);
-                }
-            });
+            createBookMutation.mutate(formData);
         } catch (error) {
             toast.error('Виникла неочікувана помилка');
         }

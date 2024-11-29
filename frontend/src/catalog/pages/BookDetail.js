@@ -10,11 +10,13 @@ import RatingBar from '../../rating/RatingBar';
 import BookComments from '../../reviews/components/BookComments'; 
 import BookmarkButton from '../../navigation/components/BookmarkButton'; 
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 
 const BookDetail = () => {
   const { slug } = useParams();
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  const currentUser = useSelector(state => state.auth.user);
   const token = localStorage.getItem('token');
   const queryClient = useQueryClient();
   const [showVolumeForm, setShowVolumeForm] = useState(false);
@@ -69,7 +71,7 @@ const BookDetail = () => {
   const groupChaptersByVolume = (chapters, volumes) => {
     const grouped = new Map();
     
-    // Создаем группу для глав без тома
+    // Созаем группу для глав без тома
     grouped.set(null, []);
     
     // Инициализируем группы для каждого тома
@@ -132,8 +134,13 @@ const BookDetail = () => {
     setVolumeError('');
 
     try {
+      if (!isBookOwner) {
+        setVolumeError('У вас немає прав для створення томів у цій книзі');
+        return;
+      }
+
       const response = await axios.post(
-        `http://localhost:8000/api/catalog/books/${slug}/volumes/`,
+        `http://localhost:8000/api/catalog/books/${slug}/create-volume/`,
         { title: volumeTitle },
         {
           headers: {
@@ -150,9 +157,13 @@ const BookDetail = () => {
       // Обновляем список томов
       queryClient.invalidateQueries(['volumes', slug]);
       
-      alert('Том успішно створено');
+      toast.success('Том успішно створено');
     } catch (error) {
-      setVolumeError(error.response?.data?.error || 'Помилка при створенні тому');
+      console.error('Error creating volume:', error);
+      console.error('Error response:', error.response?.data);  // Добавляем вывод данных ошибки
+      const errorMessage = error.response?.data?.error || 'Помилка при створенні тому';
+      setVolumeError(errorMessage);
+      toast.error(errorMessage);
     }
   };
 
@@ -168,7 +179,7 @@ const BookDetail = () => {
       await editorsAPI.updateChapterOrder('no-volume', updates);
       await queryClient.invalidateQueries(['chapters', slug]);
     } catch (error) {
-      alert('Помилка при оновленні позицій глав');
+      alert('Помилка при оноленні позицій глав');
       throw error;
     }
   };
@@ -324,7 +335,7 @@ const BookDetail = () => {
           }));
       }
 
-      // Добавляем обновление для перемещаемой главы
+      // Добавляем обновлеи для перемещаемой главы
       updates.push({
         chapter_id: chapterId,
         position: targetPosition,
@@ -362,6 +373,9 @@ const BookDetail = () => {
     }
   };
 
+  // Проверяем, является ли текущий пользователь владельцем книги
+  const isBookOwner = currentUser && book && book.owner === currentUser.id;
+
   if (bookLoading || chaptersLoading) return <div>Завантаження...</div>;
   if (bookError) return <div>Помилка: {bookError.message}</div>;
   if (chaptersError) {
@@ -394,20 +408,56 @@ const BookDetail = () => {
             </div>
           </div>
 
-          {/* Добавляем кнопку редактирования сразу после заголовка */}
-          <div className="book-controls">
-            {isAuthenticated && (
-              <>
-                <BookmarkButton bookId={book.id} />
-                <button 
-                  className="edit-order-btn"
-                  onClick={() => setIsEditingOrder(!isEditingOrder)}
-                >
-                  {isEditingOrder ? 'Завершити редагування' : 'Редагувати порядок розділів'}
-                </button>
-              </>
-            )}
-          </div>
+          {/* Показываем кнопки управления только владельцу книги */}
+          {isAuthenticated && isBookOwner && (
+            <div className="book-management-buttons">
+              <button 
+                onClick={() => setShowVolumeForm(!showVolumeForm)}
+                className="management-btn"
+              >
+                {showVolumeForm ? 'Скасувати' : 'Створити том'}
+              </button>
+
+              <Link 
+                to={`/books/${slug}/add-chapter`}
+                className="management-btn"
+              >
+                Додати розділ
+              </Link>
+
+              <button 
+                onClick={() => setIsEditingOrder(!isEditingOrder)}
+                className="management-btn"
+              >
+                {isEditingOrder ? 'Завершити редагування' : 'Редагувати порядок розділів'}
+              </button>
+            </div>
+          )}
+
+          {/* Форма создания тома доступна только владельцу */}
+          {isBookOwner && showVolumeForm && (
+            <form onSubmit={handleCreateVolume} className="volume-form">
+              {volumeError && <p className="error">{volumeError}</p>}
+              <div>
+                <label htmlFor="volumeTitle">Назва тому:</label>
+                <input
+                  type="text"
+                  id="volumeTitle"
+                  value={volumeTitle}
+                  onChange={(e) => setVolumeTitle(e.target.value)}
+                  required
+                />
+              </div>
+              <button type="submit">Зберегти</button>
+            </form>
+          )}
+
+          {/* Управление главами доступно только владельцу */}
+          {isBookOwner && (
+            <div className="chapter-management">
+              {/* ... код управления главами ... */}
+            </div>
+          )}
 
           {/* Изображение книги */}
           {book.image && (
@@ -624,7 +674,7 @@ const BookDetail = () => {
 
 
 
-              {/* Компонент рейтінгу */}
+              {/* Компоннт рейтінгу */}
               <RatingBar bookSlug={slug} />
 
                {/* Компонент коментарів */}

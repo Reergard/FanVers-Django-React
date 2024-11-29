@@ -2,11 +2,15 @@ from rest_framework import serializers
 from apps.catalog.models import Book, Chapter, Genres, Tag, Country, Fandom, Volume, ChapterOrder
 from apps.navigation.models import Bookmark 
 from django.conf import settings
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class ChapterSerializer(serializers.ModelSerializer):
     is_purchased = serializers.SerializerMethodField()
     volume_title = serializers.SerializerMethodField()
+    book_title = serializers.CharField(source='book.title', read_only=True)
     position = serializers.DecimalField(
         max_digits=10,
         decimal_places=1,
@@ -23,7 +27,7 @@ class ChapterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Chapter
         fields = [
-            'id', 'title', 'book', 'slug', 'file', 
+            'id', 'title', 'book', 'book_title', 'slug', 'file', 
             'is_paid', 'is_purchased', 'volume', 
             'volume_title', 'position', 'book_slug'
         ]
@@ -151,10 +155,11 @@ class FandomSerializer(serializers.ModelSerializer):
 class VolumeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Volume
-        fields = ['id', 'title', 'slug', 'book']
+        fields = ['id', 'title', 'book']
 
 
 class ChapterOrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChapterOrder
         fields = ['id', 'volume', 'chapter', 'position']
+

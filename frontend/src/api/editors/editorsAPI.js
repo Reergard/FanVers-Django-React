@@ -42,7 +42,31 @@ const updateChapterOrder = async (volumeId, chapterOrders) => {
 export const editorsAPI = {
     getChapterForEdit,
     updateChapter,
-    updateChapterOrder
+    updateChapterOrder,
+    createErrorReport(data) {
+        if (!data.book || !data.chapter) {
+            throw new Error('Отсутствуют обязательные поля');
+        }
+
+        return api.post('/editors/error-reports/', {
+            book: parseInt(data.book),
+            chapter: parseInt(data.chapter),
+            error_text: data.error_text,
+            suggestion: data.suggestion,
+            user_username: data.user_username,
+            book_title: data.book_title,
+            chapter_title: data.chapter_title
+        }).catch(error => {
+            if (error.response?.data?.error === 'no_owner') {
+                throw new Error('NO_OWNER');
+            }
+            throw error;
+        });
+    },
+    
+    getErrorReport(id) {
+        return api.get(`/editors/error-reports/${id}/`);
+    }
 };
 
 export {
