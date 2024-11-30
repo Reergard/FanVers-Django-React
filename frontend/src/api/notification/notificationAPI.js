@@ -38,5 +38,9 @@ export const notificationAPI = {
         return api.patch(`/notification/notifications/${notificationId}/`, {
             is_read: true
         });
+    },
+    
+    deleteNotification(notificationId) {
+        return api.delete(`/notification/notifications/${notificationId}/`);
     }
 };

@@ -63,3 +63,22 @@ class NotificationViewSet(viewsets.ModelViewSet):
                 'error': 'Internal server error',
                 'detail': str(e)
             }, status=500)
+
+    @transaction.atomic
+    def destroy(self, request, *args, **kwargs):
+        try:
+            notification = self.get_object()
+            if notification.user != request.user:
+                return Response(
+                    {'error': 'У вас немає прав для видалення цього повідомлення'}, 
+                    status=403
+                )
+            
+            notification.delete()
+            return Response(status=204)
+            
+        except Exception as e:
+            return Response(
+                {'error': 'Помилка при видаленні повідомлення', 'detail': str(e)}, 
+                status=500
+            )

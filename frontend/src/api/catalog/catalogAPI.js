@@ -268,7 +268,6 @@ const getBookTitle = async (bookSlug) => {
         throw new Error('Помилка при завантаженні назви книги');
     }
 };
-
 export const catalogAPI = {
     fetchGenres,
     fetchTags,

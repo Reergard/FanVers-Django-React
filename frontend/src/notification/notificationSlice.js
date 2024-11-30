@@ -31,6 +31,18 @@ export const markNotificationAsRead = createAsyncThunk(
     }
 );
 
+export const deleteNotification = createAsyncThunk(
+    'notification/deleteNotification',
+    async (notificationId, thunkAPI) => {
+        try {
+            await notificationAPI.deleteNotification(notificationId);
+            return notificationId;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.message);
+        }
+    }
+);
+
 const notificationSlice = createSlice({
     name: 'notification',
     initialState,
@@ -61,6 +73,11 @@ const notificationSlice = createSlice({
                 if (notification) {
                     notification.is_read = true;
                 }
+            })
+            .addCase(deleteNotification.fulfilled, (state, action) => {
+                state.notifications = state.notifications.filter(
+                    n => n.id !== action.payload
+                );
             });
     }
 });

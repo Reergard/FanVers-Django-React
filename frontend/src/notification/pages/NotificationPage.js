@@ -1,74 +1,35 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
-import { notificationAPI } from '../../api';
+import React, { useEffect, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchNotifications, markNotificationAsRead } from '../notificationSlice';
 import NotificationItem from '../components/NotificationItem';
 import '../styles/NotificationPage.css';
 import { debounce } from 'lodash';
 import { toast } from 'react-toastify';
 
 const NotificationPage = () => {
-    const [notifications, setNotifications] = useState([]);
-    const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [version, setVersion] = useState(0);
-    const currentRequestId = useRef(0);
-
-    const fetchNotifications = async () => {
-        const requestId = ++currentRequestId.current;
-        
-        try {
-            const response = await notificationAPI.getNotifications(version);
-            
-            if (!response) return;
-            
-            if (requestId !== currentRequestId.current) return;
-
-            if (response.version > version) {
-                setVersion(response.version);
-                setNotifications(prev => {
-                    const uniqueNotifications = [...new Map(
-                        (response.data || []).map(item => [item.id, item])
-                    ).values()];
-                    return uniqueNotifications;
-                });
-            }
-            
-            setError(null);
-            setLoading(false);
-            
-        } catch (error) {
-            setError(error.message || 'Произошла ошибка при загрузке уведомлений');
-            setLoading(false);
-        }
-    };
+    const dispatch = useDispatch();
+    const { notifications, loading, error } = useSelector(state => state.notification);
 
     const handleMarkAsRead = useCallback(async (notificationId) => {
         try {
-            await notificationAPI.markAsRead(notificationId);
-            setNotifications(prev => {
-                const updated = prev.map(notification => 
-                    notification.id === notificationId 
-                        ? { ...notification, is_read: true }
-                        : notification
-                );
-                return updated;
-            });
+            await dispatch(markNotificationAsRead(notificationId)).unwrap();
         } catch (error) {
             toast.error('Помилка при позначенні повідомлення як прочитаного');
         }
-    }, []);
+    }, [dispatch]);
 
     const debouncedFetch = useCallback(
-        debounce(async () => {
-            await fetchNotifications();
+        debounce(() => {
+            dispatch(fetchNotifications());
         }, 300),
-        []
+        [dispatch]
     );
 
     useEffect(() => {
         let intervalId;
         
-        const initFetch = async () => {
-            await debouncedFetch();
+        const initFetch = () => {
+            debouncedFetch();
             intervalId = setInterval(debouncedFetch, 30000);
         };
 

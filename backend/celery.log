@@ -8282,3 +8282,272 @@ Task apps.notification.tasks.check_abandoned_books[ffacbd6f-58a9-41d4-8bf4-c47c0
 Task apps.notification.tasks.send_abandoned_notification[c30acf92-2708-40b3-aa01-da37816a43a6] received
 send_abandoned_notification started
 Task apps.notification.tasks.send_abandoned_notification[c30acf92-2708-40b3-aa01-da37816a43a6] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[fb5d0d5f-a40f-40e5-9188-869caeade9a9] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[fb5d0d5f-a40f-40e5-9188-869caeade9a9] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[fc173824-3745-43ba-afee-8bf0fa65923e] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[fc173824-3745-43ba-afee-8bf0fa65923e] succeeded in 0.01600000006146729s: None
+Task apps.notification.tasks.send_abandoned_notification[246a626d-67df-4778-a023-a9aa78453313] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[246a626d-67df-4778-a023-a9aa78453313] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[9ebf0b04-1581-4c67-879c-e3ac5b5a3e5e] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[9ebf0b04-1581-4c67-879c-e3ac5b5a3e5e] succeeded in 0.01600000006146729s: None
+Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': '7e1deaa9-1434-4459-8dfa-09f3d122127d', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '7e1deaa9-1434-4459-8dfa-09f3d122127d', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen3468@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+Task apps.notification.tasks.check_abandoned_books[b83f8704-f8c0-4b1c-96bb-8e5b1658659d] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[b83f8704-f8c0-4b1c-96bb-8e5b1658659d] succeeded in 0.0s: None
+Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': '67d0f538-94f4-4929-ab43-c40810d397b7', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '67d0f538-94f4-4929-ab43-c40810d397b7', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen3468@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+Task celery.backend_cleanup[767da1c5-7857-426d-a66b-b9db6bdabedf] received
+Task celery.backend_cleanup[767da1c5-7857-426d-a66b-b9db6bdabedf] succeeded in 0.0s: None
+Unauthorized: /api/notification/notifications/
+Unauthorized: /api/notification/notifications/
+Unauthorized: /api/catalog/books/wwgfwrg/chapters/
+Unauthorized: /api/catalog/books/wwgfwrg/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Task apps.notification.tasks.check_abandoned_books[a9d88392-3532-48c7-8421-b35dcc546ea8] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[a9d88392-3532-48c7-8421-b35dcc546ea8] succeeded in 0.015999999828636646s: None
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Task apps.notification.tasks.send_abandoned_notification[1cb549cc-9eee-4ae7-88b9-e8053d162ef7] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[1cb549cc-9eee-4ae7-88b9-e8053d162ef7] succeeded in 0.0s: None
+Unauthorized: /api/users/profile/
+Task apps.notification.tasks.send_abandoned_notification[143e0b51-2ac4-4602-8401-39aef16ce4e2] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[143e0b51-2ac4-4602-8401-39aef16ce4e2] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[014c3d1d-e3ed-4714-86c3-89d4cccdbe6e] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[014c3d1d-e3ed-4714-86c3-89d4cccdbe6e] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[8edb902e-c411-4bca-84db-4710197feccc] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[8edb902e-c411-4bca-84db-4710197feccc] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[b55693d9-2ade-46a6-9ccf-24cb00317442] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[b55693d9-2ade-46a6-9ccf-24cb00317442] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[57c05b3d-fd84-40e3-864a-e8d1b9172654] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[57c05b3d-fd84-40e3-864a-e8d1b9172654] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[c6ceadc7-6153-49bc-b31a-2ea5558d4967] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[c6ceadc7-6153-49bc-b31a-2ea5558d4967] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[db3b74f5-b8f3-4778-8644-777df46157b1] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[db3b74f5-b8f3-4778-8644-777df46157b1] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[fafe1ff9-f3f2-4a49-960d-880edfd3162e] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[fafe1ff9-f3f2-4a49-960d-880edfd3162e] succeeded in 0.0s: None
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Task apps.notification.tasks.check_abandoned_books[161b296a-8b35-4b25-94fe-12d37f300918] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[161b296a-8b35-4b25-94fe-12d37f300918] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[567b2f8d-603a-47fe-8b36-00541af287da] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[567b2f8d-603a-47fe-8b36-00541af287da] succeeded in 0.0s: None
+Unauthorized: /api/users/profile/
+Task apps.notification.tasks.check_abandoned_books[db08f9e6-f324-4770-a8ec-c4f19ec484fd] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[db08f9e6-f324-4770-a8ec-c4f19ec484fd] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[95e81d3d-e872-4605-be50-87a4d62a0c2e] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[95e81d3d-e872-4605-be50-87a4d62a0c2e] succeeded in 0.0s: None
+Unauthorized: /api/users/profile/
+Task apps.notification.tasks.send_abandoned_notification[296dd9f4-9189-4d70-b8b1-694aa857d1e7] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[296dd9f4-9189-4d70-b8b1-694aa857d1e7] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[e6fab2d8-22f0-466b-9595-5c357bd431b2] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[e6fab2d8-22f0-466b-9595-5c357bd431b2] succeeded in 0.0s: None
+D:\Website\Fan-vers(React.Django)\backend\apps\notification\api\views.py changed, reloading.
+Watching for file changes with StatReloader
+Task apps.notification.tasks.send_abandoned_notification[42f8c941-9469-4da3-9407-159ba11e35e8] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[42f8c941-9469-4da3-9407-159ba11e35e8] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[02c62661-a31f-441e-a718-f79e53b6880b] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[02c62661-a31f-441e-a718-f79e53b6880b] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[6a453a63-335a-47fe-bc6c-9bff0d368d49] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[6a453a63-335a-47fe-bc6c-9bff0d368d49] succeeded in 0.0s: None
+Received data: {'text': 'ÏÍˆ‡Û‚˚', 'parent': None}
+Task apps.notification.tasks.send_abandoned_notification[98f27622-f489-48fe-8138-732d0e6e23fa] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[98f27622-f489-48fe-8138-732d0e6e23fa] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[70452659-8801-4146-813e-cdbc494767e7] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[70452659-8801-4146-813e-cdbc494767e7] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[60eddc0c-bc2c-4c17-a74a-b55178c28fef] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[60eddc0c-bc2c-4c17-a74a-b55178c28fef] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[e07e6b77-6912-4bff-9210-837042448e57] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[e07e6b77-6912-4bff-9210-837042448e57] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[f47ff0e8-0e18-44cc-9b1e-7e72089d4d78] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[f47ff0e8-0e18-44cc-9b1e-7e72089d4d78] succeeded in 0.0s: None
+Received data: {'text': '‡˚‚‡Ù˚Ù', 'parent': None}
+Returning chapter detail with book title: wwgfwrg
+Returning chapter detail with book title: wwgfwrg
+Received data: {'text': '˚‡‚Ù˚Ù', 'parent': None}
+Task apps.notification.tasks.check_abandoned_books[8b4f4a31-e8da-4f4e-be7a-081589b7d810] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[8b4f4a31-e8da-4f4e-be7a-081589b7d810] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[3bb81498-e824-4fa0-8b52-c0fb22b3b47a] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[3bb81498-e824-4fa0-8b52-c0fb22b3b47a] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[1e0deb4e-e909-41f1-ad30-d16da3297bd8] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[1e0deb4e-e909-41f1-ad30-d16da3297bd8] succeeded in 0.015999999828636646s: None
+Task apps.notification.tasks.check_abandoned_books[1b59da04-2a2d-4a0b-92d2-703e164af558] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[1b59da04-2a2d-4a0b-92d2-703e164af558] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[742141a8-874a-48b3-9433-5a9798cb44c2] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[742141a8-874a-48b3-9433-5a9798cb44c2] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[e5d29cda-d5de-40e5-b4b7-730e587f530c] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[e5d29cda-d5de-40e5-b4b7-730e587f530c] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[aa34c0d0-3b71-43d6-8283-0c83d1a56cb3] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[aa34c0d0-3b71-43d6-8283-0c83d1a56cb3] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[d10e7656-bb45-4167-90d7-4059466b375f] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[d10e7656-bb45-4167-90d7-4059466b375f] succeeded in 0.0s: None
+Returning chapter detail with book title: wwgfwrg
+Returning chapter detail with book title: wwgfwrg
+Task apps.notification.tasks.check_abandoned_books[d26c2938-0be5-4d3a-9a74-b288be8521a1] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[d26c2938-0be5-4d3a-9a74-b288be8521a1] succeeded in 0.015999999828636646s: None
+Returning chapter detail with book title: wwgfwrg
+Returning chapter detail with book title: wwgfwrg
+Task apps.notification.tasks.send_abandoned_notification[36a1d9da-7114-44eb-b61f-b4f23a6a98a4] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[36a1d9da-7114-44eb-b61f-b4f23a6a98a4] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[2d3e9936-f398-49b0-88a7-d9abb0be39f0] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[2d3e9936-f398-49b0-88a7-d9abb0be39f0] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[32ca4b42-f35e-4546-825c-356f77486d4a] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[32ca4b42-f35e-4546-825c-356f77486d4a] succeeded in 0.01600000006146729s: None
+Task apps.notification.tasks.send_abandoned_notification[bdbeb649-038f-4eef-a42a-7afdcda8ca17] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[bdbeb649-038f-4eef-a42a-7afdcda8ca17] succeeded in 0.0s: None
+D:\Website\Fan-vers(React.Django)\backend\apps\search\api\views.py changed, reloading.
+Watching for file changes with StatReloader
+Returning chapter detail with book title: wwgfwrg
+Task apps.notification.tasks.check_abandoned_books[d4f388f7-b234-4b22-924f-9960df4ba24b] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[d4f388f7-b234-4b22-924f-9960df4ba24b] succeeded in 0.015999999828636646s: None
+Task apps.notification.tasks.send_abandoned_notification[44fdf501-87b1-44b6-8941-2c7468c457ab] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[44fdf501-87b1-44b6-8941-2c7468c457ab] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[8251a699-b3b2-4255-b251-f8cd9c7c200f] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[8251a699-b3b2-4255-b251-f8cd9c7c200f] succeeded in 0.015999999828636646s: None
+Task apps.notification.tasks.check_abandoned_books[76039326-c61f-4785-81c5-1a8662d4f422] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[76039326-c61f-4785-81c5-1a8662d4f422] succeeded in 0.0s: None
+D:\Website\Fan-vers(React.Django)\backend\apps\search\api\views.py changed, reloading.
+Watching for file changes with StatReloader
+Task apps.notification.tasks.send_abandoned_notification[55fc0f10-ca53-41a6-a7b6-3d7ed929469b] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[55fc0f10-ca53-41a6-a7b6-3d7ed929469b] succeeded in 0.015999999828636646s: None
+Task apps.notification.tasks.check_abandoned_books[934cb880-5a18-412c-98d9-6f7de62947bb] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[934cb880-5a18-412c-98d9-6f7de62947bb] succeeded in 0.015999999828636646s: None
+Task apps.notification.tasks.send_abandoned_notification[7ab726b0-a43f-483e-8d90-97bddac81ce8] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[7ab726b0-a43f-483e-8d90-97bddac81ce8] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[3cef1e5d-9289-4a17-9843-a1380b993199] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[3cef1e5d-9289-4a17-9843-a1380b993199] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[e0185663-0762-400c-a5a3-ee8903e2cf9b] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[e0185663-0762-400c-a5a3-ee8903e2cf9b] succeeded in 0.0s: None
+Returning chapter detail with book title: wwgfwrg
+Returning chapter detail with book title: wwgfwrg
+Task apps.notification.tasks.send_abandoned_notification[0605446a-3d85-44d6-b857-17ef1b79ac9c] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[0605446a-3d85-44d6-b857-17ef1b79ac9c] succeeded in 0.01600000006146729s: None
+Unauthorized: /api/search/book-search/
+Task apps.notification.tasks.check_abandoned_books[edc51d58-f814-460a-b1f0-06314ed3d016] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[edc51d58-f814-460a-b1f0-06314ed3d016] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[1dc08220-e75c-450a-b163-3cf4a6c0fa08] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[1dc08220-e75c-450a-b163-3cf4a6c0fa08] succeeded in 0.0s: None

@@ -5,7 +5,7 @@ import Catalog from './catalog/pages/Catalog';
 import BookDetail from './catalog/pages/BookDetail';
 import ChapterDetail from './catalog/pages/ChapterDetail';
 import AddChapter from './catalog/pages/AddChapter';
-import SearchPage from './search/SearchPage';
+import SearchPage from './search/pages/SearchPage';
 import Profile from './users/pages/Profile';
 import BookmarksPage from './navigation/pages/BookmarksPage';
 import ChatPage from './chat/pages/ChatPage';

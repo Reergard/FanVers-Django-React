@@ -1,12 +1,16 @@
 import React, { useState, memo, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import { editorsAPI } from '../../api';
+import { deleteNotification } from '../notificationSlice';
 import { toast } from 'react-toastify';
 import ModalErrorNotification from './ModalErrorNotification';
 import '../styles/NotificationItem.css';
 
 const NotificationItem = memo(({ notification, onMarkAsRead }) => {
+    const dispatch = useDispatch();
     const [showErrorModal, setShowErrorModal] = useState(false);
     const [errorReport, setErrorReport] = useState(null);
+    const [isDeleting, setIsDeleting] = useState(false);
 
     const handleErrorReportClick = useCallback(async () => {
         try {
@@ -55,11 +59,42 @@ const NotificationItem = memo(({ notification, onMarkAsRead }) => {
         );
     }, [notification, handleErrorReportClick]);
 
+    const handleDelete = useCallback(async () => {
+        try {
+            setIsDeleting(true);
+            await dispatch(deleteNotification(notification.id)).unwrap();
+            toast.success('Повідомлення видалено');
+        } catch (error) {
+            toast.error('Помилка при видаленні повідомлення');
+        } finally {
+            setIsDeleting(false);
+        }
+    }, [dispatch, notification.id]);
+
     return (
         <div className={`notification-item ${notification.is_read ? 'read' : 'unread'}`}>
             <div className="notification-content">
                 {renderMessage()}
                 <small>{new Date(notification.created_at).toLocaleString()}</small>
+            </div>
+
+            <div className="notification-actions">
+                {!notification.is_read && (
+                    <button 
+                        onClick={() => onMarkAsRead(notification.id)}
+                        className="mark-read-button"
+                        disabled={isDeleting}
+                    >
+                        Позначити як прочитане
+                    </button>
+                )}
+                <button 
+                    onClick={handleDelete}
+                    className="delete-button"
+                    disabled={isDeleting}
+                >
+                    {isDeleting ? 'Видалення...' : 'Видалити'}
+                </button>
             </div>
 
             {showErrorModal && errorReport && (
@@ -68,15 +103,6 @@ const NotificationItem = memo(({ notification, onMarkAsRead }) => {
                     onHide={handleCloseModal}
                     errorReport={errorReport}
                 />
-            )}
-
-            {!notification.is_read && (
-                <button 
-                    onClick={() => onMarkAsRead(notification.id)}
-                    className="mark-read-button"
-                >
-                    Позначити як прочитане
-                </button>
             )}
         </div>
     );

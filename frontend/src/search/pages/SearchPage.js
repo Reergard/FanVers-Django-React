@@ -1,46 +1,43 @@
 import React, { useState, useEffect } from 'react';
-import {searchBooks} from '../api/search/searchAPI';
+import { searchAPI, catalogAPI } from '../../api';
 import { Container } from 'react-bootstrap';
-import './css/Search.css';
-import {fetchCountries, fetchFandoms, fetchGenres, fetchTags} from "../api/catalog/catalogAPI";
-import MultiSelect from "./components/MultiSelect";
+import MultiSelect from '../components/MultiSelect';
+import '../styles/Search.css';
+
+const { searchBooks } = searchAPI;
+const { fetchCountries, fetchFandoms, fetchGenres, fetchTags } = catalogAPI;
 
 function SearchPage() {
     const [searchResults, setSearchResults] = useState([]);
     const [genres, setGenres] = useState([]);
     const [tags, setTags] = useState([]);
     const [fandoms, setFandoms] = useState([]);
-    const [countries, setCountries] = useState([]); // Добавляем состояние для стран
+    const [countries, setCountries] = useState([]);
     const [filters, setFilters] = useState({
         'adult_content': false,
     });
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        const loadGenres = async () => {
-            const data = await fetchGenres();
-            setGenres(data);
+        const loadData = async () => {
+            try {
+                const [genresData, tagsData, countriesData, fandomsData] = await Promise.all([
+                    fetchGenres(),
+                    fetchTags(),
+                    fetchCountries(),
+                    fetchFandoms()
+                ]);
+                
+                setGenres(genresData || []);
+                setTags(tagsData || []);
+                setCountries(countriesData || []);
+                setFandoms(fandomsData || []);
+            } catch (error) {
+                console.error('Error loading data:', error);
+            }
         };
 
-        const loadTags = async () => {
-            const data = await fetchTags();
-            setTags(data);
-        };
-
-        const loadCountries = async () => {
-            const data = await fetchCountries();
-            setCountries(data);
-        };
-
-        const loadFandoms = async () => {
-            const data = await fetchFandoms();
-            setFandoms(data);
-        };
-
-        loadGenres();
-        loadTags();
-        loadCountries();
-        loadFandoms();
+        loadData();
         handleSearch();
     }, []);
 
@@ -49,9 +46,10 @@ function SearchPage() {
         try {
             const query = createQueryString(filters);
             const data = await searchBooks(query);
-            setSearchResults(data);
+            setSearchResults(data || []);
         } catch (error) {
             console.error('Error fetching search results:', error);
+            setSearchResults([]);
         } finally {
             setLoading(false);
         }
@@ -222,21 +220,20 @@ function SearchPage() {
                             </button>
                         </div>
                         <div>
-                            {searchResults.map((book) => (
-                                <div key={book.id}>
-                                    <h2>{book.title} ({book.title_en})</h2>
-                                    <p><strong>Автор:</strong> {book.author}</p>
-                                    <p><strong>Опис:</strong> {book.description || 'Опис відсутній'}</p>
-                                    <p><strong>Країна:</strong> {book.country.name}</p>
-                                    <p><strong>Останнє
-                                        оновлення:</strong> {new Date(book.last_updated).toLocaleDateString()}</p>
-                                    <p><strong>Тільки для дорослих:</strong> {book.adult_content ? 'Так' : 'Ні'}</p>
+                            {Array.isArray(searchResults) && searchResults.map((book) => (
+                                <div key={book?.id || Math.random()}>
+                                    <h2>{book?.title} ({book?.title_en})</h2>
+                                    <p><strong>Автор:</strong> {book?.author}</p>
+                                    <p><strong>Опис:</strong> {book?.description || 'Опис відсутній'}</p>
+                                    <p><strong>Країна:</strong> {book?.country?.name}</p>
+                                    <p><strong>Останнє оновлення:</strong> {book?.last_updated ? new Date(book.last_updated).toLocaleDateString() : 'Невідомо'}</p>
+                                    <p><strong>Тільки для дорослих:</strong> {book?.adult_content ? 'Так' : 'Ні'}</p>
 
                                     <div>
                                         <h4>Теги:</h4>
                                         <ul>
-                                            {book.tags.map((tag) => (
-                                                <li key={tag.id}>{tag.name}</li>
+                                            {Array.isArray(book?.tags) && book.tags.map((tag) => (
+                                                <li key={tag?.id || Math.random()}>{tag?.name}</li>
                                             ))}
                                         </ul>
                                     </div>
@@ -244,8 +241,8 @@ function SearchPage() {
                                     <div>
                                         <h4>Жанри:</h4>
                                         <ul>
-                                            {book.genres.map((genre) => (
-                                                <li key={genre.id}>{genre.name}</li>
+                                            {Array.isArray(book?.genres) && book.genres.map((genre) => (
+                                                <li key={genre?.id || Math.random()}>{genre?.name}</li>
                                             ))}
                                         </ul>
                                     </div>
@@ -253,8 +250,8 @@ function SearchPage() {
                                     <div>
                                         <h4>Фандоми:</h4>
                                         <ul>
-                                            {book.fandoms.map((fandom) => (
-                                                <li key={fandom.id}>{fandom.name}</li>
+                                            {Array.isArray(book?.fandoms) && book.fandoms.map((fandom) => (
+                                                <li key={fandom?.id || Math.random()}>{fandom?.name}</li>
                                             ))}
                                         </ul>
                                     </div>

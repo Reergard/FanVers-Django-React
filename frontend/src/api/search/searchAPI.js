@@ -6,11 +6,10 @@ const searchBooks = async (query) => {
     return response.data;
   } catch (error) {
     console.error('Error fetching search results:', error);
+    throw error;
   }
 };
 
 export const searchAPI = {
-    searchBooks
+  searchBooks
 };
-
-export { searchBooks };
