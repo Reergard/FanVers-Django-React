@@ -18,6 +18,7 @@ from apps.navigation.models import Bookmark
 from django.db import transaction
 from django.core.exceptions import ObjectDoesNotExist
 import logging
+from decimal import Decimal
 
 logger = logging.getLogger(__name__)
 
@@ -80,11 +81,8 @@ def book_detail(request, slug):
 @api_view(['GET'])
 def chapter_list(request, book_slug):
     try:
-        book = get_object_or_404(Book, slug=book_slug)
-        chapters = Chapter.objects.filter(book=book)
-        
-        if not chapters.exists():
-            return Response([], status=status.HTTP_200_OK)
+        book = Book.objects.get(slug=book_slug)
+        chapters = Chapter.objects.filter(book=book).order_by('_position')
         
         serializer = ChapterSerializer(
             chapters,
@@ -100,9 +98,10 @@ def chapter_list(request, book_slug):
             status=status.HTTP_404_NOT_FOUND
         )
     except Exception as e:
+        logger.error(f"Error in chapter_list for book {book_slug}: {str(e)}")
         return Response(
-            {'error': str(e)},
-            status=status.HTTP_400_BAD_REQUEST
+            {'error': 'Помилка при отриманні списку глав'},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
 
 
@@ -167,7 +166,6 @@ def add_chapter(request, slug):
     try:
         book = get_object_or_404(Book, slug=slug)
         
-        # Проверяем, является ли пользователь владельцем книги
         if request.user != book.owner:
             return Response(
                 {'error': 'У вас немає прав для додавання глав до цієї книги'}, 
@@ -175,37 +173,29 @@ def add_chapter(request, slug):
             )
             
         volume_id = request.data.get('volume')
-        is_paid = request.data.get('is_paid')
+        is_paid = request.data.get('is_paid', '').lower() == 'true'
         
-        logger.debug(f"Получены данные: title={request.data.get('title')}, volume_id={volume_id}, is_paid={is_paid}")
+        # Преобразуем цену в decimal
+        try:
+            price = Decimal(request.data.get('price', '1.00'))
+        except (TypeError, ValueError):
+            price = Decimal('1.00')
         
-        if 'file' not in request.FILES:
+        if is_paid and (price <= 0 or price > 1000):
             return Response(
-                {'error': 'Файл обязателен'}, 
+                {'error': 'Некоректна ціна глави'}, 
                 status=status.HTTP_400_BAD_REQUEST
             )
             
-        file = request.FILES['file']
-        
-        # Создаем главу
         chapter = Chapter.objects.create(
             book=book,
             title=request.data['title'],
-            file=file,
+            file=request.FILES['file'],
             volume_id=volume_id if volume_id else None,
-            is_paid=str(is_paid).lower() == 'true'
+            is_paid=is_paid,
+            price=price  # Используем преобразованное значение
         )
         
-        # Конвертируем DOCX в HTML
-        try:
-            with open(chapter.file.path, "rb") as docx_file:
-                result = mammoth.convert_to_html(docx_file)
-                html_content = result.value
-                chapter.save_html_content(html_content)
-                
-        except Exception as e:
-            logger.error(f"Error converting chapter {chapter.id} to HTML: {str(e)}")
-            
         serializer = ChapterSerializer(chapter)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
         
@@ -333,7 +323,7 @@ def create_book(request):
         )
         
         if serializer.is_valid():
-            # Создае�� книгу с указанием создателя и владельца
+            # Создае книгу с указанием создателя и владельца
             book = serializer.save(
                 creator=request.user,
                 owner=request.user

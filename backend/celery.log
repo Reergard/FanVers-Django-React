@@ -8551,3 +8551,916 @@ Task apps.notification.tasks.check_abandoned_books[edc51d58-f814-460a-b1f0-06314
 Task apps.notification.tasks.send_abandoned_notification[1dc08220-e75c-450a-b163-3cf4a6c0fa08] received
 send_abandoned_notification started
 Task apps.notification.tasks.send_abandoned_notification[1dc08220-e75c-450a-b163-3cf4a6c0fa08] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[ad07761f-ef80-47e3-8f6c-4151c36e8be9] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[ad07761f-ef80-47e3-8f6c-4151c36e8be9] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[46b73356-c9d9-460e-b061-b0237dcaa328] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[46b73356-c9d9-460e-b061-b0237dcaa328] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[333b0b31-72c2-4931-b7eb-ce417f4952ee] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[333b0b31-72c2-4931-b7eb-ce417f4952ee] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[cafd9929-f649-4232-82d1-2477b29057da] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[cafd9929-f649-4232-82d1-2477b29057da] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[51a3086e-abc0-4d50-be35-b30efbf3aa7e] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[51a3086e-abc0-4d50-be35-b30efbf3aa7e] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[0a4465c5-f77d-4a9a-9b07-1f3588a65feb] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[0a4465c5-f77d-4a9a-9b07-1f3588a65feb] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[c68158f7-7430-42e0-9711-78f71644aa93] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[c68158f7-7430-42e0-9711-78f71644aa93] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[0055b010-4f5f-4b09-b2e8-c42967c7eeb6] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[0055b010-4f5f-4b09-b2e8-c42967c7eeb6] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[831356e1-1422-4b31-8dd9-532615ffe82a] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[831356e1-1422-4b31-8dd9-532615ffe82a] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[6dacf5f1-2a7d-4dde-add6-a3259ffb0319] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[6dacf5f1-2a7d-4dde-add6-a3259ffb0319] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[f7d74dd6-e9db-49b8-9865-3f479ed89c06] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[f7d74dd6-e9db-49b8-9865-3f479ed89c06] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[146239f6-9712-455d-9d97-f71f873b7a55] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[146239f6-9712-455d-9d97-f71f873b7a55] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[a73ef3c9-13b1-417c-86f1-06b9afbb85d2] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[a73ef3c9-13b1-417c-86f1-06b9afbb85d2] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[01047d62-edb2-4bcc-8770-08177f499e4a] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[01047d62-edb2-4bcc-8770-08177f499e4a] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[f3421242-4328-4fcd-9085-6a261bbcdb73] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[f3421242-4328-4fcd-9085-6a261bbcdb73] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[00e07776-cf01-454a-928e-4da0f4bd4790] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[00e07776-cf01-454a-928e-4da0f4bd4790] succeeded in 0.01600000006146729s: None
+Task apps.notification.tasks.send_abandoned_notification[8d335c01-9343-47e7-85a2-cda36fada6d5] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[8d335c01-9343-47e7-85a2-cda36fada6d5] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[a15b0d8b-f3c7-428d-94e3-8d835f2d45fa] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[a15b0d8b-f3c7-428d-94e3-8d835f2d45fa] succeeded in 0.03100000019185245s: None
+Task apps.notification.tasks.check_abandoned_books[ce2da1c7-dfd8-4062-8eca-715dada6a736] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[ce2da1c7-dfd8-4062-8eca-715dada6a736] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[d83d8838-6fe0-45ef-ab14-cd978826f3d1] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[d83d8838-6fe0-45ef-ab14-cd978826f3d1] succeeded in 0.015999999828636646s: None
+Task apps.notification.tasks.check_abandoned_books[1c9a008f-aeb3-4cae-ab8b-c4137e7d727f] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[1c9a008f-aeb3-4cae-ab8b-c4137e7d727f] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[bc52141c-605b-4090-94a8-f6d8ec9c808d] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[bc52141c-605b-4090-94a8-f6d8ec9c808d] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[803cd90b-a5d6-46e9-bfe6-4fd656b4dedd] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[803cd90b-a5d6-46e9-bfe6-4fd656b4dedd] succeeded in 0.01600000006146729s: None
+Task apps.notification.tasks.check_abandoned_books[485a0999-bdda-4704-80d8-af9b37b29f75] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[485a0999-bdda-4704-80d8-af9b37b29f75] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[2ae66acf-6c45-4e9b-a621-0f96963a3d4b] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[2ae66acf-6c45-4e9b-a621-0f96963a3d4b] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[8862ad57-509e-4815-9424-bb64b918660c] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[8862ad57-509e-4815-9424-bb64b918660c] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[87dfb9f9-b4ad-4c87-9b20-7e024c5dfd9b] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[87dfb9f9-b4ad-4c87-9b20-7e024c5dfd9b] succeeded in 0.0s: None
+D:\Website\Fan-vers(React.Django)\backend\apps\users\models.py changed, reloading.
+Watching for file changes with StatReloader
+Unauthorized: /api/catalog/books/wwgfwrg/chapters/tskuaiptsua/
+Unauthorized: /api/navigation/books/wwgfwrg/chapters/tskuaiptsua/navigation/
+Unauthorized: /api/reviews/chapter/tskuaiptsua/comments/
+Unauthorized: /api/auth/users/me/
+Unauthorized: /api/catalog/books/wwgfwrg/chapters/tskuaiptsua/
+Unauthorized: /api/navigation/books/wwgfwrg/chapters/tskuaiptsua/navigation/
+Unauthorized: /api/reviews/chapter/tskuaiptsua/comments/
+Unauthorized: /api/auth/users/me/
+Returning chapter detail with book title: wwgfwrg
+Returning chapter detail with book title: wwgfwrg
+Task apps.notification.tasks.send_abandoned_notification[736299f8-637d-461d-903a-1af8ade841b0] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[736299f8-637d-461d-903a-1af8ade841b0] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[45bf0b13-f241-4fd5-9002-e60967a44969] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[45bf0b13-f241-4fd5-9002-e60967a44969] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[bead7ae3-8abc-4f7c-9d91-f103359e023c] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[bead7ae3-8abc-4f7c-9d91-f103359e023c] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[c41ea75f-e874-43e3-80b9-c34ad8981876] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[c41ea75f-e874-43e3-80b9-c34ad8981876] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[7f375938-940c-4078-b9a6-67224f9aadb7] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[7f375938-940c-4078-b9a6-67224f9aadb7] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[b0b2b6b6-8ba6-4848-bde2-bcc58531f300] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[b0b2b6b6-8ba6-4848-bde2-bcc58531f300] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[828a0f7e-81bf-41de-b8a6-8f1fbd42cc31] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[828a0f7e-81bf-41de-b8a6-8f1fbd42cc31] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[9da641a4-a620-483c-8290-f695fb85abc0] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[9da641a4-a620-483c-8290-f695fb85abc0] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[14603d94-898d-420e-bc39-d6cadf5d2e57] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[14603d94-898d-420e-bc39-d6cadf5d2e57] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[639c7f8d-4f4e-46a6-a43e-7e6f108de46a] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[639c7f8d-4f4e-46a6-a43e-7e6f108de46a] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[d56df2f2-34a4-4ee4-a076-a8a3b151cc11] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[d56df2f2-34a4-4ee4-a076-a8a3b151cc11] succeeded in 0.01600000006146729s: None
+Task apps.notification.tasks.check_abandoned_books[a4de1e65-dd8f-4e34-9107-7611a52e97fb] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[a4de1e65-dd8f-4e34-9107-7611a52e97fb] succeeded in 0.031999999890103936s: None
+Task apps.notification.tasks.send_abandoned_notification[e6c0f4ef-0413-4e8a-ae3d-62a741446118] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[e6c0f4ef-0413-4e8a-ae3d-62a741446118] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[c9cdb682-0738-4d03-8f1e-a5eedded8258] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[c9cdb682-0738-4d03-8f1e-a5eedded8258] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[78a2307e-bdea-4d3b-af97-4ad3e298d7fe] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[78a2307e-bdea-4d3b-af97-4ad3e298d7fe] succeeded in 0.015999999828636646s: None
+Task apps.notification.tasks.send_abandoned_notification[b6c6c599-3f27-4c8e-868a-cc423716fa5a] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[b6c6c599-3f27-4c8e-868a-cc423716fa5a] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[1fd05147-fcd1-489e-8ae9-228698a2030c] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[1fd05147-fcd1-489e-8ae9-228698a2030c] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[192822f7-295b-4562-b39c-0cc49a41060a] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[192822f7-295b-4562-b39c-0cc49a41060a] succeeded in 0.0s: None
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\models.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\users\api\urls.py changed, reloading.
+Watching for file changes with StatReloader
+Task apps.notification.tasks.send_abandoned_notification[9ff0d200-db73-4eaa-8f35-b37aa394ec2e] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[9ff0d200-db73-4eaa-8f35-b37aa394ec2e] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[70e725c6-f5df-412f-a106-7817be60c011] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[70e725c6-f5df-412f-a106-7817be60c011] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[010942cb-0ab4-4de4-8f70-8db751e12f04] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[010942cb-0ab4-4de4-8f70-8db751e12f04] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[9dfce774-598b-493f-99a5-b7df71bf060c] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[9dfce774-598b-493f-99a5-b7df71bf060c] succeeded in 0.01500000013038516s: None
+Task apps.notification.tasks.send_abandoned_notification[f45b5998-3b95-43f7-9e2c-8bfbee4d9ebf] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[f45b5998-3b95-43f7-9e2c-8bfbee4d9ebf] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[ca9a85ac-aeb3-4c11-912d-1bfb7df327da] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[ca9a85ac-aeb3-4c11-912d-1bfb7df327da] succeeded in 0.015999999828636646s: None
+Task apps.notification.tasks.send_abandoned_notification[21f24fc3-8876-413d-884e-2b3a7c360967] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[21f24fc3-8876-413d-884e-2b3a7c360967] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[e97fbdd7-6a0d-4498-98cd-983fac082147] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[e97fbdd7-6a0d-4498-98cd-983fac082147] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[9f88e784-73ae-4b86-8ff5-c6b278422f63] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[9f88e784-73ae-4b86-8ff5-c6b278422f63] succeeded in 0.015999999828636646s: None
+Task apps.notification.tasks.send_abandoned_notification[6ccb348b-d2c9-4ea0-b2d0-aee9ede17a5c] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[6ccb348b-d2c9-4ea0-b2d0-aee9ede17a5c] succeeded in 0.015999999828636646s: None
+Task apps.notification.tasks.send_abandoned_notification[96755f53-28cc-4038-8afa-34ff3cf7be27] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[96755f53-28cc-4038-8afa-34ff3cf7be27] succeeded in 0.01600000006146729s: None
+Task apps.notification.tasks.check_abandoned_books[a4933fe2-2d50-4d13-a923-5ee3ef22087c] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[a4933fe2-2d50-4d13-a923-5ee3ef22087c] succeeded in 0.01500000013038516s: None
+D:\Website\Fan-vers(React.Django)\backend\apps\notification\api\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\notification\api\urls.py changed, reloading.
+Watching for file changes with StatReloader
+Task apps.notification.tasks.send_abandoned_notification[ee5be133-eedc-45ba-a863-7b17dd05f1e8] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[ee5be133-eedc-45ba-a863-7b17dd05f1e8] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[ab6f015a-4e74-47c2-8f6e-e23ca5a80c5d] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[ab6f015a-4e74-47c2-8f6e-e23ca5a80c5d] succeeded in 0.0s: None
+D:\Website\Fan-vers(React.Django)\backend\apps\notification\api\views.py changed, reloading.
+Task apps.notification.tasks.send_abandoned_notification[0df8cad4-48c6-41b1-a56d-2404e2435122] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[0df8cad4-48c6-41b1-a56d-2404e2435122] succeeded in 0.015999999828636646s: None
+Watching for file changes with StatReloader
+Internal Server Error: /api/catalog/books/wwgfwrg/chapters/tskuaiptsua/
+Ошибка при получении навигации: no such column: catalog_chapter.price
+Internal Server Error: /api/navigation/books/wwgfwrg/chapters/tskuaiptsua/navigation/
+Internal Server Error: /api/catalog/books/wwgfwrg/chapters/tskuaiptsua/
+Ошибка при получении навигации: no such column: catalog_chapter.price
+Internal Server Error: /api/navigation/books/wwgfwrg/chapters/tskuaiptsua/navigation/
+Internal Server Error: /api/reviews/chapter/tskuaiptsua/comments/
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: catalog_chapter.price
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\backend\apps\reviews\api\views.py", line 85, in list
+    queryset = self.get_queryset()
+               ^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\backend\apps\reviews\api\views.py", line 63, in get_queryset
+    chapter = get_object_or_404(Chapter, slug=chapter_slug)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\shortcuts.py", line 86, in get_object_or_404
+    return queryset.get(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\query.py", line 645, in get
+    num = len(clone)
+          ^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\query.py", line 382, in __len__
+    self._fetch_all()
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: catalog_chapter.price
+Internal Server Error: /api/reviews/chapter/tskuaiptsua/comments/
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: catalog_chapter.price
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\backend\apps\reviews\api\views.py", line 85, in list
+    queryset = self.get_queryset()
+               ^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\backend\apps\reviews\api\views.py", line 63, in get_queryset
+    chapter = get_object_or_404(Chapter, slug=chapter_slug)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\shortcuts.py", line 86, in get_object_or_404
+    return queryset.get(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\query.py", line 645, in get
+    num = len(clone)
+          ^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\query.py", line 382, in __len__
+    self._fetch_all()
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: catalog_chapter.price
+Task apps.notification.tasks.check_abandoned_books[285ad300-cdde-482f-8098-22418646e702] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[285ad300-cdde-482f-8098-22418646e702] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[5db9b0a5-988b-49fb-ac7d-b9b943a89552] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[5db9b0a5-988b-49fb-ac7d-b9b943a89552] succeeded in 0.01600000006146729s: None
+Task apps.notification.tasks.send_abandoned_notification[49f79824-646d-49b9-8a8f-6948094ebe60] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[49f79824-646d-49b9-8a8f-6948094ebe60] succeeded in 0.0470000000204891s: None
+Bad Request: /api/catalog/books/wwgfwrg/chapters/
+Bad Request: /api/catalog/books/wwgfwrg/chapters/
+Bad Request: /api/catalog/books/wwgfwrg/chapters/
+Bad Request: /api/catalog/books/wwgfwrg/chapters/
+Bad Request: /api/catalog/books/wwgfwrg/chapters/
+Bad Request: /api/catalog/books/wwgfwrg/chapters/
+Task apps.notification.tasks.check_abandoned_books[62f59077-2cdf-4e4b-8bac-466b3d7edcd2] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[62f59077-2cdf-4e4b-8bac-466b3d7edcd2] succeeded in 0.0s: None
+Bad Request: /api/catalog/books/wwgfwrg/chapters/
+Bad Request: /api/catalog/books/wwgfwrg/chapters/
+Internal Server Error: /admin/catalog/book/
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: catalog_chapter.price
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\contrib\admin\options.py", line 718, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\contrib\admin\sites.py", line 241, in inner
+    return view(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\contrib\admin\options.py", line 2034, in changelist_view
+    response = self.response_action(
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\contrib\admin\options.py", line 1666, in response_action
+    response = func(self, request, queryset)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\contrib\admin\actions.py", line 39, in delete_selected
+    ) = modeladmin.get_deleted_objects(queryset, request)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\contrib\admin\options.py", line 2176, in get_deleted_objects
+    return get_deleted_objects(objs, request, self.admin_site)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\contrib\admin\utils.py", line 138, in get_deleted_objects
+    collector.collect(objs)
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\contrib\admin\utils.py", line 205, in collect
+    return super().collect(objs, source_attr=source_attr, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\deletion.py", line 344, in collect
+    if getattr(on_delete, "lazy_sub_objs", False) or sub_objs:
+                                                     ^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\query.py", line 414, in __bool__
+    self._fetch_all()
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: catalog_chapter.price
+Bad Request: /api/catalog/books/wwgfwrg/chapters/
+Bad Request: /api/catalog/books/wwgfwrg/chapters/
+Bad Request: /api/catalog/books/wwgfwrg/chapters/
+Task apps.notification.tasks.send_abandoned_notification[a8fe3a4c-cd13-4fef-8ed8-8720c7cf1358] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[a8fe3a4c-cd13-4fef-8ed8-8720c7cf1358] succeeded in 0.0s: None
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\models.py changed, reloading.
+Watching for file changes with StatReloader
+Task apps.notification.tasks.check_abandoned_books[f59a8eb6-bdc6-4fe3-8389-d477a12aaeaf] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[f59a8eb6-bdc6-4fe3-8389-d477a12aaeaf] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[e744aa50-e5d9-4340-a4a0-e2b16ce2d88e] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[e744aa50-e5d9-4340-a4a0-e2b16ce2d88e] succeeded in 0.03100000019185245s: None
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\models.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\models.py changed, reloading.
+Watching for file changes with StatReloader
+Task apps.notification.tasks.send_abandoned_notification[f23e07a6-38dd-4667-bf97-fb966210199c] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[f23e07a6-38dd-4667-bf97-fb966210199c] succeeded in 0.031999999890103936s: None
+Task apps.notification.tasks.check_abandoned_books[698f8123-ed02-484f-8f44-696a07eb38d3] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[698f8123-ed02-484f-8f44-696a07eb38d3] succeeded in 0.015999999828636646s: None
+Task apps.notification.tasks.send_abandoned_notification[8e4557cb-e5fa-4bbc-84d4-eef3da81c5d3] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[8e4557cb-e5fa-4bbc-84d4-eef3da81c5d3] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[79079d2a-a0ff-4478-a268-bc2a0b164df1] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[79079d2a-a0ff-4478-a268-bc2a0b164df1] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[52e10a8d-8543-414c-bcf3-900eb18f8642] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[52e10a8d-8543-414c-bcf3-900eb18f8642] succeeded in 0.01600000006146729s: None
+Task apps.notification.tasks.send_abandoned_notification[a3332f97-864d-4a00-aadd-a409b662e67a] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[a3332f97-864d-4a00-aadd-a409b662e67a] succeeded in 0.0s: None
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\migrations\XXXX_add_price_to_chapter.py changed, reloading.
+Watching for file changes with StatReloader
+Task apps.notification.tasks.check_abandoned_books[999f7db0-849c-43f6-b548-0e3d09dac7b0] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[999f7db0-849c-43f6-b548-0e3d09dac7b0] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[350e5a4b-9029-4f45-8db4-c5234fe6ed85] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[350e5a4b-9029-4f45-8db4-c5234fe6ed85] succeeded in 0.015999999828636646s: None
+Bad Request: /api/catalog/books/wwgfwrg/chapters/
+Bad Request: /api/catalog/books/wwgfwrg/chapters/
+Bad Request: /api/catalog/books/wwgfwrg/chapters/
+Bad Request: /api/catalog/books/wwgfwrg/chapters/
+Bad Request: /api/catalog/books/wwgfwrg/chapters/
+Bad Request: /api/catalog/books/wwgfwrg/chapters/
+Bad Request: /api/catalog/books/wwgfwrg/chapters/
+Bad Request: /api/catalog/books/wwgfwrg/chapters/
+Internal Server Error: /admin/catalog/book/
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: catalog_chapter.price
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\contrib\admin\options.py", line 718, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\contrib\admin\sites.py", line 241, in inner
+    return view(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\contrib\admin\options.py", line 2034, in changelist_view
+    response = self.response_action(
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\contrib\admin\options.py", line 1666, in response_action
+    response = func(self, request, queryset)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\contrib\admin\actions.py", line 39, in delete_selected
+    ) = modeladmin.get_deleted_objects(queryset, request)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\contrib\admin\options.py", line 2176, in get_deleted_objects
+    return get_deleted_objects(objs, request, self.admin_site)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\contrib\admin\utils.py", line 138, in get_deleted_objects
+    collector.collect(objs)
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\contrib\admin\utils.py", line 205, in collect
+    return super().collect(objs, source_attr=source_attr, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\deletion.py", line 344, in collect
+    if getattr(on_delete, "lazy_sub_objs", False) or sub_objs:
+                                                     ^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\query.py", line 414, in __bool__
+    self._fetch_all()
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: catalog_chapter.price
+Task apps.notification.tasks.send_abandoned_notification[65ce2e10-03ac-497c-9a2e-48068fce0a4d] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[65ce2e10-03ac-497c-9a2e-48068fce0a4d] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[6bfa7198-7195-42df-b376-a95cf2713df6] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[6bfa7198-7195-42df-b376-a95cf2713df6] succeeded in 0.01500000013038516s: None
+Bad Request: /api/catalog/books/wwgfwrg/chapters/
+Bad Request: /api/catalog/books/wwgfwrg/chapters/
+Bad Request: /api/catalog/books/wwgfwrg/chapters/
+Bad Request: /api/catalog/books/wwgfwrg/chapters/
+Task apps.notification.tasks.send_abandoned_notification[31fb8fbf-233e-4efb-a313-793b12ca5bbf] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[31fb8fbf-233e-4efb-a313-793b12ca5bbf] succeeded in 0.0s: None
+Bad Request: /api/catalog/books/wwgfwrg/chapters/
+Bad Request: /api/catalog/books/wwgfwrg/chapters/
+Bad Request: /api/catalog/books/wwgfwrg/chapters/
+Bad Request: /api/catalog/books/wwgfwrg/chapters/
+Task apps.notification.tasks.check_abandoned_books[52b52e16-b807-455b-a519-025edd6723d6] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[52b52e16-b807-455b-a519-025edd6723d6] succeeded in 0.031999999890103936s: None
+Bad Request: /api/catalog/books/wwgfwrg/chapters/
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\views.py changed, reloading.
+Watching for file changes with StatReloader
+Task apps.notification.tasks.send_abandoned_notification[e4a3de40-7f14-43fd-b90c-3979a43989b7] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[e4a3de40-7f14-43fd-b90c-3979a43989b7] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[93c3f938-97d0-4200-a87f-5d17f533e6e9] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[93c3f938-97d0-4200-a87f-5d17f533e6e9] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[10dcb170-5869-4114-bacb-93bd6f42f66c] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[10dcb170-5869-4114-bacb-93bd6f42f66c] succeeded in 0.015999999828636646s: None
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\views.py changed, reloading.
+Watching for file changes with StatReloader
+Task apps.notification.tasks.send_abandoned_notification[8db3018b-eb72-4742-bd6b-ef6c804b9e8f] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[8db3018b-eb72-4742-bd6b-ef6c804b9e8f] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[96eec702-7bf7-4a91-9f95-52d7d8a44587] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[96eec702-7bf7-4a91-9f95-52d7d8a44587] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[8b56f4e4-69cc-459d-8697-191abba9efd6] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[8b56f4e4-69cc-459d-8697-191abba9efd6] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[ed3ce599-83ef-46b1-8637-792e6113a40c] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[ed3ce599-83ef-46b1-8637-792e6113a40c] succeeded in 0.015999999828636646s: None
+Task apps.notification.tasks.send_abandoned_notification[2a38097d-db53-4b7c-8693-4efc3400fa1b] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[2a38097d-db53-4b7c-8693-4efc3400fa1b] succeeded in 0.0s: None
+Watching for file changes with StatReloader
+Task apps.notification.tasks.send_abandoned_notification[88a0be83-2302-4bbf-9be3-0eb8471110f2] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[88a0be83-2302-4bbf-9be3-0eb8471110f2] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[230682ab-2146-4de9-bea2-33a753351420] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[230682ab-2146-4de9-bea2-33a753351420] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[edd97dc6-0640-427c-87f1-101093ffb864] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[edd97dc6-0640-427c-87f1-101093ffb864] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[b706f31c-4add-4135-bd8c-ef1dad771ae5] received
+Found 0 books to update.
+Task check_abandoned_books finished
+Task apps.notification.tasks.check_abandoned_books[b706f31c-4add-4135-bd8c-ef1dad771ae5] succeeded in 0.015999999828636646s: None
+Task apps.notification.tasks.send_abandoned_notification[1c14e65f-5085-4f0a-a4f0-5110ce0799af] received
+send_abandoned_notification started
+Task apps.notification.tasks.send_abandoned_notification[1c14e65f-5085-4f0a-a4f0-5110ce0799af] succeeded in 0.015999999828636646s: None
+consumer: Connection to broker lost. Trying to re-establish the connection...
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\redis\connection.py", line 534, in send_packed_command
+    self._sock.sendall(item)
+ConnectionResetError: [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 340, in start
+    blueprint.start(self)
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\bootsteps.py", line 116, in start
+    step.start(parent)
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 746, in start
+    c.loop(*c.loop_args())
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\loops.py", line 130, in synloop
+    connection.drain_events(timeout=2.0)
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\kombu\connection.py", line 341, in drain_events
+    return self.transport.drain_events(self.connection, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\kombu\transport\virtual\base.py", line 997, in drain_events
+    get(self._deliver, timeout=timeout)
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\kombu\transport\redis.py", line 591, in get
+    ret = self.handle_event(fileno, event)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\kombu\transport\redis.py", line 573, in handle_event
+    return self.on_readable(fileno), self
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\kombu\transport\redis.py", line 569, in on_readable
+    chan.handlers[type]()
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\kombu\transport\redis.py", line 918, in _receive
+    ret.append(self._receive_one(c))
+               ^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\kombu\transport\redis.py", line 928, in _receive_one
+    response = c.parse_response()
+               ^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\redis\client.py", line 855, in parse_response
+    self.check_health()
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\redis\client.py", line 893, in check_health
+    conn.send_command("PING", self.HEALTH_CHECK_MESSAGE, check_health=False)
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\redis\connection.py", line 556, in send_command
+    self.send_packed_command(
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\redis\connection.py", line 545, in send_packed_command
+    raise ConnectionError(f"Error {errno} while writing to socket. {errmsg}.")
+redis.exceptions.ConnectionError: Error 10054 while writing to socket. Удаленный хост принудительно разорвал существующее подключение.
+D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py:391: CPendingDeprecationWarning: 
+In Celery 5.1 we introduced an optional breaking change which
+on connection loss cancels all currently executed tasks with late acknowledgement enabled.
+These tasks cannot be acknowledged as the connection is gone, and the tasks are automatically redelivered
+back to the queue. You can enable this behavior using the worker_cancel_long_running_tasks_on_connection_loss
+setting. In Celery 5.1 it is set to False by default. The setting will be set to True by default in Celery 6.0.
+
+  warnings.warn(CANCEL_TASKS_BY_DEFAULT, CPendingDeprecationWarning)
+
+Watching for file changes with StatReloader
+Unauthorized: /api/auth/users/me/
+Unauthorized: /api/auth/users/me/
+Книга успешно создана: 1, создатель: Reergard
+Returning chapter detail with book title: wefjqefq
+Returning chapter detail with book title: wefjqefq
+Книга успешно создана: 2, создатель: Reergard
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\views.py changed, reloading.
+Watching for file changes with StatReloader
+Error in chapter_list for book adlutdys: Field name `book_slug` is not valid for model `Chapter` in `apps.catalog.api.serializers.ChapterSerializer`.
+Internal Server Error: /api/catalog/books/adlutdys/chapters/
+Error in chapter_list for book adlutdys: Field name `book_slug` is not valid for model `Chapter` in `apps.catalog.api.serializers.ChapterSerializer`.
+Internal Server Error: /api/catalog/books/adlutdys/chapters/
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+Книга успешно создана: 3, создатель: Reergard
+No HTML content found for chapter 9
+No HTML content found for chapter 9
+Returning chapter detail with book title: кцуавфцфыапцав
+Returning chapter detail with book title: кцуавфцфыапцав
+Bad Request: /api/notification/notifications/
+Bad Request: /api/notification/notifications/
+Connected to redis://127.0.0.1:6379/0
+mingle: searching for neighbors
+mingle: all alone
+celery@DESKTOP-7JOK2DH ready.
+Task apps.notification.tasks.send_abandoned_notification[e3af5dc6-6cbe-49b0-b49f-363007dac14a] received
+Task apps.notification.tasks.send_abandoned_notification[e3af5dc6-6cbe-49b0-b49f-363007dac14a] succeeded in 0.015999999828636646s: None
+Task apps.notification.tasks.check_abandoned_books[86600420-62ff-4024-9156-d2bee4b30ed6] received
+Task apps.notification.tasks.check_abandoned_books[86600420-62ff-4024-9156-d2bee4b30ed6] succeeded in 0.04600000008940697s: None
+Task apps.notification.tasks.send_abandoned_notification[56d53b3c-6dd3-41e0-bcc7-1485b2200742] received
+Task apps.notification.tasks.send_abandoned_notification[56d53b3c-6dd3-41e0-bcc7-1485b2200742] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[c6b78cf7-70e1-4ba5-ac1c-c234a6ab134a] received
+Task apps.notification.tasks.check_abandoned_books[c6b78cf7-70e1-4ba5-ac1c-c234a6ab134a] succeeded in 0.015999999828636646s: None
+Task apps.notification.tasks.send_abandoned_notification[468332cd-3d9c-450a-a042-3be2bb6c19f6] received
+Task apps.notification.tasks.send_abandoned_notification[468332cd-3d9c-450a-a042-3be2bb6c19f6] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[457c4372-0792-4f85-9a83-262e73c30568] received
+Task apps.notification.tasks.send_abandoned_notification[457c4372-0792-4f85-9a83-262e73c30568] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[112e36d7-bd49-4765-9db6-403c9afc7304] received
+Task apps.notification.tasks.check_abandoned_books[112e36d7-bd49-4765-9db6-403c9afc7304] succeeded in 0.01600000006146729s: None
+Task apps.notification.tasks.send_abandoned_notification[1ecffd8c-7947-4b19-9db6-2c4c826ea2cb] received
+Task apps.notification.tasks.send_abandoned_notification[1ecffd8c-7947-4b19-9db6-2c4c826ea2cb] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[eae1e49f-4fa0-4461-88af-de8542aabb86] received
+Task apps.notification.tasks.check_abandoned_books[eae1e49f-4fa0-4461-88af-de8542aabb86] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[5de64074-b39b-4e9e-8633-76adc64e0763] received
+Task apps.notification.tasks.send_abandoned_notification[5de64074-b39b-4e9e-8633-76adc64e0763] succeeded in 0.01500000013038516s: None
+Task apps.notification.tasks.check_abandoned_books[f48c8c07-4e58-4bd6-89f7-07ccbc487b25] received
+Task apps.notification.tasks.check_abandoned_books[f48c8c07-4e58-4bd6-89f7-07ccbc487b25] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[116d81b9-aad1-47ec-83ea-294e065a979d] received
+Task apps.notification.tasks.send_abandoned_notification[116d81b9-aad1-47ec-83ea-294e065a979d] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[92be7375-12c2-46d3-95cf-2866d3dde1d6] received
+Task apps.notification.tasks.send_abandoned_notification[92be7375-12c2-46d3-95cf-2866d3dde1d6] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[3e99706d-dd84-444d-9a8b-ff33853724f7] received
+Task apps.notification.tasks.check_abandoned_books[3e99706d-dd84-444d-9a8b-ff33853724f7] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[1dd8efbd-fddd-4071-ad75-724a295fb1ca] received
+Task apps.notification.tasks.send_abandoned_notification[1dd8efbd-fddd-4071-ad75-724a295fb1ca] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[e106bc44-b4c1-4aeb-ab57-e6c3bec96078] received
+Task apps.notification.tasks.check_abandoned_books[e106bc44-b4c1-4aeb-ab57-e6c3bec96078] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[69f98705-8ea3-4449-92ab-fd00a0e1cc75] received
+Task apps.notification.tasks.send_abandoned_notification[69f98705-8ea3-4449-92ab-fd00a0e1cc75] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[26822f73-f81f-425f-8fe8-8f20e5c0e952] received
+Task apps.notification.tasks.send_abandoned_notification[26822f73-f81f-425f-8fe8-8f20e5c0e952] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[d6f5c4c7-6f88-4db3-b940-ab4ea2fe4ca4] received
+Task apps.notification.tasks.check_abandoned_books[d6f5c4c7-6f88-4db3-b940-ab4ea2fe4ca4] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[49900a80-e802-443a-bc58-4453b86fc6d5] received
+Task apps.notification.tasks.send_abandoned_notification[49900a80-e802-443a-bc58-4453b86fc6d5] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[5c4fb794-288d-4cd7-8840-ceaedf70705b] received
+Task apps.notification.tasks.check_abandoned_books[5c4fb794-288d-4cd7-8840-ceaedf70705b] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[42228686-3101-4816-b51a-bfcb2803138c] received
+Task apps.notification.tasks.send_abandoned_notification[42228686-3101-4816-b51a-bfcb2803138c] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[3cd1fe0f-1efe-400a-a384-9d8f94dcdfde] received
+Task apps.notification.tasks.send_abandoned_notification[3cd1fe0f-1efe-400a-a384-9d8f94dcdfde] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[cb48d42d-bb38-4a66-87cc-1b48e775ef7b] received
+Task apps.notification.tasks.check_abandoned_books[cb48d42d-bb38-4a66-87cc-1b48e775ef7b] succeeded in 0.01500000013038516s: None
+Task apps.notification.tasks.check_abandoned_books[497c47be-0813-4a32-a0de-e34abe59c088] received
+Task apps.notification.tasks.check_abandoned_books[497c47be-0813-4a32-a0de-e34abe59c088] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[3cd0adca-94a4-47b4-95ae-c287a658b638] received
+Task apps.notification.tasks.send_abandoned_notification[3cd0adca-94a4-47b4-95ae-c287a658b638] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[6eb6283e-747e-446f-8750-2b8f36ec5085] received
+Task apps.notification.tasks.send_abandoned_notification[6eb6283e-747e-446f-8750-2b8f36ec5085] succeeded in 0.015999999828636646s: None
+Task apps.notification.tasks.send_abandoned_notification[2ce5fe79-d89c-4fd6-9fef-f984126c9235] received
+Task apps.notification.tasks.send_abandoned_notification[2ce5fe79-d89c-4fd6-9fef-f984126c9235] succeeded in 0.01600000006146729s: None
+Task apps.notification.tasks.check_abandoned_books[4f724a50-ad49-4171-8655-3319572197ac] received
+Task apps.notification.tasks.check_abandoned_books[4f724a50-ad49-4171-8655-3319572197ac] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[6b4509ad-f8b7-478e-bc42-47a3561df6f9] received
+Task apps.notification.tasks.send_abandoned_notification[6b4509ad-f8b7-478e-bc42-47a3561df6f9] succeeded in 0.01500000013038516s: None
+Task apps.notification.tasks.send_abandoned_notification[2fde5eb3-b397-49b9-b581-70e2d2792151] received
+Task apps.notification.tasks.send_abandoned_notification[2fde5eb3-b397-49b9-b581-70e2d2792151] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[d9f4c66c-d67b-4d5e-be2e-6f220c63d47a] received
+Task apps.notification.tasks.check_abandoned_books[d9f4c66c-d67b-4d5e-be2e-6f220c63d47a] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[522980db-7f12-4376-b256-8b0cfc37ca9e] received
+Task apps.notification.tasks.send_abandoned_notification[522980db-7f12-4376-b256-8b0cfc37ca9e] succeeded in 0.015999999828636646s: None
+Task apps.notification.tasks.send_abandoned_notification[6c9e26d6-3561-4a1d-a8fe-f8e2c1201a50] received
+Task apps.notification.tasks.send_abandoned_notification[6c9e26d6-3561-4a1d-a8fe-f8e2c1201a50] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[1cb32ac2-4152-412e-9e69-3f081e20f1ab] received
+Task apps.notification.tasks.check_abandoned_books[1cb32ac2-4152-412e-9e69-3f081e20f1ab] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[aefa2188-23f5-4489-9039-5879dab07c29] received
+Task apps.notification.tasks.check_abandoned_books[aefa2188-23f5-4489-9039-5879dab07c29] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[f79189a1-e373-4d58-9cf1-4d558cd2ea7d] received
+Task apps.notification.tasks.send_abandoned_notification[f79189a1-e373-4d58-9cf1-4d558cd2ea7d] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[109103a1-12af-4b4f-9c53-6f77cbdefbf2] received
+Task apps.notification.tasks.send_abandoned_notification[109103a1-12af-4b4f-9c53-6f77cbdefbf2] succeeded in 0.014999999897554517s: None
+Task apps.notification.tasks.check_abandoned_books[2b88539e-2db6-4eec-b42b-c374c92f3b6e] received
+Task apps.notification.tasks.check_abandoned_books[2b88539e-2db6-4eec-b42b-c374c92f3b6e] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[bbf197dd-959f-4e8e-b48d-3de17d7493fa] received
+Task apps.notification.tasks.send_abandoned_notification[bbf197dd-959f-4e8e-b48d-3de17d7493fa] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[1c8d73b8-0fe8-4b49-8f73-d6ccd49921ff] received
+Task apps.notification.tasks.send_abandoned_notification[1c8d73b8-0fe8-4b49-8f73-d6ccd49921ff] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[15f62203-8025-4945-8966-6afb625f48aa] received
+Task apps.notification.tasks.send_abandoned_notification[15f62203-8025-4945-8966-6afb625f48aa] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[31e9f2ed-3e6d-41c7-a926-6e073b01b51d] received
+Task apps.notification.tasks.send_abandoned_notification[31e9f2ed-3e6d-41c7-a926-6e073b01b51d] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[0a20e828-cf6c-4b51-9938-3b47f154fdd9] received
+Task apps.notification.tasks.send_abandoned_notification[0a20e828-cf6c-4b51-9938-3b47f154fdd9] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[7880ae99-83da-431e-b290-9157edb84789] received
+Task apps.notification.tasks.check_abandoned_books[7880ae99-83da-431e-b290-9157edb84789] succeeded in 0.015999999828636646s: None
+Task apps.notification.tasks.check_abandoned_books[9d4f8de9-0e69-4b33-b270-687de1d29aa9] received
+Task apps.notification.tasks.check_abandoned_books[9d4f8de9-0e69-4b33-b270-687de1d29aa9] succeeded in 0.0s: None
+Task apps.notification.tasks.check_abandoned_books[500ab5d4-1055-4e30-b120-5278f5f1d75c] received
+Task apps.notification.tasks.check_abandoned_books[500ab5d4-1055-4e30-b120-5278f5f1d75c] succeeded in 0.0s: None
+Task apps.notification.tasks.send_abandoned_notification[d9a7ef96-d30b-4ff5-9e9b-73117371073a] received
+Task apps.notification.tasks.send_abandoned_notification[d9a7ef96-d30b-4ff5-9e9b-73117371073a] succeeded in 0.01600000006146729s: None
+Bad Request: /api/notification/notifications/
+Unauthorized: /api/notification/notifications/
+Unauthorized: /api/users/profile/
+Bad Request: /api/notification/notifications/
+Bad Request: /api/notification/notifications/
+Bad Request: /api/notification/notifications/
+Bad Request: /api/notification/notifications/
+D:\Website\Fan-vers(React.Django)\backend\apps\notification\api\views.py changed, reloading.
+Watching for file changes with StatReloader

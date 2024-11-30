@@ -4,6 +4,7 @@ from ..models import Notification
 from .serializers import NotificationSerializer
 import time
 from django.db import transaction
+from rest_framework import status
 
 class NotificationViewSet(viewsets.ModelViewSet):
     serializer_class = NotificationSerializer
@@ -81,4 +82,26 @@ class NotificationViewSet(viewsets.ModelViewSet):
             return Response(
                 {'error': 'Помилка при видаленні повідомлення', 'detail': str(e)}, 
                 status=500
+            )
+
+    @transaction.atomic
+    def create(self, request, *args, **kwargs):
+        try:
+            notification = Notification.objects.create(
+                user=request.user,
+                message=request.data.get('message'),
+                book_id=request.data.get('book'),
+                is_read=request.data.get('is_read', False)
+            )
+            
+            serializer = self.get_serializer(notification)
+            return Response(
+                serializer.data, 
+                status=status.HTTP_201_CREATED
+            )
+            
+        except Exception as e:
+            return Response(
+                {'error': str(e)}, 
+                status=status.HTTP_400_BAD_REQUEST
             )

@@ -10,8 +10,9 @@ from rest_framework import serializers
 from django.shortcuts import get_object_or_404
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.contrib.auth.models import Group
+from django.db import transaction
 
-from apps.users.api.serializers import ProfileSerializer, UpdateBalanceSerializer
+from apps.users.api.serializers import ProfileSerializer, UpdateBalanceSerializer, BalanceOperationSerializer
 from apps.catalog.models import Chapter
 
 
@@ -143,37 +144,48 @@ class AddBalanceView(APIView):
             return Response({'error': 'Invalid amount'}, status=400)
 
 
-class PurchaseChapterView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request, chapter_id):
+@api_view(['POST'])
+def purchase_chapter(request, chapter_id):
+    try:
         chapter = get_object_or_404(Chapter, id=chapter_id)
-        profile = request.user.profile
+        user_profile = request.user.profile
 
-        if profile.balance <= 0:
-            return Response({
-                'error': 'Недостатній баланс'
-            }, status=400)
+        # Проверяем, не куплена ли уже глава
+        if user_profile.purchased_chapters.filter(id=chapter_id).exists():
+            return Response(
+                {'error': 'Глава вже придбана'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
-        if not chapter.is_paid:
-            return Response({
-                'error': 'Глава безкоштовна'
-            }, status=400)
+        # Проверяем достаточно ли средств
+        if user_profile.balance < chapter.price:
+            return Response(
+                {'error': 'Недостатньо коштів'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
-        if profile.purchased_chapters.filter(id=chapter.id).exists():
-            return Response({
-                'error': 'Глава вже куплена'
-            }, status=400)
-
-        profile.balance -= 1
-        profile.purchased_chapters.add(chapter)
-        profile.save()
+        # Списываем средства и добавляем главу в купленные
+        with transaction.atomic():
+            user_profile.balance -= chapter.price
+            user_profile.save()
+            user_profile.purchased_chapters.add(chapter)
 
         return Response({
-            'balance': profile.balance,
             'message': 'Глава успішно придбана',
-            'is_purchased': True
+            'new_balance': user_profile.balance,
+            'chapter_id': chapter_id
         })
+
+    except Chapter.DoesNotExist:
+        return Response(
+            {'error': 'Глава не знайдена'}, 
+            status=status.HTTP_404_NOT_FOUND
+        )
+    except Exception as e:
+        return Response(
+            {'error': str(e)}, 
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
 
 
 @api_view(['POST'])
@@ -215,3 +227,41 @@ def become_translator(request):
         'message': 'Ви успішно стали перекладачем',
         'role': profile.role
     })
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def deposit_balance(request):
+    serializer = BalanceOperationSerializer(data=request.data)
+    if serializer.is_valid():
+        amount = serializer.validated_data['amount']
+        profile = request.user.profile
+        profile.balance += amount
+        profile.save()
+        return Response({
+            'message': 'Баланс успішно поповнено',
+            'new_balance': profile.balance
+        })
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def withdraw_balance(request):
+    serializer = BalanceOperationSerializer(data=request.data)
+    if serializer.is_valid():
+        amount = serializer.validated_data['amount']
+        profile = request.user.profile
+        
+        if profile.balance < amount:
+            return Response({
+                'error': 'Недостатньо коштів на балансі'
+            }, status=status.HTTP_400_BAD_REQUEST)
+            
+        profile.balance -= amount
+        profile.save()
+        return Response({
+            'message': 'Кошти успішно виведені',
+            'new_balance': profile.balance
+        })
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -41,3 +41,12 @@ class UpdateBalanceSerializer(serializers.Serializer):
         return value
 
 
+class BalanceOperationSerializer(serializers.Serializer):
+    amount = serializers.DecimalField(max_digits=10, decimal_places=2, min_value=0.01)
+
+    def validate_amount(self, value):
+        if value <= 0:
+            raise serializers.ValidationError("Сума повинна бути більше нуля")
+        return value
+
+

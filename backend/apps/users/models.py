@@ -42,11 +42,20 @@ class Profile(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     token = models.CharField(max_length=255, default=generate_token)
     is_default = models.BooleanField(default=False)
-    balance = models.IntegerField(default=0)
+    balance = models.DecimalField(
+        max_digits=10, 
+        decimal_places=2, 
+        default=0,
+        verbose_name='Баланс'
+    )
     purchased_chapters = models.ManyToManyField('catalog.Chapter', blank=True, related_name='purchased_by')
     role = models.CharField(
         max_length=20,
-        choices=[('Читач', 'Читач'), ('Перекладач', 'Перекладач')],
+        choices=[
+            ('Читач', 'Читач'), 
+            ('Перекладач', 'Перекладач'),
+            ('Літератор', 'Літератор')
+        ],
         default='Читач',
         verbose_name='Роль користувача'
     )
