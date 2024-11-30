@@ -76,23 +76,14 @@ const getChapterList = async (bookSlug) => {
             { headers }
         );
         
-        if (response.data) {
-            return {
-                data: response.data.map(chapter => ({
-                    ...chapter,
-                    position: parseFloat(chapter.position || 0)
-                }))
-            };
-        }
-        return response;
+        return {
+            data: response.data.map(chapter => ({
+                ...chapter,
+                price: Number(chapter.price)
+            }))
+        };
     } catch (error) {
-        if (error.response?.status === 404) {
-            throw new Error('Книга не знайдена');
-        } else if (error.response?.status === 400) {
-            throw new Error(error.response.data.error || 'Помилка при завантаженні розділів');
-        } else {
-            throw new Error('Помилка сервера');
-        }
+        throw error;
     }
 };
 
@@ -113,7 +104,7 @@ const getChapterDetail = async (bookSlug, chapterSlug) => {
     }
 };
 
-const uploadChapter = async (bookSlug, title, file, isPaid, selectedVolume = null) => {
+const uploadChapter = async (bookSlug, title, file, isPaid, selectedVolume = null, price = 1.00) => {
     const token = localStorage.getItem('token');
     if (!token) {
         throw new Error('Необходима авторизация');
@@ -121,23 +112,11 @@ const uploadChapter = async (bookSlug, title, file, isPaid, selectedVolume = nul
 
     const formData = new FormData();
     
-    if (title) {
-        formData.append('title', title);
-    } else {
-        throw new Error('Название главы обязательно');
-    }
-
-    if (file) {
-        formData.append('file', file);
-    } else {
-        throw new Error('Файл главы обязателен');
-    }
+    formData.append('title', title);
+    formData.append('file', file);
+    formData.append('is_paid', String(isPaid));
     
-    if (isPaid !== undefined && isPaid !== null) {
-        formData.append('is_paid', String(isPaid));
-    } else {
-        formData.append('is_paid', 'false');
-    }
+    formData.append('price', String(price));
 
     if (selectedVolume) {
         formData.append('volume', String(selectedVolume));

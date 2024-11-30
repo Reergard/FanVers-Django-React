@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Container } from 'react-bootstrap';
+import { Container, Modal, Button, Form } from 'react-bootstrap';
 import "../css/Profile.css";
 import { usersAPI } from '../../api';
 import { toast } from 'react-toastify';
+import ModalDepositBalance from '../components/ModalDepositBalance';
+import ModalWithdrawBalance from '../components/ModalWithdrawBalance';
 
 const Profile = () => {
-    const [desiredAmount, setDesiredAmount] = useState('');
-    const [calculatedAmount, setCalculatedAmount] = useState(0);
     const [profile, setProfile] = useState(null);
-    const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [showDepositModal, setShowDepositModal] = useState(false);
+    const [showWithdrawModal, setShowWithdrawModal] = useState(false);
+    const [amount, setAmount] = useState('');
 
     useEffect(() => {
         fetchProfile();
@@ -21,64 +23,48 @@ const Profile = () => {
             setLoading(true);
             const data = await usersAPI.getProfile();
             setProfile(data);
-            setError(null);
         } catch (error) {
-            setError('Помилка завантаження профілю');
             console.error('Error fetching profile:', error);
         } finally {
             setLoading(false);
         }
     };
 
-    const handleAmountChange = (e) => {
-        const value = e.target.value;
-        if (value >= 0) {
-            setDesiredAmount(value);
-            setCalculatedAmount(value * 10);
-        }
-    };
-
-    const handlePurchase = async () => {
-        if (!desiredAmount || desiredAmount <= 0) {
-            setError('Будь ласка, введіть коректну кількість розділів');
-            return;
-        }
-
+    const handleDeposit = async () => {
         try {
             setLoading(true);
-            setError(null);
-            const response = await usersAPI.updateBalance(parseInt(desiredAmount));
-            
-            if (response.new_balance !== undefined) {
-                setProfile(prev => ({
-                    ...prev,
-                    balance: response.new_balance
-                }));
-                setDesiredAmount('');
-                setCalculatedAmount(0);
-            }
+            const response = await usersAPI.depositBalance(Number(amount));
+            setProfile(prev => ({
+                ...prev,
+                balance: response.new_balance
+            }));
+            toast.success('Баланс успішно поповнено');
+            setShowDepositModal(false);
+            setAmount('');
         } catch (error) {
-            console.error('Error updating balance:', error);
-            setError(error.response?.data?.message || 'Помилка при поповненні балансу. Спробуйте пізніше.');
+            toast.error(error.response?.data?.error || 'Помилка при поповненні балансу');
         } finally {
             setLoading(false);
         }
     };
 
-    const handleBecomeTranslator = async () => {
+    const handleWithdraw = async () => {
         try {
             setLoading(true);
-            const response = await usersAPI.becomeTranslator();
-            await fetchProfile(); // Обновляем данные профиля
-            toast.success(response.message);
+            const response = await usersAPI.withdrawBalance(Number(amount));
+            setProfile(prev => ({
+                ...prev,
+                balance: response.new_balance
+            }));
+            toast.success('Кошти успішно виведені');
+            setShowWithdrawModal(false);
+            setAmount('');
         } catch (error) {
-            setError(error.response?.data?.error || 'Помилка при зміні ролі');
+            toast.error(error.response?.data?.error || 'Помилка при виведенні коштів');
         } finally {
             setLoading(false);
         }
     };
-
-    if (loading && !profile) return <p>Завантаження...</p>;
 
     return (
         <section>
@@ -89,46 +75,47 @@ const Profile = () => {
                         {profile && (
                             <>
                                 <p>Ваша роль: {profile.role}</p>
-                                {profile.role === 'Читач' && (
-                                    <div className="role-upgrade">
-                                        <p>На данний момент ви "Читач" але можете</p>
-                                        <button 
-                                            onClick={handleBecomeTranslator}
-                                            disabled={loading}
-                                            className="btn btn-primary"
-                                        >
-                                            Стати Перекладачем
-                                        </button>
-                                    </div>
-                                )}
-                                <p>Доступні розділи: {profile.balance}</p>
-                                <div className="balance-form">
-                                    <label>
-                                        Бажана кількість розділів:
-                                        <input
-                                            type="number"
-                                            value={desiredAmount}
-                                            onChange={handleAmountChange}
-                                            min="1"
-                                            disabled={loading}
-                                        />
-                                    </label>
-                                    <div className="amount-display">
-                                        <p>Сума до сплати: {calculatedAmount} грн</p>
-                                    </div>
-                                    <button 
-                                        onClick={handlePurchase}
-                                        disabled={loading || !desiredAmount}
+                                <p>Баланс: {profile.balance} грн</p>
+                                
+                                <div className="balance-controls">
+                                    <Button 
+                                        onClick={() => setShowDepositModal(true)}
+                                        variant="success"
+                                        className="me-2"
                                     >
-                                        {loading ? 'Обробка...' : 'Купити'}
-                                    </button>
+                                        Поповнити баланс
+                                    </Button>
+                                    <Button 
+                                        onClick={() => setShowWithdrawModal(true)}
+                                        variant="primary"
+                                    >
+                                        Вивести кошти
+                                    </Button>
                                 </div>
                             </>
                         )}
-                        {error && <p className="error-message">{error}</p>}
                     </div>
                 </Container>
             </Container>
+
+            <ModalDepositBalance 
+                show={showDepositModal}
+                onHide={() => setShowDepositModal(false)}
+                amount={amount}
+                setAmount={setAmount}
+                onSubmit={handleDeposit}
+                loading={loading}
+            />
+
+            <ModalWithdrawBalance 
+                show={showWithdrawModal}
+                onHide={() => setShowWithdrawModal(false)}
+                amount={amount}
+                setAmount={setAmount}
+                onSubmit={handleWithdraw}
+                loading={loading}
+                maxAmount={profile?.balance || 0}
+            />
         </section>
     );
 };

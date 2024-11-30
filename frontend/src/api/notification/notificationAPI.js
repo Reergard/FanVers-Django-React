@@ -42,5 +42,19 @@ export const notificationAPI = {
     
     deleteNotification(notificationId) {
         return api.delete(`/notification/notifications/${notificationId}/`);
+    },
+    
+    createNotification(notificationData) {
+        console.log('Creating notification with data:', notificationData);
+        return api.post('/notification/notifications/', notificationData)
+            .then(response => {
+                console.log('Notification creation successful:', response);
+                return response;
+            })
+            .catch(error => {
+                console.error('Notification creation failed:', error);
+                console.error('Error response:', error.response?.data);
+                throw error;
+            });
     }
 };

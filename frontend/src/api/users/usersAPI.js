@@ -38,5 +38,15 @@ export const usersAPI = {
         } catch (error) {
             throw error;
         }
+    },
+    
+    depositBalance: async (amount) => {
+        const response = await api.post('/users/deposit-balance/', { amount });
+        return response.data;
+    },
+    
+    withdrawBalance: async (amount) => {
+        const response = await api.post('/users/withdraw-balance/', { amount });
+        return response.data;
     }
 };

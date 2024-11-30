@@ -11,6 +11,10 @@ import BookComments from '../../reviews/components/BookComments';
 import BookmarkButton from '../../navigation/components/BookmarkButton'; 
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { setNotification } from '../../notification/notificationSlice';
+import { usersAPI } from '../../api/users/usersAPI';
+import { notificationAPI } from '../../api/notification/notificationAPI';
 
 
 const BookDetail = () => {
@@ -25,6 +29,7 @@ const BookDetail = () => {
   const [isEditingOrder, setIsEditingOrder] = useState(false);
   const [chapterPositions, setChapterPositions] = useState({});
   const [chapterStatuses, setChapterStatuses] = useState({});
+  const dispatch = useDispatch();
 
   const { data: profile } = useQuery({
     queryKey: ['profile'],
@@ -56,7 +61,7 @@ const BookDetail = () => {
       }
     },
     enabled: !!slug,
-    retry: 1
+    retry: false
   });
 
   const { data: volumes = [] } = useQuery({
@@ -102,30 +107,53 @@ const BookDetail = () => {
 
   const handlePurchaseChapter = async (chapterId) => {
     try {
-      const response = await axios.post(
-        `http://localhost:8000/api/users/purchase-chapter/${chapterId}/`,
-        {},
-        {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
+        const chapter = chapters.find(ch => ch.id === chapterId);
+        if (!chapter) {
+            console.error('Chapter not found:', chapterId);
+            throw new Error('Глава не знайдена');
         }
-      );
+
+        const response = await usersAPI.purchaseChapter(chapterId);
         
-      // Обновляем данные после успешной покупки
-      queryClient.invalidateQueries(['chapters', slug]);
-      queryClient.invalidateQueries(['profile']);
-      
-    } catch (error) {
-      if (error.response?.status === 400) {
-        if (error.response.data.error === 'Недостатній баланс') {
-          alert('Баланс ваших Доступних розділів для відкриття досяг 0. Аби мати змогу купувати закриті розділи вам слід поповнити Доступні розділи на сторінці Профіля');
-        } else {
-          alert(error.response.data.error);
+        queryClient.invalidateQueries(['chapters', slug]);
+        queryClient.invalidateQueries(['profile']);
+        
+        try {
+            // Отправляем только те поля, которые ожидает сервер
+            const notificationData = {
+                message: `Ви успішно придбали главу "${chapter.title}" книги "${book?.title}"`,
+                book: book.id,
+                is_read: false,
+                user: currentUser.id,
+                // Убираем поля type и title, которые вызывают ошибку
+            };
+            
+            console.log('Attempting to create notification with data:', notificationData);
+            
+            const notificationResponse = await notificationAPI.createNotification(notificationData);
+            console.log('Notification creation response:', notificationResponse);
+            
+        } catch (notificationError) {
+            console.error('Error creating notification:', notificationError);
+            console.error('Error response data:', notificationError.response?.data);
+            // Продолжаем выполнение даже если уведомление не создалось
         }
-      } else {
-        alert('Произошла ошибка при покупке главы');
-      }
+        
+        toast.success('Глава успішно придбана');
+        
+    } catch (error) {
+        console.error('Purchase error:', error);
+        let errorMessage = 'Помилка при купівлі глави';
+        
+        if (error.response?.status === 400) {
+            if (error.response.data.error === 'Недостатньо коштів') {
+                errorMessage = 'Недостатньо коштів для купівлі глави';
+            } else {
+                errorMessage = error.response.data.error;
+            }
+        }
+        
+        toast.error(errorMessage);
     }
   };
 
@@ -312,7 +340,7 @@ const BookDetail = () => {
       const targetPosition = Number(newPosition);
       const currentPosition = currentChapter.position;
       
-      // Формируем массив обновлений для всех затронутых глав
+      // Формруем массив обновлений для всех затронутых глав
       let updates = [];
       
       if (targetPosition > currentPosition) {
@@ -325,7 +353,7 @@ const BookDetail = () => {
             volume_id: volumeId
           }));
       } else if (targetPosition < currentPosition) {
-        // Перемещение вверх: сдвигаем главы между целевой и текущей позицией вниз
+        // Перемещение вверх: сдвигаем главы между целевой и текущей позиций вниз
         updates = volumeChapters
           .filter(ch => ch.position >= targetPosition && ch.position < currentPosition)
           .map(ch => ({
@@ -379,7 +407,15 @@ const BookDetail = () => {
   if (bookLoading || chaptersLoading) return <div>Завантаження...</div>;
   if (bookError) return <div>Помилка: {bookError.message}</div>;
   if (chaptersError) {
-    return <div>Помилка завантаження розділів: {chaptersError.message}</div>;
+    return (
+      <section className="book-detail">
+        <Container>
+          <div className="error-message">
+            {chaptersError.message}
+          </div>
+        </Container>
+      </section>
+    );
   }
   if (chaptersLoading) {
     return <div>Завантаження...</div>;
@@ -475,92 +511,88 @@ const BookDetail = () => {
           <p>{book.description}</p>
 
           <h2>Розділи:</h2>
-          {volumes.length > 0 ? (
+          {chapters.length > 0 ? (
             <div className="chapters-list">
-              {/* Отображаем все тома по порядку */}
-              {volumes.map((volume) => {
-                const volumeChapters = chapters.filter(ch => ch.volume === volume.id)
-                  .sort((a, b) => a.position - b.position);
-                
-                return (
-                  <div key={volume.id} className="volume-chapters">
-                    <h3 className="volume-title">{volume.title}</h3>
-                    <div className="chapters-list">
-                      {volumeChapters.map((chapter) => {
-                        return (
-                          <div key={chapter.id} className="chapter-item">
-                            {isEditingOrder ? (
-                              <>
-                                <input
-                                  type="number"
-                                  value={chapterPositions[chapter.id] || chapter.position}
-                                  onChange={(e) => {
-                                    const newPositions = {
-                                      ...chapterPositions,
-                                      [chapter.id]: Number(e.target.value)
-                                    };
-                                    setChapterPositions(newPositions);
-                                  }}
-                                  onBlur={(e) => handlePositionChange(chapter.id, e.target.value, chapter.volume)}
-                                  style={{ width: '60px', marginRight: '10px' }}
-                                />
-                                <button onClick={() => moveChapter(chapter.volume, chapter.id, 'up')}>↑</button>
-                                <button onClick={() => moveChapter(chapter.volume, chapter.id, 'down')}>↓</button>
-                              </>
-                            ) : (
-                              <span className="chapter-position">{chapter.position}.</span>
-                            )}
-                            {chapter.title}
-                            <div className="chapter-actions">
-                              {chapter.is_paid && !chapter.is_purchased ? (
-                                isAuthenticated ? (
-                                  <button 
-                                    onClick={() => handlePurchaseChapter(chapter.id)}
-                                    disabled={profile?.balance <= 0}
-                                    className="purchase-btn"
-                                  >
-                                    Купити
-                                  </button>
-                                ) : (
-                                  <Link to="/login" className="login-btn">
-                                    Увійти для читання
-                                  </Link>
-                                )
+              {/* Сначала отображаем тома с главами, если они есть */}
+              {volumes.length > 0 && volumes.map((volume) => (
+                <div key={volume.id} className="volume-chapters">
+                  <h3 className="volume-title">{volume.title}</h3>
+                  <div className="chapters-list">
+                    {chapters
+                      .filter(ch => ch.volume === volume.id)
+                      .sort((a, b) => a.position - b.position)
+                      .map((chapter) => (
+                        <div key={chapter.id} className="chapter-item">
+                          {isEditingOrder ? (
+                            <>
+                              <input
+                                type="number"
+                                value={chapterPositions[chapter.id] || chapter.position}
+                                onChange={(e) => {
+                                  const newPositions = {
+                                    ...chapterPositions,
+                                    [chapter.id]: Number(e.target.value)
+                                  };
+                                  setChapterPositions(newPositions);
+                                }}
+                                onBlur={(e) => handlePositionChange(chapter.id, e.target.value, chapter.volume)}
+                                style={{ width: '60px', marginRight: '10px' }}
+                              />
+                              <button onClick={() => moveChapter(chapter.volume, chapter.id, 'up')}>↑</button>
+                              <button onClick={() => moveChapter(chapter.volume, chapter.id, 'down')}>↓</button>
+                            </>
+                          ) : (
+                            <span className="chapter-position">{chapter.position}.</span>
+                          )}
+                          {chapter.title}
+                          <div className="chapter-actions">
+                            {chapter.is_paid && !chapter.is_purchased ? (
+                              isAuthenticated ? (
+                                <button 
+                                  onClick={() => handlePurchaseChapter(chapter.id)}
+                                  disabled={profile?.balance < Number(chapter.price)}
+                                  className="purchase-btn"
+                                >
+                                  Купити ({Number(chapter.price).toFixed(2)} грн)
+                                </button>
                               ) : (
-                                <Link 
-                                  to={`/books/${slug}/chapters/${chapter.slug}`}
-                                  className="read-btn"
-                                >
-                                  Читати
+                                <Link to="/login" className="login-btn">
+                                  Увійти для читання
                                 </Link>
-                              )}
-                              
-                              <div className="chapter-edit-controls">
-                                <Link 
-                                  to={`/chapters/${chapter.id}/edit`} 
-                                  className="edit-chapter-btn"
-                                >
-                                  Редагувати
-                                </Link>
-                                <label className="chapter-status-toggle">
-                                  <input
-                                    type="checkbox"
-                                    checked={chapterStatuses[chapter.id] ?? chapter.is_paid}
-                                    onChange={(e) => handleChapterStatusChange(chapter.id, e.target.checked)}
-                                  />
-                                  Закритий доступ
-                                </label>
-                              </div>
+                              )
+                            ) : (
+                              <Link 
+                                to={`/books/${slug}/chapters/${chapter.slug}`}
+                                className="read-btn"
+                              >
+                                Читати
+                              </Link>
+                            )}
+                            
+                            <div className="chapter-edit-controls">
+                              <Link 
+                                to={`/chapters/${chapter.id}/edit`} 
+                                className="edit-chapter-btn"
+                              >
+                                Редагувати
+                              </Link>
+                              <label className="chapter-status-toggle">
+                                <input
+                                  type="checkbox"
+                                  checked={chapterStatuses[chapter.id] ?? chapter.is_paid}
+                                  onChange={(e) => handleChapterStatusChange(chapter.id, e.target.checked)}
+                                />
+                                Закритий доступ
+                              </label>
                             </div>
                           </div>
-                        );
-                      })}
-                    </div>
+                        </div>
+                      ))}
                   </div>
-                );
-              })}
-              
-              {/* Отдельный блок для глав без тома */}
+                </div>
+              ))}
+
+              {/* Отдельный блок для глав без тома - теперь всегда отображается при наличии таких глав */}
               {chapters.filter(ch => !ch.volume).length > 0 && (
                 <div className="volume-chapters">
                   <h3 className="volume-title">Розділи без тому</h3>
@@ -597,10 +629,10 @@ const BookDetail = () => {
                               isAuthenticated ? (
                                 <button 
                                   onClick={() => handlePurchaseChapter(chapter.id)}
-                                  disabled={profile?.balance <= 0}
+                                  disabled={profile?.balance < Number(chapter.price)}
                                   className="purchase-btn"
                                 >
-                                  Купити
+                                  Купити ({Number(chapter.price).toFixed(2)} грн)
                                 </button>
                               ) : (
                                 <Link to="/login" className="login-btn">
@@ -640,7 +672,7 @@ const BookDetail = () => {
               )}
             </div>
           ) : (
-            <p>Немає доступних томів</p>
+            <p>Немає доступних розділів</p>
           )}
           
 

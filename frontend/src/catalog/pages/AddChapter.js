@@ -19,6 +19,7 @@ const AddChapter = () => {
   const navigate = useNavigate();
   const [book, setBook] = useState(null);
   const user = useSelector(state => state.auth.user);
+  const [price, setPrice] = useState('');
 
   useEffect(() => {
     const fetchVolumes = async () => {
@@ -73,20 +74,25 @@ const AddChapter = () => {
         return;
       }
 
-      const volumeId = selectedVolume ? selectedVolume : null;
-      
-      console.log('Отправка данных главы:', {
+      if (isPaid && (!price || price <= 0 || isNaN(price))) {
+        setError('Укажите корректную стоимость главы');
+        return;
+      }
+
+      const response = await catalogAPI.uploadChapter(
+        slug,
         title,
+        file,
         isPaid,
-        volumeId
-      });
-      
-      await apiUploadChapter(slug, title, file, isPaid, volumeId);
-      
+        selectedVolume,
+        price
+      );
+
       setTitle('');
       setFile(null);
       setIsPaid(false);
       setSelectedVolume('');
+      setPrice('');
       
       alert('Глава успешно загружена');
       
@@ -136,6 +142,22 @@ const AddChapter = () => {
                   Закрытый доступ (требует оплаты)
                 </label>
               </div>
+
+              {isPaid && (
+                <div>
+                  <label htmlFor="price">Стоимость главы:</label>
+                  <input
+                    type="number"
+                    id="price"
+                    min="0.01"
+                    step="0.01"
+                    value={price}
+                    onChange={(e) => setPrice(parseFloat(e.target.value))}
+                    required
+                    placeholder="Введите стоимость"
+                  />
+                </div>
+              )}
 
               {volumes.length > 0 && (
                 <div>
