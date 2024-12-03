@@ -1,89 +1,95 @@
-import React from 'react';
-import '../styles/HomePage2.css';
+import React, { useState, useEffect } from 'react';
+import { RatingDisplay } from '../../rating/components/RatingDisplay';
+import styles from '../styles/NovelDetails.module.css';
 import backgroundImage from '../images/NewBook1.svg';
+import { useQuery } from '@tanstack/react-query';
+import { mainAPI } from '../../api/main/mainAPI';
 
-// Выносим константы на уровень модуля
-const RATINGS_DATA = [
-  { 
-    title: "рейтинг твору", 
-    imageSrc: "https://cdn.builder.io/api/v1/image/assets/TEMP/965dd8cf8a8301a8622ae9bd0821ad3fa8ebd14b42a38d556fdd3a19ff9df0ce?apiKey=40d4639aa3a74de09e1a28d61cce350e&" 
-  },
-  { 
-    title: "якість перекладу", 
-    imageSrc: "https://cdn.builder.io/api/v1/image/assets/TEMP/1a5c967d9924d6c4d794c115e0a93dabe2e791f892ad8ab8a4303b2b15f6c09c?apiKey=40d4639aa3a74de09e1a28d61cce350e&" 
-  }
-];
+const HomePage2 = () => {
+    const [currentBookIndex, setCurrentBookIndex] = useState(0);
+    
+    // Получаем список новых книг
+    const { data: books } = useQuery({
+        queryKey: ['books-news'],
+        queryFn: () => mainAPI.getBooksNews(),
+    });
 
-const BACKGROUND_IMAGE = backgroundImage;
+    // Автоматическое переключение книг каждые 10 секунд
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (books && books.length > 0) {
+                setCurrentBookIndex((prevIndex) => 
+                    prevIndex === books.length - 1 ? 0 : prevIndex + 1
+                );
+            }
+        }, 10000);
 
-// Преобразуем компоненты в стрелочные функции с неявным возвратом
-const RatingDisplay = ({ title, imageSrc }) => (
-  <div className="rating-display">
-    <h2>{title}</h2>
-    <img
-      loading="lazy"
-      src={imageSrc}
-      alt={`${title} rating visualization`}
-      className="rating-image"
-    />
-  </div>
-);
+        return () => clearInterval(interval);
+    }, [books]);
 
-const BookCover = () => <div className="book-cover-container"><div className="book-cover" /></div>;
+    // Текущая книга для отображения
+    const currentBook = books?.[currentBookIndex];
 
-const BookDescription = () => (
-  <article className="book-description">
-    <div className="description-content">
-      <h1 className="book-title">ХАОТИЧНИЙ БОГ МЕЧА</h1>
-      <p className="book-text">
-        Цзянь Чен - загальновизнаний експерт, номер один у бойових
-        мистецтвах Цзяньху. Його майстерність володіння мечем виходила
-        за межі досконалості і була непереможною в бою. Після битви з
-        видатним майстром Дугу Кьюбей, який зник безвісти понад сто
-        років тому, Цзянь Чен не витримав поранень і помер.
-        <br /><br />
-        Після смерті Цзянь Чена виявився в абсолютно новому світі. Його
-        швидкий розвиток привів до послідовного нападу ворогів, які
-        завдали йому серйозних травм.
-        <br />
-        На порозі смерті його дух мутував, і з цього моменту він ступив
-        на зовсім інший шлях мистецтва меча, щоб стати богом меча свого
-        покоління.
-      </p>
-    </div>
-  </article>
-);
-
-const Ratings = () => (
-  <aside className="ratings-container">
-    {RATINGS_DATA.map(({ title, imageSrc }, index) => (
-      <RatingDisplay key={index} title={title} imageSrc={imageSrc} />
-    ))}
-  </aside>
-);
-
-const HomePage2 = () => (
-  <main className="homepage-main">
-    <img
-      loading="lazy"
-      src={BACKGROUND_IMAGE}
-      alt="background"
-      className="background-image"
-    />
-    <section className="content-section">
-      <div className="content-wrapper">
-        <div className="left-column">
-          <div className="left-content">
-            <div className="ratings-and-cover">
-              <Ratings />
-              <BookCover />
+    return (
+        <div className={styles.container}>
+            <div className={styles.headerContainer}>
+                <span className={styles.advertisement}>Новинки</span>
+                <div className={styles.line} />
             </div>
-          </div>
+            <img    
+                loading="lazy"
+                src={backgroundImage}
+                className={styles.backgroundImage}
+                alt=""
+            />
+            <div className={styles.contentWrapper}>
+                <div className={styles.gridContainer}>
+                    <div className={styles.leftColumn}>
+                        <div className={styles.ratingSection}>
+                            <div className={styles.ratingGrid}>
+                                <div className={styles.ratingColumn}>
+                                    <RatingDisplay
+                                        title="рейтинг твору"
+                                        rating="https://cdn.builder.io/api/v1/image/assets/TEMP/d9245d4c1638c648a28ae6832017d281ac466d1b8805aaf15743c7c44d9fa7af?placeholderIfAbsent=true&apiKey=40d4639aa3a74de09e1a28d61cce350e"
+                                    />
+                                </div>
+                                <div className={styles.coverColumn}>
+                                    {currentBook?.image && (
+                                        <img
+                                            loading="lazy"
+                                            src={currentBook.image}
+                                            className={styles.coverImage}
+                                            alt={currentBook.title}
+                                            onError={(e) => {
+                                                console.log('Image load error:', currentBook.image);
+                                                e.target.onerror = null;
+                                                e.target.style.display = 'none';
+                                            }}
+                                        />
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className={styles.rightColumn}>
+                        <div className={styles.novelInfo}>
+                            <h1 className={styles.title}>
+                                {currentBook?.title ? currentBook.title.toUpperCase() : 'Назва відсутня'}
+                            </h1>
+                            <p className={styles.description}>
+                                {currentBook?.description || 'Опис відсутній'}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <RatingDisplay 
+                title="якість перекладу"
+                rating="https://cdn.builder.io/api/v1/image/assets/TEMP/e92f4b51df29a8eaaaf5a056203cfb7d68d8c72238e76a81d2df95c3be070a9f?placeholderIfAbsent=true&apiKey=40d4639aa3a74de09e1a28d61cce350e"
+                className={styles.translationRating}
+            />
         </div>
-        <BookDescription />
-      </div>
-    </section>
-  </main>
-);
+    );
+};
 
 export default HomePage2;

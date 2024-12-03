@@ -42,3 +42,5 @@ def books_news(request):
     except Exception as e:
         logger.error(f"Ошибка при получении книг: {str(e)}")
         return Response({"error": str(e)}, status=500)
+
+

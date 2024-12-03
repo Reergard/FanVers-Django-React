@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'apps.navigation',
     'apps.chat',
     'apps.editors', 
+    'apps.website_advertising',
     'apps.notification.apps.NotificationConfig',
 
     

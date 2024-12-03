@@ -467,6 +467,13 @@ const BookDetail = () => {
               >
                 {isEditingOrder ? 'Завершити редагування' : 'Редагувати порядок розділів'}
               </button>
+
+              <Link 
+                to={`/books/${slug}/advertisement`}
+                className="management-btn"
+              >
+                Налаштувати рекламу
+              </Link>
             </div>
           )}
 

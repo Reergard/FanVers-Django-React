@@ -48,5 +48,25 @@ export const usersAPI = {
     withdrawBalance: async (amount) => {
         const response = await api.post('/users/withdraw-balance/', { amount });
         return response.data;
+    },
+    
+    getUserBalance: async () => {
+        try {
+            const response = await api.get('/users/profile/');
+            return { balance: response.data.balance };
+        } catch (error) {
+            console.error('Error fetching user balance:', error);
+            throw error;
+        }
+    },
+    
+    checkBalanceForAd: async (total_cost) => {
+        try {
+            const response = await api.get('/users/profile/');
+            return response.data.balance >= total_cost;
+        } catch (error) {
+            console.error('Error checking balance:', error);
+            throw error;
+        }
     }
 };
