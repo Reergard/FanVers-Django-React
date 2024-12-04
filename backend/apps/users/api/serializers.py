@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from djoser.serializers import UserCreateSerializer
 from apps.users.models import User, Profile
+from apps.catalog.models import Chapter, Book
+from django.db import models
 
 
 class CreateUserSerializer(UserCreateSerializer):
@@ -12,16 +14,38 @@ class CreateUserSerializer(UserCreateSerializer):
 
 class ProfileSerializer(serializers.ModelSerializer):
     role = serializers.SerializerMethodField()
+    total_characters = serializers.SerializerMethodField()
+    total_chapters = serializers.SerializerMethodField()
+    free_chapters = serializers.SerializerMethodField()
+    total_books = serializers.SerializerMethodField()
+    total_translations = serializers.SerializerMethodField()
 
     class Meta:
         model = Profile
-        fields = ['id', 'username', 'email', 'about', 'image', 'balance', 'role']
+        fields = ['id', 'username', 'email', 'about', 'image', 'balance', 'role',
+                 'total_characters', 'total_chapters', 'free_chapters', 
+                 'total_books', 'total_translations']
+
+    def get_total_characters(self, obj):
+        return Chapter.objects.filter(book__owner=obj.user).aggregate(
+            total=models.Sum('characters_count'))['total'] or 0
+
+    def get_total_chapters(self, obj):
+        return Chapter.objects.filter(book__owner=obj.user).count()
+
+    def get_free_chapters(self, obj):
+        return Chapter.objects.filter(book__owner=obj.user, price=0).count()
+
+    def get_total_books(self, obj):
+        return Book.objects.filter(owner=obj.user).count()
 
     def get_role(self, obj):
         user_groups = obj.user.groups.all()
         if user_groups.filter(name='Перекладач').exists():
             return 'Перекладач'
         return 'Читач'
+    def get_total_translations(self, obj):
+        return Book.objects.filter(owner=obj.user).count()
 
 
 class UserSerializer(serializers.ModelSerializer):

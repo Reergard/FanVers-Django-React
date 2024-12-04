@@ -107,22 +107,28 @@ const getChapterDetail = async (bookSlug, chapterSlug) => {
 const uploadChapter = async (bookSlug, title, file, isPaid, selectedVolume = null, price = 1.00) => {
     const token = localStorage.getItem('token');
     if (!token) {
-        throw new Error('Необходима авторизация');
+        throw new Error('Необхідна авторизація');
     }
 
     const formData = new FormData();
-    
     formData.append('title', title);
     formData.append('file', file);
-    formData.append('is_paid', String(isPaid));
-    
-    formData.append('price', String(price));
+    formData.append('is_paid', isPaid);
+    formData.append('price', price.toString());
 
     if (selectedVolume) {
-        formData.append('volume', String(selectedVolume));
+        formData.append('volume', selectedVolume.toString());
     }
 
     try {
+        console.log('Sending data:', {
+            title,
+            isPaid,
+            selectedVolume,
+            price,
+            hasFile: !!file
+        });
+
         const response = await api.post(
             `/catalog/books/${bookSlug}/add_chapter/`, 
             formData,
@@ -135,7 +141,21 @@ const uploadChapter = async (bookSlug, title, file, isPaid, selectedVolume = nul
         );
         return response.data;
     } catch (error) {
-        throw error;
+        console.error('Upload error details:', {
+            response: error.response?.data,
+            status: error.response?.status,
+            message: error.message
+        });
+        
+        if (error.response?.data?.error) {
+            throw new Error(error.response.data.error);
+        }
+        
+        if (error.response?.status === 400) {
+            throw new Error('Помилка валідації даних. Перевірте правильність заповнення всіх полів');
+        }
+        
+        throw new Error('Помилка при створенні глави');
     }
 };
 
@@ -247,6 +267,25 @@ const getBookTitle = async (bookSlug) => {
         throw new Error('Помилка при завантаженні назви книги');
     }
 };
+
+const deleteChapter = async (bookSlug, chapterId) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        throw new Error('Необхідна авторизація');
+    }
+
+    try {
+        await api.delete(`/catalog/books/${bookSlug}/chapters/${chapterId}/delete/`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+    } catch (error) {
+        console.error('Delete chapter error:', error.response?.data || error.message);
+        throw new Error(error.response?.data?.error || 'Помилка при видаленні глави');
+    }
+};
+
 export const catalogAPI = {
     fetchGenres,
     fetchTags,
@@ -262,6 +301,7 @@ export const catalogAPI = {
     createBook,
     getOwnedBooks,
     getBookTitle,
+    deleteChapter,
 };
 
 export {
@@ -279,4 +319,5 @@ export {
     createBook,
     getOwnedBooks,
     getBookTitle,
+    deleteChapter,
 };

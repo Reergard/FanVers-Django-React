@@ -24,6 +24,7 @@ const Header = () => {
 
   const navigationLinks = [
     { text: "Каталог", to: "/catalog" },
+    { text: "Чарівний Гід", to: "/magical-guide" },
     { text: "Перекладачі", to: "/translators" },
     { text: "Покинуті переклади", to: "/abandoned" },
     { text: "Пошук", to: "/search" }

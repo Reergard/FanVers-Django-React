@@ -18,6 +18,7 @@ const NovelCard = ({ title, description, image }) => {
                                 e.target.style.display = 'none';
                             }} 
                         />
+                        <div className="divider" role="separator" aria-orientation="vertical" />
                         <span className="novel-letter">a</span>
                     </div>
                 </div>

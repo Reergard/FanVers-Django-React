@@ -304,3 +304,23 @@
   flex: 1;
   margin-right: 15px;
 }
+
+.delete-chapter-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 10px;
+  font-size: 14px;
+}
+
+.delete-chapter-btn:hover {
+  background-color: #c82333;
+}
+
+.delete-chapter-btn:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}

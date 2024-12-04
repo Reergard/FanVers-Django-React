@@ -77,6 +77,29 @@ const Profile = () => {
                                 <p>Ваша роль: {profile.role}</p>
                                 <p>Баланс: {profile.balance} грн</p>
                                 
+                                <div className="profile-stats">
+                                    <div className="stat-item">
+                                        <span className="stat-label">Кількість перекладених символів:</span>
+                                        <span className="stat-value">{profile.total_characters}</span>
+                                    </div>
+                                    <div className="stat-item">
+                                        <span className="stat-label">Загальна кількість розділів:</span>
+                                        <span className="stat-value">{profile.total_chapters}</span>
+                                    </div>
+                                    <div className="stat-item">
+                                        <span className="stat-label">Кількість безкоштовних розділів:</span>
+                                        <span className="stat-value">{profile.free_chapters}</span>
+                                    </div>
+                                    <div className="stat-item">
+                                        <span className="stat-label">Кількість книжок:</span>
+                                        <span className="stat-value">{profile.total_books}</span>
+                                    </div>
+                                    <div className="stat-item">
+                                        <span className="stat-label">Кількість перекладів:</span>
+                                        <span className="stat-value">{profile.total_translations}</span>
+                                    </div>
+                                </div>
+
                                 <div className="balance-controls">
                                     <Button 
                                         onClick={() => setShowDepositModal(true)}

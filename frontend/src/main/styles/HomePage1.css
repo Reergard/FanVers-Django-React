@@ -27,7 +27,7 @@
 .novels-container {
   display: grid;
   width: 100%;
-  margin: var(--spacing-unit) auto;
+  margin: 0;
   gap: 20px;
   padding: auto;
   

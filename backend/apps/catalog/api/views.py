@@ -6,19 +6,22 @@ from apps.catalog.api.serializers import (
 )
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
-from rest_framework.decorators import api_view, parser_classes
+from rest_framework.decorators import api_view, parser_classes, permission_classes
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_500_INTERNAL_SERVER_ERROR
 from rest_framework import status
 import os
 import mammoth
 from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny, IsAuthenticated
 from apps.navigation.models import Bookmark
 from django.db import transaction
 from django.core.exceptions import ObjectDoesNotExist
 import logging
 from decimal import Decimal
+from django.conf import settings
+from docx import Document
+import re
 
 logger = logging.getLogger(__name__)
 
@@ -160,6 +163,16 @@ def chapter_detail(request, book_slug, chapter_slug):
         )
 
 
+def count_characters_in_docx(file_path):
+    doc = Document(file_path)
+    text = ''
+    for paragraph in doc.paragraphs:
+        text += paragraph.text
+    # Убираем пробелы и специальные символы
+    clean_text = re.sub(r'\s+', '', text)
+    return len(clean_text)
+
+
 @api_view(['POST'])
 @parser_classes([MultiPartParser, FormParser])
 def add_chapter(request, slug):
@@ -172,10 +185,15 @@ def add_chapter(request, slug):
                 status=status.HTTP_403_FORBIDDEN
             )
             
+        if 'file' not in request.FILES:
+            return Response(
+                {'error': 'Файл глави обов\'язковий'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+            
         volume_id = request.data.get('volume')
         is_paid = request.data.get('is_paid', '').lower() == 'true'
         
-        # Преобразуем цену в decimal
         try:
             price = Decimal(request.data.get('price', '1.00'))
         except (TypeError, ValueError):
@@ -186,15 +204,22 @@ def add_chapter(request, slug):
                 {'error': 'Некоректна ціна глави'}, 
                 status=status.HTTP_400_BAD_REQUEST
             )
-            
+        
+        # Сохраняем файл и создаем главу
+        uploaded_file = request.FILES['file']
         chapter = Chapter.objects.create(
             book=book,
-            title=request.data['title'],
-            file=request.FILES['file'],
+            title=request.data.get('title'),
+            file=uploaded_file,
             volume_id=volume_id if volume_id else None,
             is_paid=is_paid,
-            price=price  # Используем преобразованное значение
+            price=price
         )
+        
+        # Подсчитываем количество символов
+        characters_count = count_characters_in_docx(chapter.file.path)
+        chapter.characters_count = characters_count
+        chapter.save()
         
         serializer = ChapterSerializer(chapter)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -378,3 +403,45 @@ def owned_books(request):
     books = Book.objects.filter(owner=request.user)
     serializer = BookSerializer(books, many=True, context={'request': request})
     return Response(serializer.data)
+
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def delete_chapter(request, book_slug, chapter_id):
+    try:
+        chapter = get_object_or_404(Chapter, id=chapter_id, book__slug=book_slug)
+        
+        # Проверяем права доступа
+        if request.user != chapter.book.owner:
+            return Response(
+                {'error': 'У вас немає прав для видалення цієї глави'}, 
+                status=status.HTTP_403_FORBIDDEN
+            )
+            
+        # Удаляем файл главы, если он существует
+        if chapter.file:
+            if os.path.exists(chapter.file.path):
+                os.remove(chapter.file.path)
+        
+        # Удаляем HTML-контент, если он существует
+        if chapter.html_file_path:
+            html_path = os.path.join(settings.MEDIA_ROOT, chapter.html_file_path)
+            if os.path.exists(html_path):
+                os.remove(html_path)
+        
+        # Удаляем главу
+        chapter.delete()
+        
+        return Response(status=status.HTTP_204_NO_CONTENT)
+        
+    except Chapter.DoesNotExist:
+        return Response(
+            {'error': 'Главу не знайдено'}, 
+            status=status.HTTP_404_NOT_FOUND
+        )
+    except Exception as e:
+        logger.error(f"Error deleting chapter: {str(e)}")
+        return Response(
+            {'error': str(e)}, 
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )

@@ -15,6 +15,7 @@ import { useDispatch } from 'react-redux';
 import { setNotification } from '../../notification/notificationSlice';
 import { usersAPI } from '../../api/users/usersAPI';
 import { notificationAPI } from '../../api/notification/notificationAPI';
+import ConfirmationModal from '../../components/ConfirmationModal';
 
 
 const BookDetail = () => {
@@ -30,6 +31,8 @@ const BookDetail = () => {
   const [chapterPositions, setChapterPositions] = useState({});
   const [chapterStatuses, setChapterStatuses] = useState({});
   const dispatch = useDispatch();
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [chapterToDelete, setChapterToDelete] = useState(null);
 
   const { data: profile } = useQuery({
     queryKey: ['profile'],
@@ -401,6 +404,25 @@ const BookDetail = () => {
     }
   };
 
+  const handleDeleteClick = (chapterId) => {
+    setChapterToDelete(chapterId);
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleDeleteChapter = async () => {
+    if (!chapterToDelete) return;
+    
+    try {
+      await catalogAPI.deleteChapter(slug, chapterToDelete);
+      queryClient.invalidateQueries(['chapters', slug]);
+      toast.success('Главу успішно видалено');
+    } catch (error) {
+      toast.error(error.message || 'Помилка при видаленні глави');
+    } finally {
+      setChapterToDelete(null);
+    }
+  };
+
   // Проверяем, является ли текущий пользователь владельцем книги
   const isBookOwner = currentUser && book && book.owner === currentUser.id;
 
@@ -583,6 +605,14 @@ const BookDetail = () => {
                               >
                                 Редагувати
                               </Link>
+                              {isBookOwner && (
+                                <button
+                                    onClick={() => handleDeleteClick(chapter.id)}
+                                    className="delete-chapter-btn"
+                                >
+                                    Видалити
+                                </button>
+                              )}
                               <label className="chapter-status-toggle">
                                 <input
                                   type="checkbox"
@@ -662,6 +692,14 @@ const BookDetail = () => {
                               >
                                 Редагувати
                               </Link>
+                              {isBookOwner && (
+                                <button
+                                    onClick={() => handleDeleteClick(chapter.id)}
+                                    className="delete-chapter-btn"
+                                >
+                                    Видалити
+                                </button>
+                              )}
                               <label className="chapter-status-toggle">
                                 <input
                                   type="checkbox"
@@ -724,6 +762,15 @@ const BookDetail = () => {
         
         </Container>
       </Container>
+      <ConfirmationModal
+        isOpen={isDeleteModalOpen}
+        onRequestClose={() => {
+          setIsDeleteModalOpen(false);
+          setChapterToDelete(null);
+        }}
+        onConfirm={handleDeleteChapter}
+        message="Ви впевнені що хочете видалити даний розділ? Після видалення його не можна буде повернути"
+      />
     </section>
   );
 };

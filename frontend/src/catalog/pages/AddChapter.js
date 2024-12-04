@@ -20,6 +20,7 @@ const AddChapter = () => {
   const [book, setBook] = useState(null);
   const user = useSelector(state => state.auth.user);
   const [price, setPrice] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchVolumes = async () => {
@@ -68,37 +69,43 @@ const AddChapter = () => {
     e.preventDefault();
     setError('');
 
+    if (isLoading) {
+      return; // Предотвращаем повторное нажатие во время загрузки
+    }
+
     try {
+      setIsLoading(true); // Начало загрузки
+      
       if (!title || !file) {
-        setError('Заполните все обязательные поля');
+        setError('Заповніть всі обов\'язкові поля');
         return;
       }
 
-      if (isPaid && (!price || price <= 0 || isNaN(price))) {
-        setError('Укажите корректную стоимость главы');
-        return;
-      }
+      console.log('Sending data:', {
+        title,
+        isPaid,
+        selectedVolume,
+        price,
+        hasFile: !!file
+      });
 
-      const response = await catalogAPI.uploadChapter(
+      await catalogAPI.uploadChapter(
         slug,
         title,
         file,
         isPaid,
         selectedVolume,
-        price
+        isPaid ? parseFloat(price) : 1.00
       );
 
-      setTitle('');
-      setFile(null);
-      setIsPaid(false);
-      setSelectedVolume('');
-      setPrice('');
-      
-      alert('Глава успешно загружена');
-      
+      toast.success('Главу успішно створено');
+      navigate(`/books/${slug}`);
     } catch (error) {
-      setError(error.message || 'Произошла ошибка при загрузке главы');
       console.error('Error creating chapter:', error);
+      setError(error.message || 'Помилка при створенні глави');
+      toast.error(error.message || 'Помилка при створенні глави');
+    } finally {
+      setIsLoading(false); // Завершение загрузки
     }
   };
 
@@ -107,8 +114,8 @@ const AddChapter = () => {
       <Container fluid className="catalog-section" id="catalog">
         <Container className="catalog-content">
           <div>
-            <h2>Добавить главу</h2>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
+            <h1>Додати главу</h1>
+            {error && <div className="error-message">{error}</div>}
             <form onSubmit={handleUploadChapter}>
               <div>
                 <label htmlFor="title">Название главы:</label>
@@ -177,7 +184,13 @@ const AddChapter = () => {
                 </div>
               )}
 
-              <button type="submit">Добавить главу</button>
+              <button 
+                type="submit" 
+                disabled={isLoading}
+                className={isLoading ? 'loading' : ''}
+              >
+                {isLoading ? 'Створення глави...' : 'Додати главу'}
+              </button>
             </form>
           </div>
         </Container>

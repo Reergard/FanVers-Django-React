@@ -301,6 +301,7 @@ class Chapter(models.Model):
         default=0,
         db_column='position'
     )
+    characters_count = models.IntegerField(default=0, verbose_name='Кількість символів')
     html_content = models.TextField(blank=True, null=True)
     html_file_path = models.CharField(max_length=255, blank=True, null=True)
     price = models.DecimalField(

@@ -24,7 +24,7 @@ def books_news(request):
     logger.info("=== Начало выполнения функции books_news ===")
     
     try:
-        news_books = Book.objects.all().order_by('-created_at')[:12]
+        news_books = Book.objects.all().order_by('-created_at')[:10]
         logger.info(f"Найдено новых книг: {news_books.count()}")
         
         for book in news_books:

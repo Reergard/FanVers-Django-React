@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Route, Routes, Navigate } from 'react-router-dom';
 import PrivateRoute from './auth/components/PrivateRoute';
 import Catalog from './catalog/pages/Catalog';
+import MagicalGuide from './main/pages/MagicalGuide';
 import BookDetail from './catalog/pages/BookDetail';
 import ChapterDetail from './catalog/pages/ChapterDetail';
 import AddChapter from './catalog/pages/AddChapter';
@@ -56,6 +57,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/catalog" element={<Catalog />} />
+            <Route path="/magical-guide" element={<MagicalGuide />} />
             <Route path="/books/:slug" element={<BookDetail />} />
             <Route path="/create-translation" element={<CreateTranslation />} />
             <Route path="/search" element={<SearchPage />} />
