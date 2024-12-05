@@ -17,13 +17,10 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny, IsAu
 from apps.navigation.models import Bookmark
 from django.db import transaction
 from django.core.exceptions import ObjectDoesNotExist
-import logging
 from decimal import Decimal
 from django.conf import settings
-from docx import Document
-import re
-
-logger = logging.getLogger(__name__)
+from django.utils.translation import gettext as _
+from apps.catalog.utils.errorUtils import get_error_codes
 
 
 @api_view(['GET'])
@@ -137,7 +134,7 @@ def chapter_detail(request, book_slug, chapter_slug):
                     chapter.save_html_content(html_content)
             except Exception as e:
                 return Response(
-                    {"error": "Ошибка при конвертации файла главы"}, 
+                    {"error": "Ошибка при конвертации файла глав"}, 
                     status=status.HTTP_500_INTERNAL_SERVER_ERROR
                 )
 
@@ -163,16 +160,6 @@ def chapter_detail(request, book_slug, chapter_slug):
         )
 
 
-def count_characters_in_docx(file_path):
-    doc = Document(file_path)
-    text = ''
-    for paragraph in doc.paragraphs:
-        text += paragraph.text
-    # Убираем пробелы и специальные символы
-    clean_text = re.sub(r'\s+', '', text)
-    return len(clean_text)
-
-
 @api_view(['POST'])
 @parser_classes([MultiPartParser, FormParser])
 def add_chapter(request, slug):
@@ -185,15 +172,10 @@ def add_chapter(request, slug):
                 status=status.HTTP_403_FORBIDDEN
             )
             
-        if 'file' not in request.FILES:
-            return Response(
-                {'error': 'Файл глави обов\'язковий'}, 
-                status=status.HTTP_400_BAD_REQUEST
-            )
-            
         volume_id = request.data.get('volume')
         is_paid = request.data.get('is_paid', '').lower() == 'true'
         
+        # Преобразуем цену в decimal
         try:
             price = Decimal(request.data.get('price', '1.00'))
         except (TypeError, ValueError):
@@ -204,22 +186,21 @@ def add_chapter(request, slug):
                 {'error': 'Некоректна ціна глави'}, 
                 status=status.HTTP_400_BAD_REQUEST
             )
-        
-        # Сохраняем файл и создаем главу
-        uploaded_file = request.FILES['file']
+            
+        if 'file' not in request.FILES:
+            return Response(
+                {'error': 'Файл глави обов\'язковий'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+            
         chapter = Chapter.objects.create(
             book=book,
             title=request.data.get('title'),
-            file=uploaded_file,
+            file=request.FILES['file'],
             volume_id=volume_id if volume_id else None,
             is_paid=is_paid,
             price=price
         )
-        
-        # Подсчитываем количество символов
-        characters_count = count_characters_in_docx(chapter.file.path)
-        chapter.characters_count = characters_count
-        chapter.save()
         
         serializer = ChapterSerializer(chapter)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -333,28 +314,17 @@ def create_volume(request, book_slug):
 
 
 @api_view(['POST'])
-@parser_classes([MultiPartParser, FormParser])
+@permission_classes([IsAuthenticated])
 def create_book(request):
     try:
-        if not request.user.is_authenticated:
-            return Response(
-                {'error': 'Необхідна авторизація'}, 
-                status=status.HTTP_401_UNAUTHORIZED
-            )
-
-        serializer = BookSerializer(
-            data=request.data,
-            context={'request': request}
-        )
+        serializer = BookSerializer(data=request.data)
         
         if serializer.is_valid():
-            # Создае книгу с указанием создателя и владельца
             book = serializer.save(
                 creator=request.user,
                 owner=request.user
             )
             
-            # Обрабатываем ManyToMany поля
             if 'genres' in request.data:
                 genres_ids = request.data.getlist('genres[]')
                 book.genres.set(genres_ids)
@@ -367,27 +337,21 @@ def create_book(request):
                 fandoms_ids = request.data.getlist('fandoms[]')
                 book.fandoms.set(fandoms_ids)
             
-            # Обрабатываем изображение
             if 'image' in request.FILES:
                 book.image = request.FILES['image']
                 book.save()
             
-            logger.info(f"Книга успешно создана: {book.id}, создатель: {request.user.username}")
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            error_details = get_error_codes(serializer.errors)
             return Response(
-                serializer.data,
-                status=status.HTTP_201_CREATED
+                {'errors': error_details}, 
+                status=status.HTTP_400_BAD_REQUEST
             )
-        
-        logger.error(f"Ошибка валидации: {serializer.errors}")
-        return Response(
-            serializer.errors,
-            status=status.HTTP_400_BAD_REQUEST
-        )
-        
+            
     except Exception as e:
-        logger.error(f"Ошибка при создании книги: {str(e)}")
         return Response(
-            {'error': str(e)},
+            {'errors': [{'field': 'non_field', 'code': 'server_error'}]},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
 

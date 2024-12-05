@@ -21062,3 +21062,356 @@ Advertisements serialized successfully
 Формирование URL для background_image: /media/books/wefjqefq/photo_2023-12-03_19-47-38.jpg
 Формирование URL для cover_image: /media/books/wefjqefq/photo_2023-12-03_19-47-38.jpg
 Данные после сериализации: [{'id': 5, 'title': "П'ятаП'ятаП'ятаП'ятаП'ятаП'ятаП'ятаП'ята", 'description': 'щышарцуашщц цшщ арцшщарц шщцуар шщцуурр рщщцуа щщцу ца а щшрцушщарщшшцуа шшцу щш цшщцщ рцк шщвшщрцуу оо  шцк щцкщ козш щцккш цоо кцщышарцуашщц цшщ арцшщарц шщцуар шщцуурр рщщцуа щщцу ца а щшрцушщарщшшцуа шшцу щш цшщцщ рцк шщвшщрцуу оо  шцк щцкщ козш щцккш цоо кцщышарцуашщц цшщ арцшщарц шщцуар шщцуурр рщщцуа щщцу ца а щшрцушщарщшшцуа шшцу щш цшщцщ рцк шщвшщрцуу оо  шцк щцкщ козш щцккш цоо кцщышарцуашщц цшщ арцшщарц шщцуар шщцуурр рщщцуа щщцу ца а щшрцушщарщшшцуа шшцу щш цшщцщ рцк шщвшщрцуу оо  шцк щцкщ козш щцккш цоо кц', 'image': 'http://localhost:8000/media/books/T05Vct6RzYI.jpg', 'slug': 'piatapiatapiatapiatapiatapiatapiatapiatapiatapiatapiatapiata', 'background_image': 'http://localhost:8000/media/books/T05Vct6RzYI.jpg', 'cover_image': 'http://localhost:8000/media/books/T05Vct6RzYI.jpg', 'created_at': '2024-12-01T21:40:12Z'}, {'id': 4, 'title': 'Четверта', 'description': 'щышарцуашщц цшщ арцшщарц шщцуар шщцуурр рщщцуа щщцу ца а щшрцушщарщшшцуа шшцу щш цшщцщ рцк шщвшщрцуу оо  шцк щцкщ козш щцккш цоо кцщышарцуашщц цшщ арцшщарц шщцуар шщцуурр рщщцуа щщцу ца а щшрцушщарщшшцуа шшцу щш цшщцщ рцк шщвшщрцуу оо  шцк щцкщ козш щцккш цоо кцщышарцуашщц цшщ арцшщарц шщцуар шщцуурр рщщцуа щщцу ца а щшрцушщарщшшцуа шшцу щш цшщцщ рцк шщвшщрцуу оо  шцк щцкщ козш щцккш цоо кцщышарцуашщц цшщ арцшщарц шщцуар шщцуурр рщщцуа щщцу ца а щшрцушщарщшшцуа шшцу щш цшщцщ рцк шщвшщрцуу оо  шцк щцкщ козш щцккш цоо кц', 'image': None, 'slug': 'chetverta', 'background_image': None, 'cover_image': None, 'created_at': '2024-12-01T21:38:22Z'}, {'id': 3, 'title': 'кцуавфцфыапцав', 'description': 'уицкапуипипакпиуцау', 'image': 'http://localhost:8000/media/books/OIn_CAvq_JE.jpg', 'slug': 'mktsaviuatsuikaui', 'background_image': 'http://localhost:8000/media/books/OIn_CAvq_JE.jpg', 'cover_image': 'http://localhost:8000/media/books/OIn_CAvq_JE.jpg', 'created_at': '2024-11-30T21:10:53Z'}, {'id': 2, 'title': 'адлутдыс', 'description': 'адлутдыс', 'image': 'http://localhost:8000/media/books/5j2-ALdE6Ls_wgzussz.jpg', 'slug': 'adlutdys', 'background_image': 'http://localhost:8000/media/books/5j2-ALdE6Ls_wgzussz.jpg', 'cover_image': 'http://localhost:8000/media/books/5j2-ALdE6Ls_wgzussz.jpg', 'created_at': '2024-11-30T19:36:47Z'}, {'id': 1, 'title': 'wefjqefq', 'description': 'щышарцуашщц цшщ арцшщарц шщцуар шщцуурр рщщцуа щщцу ца а щшрцушщарщшшцуа шшцу щш цшщцщ рцк шщвшщрцуу оо  шцк щцкщ козш щцккш цоо кцщышарцуашщц цшщ арцшщарц шщцуар шщцуурр рщщцуа щщцу ца а щшрцушщарщшшцуа шшцу щш цшщцщ рцк шщвшщрцуу оо  шцк щцкщ козш щцккш цоо кцщышарцуашщц цшщ арцшщарц шщцуар шщцуурр рщщцуа щщцу ца а щшрцушщарщшшцуа шшцу щш цшщцщ рцк шщвшщрцуу оо  шцк щцкщ козш щцккш цоо кцщышарцуашщц цшщ арцшщарц шщцуар шщцуурр рщщцуа щщцу ца а щшрцушщарщшшцуа шшцу щш цшщцщ рцк шщвшщрцуу оо  шцк щцкщ козш щцккш цоо кц', 'image': 'http://localhost:8000/media/books/wefjqefq/photo_2023-12-03_19-47-38.jpg', 'slug': 'wefjqefq', 'background_image': 'http://localhost:8000/media/books/wefjqefq/photo_2023-12-03_19-47-38.jpg', 'cover_image': 'http://localhost:8000/media/books/wefjqefq/photo_2023-12-03_19-47-38.jpg', 'created_at': '2024-11-30T19:30:13Z'}]
+Watching for file changes with StatReloader
+=== Начало выполнения функции books_news ===
+Fetching main page advertisements...
+Current date: 2024-12-04
+Найдено новых книг: 5
+Found 0 active advertisements
+Advertisements serialized successfully
+
+                Книга ID: 5
+                Название: П'ятаП'ятаП'ятаП'ятаП'ятаП'ятаП'ятаП'ята
+                Описание: щышарцуашщц цшщ арцшщарц шщцуар шщцуурр рщщцуа щщцу ца а щшрцушщарщшшцуа шшцу щш цшщцщ рцк шщвшщрцуу оо  шцк щцкщ козш щцккш цоо кцщышарцуашщц цшщ арцшщарц шщцуар шщцуурр рщщцуа щщцу ца а щшрцушщарщшшцуа шшцу щш цшщцщ рцк шщвшщрцуу оо  шцк щцкщ козш щцккш цоо кцщышарцуашщц цшщ арцшщарц шщцуар шщцуурр рщщцуа щщцу ца а щшрцушщарщшшцуа шшцу щш цшщцщ рцк шщвшщрцуу оо  шцк щцкщ козш щцккш цоо кцщышарцуашщц цшщ арцшщарц шщцуар шщцуурр рщщцуа щщцу ца а щшрцушщарщшшцуа шшцу щш цшщцщ рцк шщвшщрцуу оо  шцк щцкщ козш щцккш цоо кц
+                Изображение: books/T05Vct6RzYI.jpg
+            
+
+                Книга ID: 4
+                Название: Четверта
+                Описание: щышарцуашщц цшщ арцшщарц шщцуар шщцуурр рщщцуа щщцу ца а щшрцушщарщшшцуа шшцу щш цшщцщ рцк шщвшщрцуу оо  шцк щцкщ козш щцккш цоо кцщышарцуашщц цшщ арцшщарц шщцуар шщцуурр рщщцуа щщцу ца а щшрцушщарщшшцуа шшцу щш цшщцщ рцк шщвшщрцуу оо  шцк щцкщ козш щцккш цоо кцщышарцуашщц цшщ арцшщарц шщцуар шщцуурр рщщцуа щщцу ца а щшрцушщарщшшцуа шшцу щш цшщцщ рцк шщвшщрцуу оо  шцк щцкщ козш щцккш цоо кцщышарцуашщц цшщ арцшщарц шщцуар шщцуурр рщщцуа щщцу ца а щшрцушщарщшшцуа шшцу щш цшщцщ рцк шщвшщрцуу оо  шцк щцкщ козш щцккш цоо кц
+                Изображение: Нет изображения
+            
+
+                Книга ID: 3
+                Название: кцуавфцфыапцав
+                Описание: уицкапуипипакпиуцау
+                Изображение: books/OIn_CAvq_JE.jpg
+            
+
+                Книга ID: 2
+                Название: адлутдыс
+                Описание: адлутдыс
+                Изображение: books/5j2-ALdE6Ls_wgzussz.jpg
+            
+
+                Книга ID: 1
+                Название: wefjqefq
+                Описание: щышарцуашщц цшщ арцшщарц шщцуар шщцуурр рщщцуа щщцу ца а щшрцушщарщшшцуа шшцу щш цшщцщ рцк шщвшщрцуу оо  шцк щцкщ козш щцккш цоо кцщышарцуашщц цшщ арцшщарц шщцуар шщцуурр рщщцуа щщцу ца а щшрцушщарщшшцуа шшцу щш цшщцщ рцк шщвшщрцуу оо  шцк щцкщ козш щцккш цоо кцщышарцуашщц цшщ арцшщарц шщцуар шщцуурр рщщцуа щщцу ца а щшрцушщарщшшцуа шшцу щш цшщцщ рцк шщвшщрцуу оо  шцк щцкщ козш щцккш цоо кцщышарцуашщц цшщ арцшщарц шщцуар шщцуурр рщщцуа щщцу ца а щшрцушщарщшшцуа шшцу щш цшщцщ рцк шщвшщрцуу оо  шцк щцкщ козш щцккш цоо кц
+                Изображение: books/wefjqefq/photo_2023-12-03_19-47-38.jpg
+            
+Формирование URL для background_image: /media/books/T05Vct6RzYI.jpg
+Формирование URL для cover_image: /media/books/T05Vct6RzYI.jpg
+Отсутствует изображение для книги 4
+Отсутствует изображение для книги 4
+У книги id=4 отсутствует изображение
+Формирование URL для background_image: /media/books/OIn_CAvq_JE.jpg
+Формирование URL для cover_image: /media/books/OIn_CAvq_JE.jpg
+Формирование URL для background_image: /media/books/5j2-ALdE6Ls_wgzussz.jpg
+Формирование URL для cover_image: /media/books/5j2-ALdE6Ls_wgzussz.jpg
+Формирование URL для background_image: /media/books/wefjqefq/photo_2023-12-03_19-47-38.jpg
+Формирование URL для cover_image: /media/books/wefjqefq/photo_2023-12-03_19-47-38.jpg
+Данные после сериализации: [{'id': 5, 'title': "П'ятаП'ятаП'ятаП'ятаП'ятаП'ятаП'ятаП'ята", 'description': 'щышарцуашщц цшщ арцшщарц шщцуар шщцуурр рщщцуа щщцу ца а щшрцушщарщшшцуа шшцу щш цшщцщ рцк шщвшщрцуу оо  шцк щцкщ козш щцккш цоо кцщышарцуашщц цшщ арцшщарц шщцуар шщцуурр рщщцуа щщцу ца а щшрцушщарщшшцуа шшцу щш цшщцщ рцк шщвшщрцуу оо  шцк щцкщ козш щцккш цоо кцщышарцуашщц цшщ арцшщарц шщцуар шщцуурр рщщцуа щщцу ца а щшрцушщарщшшцуа шшцу щш цшщцщ рцк шщвшщрцуу оо  шцк щцкщ козш щцккш цоо кцщышарцуашщц цшщ арцшщарц шщцуар шщцуурр рщщцуа щщцу ца а щшрцушщарщшшцуа шшцу щш цшщцщ рцк шщвшщрцуу оо  шцк щцкщ козш щцккш цоо кц', 'image': 'http://localhost:8000/media/books/T05Vct6RzYI.jpg', 'slug': 'piatapiatapiatapiatapiatapiatapiatapiatapiatapiatapiatapiata', 'background_image': 'http://localhost:8000/media/books/T05Vct6RzYI.jpg', 'cover_image': 'http://localhost:8000/media/books/T05Vct6RzYI.jpg', 'created_at': '2024-12-01T21:40:12Z'}, {'id': 4, 'title': 'Четверта', 'description': 'щышарцуашщц цшщ арцшщарц шщцуар шщцуурр рщщцуа щщцу ца а щшрцушщарщшшцуа шшцу щш цшщцщ рцк шщвшщрцуу оо  шцк щцкщ козш щцккш цоо кцщышарцуашщц цшщ арцшщарц шщцуар шщцуурр рщщцуа щщцу ца а щшрцушщарщшшцуа шшцу щш цшщцщ рцк шщвшщрцуу оо  шцк щцкщ козш щцккш цоо кцщышарцуашщц цшщ арцшщарц шщцуар шщцуурр рщщцуа щщцу ца а щшрцушщарщшшцуа шшцу щш цшщцщ рцк шщвшщрцуу оо  шцк щцкщ козш щцккш цоо кцщышарцуашщц цшщ арцшщарц шщцуар шщцуурр рщщцуа щщцу ца а щшрцушщарщшшцуа шшцу щш цшщцщ рцк шщвшщрцуу оо  шцк щцкщ козш щцккш цоо кц', 'image': None, 'slug': 'chetverta', 'background_image': None, 'cover_image': None, 'created_at': '2024-12-01T21:38:22Z'}, {'id': 3, 'title': 'кцуавфцфыапцав', 'description': 'уицкапуипипакпиуцау', 'image': 'http://localhost:8000/media/books/OIn_CAvq_JE.jpg', 'slug': 'mktsaviuatsuikaui', 'background_image': 'http://localhost:8000/media/books/OIn_CAvq_JE.jpg', 'cover_image': 'http://localhost:8000/media/books/OIn_CAvq_JE.jpg', 'created_at': '2024-11-30T21:10:53Z'}, {'id': 2, 'title': 'адлутдыс', 'description': 'адлутдыс', 'image': 'http://localhost:8000/media/books/5j2-ALdE6Ls_wgzussz.jpg', 'slug': 'adlutdys', 'background_image': 'http://localhost:8000/media/books/5j2-ALdE6Ls_wgzussz.jpg', 'cover_image': 'http://localhost:8000/media/books/5j2-ALdE6Ls_wgzussz.jpg', 'created_at': '2024-11-30T19:36:47Z'}, {'id': 1, 'title': 'wefjqefq', 'description': 'щышарцуашщц цшщ арцшщарц шщцуар шщцуурр рщщцуа щщцу ца а щшрцушщарщшшцуа шшцу щш цшщцщ рцк шщвшщрцуу оо  шцк щцкщ козш щцккш цоо кцщышарцуашщц цшщ арцшщарц шщцуар шщцуурр рщщцуа щщцу ца а щшрцушщарщшшцуа шшцу щш цшщцщ рцк шщвшщрцуу оо  шцк щцкщ козш щцккш цоо кцщышарцуашщц цшщ арцшщарц шщцуар шщцуурр рщщцуа щщцу ца а щшрцушщарщшшцуа шшцу щш цшщцщ рцк шщвшщрцуу оо  шцк щцкщ козш щцккш цоо кцщышарцуашщц цшщ арцшщарц шщцуар шщцуурр рщщцуа щщцу ца а щшрцушщарщшшцуа шшцу щш цшщцщ рцк шщвшщрцуу оо  шцк щцкщ козш щцккш цоо кц', 'image': 'http://localhost:8000/media/books/wefjqefq/photo_2023-12-03_19-47-38.jpg', 'slug': 'wefjqefq', 'background_image': 'http://localhost:8000/media/books/wefjqefq/photo_2023-12-03_19-47-38.jpg', 'cover_image': 'http://localhost:8000/media/books/wefjqefq/photo_2023-12-03_19-47-38.jpg', 'created_at': '2024-11-30T19:30:13Z'}]
+No HTML content found for chapter 22
+No HTML content found for chapter 22
+Returning chapter detail with book title: wefjqefq
+Returning chapter detail with book title: wefjqefq
+Unauthorized: /api/users/profile/
+Unauthorized: /api/catalog/books/wefjqefq/
+Unauthorized: /api/catalog/books/wefjqefq/chapters/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\models.py changed, reloading.
+Watching for file changes with StatReloader
+Ошибка при создании книги: table catalog_book has no column named book_type
+Internal Server Error: /api/catalog/books/create/
+Watching for file changes with StatReloader
+Книга успешно создана: 6, создатель: Reergard
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\models.py changed, reloading.
+Watching for file changes with StatReloader
+Книга успешно создана: 7, создатель: Reergard
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\models.py changed, reloading.
+Watching for file changes with StatReloader
+Not Found: /api/catalog/books/test-18/volumes/
+Not Found: /api/catalog/books/test-18/chapters/
+Not Found: /api/catalog/books/test-18/
+Not Found: /api/catalog/books/test-18/volumes/
+Not Found: /api/catalog/books/test-18/
+Not Found: /api/catalog/books/test-18/volumes/
+Not Found: /api/catalog/books/test-18/
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\models.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\models.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Ошибка валидации: {'translation_status': [ErrorDetail(string='"null" is not a valid choice.', code='invalid_choice')]}
+Bad Request: /api/catalog/books/create/
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+Книга успешно создана: 8, создатель: Reergard
+Ошибка валидации: {'translation_status': [ErrorDetail(string='"null" is not a valid choice.', code='invalid_choice')]}
+Bad Request: /api/catalog/books/create/
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+Ошибка валидации: {'translation_status': [ErrorDetail(string='"null" is not a valid choice.', code='invalid_choice')]}
+Bad Request: /api/catalog/books/create/
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\models.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Unauthorized: /api/catalog/tags/
+Unauthorized: /api/catalog/fandoms/
+Unauthorized: /api/catalog/genres/
+Unauthorized: /api/catalog/countries/
+Ошибка валидации: {'translation_status': [ErrorDetail(string='"null" is not a valid choice.', code='invalid_choice')]}
+Bad Request: /api/catalog/books/create/
+Ошибка валидации: {'author': [ErrorDetail(string='This field may not be blank.', code='blank')], 'translation_status': [ErrorDetail(string='"null" is not a valid choice.', code='invalid_choice')]}
+Bad Request: /api/catalog/books/create/
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+Ошибка валидации: {'author': [ErrorDetail(string='This field may not be blank.', code='blank')]}
+Bad Request: /api/catalog/books/create/
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\views.py changed, reloading.
+Watching for file changes with StatReloader
+=== Начало создания книги ===
+Полученные данные: <QueryDict: {'title': ['АвторськаАвторська'], 'title_en': ['АвторськаАвторська'], 'book_type': ['AUTHOR'], 'author': [''], 'description': ['ктриаувапу'], 'genres[]': ['2'], 'tags[]': ['2'], 'country': ['1'], 'fandoms': ['2'], 'adult_content': ['true'], 'translation_status': ['null'], 'original_status': ['ONGOING'], 'image': [<InMemoryUploadedFile: ZBd9XTYqO1Y.jpg (image/jpeg)>]}>
+Данные после добавления owner: <QueryDict: {'title': ['АвторськаАвторська'], 'title_en': ['АвторськаАвторська'], 'book_type': ['AUTHOR'], 'author': [''], 'description': ['ктриаувапу'], 'genres[]': ['2'], 'tags[]': ['2'], 'country': ['1'], 'fandoms': ['2'], 'adult_content': ['true'], 'translation_status': ['null'], 'original_status': ['ONGOING'], 'image': [<InMemoryUploadedFile: ZBd9XTYqO1Y.jpg (image/jpeg)>], 'owner': [1]}>
+Создан сериализатор
+Входящие данные в to_internal_value: <QueryDict: {'title': ['АвторськаАвторська'], 'title_en': ['АвторськаАвторська'], 'book_type': ['AUTHOR'], 'author': [''], 'description': ['ктриаувапу'], 'genres[]': ['2'], 'tags[]': ['2'], 'country': ['1'], 'fandoms': ['2'], 'adult_content': ['true'], 'translation_status': ['null'], 'original_status': ['ONGOING'], 'image': [<InMemoryUploadedFile: ZBd9XTYqO1Y.jpg (image/jpeg)>], 'owner': [1]}>
+Ошибка валидации: {'author': [ErrorDetail(string='This field may not be blank.', code='blank')]}
+Bad Request: /api/catalog/books/create/
+=== Начало создания книги ===
+Полученные данные: <QueryDict: {'title': ['АвторськаАвторська'], 'title_en': ['АвторськаАвторська'], 'book_type': ['AUTHOR'], 'author': [''], 'description': ['цпауйуипкаувцам'], 'genres[]': ['1'], 'tags[]': ['2'], 'country': ['1'], 'fandoms': ['2'], 'adult_content': ['true'], 'translation_status': ['null'], 'original_status': ['ONGOING'], 'image': [<InMemoryUploadedFile: ZBd9XTYqO1Y.jpg (image/jpeg)>]}>
+Данные после добавления owner: <QueryDict: {'title': ['АвторськаАвторська'], 'title_en': ['АвторськаАвторська'], 'book_type': ['AUTHOR'], 'author': [''], 'description': ['цпауйуипкаувцам'], 'genres[]': ['1'], 'tags[]': ['2'], 'country': ['1'], 'fandoms': ['2'], 'adult_content': ['true'], 'translation_status': ['null'], 'original_status': ['ONGOING'], 'image': [<InMemoryUploadedFile: ZBd9XTYqO1Y.jpg (image/jpeg)>], 'owner': [1]}>
+Создан сериализатор
+Входящие данные в to_internal_value: <QueryDict: {'title': ['АвторськаАвторська'], 'title_en': ['АвторськаАвторська'], 'book_type': ['AUTHOR'], 'author': [''], 'description': ['цпауйуипкаувцам'], 'genres[]': ['1'], 'tags[]': ['2'], 'country': ['1'], 'fandoms': ['2'], 'adult_content': ['true'], 'translation_status': ['null'], 'original_status': ['ONGOING'], 'image': [<InMemoryUploadedFile: ZBd9XTYqO1Y.jpg (image/jpeg)>], 'owner': [1]}>
+Ошибка валидации: {'author': [ErrorDetail(string='This field may not be blank.', code='blank')]}
+Bad Request: /api/catalog/books/create/
+=== Начало создания книги ===
+Полученные данные: <QueryDict: {'title': ['АвторськаАвторська'], 'title_en': ['АвторськаАвторська'], 'book_type': ['AUTHOR'], 'author': ['цкуппка'], 'description': ['цпауйуипкаувцам'], 'genres[]': ['1'], 'tags[]': ['2'], 'country': ['1'], 'fandoms': ['2'], 'adult_content': ['true'], 'translation_status': ['null'], 'original_status': ['ONGOING'], 'image': [<InMemoryUploadedFile: ZBd9XTYqO1Y.jpg (image/jpeg)>]}>
+Данные после добавления owner: <QueryDict: {'title': ['АвторськаАвторська'], 'title_en': ['АвторськаАвторська'], 'book_type': ['AUTHOR'], 'author': ['цкуппка'], 'description': ['цпауйуипкаувцам'], 'genres[]': ['1'], 'tags[]': ['2'], 'country': ['1'], 'fandoms': ['2'], 'adult_content': ['true'], 'translation_status': ['null'], 'original_status': ['ONGOING'], 'image': [<InMemoryUploadedFile: ZBd9XTYqO1Y.jpg (image/jpeg)>], 'owner': [1]}>
+Создан сериализатор
+Входящие данные в to_internal_value: <QueryDict: {'title': ['АвторськаАвторська'], 'title_en': ['АвторськаАвторська'], 'book_type': ['AUTHOR'], 'author': ['цкуппка'], 'description': ['цпауйуипкаувцам'], 'genres[]': ['1'], 'tags[]': ['2'], 'country': ['1'], 'fandoms': ['2'], 'adult_content': ['true'], 'translation_status': ['null'], 'original_status': ['ONGOING'], 'image': [<InMemoryUploadedFile: ZBd9XTYqO1Y.jpg (image/jpeg)>], 'owner': [1]}>
+Результат to_internal_value: {'title': 'АвторськаАвторська', 'title_en': 'АвторськаАвторська', 'author': 'цкуппка', 'description': 'цпауйуипкаувцам', 'translation_status': 'null', 'original_status': 'ONGOING', 'country': <Country: wgfeq>, 'adult_content': True, 'book_type': 'AUTHOR'}
+Начало валидации. Полученные данные: {'title': 'АвторськаАвторська', 'title_en': 'АвторськаАвторська', 'author': 'цкуппка', 'description': 'цпауйуипкаувцам', 'translation_status': 'null', 'original_status': 'ONGOING', 'country': <Country: wgfeq>, 'adult_content': True, 'book_type': 'AUTHOR'}
+Тип книги: AUTHOR
+Установка translation_status в None для авторской книги
+Результат валидации: {'title': 'АвторськаАвторська', 'title_en': 'АвторськаАвторська', 'author': 'цкуппка', 'description': 'цпауйуипкаувцам', 'translation_status': None, 'original_status': 'ONGOING', 'country': <Country: wgfeq>, 'adult_content': True, 'book_type': 'AUTHOR'}
+Данные прошли валидацию
+Валидные данные: {'title': 'АвторськаАвторська', 'title_en': 'АвторськаАвторська', 'author': 'цкуппка', 'description': 'цпауйуипкаувцам', 'translation_status': None, 'original_status': 'ONGOING', 'country': <Country: wgfeq>, 'adult_content': True, 'book_type': 'AUTHOR'}
+Книга создана: АвторськаАвторська
+Установлены фэндомы: []
+Изображение сохранено
+Входящие данные в to_representation: АвторськаАвторська
+Результат to_representation: {'id': 9, 'title': 'АвторськаАвторська', 'title_en': 'АвторськаАвторська', 'author': 'цкуппка', 'description': 'цпауйуипкаувцам', 'image': '/media/books/ZBd9XTYqO1Y_dfzdW1G.jpg', 'translation_status': 'TRANSLATING', 'translation_status_display': 'Перекладається', 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 1, 'slug': 'avtorskaavtorska', 'last_updated': '2024-12-05T12:42:39.914378Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'AUTHOR'}
+Входящие данные в to_representation: ПерекладПереклад
+Входящие данные в to_representation: ПерекладПереклад
+Результат to_representation: {'id': 8, 'title': 'ПерекладПереклад', 'title_en': 'ПерекладПереклад', 'author': 'ыаиуктуава', 'description': 'аиптиыафватпафваукнокрупааукрупав', 'image': 'http://localhost:8000/media/books/T05Vct6RzYI_LDmMX31.jpg', 'translation_status': 'TRANSLATING', 'translation_status_display': 'Перекладається', 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 2, 'slug': 'perekladpereklad', 'last_updated': '2024-12-05T12:09:30.100931Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'TRANSLATION'}
+Входящие данные в to_representation: АвторськаАвторська
+Результат to_representation: {'id': 8, 'title': 'ПерекладПереклад', 'title_en': 'ПерекладПереклад', 'author': 'ыаиуктуава', 'description': 'аиптиыафватпафваукнокрупааукрупав', 'image': 'http://localhost:8000/media/books/T05Vct6RzYI_LDmMX31.jpg', 'translation_status': 'TRANSLATING', 'translation_status_display': 'Перекладається', 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 2, 'slug': 'perekladpereklad', 'last_updated': '2024-12-05T12:09:30.100931Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'TRANSLATION'}
+Входящие данные в to_representation: АвторськаАвторська
+Результат to_representation: {'id': 9, 'title': 'АвторськаАвторська', 'title_en': 'АвторськаАвторська', 'author': 'цкуппка', 'description': 'цпауйуипкаувцам', 'image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_dfzdW1G.jpg', 'translation_status': 'TRANSLATING', 'translation_status_display': 'Перекладається', 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 1, 'slug': 'avtorskaavtorska', 'last_updated': '2024-12-05T12:42:39.914378Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'AUTHOR'}
+Результат to_representation: {'id': 9, 'title': 'АвторськаАвторська', 'title_en': 'АвторськаАвторська', 'author': 'цкуппка', 'description': 'цпауйуипкаувцам', 'image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_dfzdW1G.jpg', 'translation_status': 'TRANSLATING', 'translation_status_display': 'Перекладається', 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 1, 'slug': 'avtorskaavtorska', 'last_updated': '2024-12-05T12:42:39.914378Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'AUTHOR'}
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\views.py changed, reloading.
+Watching for file changes with StatReloader
+Входящие данные в to_representation: АвторськаАвторська
+Результат to_representation: {'id': 9, 'title': 'АвторськаАвторська', 'title_en': 'АвторськаАвторська', 'author': 'цкуппка', 'description': 'цпауйуипкаувцам', 'image': '/media/books/ZBd9XTYqO1Y_dfzdW1G.jpg', 'translation_status': 'TRANSLATING', 'translation_status_display': 'Перекладається', 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 1, 'slug': 'avtorskaavtorska', 'last_updated': '2024-12-05T12:42:39.914378Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'AUTHOR'}
+Входящие данные в to_representation: ПерекладПереклад
+Входящие данные в to_representation: ПерекладПереклад
+Результат to_representation: {'id': 8, 'title': 'ПерекладПереклад', 'title_en': 'ПерекладПереклад', 'author': 'ыаиуктуава', 'description': 'аиптиыафватпафваукнокрупааукрупав', 'image': 'http://localhost:8000/media/books/T05Vct6RzYI_LDmMX31.jpg', 'translation_status': 'TRANSLATING', 'translation_status_display': 'Перекладається', 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 2, 'slug': 'perekladpereklad', 'last_updated': '2024-12-05T12:09:30.100931Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'TRANSLATION'}
+Входящие данные в to_representation: АвторськаАвторська
+Результат to_representation: {'id': 8, 'title': 'ПерекладПереклад', 'title_en': 'ПерекладПереклад', 'author': 'ыаиуктуава', 'description': 'аиптиыафватпафваукнокрупааукрупав', 'image': 'http://localhost:8000/media/books/T05Vct6RzYI_LDmMX31.jpg', 'translation_status': 'TRANSLATING', 'translation_status_display': 'Перекладається', 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 2, 'slug': 'perekladpereklad', 'last_updated': '2024-12-05T12:09:30.100931Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'TRANSLATION'}
+Входящие данные в to_representation: АвторськаАвторська
+Результат to_representation: {'id': 9, 'title': 'АвторськаАвторська', 'title_en': 'АвторськаАвторська', 'author': 'цкуппка', 'description': 'цпауйуипкаувцам', 'image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_dfzdW1G.jpg', 'translation_status': 'TRANSLATING', 'translation_status_display': 'Перекладається', 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 1, 'slug': 'avtorskaavtorska', 'last_updated': '2024-12-05T12:42:39.914378Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'AUTHOR'}
+Результат to_representation: {'id': 9, 'title': 'АвторськаАвторська', 'title_en': 'АвторськаАвторська', 'author': 'цкуппка', 'description': 'цпауйуипкаувцам', 'image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_dfzdW1G.jpg', 'translation_status': 'TRANSLATING', 'translation_status_display': 'Перекладається', 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 1, 'slug': 'avtorskaavtorska', 'last_updated': '2024-12-05T12:42:39.914378Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'AUTHOR'}
+Входящие данные в to_representation: ПерекладПереклад
+Результат to_representation: {'id': 8, 'title': 'ПерекладПереклад', 'title_en': 'ПерекладПереклад', 'author': 'ыаиуктуава', 'description': 'аиптиыафватпафваукнокрупааукрупав', 'image': '/media/books/T05Vct6RzYI_LDmMX31.jpg', 'translation_status': 'TRANSLATING', 'translation_status_display': 'Перекладається', 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 2, 'slug': 'perekladpereklad', 'last_updated': '2024-12-05T12:09:30.100931Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'TRANSLATION'}
+Входящие данные в to_representation: ПерекладПереклад
+Результат to_representation: {'id': 8, 'title': 'ПерекладПереклад', 'title_en': 'ПерекладПереклад', 'author': 'ыаиуктуава', 'description': 'аиптиыафватпафваукнокрупааукрупав', 'image': '/media/books/T05Vct6RzYI_LDmMX31.jpg', 'translation_status': 'TRANSLATING', 'translation_status_display': 'Перекладається', 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 2, 'slug': 'perekladpereklad', 'last_updated': '2024-12-05T12:09:30.100931Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'TRANSLATION'}
+Входящие данные в to_representation: ПерекладПереклад
+Результат to_representation: {'id': 8, 'title': 'ПерекладПереклад', 'title_en': 'ПерекладПереклад', 'author': 'ыаиуктуава', 'description': 'аиптиыафватпафваукнокрупааукрупав', 'image': '/media/books/T05Vct6RzYI_LDmMX31.jpg', 'translation_status': 'TRANSLATING', 'translation_status_display': 'Перекладається', 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 2, 'slug': 'perekladpereklad', 'last_updated': '2024-12-05T12:09:30.100931Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'TRANSLATION'}
+Входящие данные в to_representation: ПерекладПереклад
+Результат to_representation: {'id': 8, 'title': 'ПерекладПереклад', 'title_en': 'ПерекладПереклад', 'author': 'ыаиуктуава', 'description': 'аиптиыафватпафваукнокрупааукрупав', 'image': '/media/books/T05Vct6RzYI_LDmMX31.jpg', 'translation_status': 'TRANSLATING', 'translation_status_display': 'Перекладається', 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 2, 'slug': 'perekladpereklad', 'last_updated': '2024-12-05T12:09:30.100931Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'TRANSLATION'}
+Входящие данные в to_representation: ПерекладПереклад
+Результат to_representation: {'id': 8, 'title': 'ПерекладПереклад', 'title_en': 'ПерекладПереклад', 'author': 'ыаиуктуава', 'description': 'аиптиыафватпафваукнокрупааукрупав', 'image': '/media/books/T05Vct6RzYI_LDmMX31.jpg', 'translation_status': 'TRANSLATING', 'translation_status_display': 'Перекладається', 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 2, 'slug': 'perekladpereklad', 'last_updated': '2024-12-05T12:09:30.100931Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'TRANSLATION'}
+Watching for file changes with StatReloader
+Not Found: /api/catalog/books/perekladpereklad/volumes/
+Not Found: /api/catalog/books/perekladpereklad/chapters/
+Not Found: /api/catalog/books/perekladpereklad/
+Not Found: /api/catalog/books/perekladpereklad/volumes/
+Not Found: /api/catalog/books/perekladpereklad/
+Входящие данные в to_internal_value: <QueryDict: {'title': ['ПерекладПереклад'], 'title_en': ['ПерекладПереклад'], 'book_type': ['TRANSLATION'], 'author': ['апкруеуе'], 'description': ['цкуере4кенн5ек3й'], 'genres[]': ['1'], 'tags[]': ['2'], 'country': ['1'], 'fandoms': ['2'], 'adult_content': ['true'], 'translation_status': ['TRANSLATING'], 'original_status': ['ONGOING'], 'image': [<InMemoryUploadedFile: 5j2-ALdE6Ls.jpg (image/jpeg)>]}>
+Результат to_internal_value: {'title': 'ПерекладПереклад', 'title_en': 'ПерекладПереклад', 'author': 'апкруеуе', 'description': 'цкуере4кенн5ек3й', 'translation_status': 'TRANSLATING', 'original_status': 'ONGOING', 'country': <Country: wgfeq>, 'adult_content': True, 'book_type': 'TRANSLATION'}
+Установлены фэндомы: []
+Изображение сохранено
+Входящие данные в to_representation: ПерекладПереклад
+Результат to_representation: {'id': 10, 'title': 'ПерекладПереклад', 'title_en': 'ПерекладПереклад', 'author': 'апкруеуе', 'description': 'цкуере4кенн5ек3й', 'image': '/media/books/5j2-ALdE6Ls_1hm6BMQ.jpg', 'translation_status': 'TRANSLATING', 'translation_status_display': 'Перекладається', 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 1, 'slug': 'perekladpereklad', 'last_updated': '2024-12-05T13:45:40.252727Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'TRANSLATION'}
+Входящие данные в to_representation: ПерекладПереклад
+Входящие данные в to_representation: ПерекладПереклад
+Результат to_representation: {'id': 10, 'title': 'ПерекладПереклад', 'title_en': 'ПерекладПереклад', 'author': 'апкруеуе', 'description': 'цкуере4кенн5ек3й', 'image': 'http://localhost:8000/media/books/5j2-ALdE6Ls_1hm6BMQ.jpg', 'translation_status': 'TRANSLATING', 'translation_status_display': 'Перекладається', 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 1, 'slug': 'perekladpereklad', 'last_updated': '2024-12-05T13:45:40.252727Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'TRANSLATION'}
+Результат to_representation: {'id': 10, 'title': 'ПерекладПереклад', 'title_en': 'ПерекладПереклад', 'author': 'апкруеуе', 'description': 'цкуере4кенн5ек3й', 'image': 'http://localhost:8000/media/books/5j2-ALdE6Ls_1hm6BMQ.jpg', 'translation_status': 'TRANSLATING', 'translation_status_display': 'Перекладається', 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 1, 'slug': 'perekladpereklad', 'last_updated': '2024-12-05T13:45:40.252727Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'TRANSLATION'}
+Входящие данные в to_internal_value: <QueryDict: {'title': ['АвторськаАвторська'], 'title_en': ['АвторськаАвторська'], 'book_type': ['AUTHOR'], 'author': ['цкеурпцуайц'], 'description': ['цкпуеґцукццкуереку'], 'genres[]': ['2'], 'tags[]': ['2'], 'country': ['2'], 'fandoms': ['1'], 'adult_content': ['true'], 'translation_status': ['null'], 'original_status': ['ONGOING'], 'image': [<InMemoryUploadedFile: big_4.jpg (image/jpeg)>]}>
+Результат to_internal_value: {'title': 'АвторськаАвторська', 'title_en': 'АвторськаАвторська', 'author': 'цкеурпцуайц', 'description': 'цкпуеґцукццкуереку', 'translation_status': 'null', 'original_status': 'ONGOING', 'country': <Country: вмауам>, 'adult_content': True, 'book_type': 'AUTHOR'}
+Установлены фэндомы: []
+Изображение сохранено
+Входящие данные в to_representation: АвторськаАвторська
+Результат to_representation: {'id': 11, 'title': 'АвторськаАвторська', 'title_en': 'АвторськаАвторська', 'author': 'цкеурпцуайц', 'description': 'цкпуеґцукццкуереку', 'image': '/media/books/big_4_JbqKedc.jpg', 'translation_status': 'TRANSLATING', 'translation_status_display': 'Перекладається', 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 2, 'slug': 'avtorskaavtorska', 'last_updated': '2024-12-05T13:46:20.719368Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'AUTHOR'}
+Входящие данные в to_representation: ПерекладПереклад
+Входящие данные в to_representation: ПерекладПереклад
+Результат to_representation: {'id': 10, 'title': 'ПерекладПереклад', 'title_en': 'ПерекладПереклад', 'author': 'апкруеуе', 'description': 'цкуере4кенн5ек3й', 'image': 'http://localhost:8000/media/books/5j2-ALdE6Ls_1hm6BMQ.jpg', 'translation_status': 'TRANSLATING', 'translation_status_display': 'Перекладається', 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 1, 'slug': 'perekladpereklad', 'last_updated': '2024-12-05T13:45:40.252727Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'TRANSLATION'}
+Результат to_representation: {'id': 10, 'title': 'ПерекладПереклад', 'title_en': 'ПерекладПереклад', 'author': 'апкруеуе', 'description': 'цкуере4кенн5ек3й', 'image': 'http://localhost:8000/media/books/5j2-ALdE6Ls_1hm6BMQ.jpg', 'translation_status': 'TRANSLATING', 'translation_status_display': 'Перекладається', 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 1, 'slug': 'perekladpereklad', 'last_updated': '2024-12-05T13:45:40.252727Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'TRANSLATION'}
+Входящие данные в to_representation: АвторськаАвторська
+Входящие данные в to_representation: АвторськаАвторська
+Результат to_representation: {'id': 11, 'title': 'АвторськаАвторська', 'title_en': 'АвторськаАвторська', 'author': 'цкеурпцуайц', 'description': 'цкпуеґцукццкуереку', 'image': 'http://localhost:8000/media/books/big_4_JbqKedc.jpg', 'translation_status': 'TRANSLATING', 'translation_status_display': 'Перекладається', 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 2, 'slug': 'avtorskaavtorska', 'last_updated': '2024-12-05T13:46:20.719368Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'AUTHOR'}
+Результат to_representation: {'id': 11, 'title': 'АвторськаАвторська', 'title_en': 'АвторськаАвторська', 'author': 'цкеурпцуайц', 'description': 'цкпуеґцукццкуереку', 'image': 'http://localhost:8000/media/books/big_4_JbqKedc.jpg', 'translation_status': 'TRANSLATING', 'translation_status_display': 'Перекладається', 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 2, 'slug': 'avtorskaavtorska', 'last_updated': '2024-12-05T13:46:20.719368Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'AUTHOR'}
+Входящие данные в to_internal_value: <QueryDict: {'title': ['АвторськаАвторська'], 'title_en': ['АвторськаАвторська'], 'book_type': ['AUTHOR'], 'author': ['уцацикпуа'], 'description': ['кцуккукццпкеу'], 'genres[]': ['1'], 'tags[]': ['2'], 'country': ['2'], 'fandoms': ['1'], 'adult_content': ['true'], 'translation_status': ['null'], 'original_status': ['ONGOING'], 'image': [<InMemoryUploadedFile: ZBd9XTYqO1Y.jpg (image/jpeg)>]}>
+Результат to_internal_value: {'title': 'АвторськаАвторська', 'title_en': 'АвторськаАвторська', 'author': 'уцацикпуа', 'description': 'кцуккукццпкеу', 'translation_status': 'null', 'original_status': 'ONGOING', 'country': <Country: вмауам>, 'adult_content': True, 'book_type': 'AUTHOR'}
+Установлены фэндомы: []
+Изображение сохранено
+Входящие данные в to_representation: АвторськаАвторська
+Результат to_representation: {'id': 12, 'title': 'АвторськаАвторська', 'title_en': 'АвторськаАвторська', 'author': 'уцацикпуа', 'description': 'кцуккукццпкеу', 'image': '/media/books/ZBd9XTYqO1Y_mn7YUxV.jpg', 'translation_status': 'TRANSLATING', 'translation_status_display': 'Перекладається', 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 2, 'slug': 'avtorskaavtorska', 'last_updated': '2024-12-05T13:49:19.662019Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'AUTHOR'}
+Входящие данные в to_representation: АвторськаАвторська
+Входящие данные в to_representation: АвторськаАвторська
+Результат to_representation: {'id': 12, 'title': 'АвторськаАвторська', 'title_en': 'АвторськаАвторська', 'author': 'уцацикпуа', 'description': 'кцуккукццпкеу', 'image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_mn7YUxV.jpg', 'translation_status': 'TRANSLATING', 'translation_status_display': 'Перекладається', 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 2, 'slug': 'avtorskaavtorska', 'last_updated': '2024-12-05T13:49:19.662019Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'AUTHOR'}
+Результат to_representation: {'id': 12, 'title': 'АвторськаАвторська', 'title_en': 'АвторськаАвторська', 'author': 'уцацикпуа', 'description': 'кцуккукццпкеу', 'image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_mn7YUxV.jpg', 'translation_status': 'TRANSLATING', 'translation_status_display': 'Перекладається', 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 2, 'slug': 'avtorskaavtorska', 'last_updated': '2024-12-05T13:49:19.662019Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'AUTHOR'}
+Входящие данные в to_internal_value: <QueryDict: {'title': ['АвторськаАвторська'], 'title_en': ['АвторськаАвторська'], 'book_type': ['AUTHOR'], 'author': ['ыыкуекпуа'], 'description': ['кцукпкуккк3йкпуукпк'], 'genres[]': ['2'], 'tags[]': ['2'], 'country': ['2'], 'fandoms': ['2'], 'adult_content': ['true'], 'translation_status': ['null'], 'original_status': ['ONGOING'], 'image': [<InMemoryUploadedFile: YfyJVFIhJ-M.jpg (image/jpeg)>]}>
+Результат to_internal_value: {'title': 'АвторськаАвторська', 'title_en': 'АвторськаАвторська', 'author': 'ыыкуекпуа', 'description': 'кцукпкуккк3йкпуукпк', 'translation_status': 'null', 'original_status': 'ONGOING', 'country': <Country: вмауам>, 'adult_content': True, 'book_type': 'AUTHOR'}
+Установлены фэндомы: []
+Изображение сохранено
+Входящие данные в to_representation: АвторськаАвторська
+Результат to_representation: {'id': 13, 'title': 'АвторськаАвторська', 'title_en': 'АвторськаАвторська', 'author': 'ыыкуекпуа', 'description': 'кцукпкуккк3йкпуукпк', 'image': '/media/books/YfyJVFIhJ-M.jpg', 'translation_status': 'TRANSLATING', 'translation_status_display': 'Перекладається', 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 2, 'slug': 'avtorskaavtorska', 'last_updated': '2024-12-05T13:51:50.569113Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'AUTHOR'}
+Входящие данные в to_representation: АвторськаАвторська
+Входящие данные в to_representation: АвторськаАвторська
+Результат to_representation: {'id': 13, 'title': 'АвторськаАвторська', 'title_en': 'АвторськаАвторська', 'author': 'ыыкуекпуа', 'description': 'кцукпкуккк3йкпуукпк', 'image': 'http://localhost:8000/media/books/YfyJVFIhJ-M.jpg', 'translation_status': 'TRANSLATING', 'translation_status_display': 'Перекладається', 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 2, 'slug': 'avtorskaavtorska', 'last_updated': '2024-12-05T13:51:50.569113Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'AUTHOR'}
+Результат to_representation: {'id': 13, 'title': 'АвторськаАвторська', 'title_en': 'АвторськаАвторська', 'author': 'ыыкуекпуа', 'description': 'кцукпкуккк3йкпуукпк', 'image': 'http://localhost:8000/media/books/YfyJVFIhJ-M.jpg', 'translation_status': 'TRANSLATING', 'translation_status_display': 'Перекладається', 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 2, 'slug': 'avtorskaavtorska', 'last_updated': '2024-12-05T13:51:50.569113Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'AUTHOR'}
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\models.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Входящие данные в to_internal_value: <QueryDict: {'title': ['АвторськаАвторська'], 'title_en': ['АвторськаАвторська'], 'book_type': ['AUTHOR'], 'author': ['цкпрукцпоеурпк'], 'description': ['ыапруеекуерпа'], 'genres[]': ['2'], 'tags[]': ['2'], 'country': ['2'], 'fandoms': ['2'], 'adult_content': ['true'], 'translation_status': ['null'], 'original_status': ['ONGOING'], 'image': [<InMemoryUploadedFile: YfyJVFIhJ-M.jpg (image/jpeg)>]}>
+Результат to_internal_value: {'title': 'АвторськаАвторська', 'title_en': 'АвторськаАвторська', 'author': 'цкпрукцпоеурпк', 'description': 'ыапруеекуерпа', 'translation_status': 'null', 'original_status': 'ONGOING', 'country': <Country: вмауам>, 'adult_content': True, 'book_type': 'AUTHOR'}
+Установлены фэндомы: []
+Изображение сохранено
+Входящие данные в to_representation: АвторськаАвторська
+Результат to_representation: {'id': 14, 'title': 'АвторськаАвторська', 'title_en': 'АвторськаАвторська', 'author': 'цкпрукцпоеурпк', 'description': 'ыапруеекуерпа', 'image': '/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'translation_status': None, 'translation_status_display': None, 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 2, 'slug': 'avtorskaavtorska', 'last_updated': '2024-12-05T13:57:59.386615Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'AUTHOR'}
+Входящие данные в to_representation: АвторськаАвторська
+Входящие данные в to_representation: АвторськаАвторська
+Результат to_representation: {'id': 14, 'title': 'АвторськаАвторська', 'title_en': 'АвторськаАвторська', 'author': 'цкпрукцпоеурпк', 'description': 'ыапруеекуерпа', 'image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'translation_status': None, 'translation_status_display': None, 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 2, 'slug': 'avtorskaavtorska', 'last_updated': '2024-12-05T13:57:59.386615Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'AUTHOR'}
+Результат to_representation: {'id': 14, 'title': 'АвторськаАвторська', 'title_en': 'АвторськаАвторська', 'author': 'цкпрукцпоеурпк', 'description': 'ыапруеекуерпа', 'image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'translation_status': None, 'translation_status_display': None, 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 2, 'slug': 'avtorskaavtorska', 'last_updated': '2024-12-05T13:57:59.386615Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'AUTHOR'}
+Входящие данные в to_internal_value: <QueryDict: {'title': ['ПерекладПереклад'], 'title_en': ['ПерекладПереклад'], 'book_type': ['TRANSLATION'], 'author': ['вцаупкркно'], 'description': ['цкуереукццкеку'], 'genres[]': ['2'], 'tags[]': ['2'], 'country': ['2'], 'fandoms': ['2'], 'adult_content': ['true'], 'translation_status': ['TRANSLATING'], 'original_status': ['ONGOING'], 'image': [<InMemoryUploadedFile: ZBd9XTYqO1Y.jpg (image/jpeg)>]}>
+Результат to_internal_value: {'title': 'ПерекладПереклад', 'title_en': 'ПерекладПереклад', 'author': 'вцаупкркно', 'description': 'цкуереукццкеку', 'translation_status': 'TRANSLATING', 'original_status': 'ONGOING', 'country': <Country: вмауам>, 'adult_content': True, 'book_type': 'TRANSLATION'}
+Установлены фэндомы: []
+Изображение сохранено
+Входящие данные в to_representation: ПерекладПереклад
+Результат to_representation: {'id': 15, 'title': 'ПерекладПереклад', 'title_en': 'ПерекладПереклад', 'author': 'вцаупкркно', 'description': 'цкуереукццкеку', 'image': '/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'translation_status': 'TRANSLATING', 'translation_status_display': 'Перекладається', 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 2, 'slug': 'perekladpereklad', 'last_updated': '2024-12-05T13:58:43.471849Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'TRANSLATION'}
+Входящие данные в to_representation: АвторськаАвторська
+Входящие данные в to_representation: АвторськаАвторська
+Результат to_representation: {'id': 14, 'title': 'АвторськаАвторська', 'title_en': 'АвторськаАвторська', 'author': 'цкпрукцпоеурпк', 'description': 'ыапруеекуерпа', 'image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'translation_status': None, 'translation_status_display': None, 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 2, 'slug': 'avtorskaavtorska', 'last_updated': '2024-12-05T13:57:59.386615Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'AUTHOR'}
+Результат to_representation: {'id': 14, 'title': 'АвторськаАвторська', 'title_en': 'АвторськаАвторська', 'author': 'цкпрукцпоеурпк', 'description': 'ыапруеекуерпа', 'image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'translation_status': None, 'translation_status_display': None, 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 2, 'slug': 'avtorskaavtorska', 'last_updated': '2024-12-05T13:57:59.386615Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'AUTHOR'}
+Входящие данные в to_representation: ПерекладПереклад
+Входящие данные в to_representation: ПерекладПереклад
+Результат to_representation: {'id': 15, 'title': 'ПерекладПереклад', 'title_en': 'ПерекладПереклад', 'author': 'вцаупкркно', 'description': 'цкуереукццкеку', 'image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'translation_status': 'TRANSLATING', 'translation_status_display': 'Перекладається', 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 2, 'slug': 'perekladpereklad', 'last_updated': '2024-12-05T13:58:43.471849Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'TRANSLATION'}
+Результат to_representation: {'id': 15, 'title': 'ПерекладПереклад', 'title_en': 'ПерекладПереклад', 'author': 'вцаупкркно', 'description': 'цкуереукццкеку', 'image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'translation_status': 'TRANSLATING', 'translation_status_display': 'Перекладається', 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 2, 'slug': 'perekladpereklad', 'last_updated': '2024-12-05T13:58:43.471849Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'TRANSLATION'}
+Входящие данные в to_representation: АвторськаАвторська
+Результат to_representation: {'id': 14, 'title': 'АвторськаАвторська', 'title_en': 'АвторськаАвторська', 'author': 'цкпрукцпоеурпк', 'description': 'ыапруеекуерпа', 'image': '/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'translation_status': None, 'translation_status_display': None, 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 2, 'slug': 'avtorskaavtorska', 'last_updated': '2024-12-05T13:57:59.386615Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'AUTHOR'}
+Fetching main page advertisements...
+=== Начало выполнения функции books_news ===
+Current date: 2024-12-05
+Найдено новых книг: 2
+Found 0 active advertisements
+
+                Книга ID: 15
+                Название: ПерекладПереклад
+                Описание: цкуереукццкеку
+                Изображение: books/ZBd9XTYqO1Y_cS7HYHY.jpg
+            
+Advertisements serialized successfully
+
+                Книга ID: 14
+                Название: АвторськаАвторська
+                Описание: ыапруеекуерпа
+                Изображение: books/YfyJVFIhJ-M_DblDUMQ.jpg
+            
+Формирование URL для background_image: /media/books/ZBd9XTYqO1Y_cS7HYHY.jpg
+Формирование URL для cover_image: /media/books/ZBd9XTYqO1Y_cS7HYHY.jpg
+Формирование URL для background_image: /media/books/YfyJVFIhJ-M_DblDUMQ.jpg
+Формирование URL для cover_image: /media/books/YfyJVFIhJ-M_DblDUMQ.jpg
+Данные после сериализации: [{'id': 15, 'title': 'ПерекладПереклад', 'description': 'цкуереукццкеку', 'image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'slug': 'perekladpereklad', 'background_image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'cover_image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'created_at': '2024-12-05T13:58:43.460190Z'}, {'id': 14, 'title': 'АвторськаАвторська', 'description': 'ыапруеекуерпа', 'image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'slug': 'avtorskaavtorska', 'background_image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'cover_image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'created_at': '2024-12-05T13:57:59.379424Z'}]
+Входящие данные в to_representation: АвторськаАвторська
+Результат to_representation: {'id': 14, 'title': 'АвторськаАвторська', 'title_en': 'АвторськаАвторська', 'author': 'цкпрукцпоеурпк', 'description': 'ыапруеекуерпа', 'image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'translation_status': None, 'translation_status_display': None, 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 2, 'slug': 'avtorskaavtorska', 'last_updated': '2024-12-05T13:57:59.386615Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'AUTHOR'}
+Входящие данные в to_representation: ПерекладПереклад
+Результат to_representation: {'id': 15, 'title': 'ПерекладПереклад', 'title_en': 'ПерекладПереклад', 'author': 'вцаупкркно', 'description': 'цкуереукццкеку', 'image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'translation_status': 'TRANSLATING', 'translation_status_display': 'Перекладається', 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 2, 'slug': 'perekladpereklad', 'last_updated': '2024-12-05T13:58:43.471849Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'TRANSLATION'}
+Входящие данные в to_representation: АвторськаАвторська
+Результат to_representation: {'id': 14, 'title': 'АвторськаАвторська', 'title_en': 'АвторськаАвторська', 'author': 'цкпрукцпоеурпк', 'description': 'ыапруеекуерпа', 'image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'translation_status': None, 'translation_status_display': None, 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 2, 'slug': 'avtorskaavtorska', 'last_updated': '2024-12-05T13:57:59.386615Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'AUTHOR'}
+Входящие данные в to_representation: ПерекладПереклад
+Результат to_representation: {'id': 15, 'title': 'ПерекладПереклад', 'title_en': 'ПерекладПереклад', 'author': 'вцаупкркно', 'description': 'цкуереукццкеку', 'image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'translation_status': 'TRANSLATING', 'translation_status_display': 'Перекладається', 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 2, 'slug': 'perekladpereklad', 'last_updated': '2024-12-05T13:58:43.471849Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'TRANSLATION'}
+Входящие данные в to_representation: АвторськаАвторська
+Результат to_representation: {'id': 14, 'title': 'АвторськаАвторська', 'title_en': 'АвторськаАвторська', 'author': 'цкпрукцпоеурпк', 'description': 'ыапруеекуерпа', 'image': '/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'translation_status': None, 'translation_status_display': None, 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 2, 'slug': 'avtorskaavtorska', 'last_updated': '2024-12-05T13:57:59.386615Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'AUTHOR'}
+Входящие данные в to_representation: АвторськаАвторська
+Результат to_representation: {'id': 14, 'title': 'АвторськаАвторська', 'title_en': 'АвторськаАвторська', 'author': 'цкпрукцпоеурпк', 'description': 'ыапруеекуерпа', 'image': '/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'translation_status': None, 'translation_status_display': None, 'original_status': 'ONGOING', 'original_status_display': 'Виходить', 'country': 2, 'slug': 'avtorskaavtorska', 'last_updated': '2024-12-05T13:57:59.386615Z', 'owner': 1, 'creator': 1, 'bookmark_status': None, 'bookmark_id': None, 'adult_content': True, 'owner_username': 'Reergard', 'creator_username': 'Reergard', 'book_type': 'AUTHOR'}
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\models.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\views.py changed, reloading.
+Watching for file changes with StatReloader
+Unauthorized: /api/users/profile/
+Unauthorized: /api/catalog/books/avtorskaavtorska/chapters/
+Unauthorized: /api/catalog/books/avtorskaavtorska/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Fetching main page advertisements...
+Current date: 2024-12-05
+Found 0 active advertisements
+=== Начало выполнения функции books_news ===
+Advertisements serialized successfully
+Найдено новых книг: 2
+
+                Книга ID: 15
+                Название: ПерекладПереклад
+                Описание: цкуереукццкеку
+                Изображение: books/ZBd9XTYqO1Y_cS7HYHY.jpg
+            
+
+                Книга ID: 14
+                Название: АвторськаАвторська
+                Описание: ыапруеекуерпа
+                Изображение: books/YfyJVFIhJ-M_DblDUMQ.jpg
+            
+Формирование URL для background_image: /media/books/ZBd9XTYqO1Y_cS7HYHY.jpg
+Формирование URL для cover_image: /media/books/ZBd9XTYqO1Y_cS7HYHY.jpg
+Формирование URL для background_image: /media/books/YfyJVFIhJ-M_DblDUMQ.jpg
+Формирование URL для cover_image: /media/books/YfyJVFIhJ-M_DblDUMQ.jpg
+Данные после сериализации: [{'id': 15, 'title': 'ПерекладПереклад', 'description': 'цкуереукццкеку', 'image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'slug': 'perekladpereklad', 'background_image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'cover_image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'created_at': '2024-12-05T13:58:43.460190Z'}, {'id': 14, 'title': 'АвторськаАвторська', 'description': 'ыапруеекуерпа', 'image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'slug': 'avtorskaavtorska', 'background_image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'cover_image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'created_at': '2024-12-05T13:57:59.379424Z'}]
+Received data: {'text': 'лорпачв\n', 'parent': None}
+Received data: {'action': 'like'}
+User: damna4olliverr@gmail.com
+Comment ID: 1
+Comment type: book-comment
+Action: like
+Received data: {'action': 'dislike'}
+User: damna4olliverr@gmail.com
+Comment ID: 1
+Comment type: book-comment
+Action: dislike
+Received data: {'action': 'dislike'}
+User: damna4olliverr@gmail.com
+Comment ID: 1
+Comment type: book-comment
+Action: dislike

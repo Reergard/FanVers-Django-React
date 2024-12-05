@@ -1,6 +1,5 @@
 import os
 from django.db import models
-import logging
 from django.utils.text import slugify
 from django.urls import reverse
 import docx
@@ -10,8 +9,6 @@ from django.utils import timezone
 from unidecode import unidecode
 import re
 from datetime import timedelta
-
-logger = logging.getLogger(__name__)
 
 
 def create_slug(title):
@@ -115,7 +112,12 @@ class Genres(models.Model):
 
 
 class Book(models.Model):
-    TRANSLATION_STATUS_CHOICES = [
+    BOOK_TYPES = [
+        ('AUTHOR', 'Авторська'),
+        ('TRANSLATION', 'Переклад'),
+    ]
+    
+    TRANSLATION_STATUSES = [
         ('TRANSLATING', 'Перекладається'),
         ('WAITING', 'В очікуванні розділів'),
         ('PAUSED', 'Перерва'),
@@ -129,9 +131,16 @@ class Book(models.Model):
     ]
 
     id = models.AutoField(primary_key=True)
+    
     title = models.CharField(max_length=255)
     title_en = models.CharField(max_length=255, null=True)
     author = models.CharField(max_length=255)
+    book_type = models.CharField(
+        max_length=20,
+        choices=BOOK_TYPES,
+        default='TRANSLATION',
+        verbose_name='Тип твору'
+    )
     creator = models.ForeignKey(
         'users.User',
         on_delete=models.SET_NULL,
@@ -170,8 +179,9 @@ class Book(models.Model):
     adult_content = models.BooleanField(default=False)
     translation_status = models.CharField(
         max_length=20,
-        choices=TRANSLATION_STATUS_CHOICES,
-        default='TRANSLATING',
+        choices=TRANSLATION_STATUSES,
+        null=True,
+        blank=True,
         verbose_name='Статус перекладу'
     )
     
@@ -185,6 +195,10 @@ class Book(models.Model):
         default=timezone.now,
         verbose_name='Дата створення'
     )
+    adult_content = models.BooleanField(default=False, verbose_name='Контент 18+')
+    
+
+    
 
     def generate_unique_slug(self):
         """Генерирует уникальный слаг для книги"""
@@ -226,15 +240,13 @@ class Book(models.Model):
 
     def save(self, *args, **kwargs):
         """Сохранение модели"""
-        if not self.slug:
-            self.slug = self.generate_unique_slug()
-        
-        if not self.translation_status:
+        if self.book_type == 'AUTHOR':
+            self.translation_status = None
+        elif self.book_type == 'TRANSLATION':
             self.translation_status = 'TRANSLATING'
             
-        # Обновляем last_updated только при создании или изменении важных полей
-        if not self.pk or kwargs.get('update_fields') is None:
-            self.last_updated = timezone.now()
+        if not self.slug:
+            self.slug = self.generate_unique_slug()
             
         super().save(*args, **kwargs)
 
@@ -362,11 +374,9 @@ class Chapter(models.Model):
 
     def save_html_content(self, html_content):
         try:
-            # Создаем директорию если её нет
             html_dir = os.path.dirname(os.path.join(settings.MEDIA_ROOT, self.generate_html_filename()))
             os.makedirs(html_dir, exist_ok=True)
             
-            # Сохраняем HTML в файл
             html_path = os.path.join(settings.MEDIA_ROOT, self.generate_html_filename())
             with open(html_path, 'w', encoding='utf-8') as f:
                 f.write(html_content)
@@ -375,30 +385,23 @@ class Chapter(models.Model):
             self.html_content = html_content
             self.save(update_fields=['html_file_path', 'html_content'])
         except Exception as e:
-            logger.error(f"Error saving HTML content for chapter {self.id}: {str(e)}")
             raise
 
     def get_html_content(self):
         try:
             if self.html_file_path:
                 file_path = os.path.join(settings.MEDIA_ROOT, self.html_file_path)
-                logger.debug(f"Trying to read HTML file from: {file_path}")
                 
                 if os.path.exists(file_path):
                     with open(file_path, 'r', encoding='utf-8') as f:
                         return f.read()
-                else:
-                    logger.warning(f"HTML file not found at: {file_path}")
             
             if self.html_content:
-                logger.debug(f"Returning HTML content from database for chapter {self.id}")
                 return self.html_content
                 
-            logger.warning(f"No HTML content found for chapter {self.id}")
             return None
             
         except Exception as e:
-            logger.error(f"Error reading HTML content for chapter {self.id}: {str(e)}")
             return None
 
 

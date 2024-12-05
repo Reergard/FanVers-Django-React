@@ -2,9 +2,6 @@ from rest_framework import serializers
 from apps.catalog.models import Book, Chapter, Genres, Tag, Country, Fandom, Volume, ChapterOrder
 from apps.navigation.models import Bookmark 
 from django.conf import settings
-import logging
-
-logger = logging.getLogger(__name__)
 
 
 class ChapterSerializer(serializers.ModelSerializer):
@@ -70,6 +67,10 @@ class BookSerializer(serializers.ModelSerializer):
     creator_username = serializers.SerializerMethodField()
     translation_status_display = serializers.CharField(source='get_translation_status_display', read_only=True)
     original_status_display = serializers.CharField(source='get_original_status_display', read_only=True)
+    translation_status = serializers.CharField(
+        required=False,
+        allow_null=True
+    )
 
     class Meta:
         model = Book
@@ -78,16 +79,20 @@ class BookSerializer(serializers.ModelSerializer):
             'translation_status', 'translation_status_display',
             'original_status', 'original_status_display',
             'country', 'slug', 'last_updated', 'owner', 'creator',
-            'bookmark_status', 'bookmark_id',
-            'owner_username', 'creator_username'
+            'bookmark_status', 'bookmark_id', 'adult_content',
+            'owner_username', 'creator_username', 'book_type'
         ]
         read_only_fields = ['slug', 'last_updated', 'owner', 'creator']
 
     def validate(self, data):
-        if 'country' not in data:
-            raise serializers.ValidationError({
-                'country': 'Это поле обязательно для заполнения.'
-            })
+        book_type = data.get('book_type')
+        
+        if book_type == 'AUTHOR':
+            data['translation_status'] = None
+        elif book_type == 'TRANSLATION':
+            current_status = data.get('translation_status')
+            data['translation_status'] = current_status or 'TRANSLATING'
+        
         return data
 
     def get_image(self, obj):
