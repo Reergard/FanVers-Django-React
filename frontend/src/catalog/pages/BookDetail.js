@@ -485,7 +485,7 @@ const BookDetail = () => {
               <p>{book.description}</p>
             </div>
           </div>
-
+          <BookmarkButton bookId={book.id} />
 
           {/* Добавляем блок статусов после заголовка */}
           <div className="book-statuses">
