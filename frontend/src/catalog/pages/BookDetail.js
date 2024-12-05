@@ -486,6 +486,7 @@ const BookDetail = () => {
             </div>
           </div>
 
+
           {/* Добавляем блок статусов после заголовка */}
           <div className="book-statuses">
             {book.book_type === 'TRANSLATION' && (
@@ -537,7 +538,7 @@ const BookDetail = () => {
             </div>
           )}
 
-          {/* Форма создан��я тома доступна только владельцу */}
+          {/* Форма созданя тома доступна только владельцу */}
           {isBookOwner && showVolumeForm && (
             <form onSubmit={handleCreateVolume} className="volume-form">
               {volumeError && <p className="error">{volumeError}</p>}

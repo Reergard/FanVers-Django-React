@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { RatingDisplay } from '../../rating/components/RatingDisplay';
 import styles from '../styles/NovelDetails.module.css';
 import backgroundImage from '../images/NewBook1.svg';
 import { useQuery } from '@tanstack/react-query';
@@ -45,30 +44,20 @@ const HomePage2 = () => {
             <div className={styles.contentWrapper}>
                 <div className={styles.gridContainer}>
                     <div className={styles.leftColumn}>
-                        <div className={styles.ratingSection}>
-                            <div className={styles.ratingGrid}>
-                                <div className={styles.ratingColumn}>
-                                    <RatingDisplay
-                                        title="рейтинг твору"
-                                        rating="https://cdn.builder.io/api/v1/image/assets/TEMP/d9245d4c1638c648a28ae6832017d281ac466d1b8805aaf15743c7c44d9fa7af?placeholderIfAbsent=true&apiKey=40d4639aa3a74de09e1a28d61cce350e"
-                                    />
-                                </div>
-                                <div className={styles.coverColumn}>
-                                    {currentBook?.image && (
-                                        <img
-                                            loading="lazy"
-                                            src={currentBook.image}
-                                            className={styles.coverImage}
-                                            alt={currentBook.title}
-                                            onError={(e) => {
-                                                console.log('Image load error:', currentBook.image);
-                                                e.target.onerror = null;
-                                                e.target.style.display = 'none';
-                                            }}
-                                        />
-                                    )}
-                                </div>
-                            </div>
+                        <div className={styles.coverColumn}>
+                            {currentBook?.image && (
+                                <img
+                                    loading="lazy"
+                                    src={currentBook.image}
+                                    className={styles.coverImage}
+                                    alt={currentBook.title}
+                                    onError={(e) => {
+                                        console.log('Image load error:', currentBook.image);
+                                        e.target.onerror = null;
+                                        e.target.style.display = 'none';
+                                    }}
+                                />
+                            )}
                         </div>
                     </div>
                     <div className={styles.rightColumn}>
@@ -83,11 +72,6 @@ const HomePage2 = () => {
                     </div>
                 </div>
             </div>
-            <RatingDisplay 
-                title="якість перекладу"
-                rating="https://cdn.builder.io/api/v1/image/assets/TEMP/e92f4b51df29a8eaaaf5a056203cfb7d68d8c72238e76a81d2df95c3be070a9f?placeholderIfAbsent=true&apiKey=40d4639aa3a74de09e1a28d61cce350e"
-                className={styles.translationRating}
-            />
         </div>
     );
 };

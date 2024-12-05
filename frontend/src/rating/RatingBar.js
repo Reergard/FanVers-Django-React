@@ -1,85 +1,118 @@
-import React, { useState, useEffect } from 'react';
-import { fetchRating, postRating } from '../api/rating/ratingAPI';
-import './RatingBar.css';
+import React, { useState } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useSelector } from 'react-redux';
+import { fetchBookRatings, submitRating } from '../api/rating/ratingAPI';
+import { toast } from 'react-toastify';
+import './styles/RatingBar.css';
 
 const RatingBar = ({ bookSlug }) => {
-  const [rating, setRating] = useState(0); // Средний рейтинг книги
-  const [hoverRating, setHoverRating] = useState(null); // Текущая оценка при наведении
-  const [userRating, setUserRating] = useState(null); // Оценка пользователя
-  const [showStars, setShowStars] = useState(false); // Состояние для показа звезд
+    const queryClient = useQueryClient();
+    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+    const token = localStorage.getItem('token');
 
-  useEffect(() => {
-    const loadRating = async () => {
-      const data = await fetchRating(bookSlug);
-      if (data?.average_score) {
-        setRating(data.average_score);
-      }
+    const { data: ratings, isLoading, error } = useQuery({
+        queryKey: ['bookRatings', bookSlug],
+        queryFn: () => fetchBookRatings(bookSlug, token),
+        retry: 1
+    });
 
-      // Обновляем userRating, только если он не null или undefined
-      if (data?.user_rating !== null && data?.user_rating !== undefined) {
-        setUserRating(data.user_rating);
-      }
+    const ratingMutation = useMutation({
+        mutationFn: ({ ratingType, rating }) => 
+            submitRating(bookSlug, ratingType, rating, token),
+        onSuccess: () => {
+            queryClient.invalidateQueries(['bookRatings', bookSlug]);
+            toast.success('Оцінка успішно збережена');
+        },
+        onError: (error) => {
+            toast.error('Помилка при збереженні оцінки: ' + error.message);
+        }
+    });
+
+    const [hoverRating, setHoverRating] = useState({ BOOK: 0, TRANSLATION: 0 });
+
+    const handleRating = (ratingType, rating) => {
+        if (!isAuthenticated) {
+            toast.warning('Будь ласка, увійдіть для оцінювання');
+            return;
+        }
+        if (ratingMutation.isLoading) return;
+        ratingMutation.mutate({ ratingType, rating });
     };
 
-    loadRating();
-  }, [bookSlug]);
+    const renderStars = (rating, ratingType, userRating) => {
+        const stars = [];
+        for (let i = 1; i <= 5; i++) {
+            stars.push(
+                <span
+                    key={i}
+                    className={`star ${
+                        i <= (hoverRating[ratingType] || rating) ? 'filled' : ''
+                    } ${
+                        userRating && i <= userRating ? 'user-rated' : ''
+                    }`}
+                    onClick={() => handleRating(ratingType, i)}
+                    onMouseEnter={() => setHoverRating(prev => ({ 
+                        ...prev, 
+                        [ratingType]: i 
+                    }))}
+                    onMouseLeave={() => setHoverRating(prev => ({ 
+                        ...prev, 
+                        [ratingType]: 0 
+                    }))}
+                >
+                    ★
+                </span>
+            );
+        }
+        return stars;
+    };
 
-  const handleRatingClick = async (score) => {
-    try {
-      await postRating(bookSlug, score); // Просто передаем slug и оценку, токен извлекается внутри
-      setUserRating(score); // Устанавливаем оценку пользователя после успешного поста
-      alert('Ваш рейтинг был отправлен!');
-    } catch (error) {
-      alert('Ошибка при отправке рейтинга. Пожалуйста, войдите в систему.');
-    }
-  };
+    if (isLoading) return <div>Завантаження...</div>;
+    if (error) return <div>Помилка: {error.message}</div>;
 
-  return (
-    <div
-      className="rating-bar-container"
-      // Показывать звезды при наведении, только если пользователь еще не оставил свою оценку
-      onMouseEnter={() => { if (!userRating) setShowStars(true); }}
-      onMouseLeave={() => setShowStars(false)}
-    >
-      {/* Если у пользователя уже есть оценка, показываем только шкалу, без звезд */}
-      {userRating !== null ? (
-        <div className="rating-bar">
-          {[...Array(10)].map((_, i) => (
-            <div
-              key={i}
-              className={`rating-segment ${i < rating ? 'filled' : ''}`}
-            />
-          ))}
+    const bookUserRating = ratings?.user_ratings?.find(
+        r => r.rating_type === 'BOOK'
+    )?.rating;
+    const translationUserRating = ratings?.user_ratings?.find(
+        r => r.rating_type === 'TRANSLATION'
+    )?.rating;
+
+    return (
+        <div className="rating-container">
+            <div className="rating-block">
+                <h3>Рейтінг книги</h3>
+                <div className="stars">
+                    {renderStars(
+                        ratings?.book_rating || 0, 
+                        'BOOK', 
+                        bookUserRating
+                    )}
+                </div>
+                <span className="rating-value">
+                    {ratings?.book_rating ? 
+                        ratings.book_rating.toFixed(1) : '0'}/5
+                </span>
+            </div>
+
+            <div className="rating-block">
+                <h3>Рейтінг перекладу</h3>
+                <div className="stars">
+                    {renderStars(
+                        ratings?.translation_rating || 0, 
+                        'TRANSLATION', 
+                        translationUserRating
+                    )}
+                </div>
+                <span className="rating-value">
+                    {ratings?.translation_rating ? 
+                        ratings.translation_rating.toFixed(1) : '0'}/5
+                </span>
+            </div>
+            {ratingMutation.isLoading && (
+                <div className="rating-loading">Збереження оцінки...</div>
+            )}
         </div>
-      ) : (
-        // Если пользователь еще не оставлял оценку
-        (!showStars ? (
-          <div className="rating-bar">
-            {[...Array(10)].map((_, i) => (
-              <div
-                key={i}
-                className={`rating-segment ${i < rating ? 'filled' : ''}`}
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="rating-stars">
-            {[...Array(10)].map((_, i) => (
-              <span
-                key={i}
-                className={`star ${i < (hoverRating ?? userRating ?? rating) ? 'filled' : ''}`}
-                onMouseEnter={() => setHoverRating(i + 1)} // Подсвечиваем звезды при наведении
-                onClick={() => handleRatingClick(i + 1)} // Устанавливаем рейтинг при клике
-              >
-                ★
-              </span>
-            ))}
-          </div>
-        ))
-      )}
-      <span className="rating-percentage">{(rating * 10).toFixed(1)}%</span>
-    </div>
-  );
+    );
 };
 
-export default RatingBar;
+export default RatingBar; 

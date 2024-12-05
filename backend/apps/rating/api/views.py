@@ -1,69 +1,69 @@
-from rest_framework import status
+from rest_framework import viewsets, status
+from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated, AllowAny
-from ..models import Rating
-from apps.catalog.models import Book
-from .serializers import RatingSerializer
 from django.db.models import Avg
+from ..models import BookRating
+from .serializers import BookRatingSerializer
+from rest_framework.permissions import IsAuthenticated
+from django.shortcuts import get_object_or_404
+from apps.catalog.models import Book
 
+class BookRatingViewSet(viewsets.ModelViewSet):
+    serializer_class = BookRatingSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def get_queryset(self):
+        return BookRating.objects.filter(user=self.request.user)
 
-class RatingView(APIView):
-    def get_permissions(self):
-        if self.request.method == 'POST':
-            permission_classes = [IsAuthenticated]
-        elif self.request.method == 'GET':
-            permission_classes = [AllowAny]
-        else:
-            permission_classes = self.permission_classes
-        return [permission() for permission in permission_classes]
-
-    def get(self, request, book_slug):
+    def create(self, request, *args, **kwargs):
         try:
-            # Находим книгу по slug
-            book = Book.objects.get(slug=book_slug)
-
-            # Получаем все рейтинги книги
-            ratings = Rating.objects.filter(book=book)
-            total_score = ratings.aggregate(Avg('score'))['score__avg'] or 0
-
-            # Получаем рейтинг текущего пользователя, если он аутентифицирован
-            user_rating = None
-            if request.user.is_authenticated:
-                user_rating_obj = Rating.objects.filter(book=book, user=request.user).first()
-                if user_rating_obj:
-                    user_rating = user_rating_obj.score
-
-            # Возвращаем средний рейтинг и рейтинг пользователя (если есть)
-            return Response({
-                "average_score": total_score,
-                "user_rating": user_rating
-            }, status=status.HTTP_200_OK)
-
-        except Book.DoesNotExist:
-            return Response({"error": "Книга не найдена"}, status=status.HTTP_404_NOT_FOUND)
-
-    def post(self, request, book_slug):
-        try:
-            # Находим книгу по slug
-            book = Book.objects.get(slug=book_slug)
-
-            # Получаем оценку из запроса
-            score = request.data.get('score')
-
-            # Проверяем, что score является допустимым значением
-            if score is None or not (1 <= int(score) <= 10):
-                return Response({"error": "Некорректное значение рейтинга"}, status=status.HTTP_400_BAD_REQUEST)
-
-            # Обновляем или создаем рейтинг пользователя для книги
-            rating, created = Rating.objects.update_or_create(
-                user=request.user,
-                book=book,
-                defaults={'score': score}
+            serializer = self.get_serializer(data=request.data)
+            if not serializer.is_valid():
+                return Response(
+                    serializer.errors, 
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            self.perform_create(serializer)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        except Exception as e:
+            return Response(
+                {'error': str(e)}, 
+                status=status.HTTP_400_BAD_REQUEST
             )
 
-            # Возвращаем сериализованные данные рейтинга
-            return Response(RatingSerializer(rating).data, status=status.HTTP_201_CREATED)
+    @action(detail=False, methods=['GET'])
+    def book_ratings(self, request, book_slug=None):
+        try:
+            book_slug = book_slug or request.query_params.get('book_slug')
+            if not book_slug:
+                return Response(
+                    {'error': 'Book slug is required'}, 
+                    status=status.HTTP_400_BAD_REQUEST
+                )
 
-        except Book.DoesNotExist:
-            return Response({"error": "Книга не найдена"}, status=status.HTTP_404_NOT_FOUND)
+            book = get_object_or_404(Book, slug=book_slug)
+            
+            ratings = BookRating.objects.filter(book=book)
+            book_rating = ratings.filter(rating_type='BOOK').aggregate(
+                avg_rating=Avg('rating')
+            )
+            translation_rating = ratings.filter(rating_type='TRANSLATION').aggregate(
+                avg_rating=Avg('rating')
+            )
+
+            user_ratings = None
+            if request.user.is_authenticated:
+                user_ratings = ratings.filter(user=request.user).values(
+                    'rating_type', 'rating'
+                )
+
+            return Response({
+                'book_rating': book_rating['avg_rating'] or 0,
+                'translation_rating': translation_rating['avg_rating'] or 0,
+                'user_ratings': list(user_ratings) if user_ratings else None
+            })
+        except Exception as e:
+            return Response(
+                {'error': str(e)}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
