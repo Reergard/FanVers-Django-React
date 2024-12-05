@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { catalogAPI } from "../../api/catalog/catalogAPI";
+import { handleCatalogApiError } from '../utils/errorUtils';
 
 const AddChapter = () => {
   const { slug } = useParams();
@@ -70,24 +71,16 @@ const AddChapter = () => {
     setError('');
 
     if (isLoading) {
-      return; // Предотвращаем повторное нажатие во время загрузки
+      return;
     }
 
     try {
-      setIsLoading(true); // Начало загрузки
-      
+      setIsLoading(true);
+
       if (!title || !file) {
         setError('Заповніть всі обов\'язкові поля');
         return;
       }
-
-      console.log('Sending data:', {
-        title,
-        isPaid,
-        selectedVolume,
-        price,
-        hasFile: !!file
-      });
 
       await catalogAPI.uploadChapter(
         slug,
@@ -101,11 +94,9 @@ const AddChapter = () => {
       toast.success('Главу успішно створено');
       navigate(`/books/${slug}`);
     } catch (error) {
-      console.error('Error creating chapter:', error);
-      setError(error.message || 'Помилка при створенні глави');
-      toast.error(error.message || 'Помилка при створенні глави');
+      handleCatalogApiError(error, toast);
     } finally {
-      setIsLoading(false); // Завершение загрузки
+      setIsLoading(false);
     }
   };
 

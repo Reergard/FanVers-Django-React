@@ -50,4 +50,37 @@
 .original-status {
   background-color: #f3e5f5;
   color: #7b1fa2;
+}
+
+.book-image-container {
+    position: relative;
+    display: inline-block;
+}
+
+.adult-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.author-badge {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.2rem;
+    padding: 5px 10px;
+    border-radius: 5px;
+    z-index: 1;
+}
+
+.book-type {
+    margin: 10px 0;
+    font-weight: 500;
+    color: #05B4C7;
 } 

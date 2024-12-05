@@ -16,7 +16,14 @@ import { setNotification } from '../../notification/notificationSlice';
 import { usersAPI } from '../../api/users/usersAPI';
 import { notificationAPI } from '../../api/notification/notificationAPI';
 import ConfirmationModal from '../../components/ConfirmationModal';
+import AdultIcon from '../../assets/images/icons/18+.png';
 
+// Импортируем функции из bookUtils
+import { 
+    getTranslationStatusLabel, 
+    getOriginalStatusLabel,
+    getBookTypeLabel 
+} from '../utils/bookUtils';
 
 const BookDetail = () => {
   const { slug } = useParams();
@@ -267,7 +274,7 @@ const BookDetail = () => {
             volume_id: nextVolume.id
           }];
           
-          // Сдвигаем все существующие главы следующего тома на одну позицию вперед
+          // Сдвигаем все существующие главы следующего тома на одну позицю вперед
           if (nextVolumeChapters.length > 0) {
             const shiftedChapters = nextVolumeChapters.map(chapter => ({
               chapter_id: chapter.id,
@@ -448,20 +455,51 @@ const BookDetail = () => {
     <section className="book-detail">
       <Container fluid className="catalog-section" id="catalog">
         <Container className="catalog-content">
-          <h1>{book.title}</h1>
+          <div className="book-header">
+            <div className="book-image-container">
+              <img 
+                src={`http://localhost:8000${book.image}`} 
+                alt={book.title} 
+                className="book-image" 
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.style.display = 'none';
+                }}
+              />
+              {book.adult_content && (
+                <img 
+                  src={AdultIcon} 
+                  alt="18+" 
+                  className="adult-icon"
+                />
+              )}
+              {book.book_type === 'AUTHOR' && (
+                <div className="author-badge">A</div>
+              )}
+            </div>
+            <div className="book-info">
+              <h1>{book.title}</h1>
+              <p className="book-type">
+                Тип твору: {getBookTypeLabel(book.book_type)}
+              </p>
+              <p>{book.description}</p>
+            </div>
+          </div>
 
           {/* Добавляем блок статусов после заголовка */}
           <div className="book-statuses">
+            {book.book_type === 'TRANSLATION' && (
+              <div className="status-block">
+                <span className="status-label">Статус перекладу:</span>
+                <span className="status-value translation-status">
+                  {getTranslationStatusLabel(book.translation_status)}
+                </span>
+              </div>
+            )}
             <div className="status-block">
-              <span className="status-label">Статус перекладу:</span>
-              <span className="status-value translation-status">
-                {book.translation_status_display}
-              </span>
-            </div>
-            <div className="status-block">
-              <span className="status-label">Статус випуску оригіналу:</span>
+              <span className="status-label">Статус оригіналу:</span>
               <span className="status-value original-status">
-                {book.original_status_display}
+                {getOriginalStatusLabel(book.original_status)}
               </span>
             </div>
           </div>
@@ -499,7 +537,7 @@ const BookDetail = () => {
             </div>
           )}
 
-          {/* Форма создания тома доступна только владельцу */}
+          {/* Форма создан��я тома доступна только владельцу */}
           {isBookOwner && showVolumeForm && (
             <form onSubmit={handleCreateVolume} className="volume-form">
               {volumeError && <p className="error">{volumeError}</p>}
@@ -523,22 +561,8 @@ const BookDetail = () => {
               {/* ... код управления главами ... */}
             </div>
           )}
-
-          {/* Изображение книги */}
-          {book.image && (
-            <img 
-              src={`http://localhost:8000${book.image}`}
-              alt={book.title} 
-              className="book-image" 
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.style.display = 'none';
-              }}
-            />
-          )}
-
-          <p>{book.description}</p>
-
+            <p>{book.description}</p>
+            
           <h2>Розділи:</h2>
           {chapters.length > 0 ? (
             <div className="chapters-list">

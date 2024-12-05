@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { fetchBooks } from "../../api/catalog/catalogAPI";
-
+import { handleCatalogApiError } from '../utils/errorUtils';
+import { getBookTypeLabel } from '../utils/bookUtils';
+import { toast } from 'react-toastify';
 import "../css/Catalog.css";
 
 const Catalog = () => {
@@ -16,6 +17,7 @@ const Catalog = () => {
         const booksData = await fetchBooks();       
         setBooks(booksData);
       } catch (error) {
+        handleCatalogApiError(error, toast);
         setError('Не вдалось завантажити данні');
       }
     };
@@ -40,7 +42,6 @@ const Catalog = () => {
                       alt={book.title} 
                       className="book-image" 
                       onError={(e) => {
-                        console.log('Image load error:', book.image);
                         e.target.onerror = null;
                         e.target.style.display = 'none';
                       }}
@@ -49,6 +50,7 @@ const Catalog = () => {
                   <div className="book-details">
                     <h2>{book.title}</h2>
                     <p>Автор: {book.author}</p>
+                    <p>Тип: {getBookTypeLabel(book.book_type)}</p>
                     <p>Опис: {book.description}</p>
                     <Link to={`/books/${book.slug}`}>Читати</Link>
                   </div>

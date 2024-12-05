@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Container, Form, Button, Alert } from 'react-bootstrap';
@@ -13,6 +13,7 @@ const CreateBook = () => {
     const [formData, setFormData] = useState({
         title: '',
         title_en: '',
+        book_type: 'TRANSLATION',
         author: '',
         description: '',
         genres: [],
@@ -28,6 +29,10 @@ const CreateBook = () => {
     const [errors, setErrors] = useState({});
 
     // Получаем списки для селектов
+    const bookTypes = [
+        { value: 'TRANSLATION', label: 'Переклад' },
+        { value: 'AUTHOR', label: 'Авторська' },
+    ];
     const { data: genres } = useQuery({
         queryKey: ['genres'],
         queryFn: catalogAPI.fetchGenres
@@ -108,7 +113,7 @@ const CreateBook = () => {
                 return;
             }
             if (file.size > 5 * 1024 * 1024) { // 5MB
-                toast.error('Розмір файлу не повинен первищувати 5MB');
+                toast.error('Розмір файлу не повинен првищувати 5MB');
                 return;
             }
             setFormData({ ...formData, image: file });
@@ -116,20 +121,39 @@ const CreateBook = () => {
         }
     };
 
+    const handleBookTypeChange = (e) => {
+        const newType = e.target.value;
+        setFormData(prev => ({
+            ...prev,
+            book_type: newType,
+            translation_status: newType === 'AUTHOR' ? null : 'TRANSLATING'
+        }));
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        if (!validateForm()) {
-            toast.error('Будь ласка, заповніть всі обов\'язкові поля');
-            return;
-        }
+        
+        const submitData = {
+            ...formData,
+            translation_status: formData.book_type === 'AUTHOR' ? null : formData.translation_status
+        };
 
         try {
-            createBookMutation.mutate(formData);
+            await createBookMutation.mutateAsync(submitData);
+            toast.success('Книга успішно створена!');
+            navigate('/catalog');
         } catch (error) {
-            toast.error('Виникла неочікувана помилка');
+            toast.error(error.message || 'Помилка при створенні книги');
         }
     };
+
+    // Добавляем useEffect для отслеживания изменения типа книги
+    useEffect(() => {
+        setFormData(prev => ({
+            ...prev,
+            translation_status: prev.book_type === 'AUTHOR' ? null : 'TRANSLATING'
+        }));
+    }, [formData.book_type]);
 
     return (
         <Container className="book-create-container my-4">
@@ -155,6 +179,21 @@ const CreateBook = () => {
                         value={formData.title_en}
                         onChange={(e) => setFormData({ ...formData, title_en: e.target.value })}
                     />
+                </Form.Group>
+
+                <Form.Group className="mb-3">
+                    <Form.Label>Тип твору *</Form.Label>
+                    <Form.Select
+                        value={formData.book_type}
+                        onChange={handleBookTypeChange}
+                        required
+                    >
+                        {bookTypes.map(type => (
+                            <option key={type.value} value={type.value}>
+                                {type.label}
+                            </option>
+                        ))}
+                    </Form.Select>
                 </Form.Group>
 
                 <Form.Group className="mb-3">
@@ -280,24 +319,6 @@ const CreateBook = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                    <Form.Label>Статус перекладу</Form.Label>
-                    <Form.Select
-                        value={formData.translation_status}
-                        onChange={(e) => setFormData({ 
-                            ...formData, 
-                            translation_status: e.target.value 
-                        })}
-                        disabled  // Так как по умолчанию всегда "Перекладається"
-                    >
-                        {translationStatuses.map(status => (
-                            <option key={status.value} value={status.value}>
-                                {status.label}
-                            </option>
-                        ))}
-                    </Form.Select>
-                </Form.Group>
-
-                <Form.Group className="mb-3">
                     <Form.Label>Статус випуску оригіналу *</Form.Label>
                     <Form.Select
                         value={formData.original_status}
@@ -318,6 +339,31 @@ const CreateBook = () => {
                         {errors.original_status}
                     </Form.Control.Feedback>
                 </Form.Group>
+
+                <Form.Group className="mb-3">
+                    <Form.Check 
+                        type="checkbox"
+                        id="adult_content"
+                        label="Контент 18+"
+                        checked={formData.adult_content}
+                        onChange={(e) => setFormData({ 
+                            ...formData, 
+                            adult_content: e.target.checked 
+                        })}
+                    />
+                </Form.Group>
+
+                {formData.book_type === 'TRANSLATION' && (
+                    <Form.Group className="mb-3">
+                        <Form.Label>Статус перекладу</Form.Label>
+                        <Form.Control
+                            plaintext
+                            readOnly
+                            value="Перекладається"
+                            className="form-control-plaintext"
+                        />
+                    </Form.Group>
+                )}
 
                 <Button variant="primary" type="submit">
                     Створити книгу

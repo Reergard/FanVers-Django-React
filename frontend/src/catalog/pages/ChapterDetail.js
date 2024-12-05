@@ -9,6 +9,10 @@ import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
 import '../../navigation/css/BookmarkButton.css';
 import ModalErrorReport from '../../editors/components/ModalErrorReport';
 import '../css/ChapterDetail.css';
+import AdultIcon from '../../assets/images/icons/18+.png';
+import { handleCatalogApiError } from '../utils/errorUtils';
+import { toast } from 'react-toastify';
+
 
 // Импорты для пагинации и отзывов нужно будет добавить или создать
 import { getChapterNavigation } from '../../api/navigation/navigationAPI';
@@ -101,6 +105,7 @@ const ChapterDetail = () => {
                 setComments(commentsResponse || []);
                 
             } catch (error) {
+                handleCatalogApiError(error, toast);
                 setError(error.message || 'Произошла ошибка при загрузке данных');
             } finally {
                 setLoading(false);
@@ -124,8 +129,7 @@ const ChapterDetail = () => {
                 return [...prevComments, newComment];
             });
         } catch (error) {
-            console.error('Ошибка при отправке комментария:', error);
-            setError("Не удалось отправить комментарий");
+            handleCatalogApiError(error, toast);
         }
     };
 
@@ -138,7 +142,7 @@ const ChapterDetail = () => {
                 )
             );
         } catch (error) {
-            console.error('Ошибка при обновлении реакции:', error);
+            handleCatalogApiError(error, toast);
         }
     };
 
