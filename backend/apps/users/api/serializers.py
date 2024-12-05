@@ -17,14 +17,14 @@ class ProfileSerializer(serializers.ModelSerializer):
     total_characters = serializers.SerializerMethodField()
     total_chapters = serializers.SerializerMethodField()
     free_chapters = serializers.SerializerMethodField()
-    total_books = serializers.SerializerMethodField()
+    total_author = serializers.SerializerMethodField()
     total_translations = serializers.SerializerMethodField()
 
     class Meta:
         model = Profile
         fields = ['id', 'username', 'email', 'about', 'image', 'balance', 'role',
                  'total_characters', 'total_chapters', 'free_chapters', 
-                 'total_books', 'total_translations']
+                 'total_author', 'total_translations']
 
     def get_total_characters(self, obj):
         return Chapter.objects.filter(book__owner=obj.user).aggregate(
@@ -36,16 +36,23 @@ class ProfileSerializer(serializers.ModelSerializer):
     def get_free_chapters(self, obj):
         return Chapter.objects.filter(book__owner=obj.user, price=0).count()
 
-    def get_total_books(self, obj):
-        return Book.objects.filter(owner=obj.user).count()
+    def get_total_author(self, obj):
+        return Book.objects.filter(
+            owner=obj.user,
+            book_type='AUTHOR'
+        ).count()
 
     def get_role(self, obj):
         user_groups = obj.user.groups.all()
         if user_groups.filter(name='Перекладач').exists():
             return 'Перекладач'
         return 'Читач'
+
     def get_total_translations(self, obj):
-        return Book.objects.filter(owner=obj.user).count()
+        return Book.objects.filter(
+            owner=obj.user,
+            book_type='TRANSLATION'
+        ).count()
 
 
 class UserSerializer(serializers.ModelSerializer):

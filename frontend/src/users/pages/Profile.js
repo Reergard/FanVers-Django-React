@@ -79,7 +79,7 @@ const Profile = () => {
                                 
                                 <div className="profile-stats">
                                     <div className="stat-item">
-                                        <span className="stat-label">Кількість перекладених символів:</span>
+                                        <span className="stat-label">Кількість викладених символів:</span>
                                         <span className="stat-value">{profile.total_characters}</span>
                                     </div>
                                     <div className="stat-item">
@@ -91,8 +91,8 @@ const Profile = () => {
                                         <span className="stat-value">{profile.free_chapters}</span>
                                     </div>
                                     <div className="stat-item">
-                                        <span className="stat-label">Кількість книжок:</span>
-                                        <span className="stat-value">{profile.total_books}</span>
+                                        <span className="stat-label">Кількість авторських книжок:</span>
+                                        <span className="stat-value">{profile.total_author}</span>
                                     </div>
                                     <div className="stat-item">
                                         <span className="stat-label">Кількість перекладів:</span>
