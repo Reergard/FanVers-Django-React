@@ -18,44 +18,51 @@ const AddChapter = () => {
   const [volumes, setVolumes] = useState([]);
   const [selectedVolume, setSelectedVolume] = useState('');
   const navigate = useNavigate();
+  const { user } = useSelector(state => state.auth);
   const [book, setBook] = useState(null);
-  const user = useSelector(state => state.auth.user);
-  const [price, setPrice] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const checkOwnerAccess = async () => {
+      if (!user) {
+        toast.error('Необхідна авторизація');
+        navigate(`/books/${slug}`);
+        return;
+      }
+
+      try {
+        const bookData = await catalogAPI.fetchBook(slug);
+        
+        // Проверяем права владельца
+        if (user.id !== bookData.owner) {
+          toast.error('У вас немає прав для додавання глав до цієї книги');
+          navigate(`/books/${slug}`);
+          return;
+        }
+
+        setBook(bookData);
+      } catch (error) {
+        handleCatalogApiError(error, toast);
+        navigate(`/books/${slug}`);
+      }
+    };
+
+    checkOwnerAccess();
+  }, [slug, user, navigate]);
 
   useEffect(() => {
     const fetchVolumes = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/catalog/books/${slug}/volumes/`);
+        const response = await catalogAPI.getVolumeList(slug);
         setVolumes(response.data);
       } catch (error) {
         console.error('Error fetching volumes:', error);
       }
     };
-    fetchVolumes();
-  }, [slug]);
 
-  useEffect(() => {
-    const fetchBookDetails = async () => {
-      try {
-        const response = await catalogAPI.fetchBook(slug);
-        setBook(response);
-        
-        if (response.owner !== user?.id) {
-          navigate(`/books/${slug}`);
-          toast.error('У вас немає прав для додавання глав до цієї книги');
-          return;
-        }
-      } catch (error) {
-        setError('Помилка при завантаженні даних книги');
-        navigate(`/books/${slug}`);
-      }
-    };
-
-    if (user) {
-      fetchBookDetails();
+    if (book) {  // Загружаем тома только после проверки прав
+      fetchVolumes();
     }
-  }, [slug, user, navigate]);
+  }, [slug, book]);
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -70,33 +77,24 @@ const AddChapter = () => {
     e.preventDefault();
     setError('');
 
-    if (isLoading) {
-      return;
-    }
-
     try {
-      setIsLoading(true);
-
       if (!title || !file) {
-        setError('Заповніть всі обов\'язкові поля');
+        setError('Заполните все обязательные поля');
         return;
       }
 
-      await catalogAPI.uploadChapter(
-        slug,
-        title,
-        file,
-        isPaid,
-        selectedVolume,
-        isPaid ? parseFloat(price) : 1.00
-      );
-
-      toast.success('Главу успішно створено');
-      navigate(`/books/${slug}`);
+      const volumeId = selectedVolume ? selectedVolume : null;
+      await apiUploadChapter(slug, title, file, isPaid, volumeId);
+      
+      setTitle('');
+      setFile(null);
+      setIsPaid(false);
+      setSelectedVolume('');
+      
+      alert('Глава успешно загружена');
+      
     } catch (error) {
-      handleCatalogApiError(error, toast);
-    } finally {
-      setIsLoading(false);
+      setError(error.message || 'Произошла ошибка при загрузке главы');
     }
   };
 
@@ -105,8 +103,8 @@ const AddChapter = () => {
       <Container fluid className="catalog-section" id="catalog">
         <Container className="catalog-content">
           <div>
-            <h1>Додати главу</h1>
-            {error && <div className="error-message">{error}</div>}
+            <h2>Добавить главу</h2>
+            {error && <p style={{ color: 'red' }}>{error}</p>}
             <form onSubmit={handleUploadChapter}>
               <div>
                 <label htmlFor="title">Название главы:</label>
@@ -141,22 +139,6 @@ const AddChapter = () => {
                 </label>
               </div>
 
-              {isPaid && (
-                <div>
-                  <label htmlFor="price">Стоимость главы:</label>
-                  <input
-                    type="number"
-                    id="price"
-                    min="0.01"
-                    step="0.01"
-                    value={price}
-                    onChange={(e) => setPrice(parseFloat(e.target.value))}
-                    required
-                    placeholder="Введите стоимость"
-                  />
-                </div>
-              )}
-
               {volumes.length > 0 && (
                 <div>
                   <label htmlFor="volume">Том:</label>
@@ -175,13 +157,7 @@ const AddChapter = () => {
                 </div>
               )}
 
-              <button 
-                type="submit" 
-                disabled={isLoading}
-                className={isLoading ? 'loading' : ''}
-              >
-                {isLoading ? 'Створення глави...' : 'Додати главу'}
-              </button>
+              <button type="submit">Добавить главу</button>
             </form>
           </div>
         </Container>

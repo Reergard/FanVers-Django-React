@@ -3,10 +3,11 @@ import { Route, Routes, Navigate } from 'react-router-dom';
 import PrivateRoute from './auth/components/PrivateRoute';
 import Catalog from './catalog/pages/Catalog';
 import MagicalGuide from './main/pages/MagicalGuide';
-import BookDetail from './catalog/pages/BookDetail';
+import BookDetailRouter from './catalog/pages/BookDetailRouter';
 import ChapterDetail from './catalog/pages/ChapterDetail';
 import AddChapter from './catalog/pages/AddChapter';
 import SearchPage from './search/pages/SearchPage';
+
 import Profile from './users/pages/Profile';
 import BookmarksPage from './navigation/pages/BookmarksPage';
 import ChatPage from './chat/pages/ChatPage';
@@ -58,7 +59,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/catalog" element={<Catalog />} />
             <Route path="/magical-guide" element={<MagicalGuide />} />
-            <Route path="/books/:slug" element={<BookDetail />} />
+            <Route path="/books/:slug" element={<BookDetailRouter />} />
             <Route path="/create-translation" element={<CreateTranslation />} />
             <Route path="/search" element={<SearchPage />} />
             <Route path="/profile" element={

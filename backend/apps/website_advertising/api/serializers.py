@@ -1,10 +1,10 @@
 from rest_framework import serializers
 from ..models import Advertisement
-from apps.catalog.api.serializers import BookSerializer
+from apps.catalog.api.serializers import BookReaderSerializer
 from apps.users.api.serializers import UserSerializer
 
 class AdvertisementSerializer(serializers.ModelSerializer):
-    book_details = BookSerializer(source='book', read_only=True)
+    book_details = BookReaderSerializer(source='book', read_only=True)
     user_details = UserSerializer(source='user', read_only=True)
     
     class Meta:

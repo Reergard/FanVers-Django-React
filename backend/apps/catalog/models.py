@@ -9,6 +9,9 @@ from django.utils import timezone
 from unidecode import unidecode
 import re
 from datetime import timedelta
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def create_slug(title):
@@ -356,7 +359,11 @@ class Chapter(models.Model):
         if not self.pk or kwargs.get('update_fields') is None:
             self.last_updated = timezone.now()
             
-        super().save(*args, **kwargs)
+        try:
+            super().save(*args, **kwargs)
+        except Exception as e:
+            logger.error(f"Error saving chapter: {str(e)}")
+            raise
 
     def __str__(self):
         return f"{self.book.title} - {self.title}"
@@ -389,19 +396,33 @@ class Chapter(models.Model):
 
     def get_html_content(self):
         try:
+            # Сначала проверяем наличие HTML в базе данных
+            if self.html_content:
+                return self.html_content
+            
+            # Затем проверяем файл на диске
             if self.html_file_path:
                 file_path = os.path.join(settings.MEDIA_ROOT, self.html_file_path)
                 
                 if os.path.exists(file_path):
                     with open(file_path, 'r', encoding='utf-8') as f:
-                        return f.read()
+                        content = f.read()
+                        # Кэшируем контент в базе данных
+                        self.html_content = content
+                        self.save(update_fields=['html_content'])
+                        return content
             
-            if self.html_content:
-                return self.html_content
-                
+            # Если HTML не найден, пробуем сконвертировать docx
+            if self.file:
+                # Здесь должна быть логика конвертации docx в HTML
+                # Например, использование python-docx или другой библиотеки
+                pass
+            
+            logger.error(f"No HTML content or file found for chapter {self.id}")
             return None
             
         except Exception as e:
+            logger.error(f"Error getting HTML content for chapter {self.id}: {str(e)}")
             return None
 
 

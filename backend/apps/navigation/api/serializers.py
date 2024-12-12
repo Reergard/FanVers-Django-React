@@ -1,9 +1,9 @@
 from rest_framework import serializers
 from ..models import Bookmark
-from apps.catalog.api.serializers import BookSerializer 
+from apps.catalog.api.serializers import BookReaderSerializer
 
 class BookmarkSerializer(serializers.ModelSerializer):
-    book = BookSerializer(read_only=True)  
+    book = BookReaderSerializer(read_only=True)  
     book_id = serializers.IntegerField(write_only=True) 
     
     class Meta:

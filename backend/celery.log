@@ -22008,3 +22008,395 @@ Advertisements serialized successfully
 Формирование URL для background_image: /media/books/YfyJVFIhJ-M_DblDUMQ.jpg
 Формирование URL для cover_image: /media/books/YfyJVFIhJ-M_DblDUMQ.jpg
 Данные после сериализации: [{'id': 16, 'title': 'куопуалодопци', 'description': 'цпцйкйрекекуеекйу', 'image': 'http://localhost:8000/media/books/5VgZtO9jy5g_pv9z9yw.jpg', 'slug': 'kuopualodoptsi', 'background_image': 'http://localhost:8000/media/books/5VgZtO9jy5g_pv9z9yw.jpg', 'cover_image': 'http://localhost:8000/media/books/5VgZtO9jy5g_pv9z9yw.jpg', 'created_at': '2024-12-05T14:49:23.763399Z'}, {'id': 15, 'title': 'ПерекладПереклад', 'description': 'цкуереукццкеку', 'image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'slug': 'perekladpereklad', 'background_image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'cover_image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'created_at': '2024-12-05T13:58:43.460190Z'}, {'id': 14, 'title': 'АвторськаАвторська', 'description': 'ыапруеекуерпа', 'image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'slug': 'avtorskaavtorska', 'background_image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'cover_image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'created_at': '2024-12-05T13:57:59.379424Z'}]
+Watching for file changes with StatReloader
+Unauthorized: /api/catalog/
+Unauthorized: /api/catalog/
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\urls.py changed, reloading.
+Watching for file changes with StatReloader
+Not Found: /api/catalog/books/avtorskaavtorska/
+Not Found: /api/catalog/books/avtorskaavtorska/
+Fetching main page advertisements...
+Current date: 2024-12-06
+=== Начало выполнения функции books_news ===
+Found 0 active advertisements
+Advertisements serialized successfully
+Найдено новых книг: 3
+
+                Книга ID: 16
+                Название: куопуалодопци
+                Описание: цпцйкйрекекуеекйу
+                Изображение: books/5VgZtO9jy5g_pv9z9yw.jpg
+            
+
+                Книга ID: 15
+                Название: ПерекладПереклад
+                Описание: цкуереукццкеку
+                Изображение: books/ZBd9XTYqO1Y_cS7HYHY.jpg
+            
+
+                Книга ID: 14
+                Название: АвторськаАвторська
+                Описание: ыапруеекуерпа
+                Изображение: books/YfyJVFIhJ-M_DblDUMQ.jpg
+            
+Формирование URL для background_image: /media/books/5VgZtO9jy5g_pv9z9yw.jpg
+Формирование URL для cover_image: /media/books/5VgZtO9jy5g_pv9z9yw.jpg
+Формирование URL для background_image: /media/books/ZBd9XTYqO1Y_cS7HYHY.jpg
+Формирование URL для cover_image: /media/books/ZBd9XTYqO1Y_cS7HYHY.jpg
+Формирование URL для background_image: /media/books/YfyJVFIhJ-M_DblDUMQ.jpg
+Формирование URL для cover_image: /media/books/YfyJVFIhJ-M_DblDUMQ.jpg
+Данные после сериализации: [{'id': 16, 'title': 'куопуалодопци', 'description': 'цпцйкйрекекуеекйу', 'image': 'http://localhost:8000/media/books/5VgZtO9jy5g_pv9z9yw.jpg', 'slug': 'kuopualodoptsi', 'background_image': 'http://localhost:8000/media/books/5VgZtO9jy5g_pv9z9yw.jpg', 'cover_image': 'http://localhost:8000/media/books/5VgZtO9jy5g_pv9z9yw.jpg', 'created_at': '2024-12-05T14:49:23.763399Z'}, {'id': 15, 'title': 'ПерекладПереклад', 'description': 'цкуереукццкеку', 'image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'slug': 'perekladpereklad', 'background_image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'cover_image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'created_at': '2024-12-05T13:58:43.460190Z'}, {'id': 14, 'title': 'АвторськаАвторська', 'description': 'ыапруеекуерпа', 'image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'slug': 'avtorskaavtorska', 'background_image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'cover_image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'created_at': '2024-12-05T13:57:59.379424Z'}]
+Not Found: /api/catalog/books/avtorskaavtorska/
+Not Found: /api/catalog/books/avtorskaavtorska/
+Not Found: /api/catalog/books/avtorskaavtorska/
+Not Found: /api/catalog/books/avtorskaavtorska/
+Not Found: /api/catalog/books/avtorskaavtorska/
+Not Found: /api/catalog/books/avtorskaavtorska/
+Not Found: /api/catalog/books/avtorskaavtorska/
+Not Found: /api/catalog/books/avtorskaavtorska/
+Not Found: /api/catalog/books/avtorskaavtorska/
+Not Found: /api/catalog/books/avtorskaavtorska/
+Not Found: /api/catalog/books/avtorskaavtorska/
+Not Found: /api/catalog/books/avtorskaavtorska/
+Not Found: /api/catalog/books/avtorskaavtorska/
+Not Found: /api/catalog/books/avtorskaavtorska/
+Not Found: /api/catalog/books/avtorskaavtorska/
+Not Found: /api/catalog/books/avtorskaavtorska/
+Not Found: /api/catalog/books/avtorskaavtorska/
+Not Found: /api/catalog/books/avtorskaavtorska/
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\urls.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\urls.py changed, reloading.
+Watching for file changes with StatReloader
+Unauthorized: /api/catalog/books/avtorskaavtorska/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/catalog/books/avtorskaavtorska/chapters/
+Unauthorized: /api/rating/avtorskaavtorska/book-ratings/
+Unauthorized: /api/navigation/bookmarks/status/14/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\views.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\search\api\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\search\api\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\navigation\api\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\navigation\api\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\navigation\api\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\navigation\api\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\notification\api\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\website_advertising\api\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+Not Found: /api/catalog/books/avtorskaavtorska/
+Unauthorized: /api/catalog/books/avtorskaavtorska/chapters/
+Unauthorized: /api/users/profile/
+Not Found: /api/catalog/books/avtorskaavtorska/
+Not Found: /api/catalog/books/avtorskaavtorska/
+Not Found: /api/catalog/books/avtorskaavtorska/
+Not Found: /api/catalog/books/avtorskaavtorska/
+Fetching main page advertisements...
+Current date: 2024-12-06
+Found 0 active advertisements
+Advertisements serialized successfully
+=== Начало выполнения функции books_news ===
+Найдено новых книг: 3
+
+                Книга ID: 16
+                Название: куопуалодопци
+                Описание: цпцйкйрекекуеекйу
+                Изображение: books/5VgZtO9jy5g_pv9z9yw.jpg
+            
+
+                Книга ID: 15
+                Название: ПерекладПереклад
+                Описание: цкуереукццкеку
+                Изображение: books/ZBd9XTYqO1Y_cS7HYHY.jpg
+            
+
+                Книга ID: 14
+                Название: АвторськаАвторська
+                Описание: ыапруеекуерпа
+                Изображение: books/YfyJVFIhJ-M_DblDUMQ.jpg
+            
+Формирование URL для background_image: /media/books/5VgZtO9jy5g_pv9z9yw.jpg
+Формирование URL для cover_image: /media/books/5VgZtO9jy5g_pv9z9yw.jpg
+Формирование URL для background_image: /media/books/ZBd9XTYqO1Y_cS7HYHY.jpg
+Формирование URL для cover_image: /media/books/ZBd9XTYqO1Y_cS7HYHY.jpg
+Формирование URL для background_image: /media/books/YfyJVFIhJ-M_DblDUMQ.jpg
+Формирование URL для cover_image: /media/books/YfyJVFIhJ-M_DblDUMQ.jpg
+Данные после сериализации: [{'id': 16, 'title': 'куопуалодопци', 'description': 'цпцйкйрекекуеекйу', 'image': 'http://localhost:8000/media/books/5VgZtO9jy5g_pv9z9yw.jpg', 'slug': 'kuopualodoptsi', 'background_image': 'http://localhost:8000/media/books/5VgZtO9jy5g_pv9z9yw.jpg', 'cover_image': 'http://localhost:8000/media/books/5VgZtO9jy5g_pv9z9yw.jpg', 'created_at': '2024-12-05T14:49:23.763399Z'}, {'id': 15, 'title': 'ПерекладПереклад', 'description': 'цкуереукццкеку', 'image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'slug': 'perekladpereklad', 'background_image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'cover_image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'created_at': '2024-12-05T13:58:43.460190Z'}, {'id': 14, 'title': 'АвторськаАвторська', 'description': 'ыапруеекуерпа', 'image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'slug': 'avtorskaavtorska', 'background_image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'cover_image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'created_at': '2024-12-05T13:57:59.379424Z'}]
+Not Found: /api/catalog/books/avtorskaavtorska/
+Not Found: /api/catalog/books/avtorskaavtorska/
+Not Found: /api/catalog/books/avtorskaavtorska/
+Not Found: /api/catalog/books/avtorskaavtorska/
+Not Found: /api/catalog/books/avtorskaavtorska/
+Not Found: /api/catalog/books/avtorskaavtorska/
+Not Found: /api/catalog/books/avtorskaavtorska/
+Not Found: /api/catalog/books/avtorskaavtorska/
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\views.py changed, reloading.
+Watching for file changes with StatReloader
+Not Found: /api/catalog/books/avtorskaavtorska/
+Not Found: /api/catalog/books/avtorskaavtorska/
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\views.py changed, reloading.
+Watching for file changes with StatReloader
+Not Found: /api/catalog/books/avtorskaavtorska/
+Not Found: /api/catalog/books/avtorskaavtorska/
+Not Found: /api/catalog/books/avtorskaavtorska/
+Not Found: /api/catalog/books/owner/avtorskaavtorska/
+Not Found: /api/catalog/books/owner/avtorskaavtorska/
+Not Found: /api/catalog/books/owner/avtorskaavtorska/
+Not Found: /api/catalog/books/owner/kuopualodoptsi/
+Not Found: /api/catalog/books/owner/kuopualodoptsi/
+Not Found: /api/catalog/books/owner/kuopualodoptsi/
+Not Found: /api/catalog/books/owner/kuopualodoptsi/
+Not Found: /api/catalog/books/owner/perekladpereklad/
+Not Found: /api/catalog/books/owner/perekladpereklad/
+Not Found: /api/catalog/books/owner/perekladpereklad/
+Not Found: /api/catalog/books/owner/perekladpereklad/
+Not Found: /api/catalog/books/owner/perekladpereklad/
+Not Found: /api/catalog/books/owner/perekladpereklad/
+Not Found: /api/catalog/books/owner/perekladpereklad/
+Not Found: /api/catalog/books/owner/perekladpereklad/
+Not Found: /api/catalog/books/info/kuopualodoptsi/
+Not Found: /api/catalog/books/info/perekladpereklad/
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\urls.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\views.py changed, reloading.
+Watching for file changes with StatReloader
+Unauthorized: /api/catalog/books/kuopualodoptsi/chapters/
+Unauthorized: /api/navigation/bookmarks/status/16/
+Unauthorized: /api/catalog/books/info/kuopualodoptsi/
+Unauthorized: /api/rating/kuopualodoptsi/book-ratings/
+Unauthorized: /api/catalog/books/info/kuopualodoptsi/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/catalog/books/kuopualodoptsi/chapters/
+Unauthorized: /api/navigation/bookmarks/status/16/
+Unauthorized: /api/rating/kuopualodoptsi/book-ratings/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+Received data: {'text': 'уацуацупацу', 'parent': None}
+Received data: {'action': 'like'}
+User: jfihuwedw@gmail.com
+Comment ID: 2
+Comment type: book-comment
+Action: like
+Received data: {'action': 'dislike'}
+User: jfihuwedw@gmail.com
+Comment ID: 2
+Comment type: book-comment
+Action: dislike
+Received data: {'action': 'dislike'}
+User: jfihuwedw@gmail.com
+Comment ID: 2
+Comment type: book-comment
+Action: dislike
+Unauthorized: /api/users/profile/
+Received data: {'text': 'укпуайц', 'parent': None}
+Received data: {'action': 'dislike'}
+User: damna4olliverr@gmail.com
+Comment ID: 2
+Comment type: book-comment
+Action: dislike
+Received data: {'action': 'like'}
+User: damna4olliverr@gmail.com
+Comment ID: 3
+Comment type: book-comment
+Action: like
+Received data: {'action': 'dislike'}
+User: damna4olliverr@gmail.com
+Comment ID: 3
+Comment type: book-comment
+Action: dislike
+Received data: {'action': 'dislike'}
+User: damna4olliverr@gmail.com
+Comment ID: 3
+Comment type: book-comment
+Action: dislike
+Internal Server Error: /api/catalog/books/kuopualodoptsi/chapters/ukpuktsy/
+Internal Server Error: /api/catalog/books/kuopualodoptsi/chapters/ukpuktsy/
+Internal Server Error: /api/catalog/books/kuopualodoptsi/chapters/ukpuktsy/
+Internal Server Error: /api/catalog/books/kuopualodoptsi/chapters/ukpuktsy/
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\models.py changed, reloading.
+Watching for file changes with StatReloader
+Internal Server Error: /api/catalog/books/kuopualodoptsi/chapters/tuk-tuk/
+Internal Server Error: /api/catalog/books/kuopualodoptsi/chapters/tuk-tuk/
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\models.py changed, reloading.
+Watching for file changes with StatReloader
+Internal Server Error: /api/catalog/books/kuopualodoptsi/chapters/tuk-tuk/
+Internal Server Error: /api/catalog/books/kuopualodoptsi/chapters/tuk-tuk/
+Internal Server Error: /api/catalog/books/kuopualodoptsi/chapters/tuk-tuk/
+Internal Server Error: /api/catalog/books/kuopualodoptsi/chapters/tuk-tuk/
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\models.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\views.py changed, reloading.
+Watching for file changes with StatReloader
+Internal Server Error: /api/catalog/books/kuopualodoptsi/chapters/tuk-ne-tuk/
+Internal Server Error: /api/catalog/books/kuopualodoptsi/chapters/tuk-ne-tuk/
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\models.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\views.py changed, reloading.
+Watching for file changes with StatReloader
+Internal Server Error: /api/catalog/books/kuopualodoptsi/chapters/tuk-ne-tuk/
+Internal Server Error: /api/catalog/books/kuopualodoptsi/chapters/tuk-ne-tuk/
+Unauthorized: /api/catalog/books/info/kuopualodoptsi/
+Unauthorized: /api/rating/kuopualodoptsi/book-ratings/
+Unauthorized: /api/navigation/bookmarks/status/16/
+Unauthorized: /api/catalog/books/kuopualodoptsi/chapters/
+Unauthorized: /api/catalog/books/info/kuopualodoptsi/
+Internal Server Error: /api/catalog/books/kuopualodoptsi/chapters/tuk-ne-tuk/
+Internal Server Error: /api/catalog/books/kuopualodoptsi/chapters/tuk-ne-tuk/
+D:\Website\Fan-vers(React.Django)\backend\apps\catalog\api\views.py changed, reloading.
+Watching for file changes with StatReloader
+Unauthorized: /api/catalog/books/kuopualodoptsi/chapters/
+Unauthorized: /api/rating/kuopualodoptsi/book-ratings/
+Unauthorized: /api/navigation/bookmarks/status/16/
+Unauthorized: /api/catalog/books/info/kuopualodoptsi/
+Unauthorized: /api/catalog/books/kuopualodoptsi/chapters/ukpuktsy/
+Unauthorized: /api/navigation/books/kuopualodoptsi/chapters/ukpuktsy/navigation/
+Unauthorized: /api/reviews/chapter/ukpuktsy/comments/
+Unauthorized: /api/catalog/books/info/kuopualodoptsi/
+Unauthorized: /api/navigation/bookmarks/status/16/
+Unauthorized: /api/catalog/books/kuopualodoptsi/chapters/
+Unauthorized: /api/rating/kuopualodoptsi/book-ratings/
+Unauthorized: /api/catalog/books/info/kuopualodoptsi/
+Unauthorized: /api/catalog/books/kuopualodoptsi/chapters/
+Unauthorized: /api/navigation/bookmarks/status/16/
+Unauthorized: /api/rating/kuopualodoptsi/book-ratings/
+Unauthorized: /api/catalog/books/kuopualodoptsi/chapters/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/navigation/bookmarks/status/16/
+Unauthorized: /api/rating/kuopualodoptsi/book-ratings/
+Unauthorized: /api/catalog/books/info/kuopualodoptsi/
+Unauthorized: /api/users/profile/
+Fetching main page advertisements...
+=== Начало выполнения функции books_news ===
+Current date: 2024-12-12
+Найдено новых книг: 3
+Found 0 active advertisements
+Advertisements serialized successfully
+
+                Книга ID: 16
+                Название: куопуалодопци
+                Описание: цпцйкйрекекуеекйу
+                Изображение: books/5VgZtO9jy5g_pv9z9yw.jpg
+            
+
+                Книга ID: 15
+                Название: ПерекладПереклад
+                Описание: цкуереукццкеку
+                Изображение: books/ZBd9XTYqO1Y_cS7HYHY.jpg
+            
+
+                Книга ID: 14
+                Название: АвторськаАвторська
+                Описание: ыапруеекуерпа
+                Изображение: books/YfyJVFIhJ-M_DblDUMQ.jpg
+            
+Формирование URL для background_image: /media/books/5VgZtO9jy5g_pv9z9yw.jpg
+Формирование URL для cover_image: /media/books/5VgZtO9jy5g_pv9z9yw.jpg
+Формирование URL для background_image: /media/books/ZBd9XTYqO1Y_cS7HYHY.jpg
+Формирование URL для cover_image: /media/books/ZBd9XTYqO1Y_cS7HYHY.jpg
+Формирование URL для background_image: /media/books/YfyJVFIhJ-M_DblDUMQ.jpg
+Формирование URL для cover_image: /media/books/YfyJVFIhJ-M_DblDUMQ.jpg
+Данные после сериализации: [{'id': 16, 'title': 'куопуалодопци', 'description': 'цпцйкйрекекуеекйу', 'image': 'http://localhost:8000/media/books/5VgZtO9jy5g_pv9z9yw.jpg', 'slug': 'kuopualodoptsi', 'background_image': 'http://localhost:8000/media/books/5VgZtO9jy5g_pv9z9yw.jpg', 'cover_image': 'http://localhost:8000/media/books/5VgZtO9jy5g_pv9z9yw.jpg', 'created_at': '2024-12-05T14:49:23.763399Z'}, {'id': 15, 'title': 'ПерекладПереклад', 'description': 'цкуереукццкеку', 'image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'slug': 'perekladpereklad', 'background_image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'cover_image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'created_at': '2024-12-05T13:58:43.460190Z'}, {'id': 14, 'title': 'АвторськаАвторська', 'description': 'ыапруеекуерпа', 'image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'slug': 'avtorskaavtorska', 'background_image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'cover_image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'created_at': '2024-12-05T13:57:59.379424Z'}]
+=== Начало выполнения функции books_news ===
+Fetching main page advertisements...
+Current date: 2024-12-12
+Найдено новых книг: 3
+Found 0 active advertisements
+Advertisements serialized successfully
+
+                Книга ID: 16
+                Название: куопуалодопци
+                Описание: цпцйкйрекекуеекйу
+                Изображение: books/5VgZtO9jy5g_pv9z9yw.jpg
+            
+
+                Книга ID: 15
+                Название: ПерекладПереклад
+                Описание: цкуереукццкеку
+                Изображение: books/ZBd9XTYqO1Y_cS7HYHY.jpg
+            
+
+                Книга ID: 14
+                Название: АвторськаАвторська
+                Описание: ыапруеекуерпа
+                Изображение: books/YfyJVFIhJ-M_DblDUMQ.jpg
+            
+Формирование URL для background_image: /media/books/5VgZtO9jy5g_pv9z9yw.jpg
+Формирование URL для cover_image: /media/books/5VgZtO9jy5g_pv9z9yw.jpg
+Формирование URL для background_image: /media/books/ZBd9XTYqO1Y_cS7HYHY.jpg
+Формирование URL для cover_image: /media/books/ZBd9XTYqO1Y_cS7HYHY.jpg
+Формирование URL для background_image: /media/books/YfyJVFIhJ-M_DblDUMQ.jpg
+Формирование URL для cover_image: /media/books/YfyJVFIhJ-M_DblDUMQ.jpg
+Данные после сериализации: [{'id': 16, 'title': 'куопуалодопци', 'description': 'цпцйкйрекекуеекйу', 'image': 'http://localhost:8000/media/books/5VgZtO9jy5g_pv9z9yw.jpg', 'slug': 'kuopualodoptsi', 'background_image': 'http://localhost:8000/media/books/5VgZtO9jy5g_pv9z9yw.jpg', 'cover_image': 'http://localhost:8000/media/books/5VgZtO9jy5g_pv9z9yw.jpg', 'created_at': '2024-12-05T14:49:23.763399Z'}, {'id': 15, 'title': 'ПерекладПереклад', 'description': 'цкуереукццкеку', 'image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'slug': 'perekladpereklad', 'background_image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'cover_image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'created_at': '2024-12-05T13:58:43.460190Z'}, {'id': 14, 'title': 'АвторськаАвторська', 'description': 'ыапруеекуерпа', 'image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'slug': 'avtorskaavtorska', 'background_image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'cover_image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'created_at': '2024-12-05T13:57:59.379424Z'}]

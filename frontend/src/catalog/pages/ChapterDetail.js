@@ -92,6 +92,10 @@ const ChapterDetail = () => {
                     fetchChapterComments(chapterSlug)
                 ]);
                 
+                if (!chapterResponse.data.content) {
+                    throw new Error('Контент главы недоступен');
+                }
+
                 const chapterData = {
                     ...chapterResponse.data,
                     book_id: chapterResponse.data.book_id || bookSlug,
@@ -105,8 +109,9 @@ const ChapterDetail = () => {
                 setComments(commentsResponse || []);
                 
             } catch (error) {
+                const errorMessage = error.response?.data?.error || error.message || 'Произошла ошибка при загрузке данных';
                 handleCatalogApiError(error, toast);
-                setError(error.message || 'Произошла ошибка при загрузке данных');
+                setError(errorMessage);
             } finally {
                 setLoading(false);
             }

@@ -1,8 +1,9 @@
 from rest_framework.response import Response
 from apps.catalog.models import Book, Chapter, Genres, Tag, Country, Fandom, Volume, ChapterOrder
 from apps.catalog.api.serializers import (
-    BookSerializer, ChapterSerializer, GenresSerializer, TagSerializer,
+    ChapterSerializer, GenresSerializer, TagSerializer,
     CountrySerializer, FandomSerializer, VolumeSerializer, ChapterOrderSerializer,
+    BookOwnerSerializer, BookReaderSerializer
 )
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
@@ -21,6 +22,9 @@ from decimal import Decimal
 from django.conf import settings
 from django.utils.translation import gettext as _
 from apps.catalog.utils.errorUtils import get_error_codes
+from apps.catalog.api.permissions import IsBookOwner, IsNotBookOwner
+from rest_framework import generics
+from rest_framework import serializers
 
 
 @api_view(['GET'])
@@ -67,16 +71,6 @@ def Catalog(request):
         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET'])
-def book_detail(request, slug):
-    permission_classes = [AllowAny]
-    try:
-        book = Book.objects.get(slug=slug)
-        serializer = BookSerializer(book)
-        return JsonResponse(serializer.data, safe=False)
-    except Book.DoesNotExist:
-        return JsonResponse({'error': 'Book not found'}, status=404)
-
 
 @api_view(['GET'])
 def chapter_list(request, book_slug):
@@ -108,13 +102,16 @@ def chapter_list(request, book_slug):
 @api_view(['GET'])
 def chapter_detail(request, book_slug, chapter_slug):
     try:
-        chapter = Chapter.objects.get(book__slug=book_slug, slug=chapter_slug)
+        chapter = Chapter.objects.select_related('book').get(
+            book__slug=book_slug, 
+            slug=chapter_slug
+        )
         
         if chapter.is_paid and request.user.is_authenticated:
             is_purchased = request.user.profile.purchased_chapters.filter(id=chapter.id).exists()
             if not is_purchased:
                 return Response(
-                    {"error": "Необходимо купить главу для просмотра"}, 
+                    {"error": "Необхідно придбати главу для перегляду"}, 
                     status=status.HTTP_403_FORBIDDEN
                 )
         
@@ -123,7 +120,7 @@ def chapter_detail(request, book_slug, chapter_slug):
         if html_content is None:
             if not chapter.file or not os.path.exists(chapter.file.path):
                 return Response(
-                    {"error": "Файл главы не найден"}, 
+                    {"error": "Файл глави не знайдено"}, 
                     status=status.HTTP_404_NOT_FOUND
                 )
                 
@@ -133,35 +130,46 @@ def chapter_detail(request, book_slug, chapter_slug):
                     html_content = result.value
                     chapter.save_html_content(html_content)
             except Exception as e:
+                logger.error(f"Error converting chapter file: {str(e)}")
                 return Response(
-                    {"error": "Ошибка при конвертации файла глав"}, 
+                    {"error": "Помилка при конвертації файлу глави"}, 
                     status=status.HTTP_500_INTERNAL_SERVER_ERROR
                 )
 
-        logger.info(f"Returning chapter detail with book title: {chapter.book.title}")
+        if not html_content:
+            return Response(
+                {"error": "Контент глави недоступний"}, 
+                status=status.HTTP_404_NOT_FOUND
+            )
+
         return Response({
             'title': chapter.title,
             'content': html_content,
             'book_title': chapter.book.title,
             'book': chapter.book.id,
             'id': chapter.id,
-            'book_id': chapter.book.id
+            'book_id': chapter.book.id,
+            'is_paid': chapter.is_paid,
+            'price': float(chapter.price) if chapter.price else None
         })
         
     except Chapter.DoesNotExist:
+        logger.error(f"Chapter not found: {book_slug}/{chapter_slug}")
         return Response(
-            {"error": "Глава не найдена"}, 
+            {"error": "Главу не знайдено"}, 
             status=status.HTTP_404_NOT_FOUND
         )
-    except Exception:
+    except Exception as e:
+        logger.error(f"Error in chapter_detail: {book_slug}/{chapter_slug}: {str(e)}")
         return Response(
-            {"error": "Произошла ошибка при обработке главы"}, 
+            {"error": "Виникла помилка при обробці глави"}, 
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
 
 
 @api_view(['POST'])
 @parser_classes([MultiPartParser, FormParser])
+@permission_classes([IsAuthenticated, IsBookOwner])
 def add_chapter(request, slug):
     try:
         book = get_object_or_404(Book, slug=slug)
@@ -175,7 +183,6 @@ def add_chapter(request, slug):
         volume_id = request.data.get('volume')
         is_paid = request.data.get('is_paid', '').lower() == 'true'
         
-        # Преобразуем цену в decimal
         try:
             price = Decimal(request.data.get('price', '1.00'))
         except (TypeError, ValueError):
@@ -193,20 +200,34 @@ def add_chapter(request, slug):
                 status=status.HTTP_400_BAD_REQUEST
             )
             
-        chapter = Chapter.objects.create(
-            book=book,
-            title=request.data.get('title'),
-            file=request.FILES['file'],
-            volume_id=volume_id if volume_id else None,
-            is_paid=is_paid,
-            price=price
-        )
-        
-        serializer = ChapterSerializer(chapter)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-        
+        try:
+            chapter = Chapter.objects.create(
+                book=book,
+                title=request.data.get('title'),
+                file=request.FILES['file'],
+                volume_id=volume_id if volume_id else None,
+                is_paid=is_paid,
+                price=price
+            )
+            
+            if chapter.file:
+                try:
+                    pass
+                except Exception as e:
+                    logger.error(f"Error processing HTML content: {str(e)}")
+            
+            serializer = ChapterSerializer(chapter)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            
+        except Exception as e:
+            logger.error(f"Error creating chapter: {str(e)}")
+            return Response(
+                {'error': 'Помилка при створенні глави'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+            
     except Exception as e:
-        logger.error(f"Error creating chapter: {str(e)}")
+        logger.error(f"Error in add_chapter view: {str(e)}")
         return Response(
             {'error': str(e)}, 
             status=status.HTTP_400_BAD_REQUEST
@@ -221,20 +242,30 @@ def get_chapter_content(request, chapter_id):
     return JsonResponse({'content': html_content})
 
 
-class BookViewSet(viewsets.ModelViewSet):
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
+class BookOwnerViewSet(viewsets.ModelViewSet):
+    serializer_class = BookOwnerSerializer
     lookup_field = 'slug'
-    parser_classes = [MultiPartParser, FormParser]
+    permission_classes = [IsAuthenticated, IsBookOwner]
 
-    def get_serializer_context(self):
-        context = super().get_serializer_context()
-        context['request'] = self.request
-        return context
+    def get_queryset(self):
+        return Book.objects.filter(owner=self.request.user)
+
+
+class BookReaderViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = BookReaderSerializer
+    lookup_field = 'slug'
+    permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        return Book.objects.all().order_by('-last_updated')
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
-        
         if request.user.is_authenticated:
             bookmark = Bookmark.objects.filter(
                 book=instance,
@@ -252,10 +283,7 @@ class BookViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-class PublicBookViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
-    permission_classes = [AllowAny]
+
 
 
 @api_view(['GET', 'POST'])
@@ -360,7 +388,7 @@ def create_book(request):
 def owned_books(request):
     if not request.user.is_authenticated:
         return Response(
-            {'error': 'Необхідна авторизація'}, 
+            {'error': 'Необхідна вторизація'}, 
             status=status.HTTP_401_UNAUTHORIZED
         )
     
@@ -409,3 +437,44 @@ def delete_chapter(request, book_slug, chapter_id):
             {'error': str(e)}, 
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
+
+
+class BookInfoView(generics.RetrieveAPIView):
+    queryset = Book.objects.all()
+    lookup_field = 'slug'
+    permission_classes = [AllowAny]
+    
+    def get_serializer_class(self):
+        class BookInfoSerializer(serializers.ModelSerializer):
+            image = serializers.SerializerMethodField()
+            owner_username = serializers.SerializerMethodField()
+            creator_username = serializers.SerializerMethodField()
+            translation_status_display = serializers.CharField(source='get_translation_status_display', read_only=True)
+            original_status_display = serializers.CharField(source='get_original_status_display', read_only=True)
+
+            class Meta:
+                model = Book
+                fields = [
+                    'id', 'title', 'title_en', 'author', 'description', 
+                    'image', 'translation_status_display', 
+                    'original_status_display', 'country', 'slug', 
+                    'last_updated', 'owner', 'creator', 'adult_content',
+                    'owner_username', 'creator_username', 'book_type'
+                ]
+                read_only_fields = fields
+
+            def get_image(self, obj):
+                if obj.image:
+                    request = self.context.get('request')
+                    if request:
+                        return request.build_absolute_uri(obj.image.url)
+                    return obj.image.url
+                return None
+
+            def get_owner_username(self, obj):
+                return obj.owner.username if obj.owner else None
+
+            def get_creator_username(self, obj):
+                return obj.creator.username if obj.creator else None
+
+        return BookInfoSerializer

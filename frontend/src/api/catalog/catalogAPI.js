@@ -37,12 +37,18 @@ const fetchFandoms = async () => {
 };
 
 const fetchBooks = async () => {
-    const response = await api.get('/catalog/');
-    return response.data;
+    try {
+        const response = await api.get('/catalog/books/reader/');
+        return response.data || [];
+    } catch (error) {
+        console.error('Error fetching books:', error);
+        throw new Error('Помилка при завантаженні книг');
+    }
 };
 
 const fetchBook = async (slug) => {
     const token = localStorage.getItem('token');
+    const currentUser = JSON.parse(localStorage.getItem('user'));
     const config = token ? {
         headers: {
             'Authorization': `Bearer ${token}`
@@ -50,14 +56,22 @@ const fetchBook = async (slug) => {
     } : {};
 
     try {
-        const response = await api.get(`/catalog/books/${slug}/`, config);
+        const bookInfoResponse = await api.get(`/catalog/books/info/${slug}/`, config);
+        const bookOwnerId = bookInfoResponse.data.owner;
+
+        const endpoint = currentUser && currentUser.id === bookOwnerId 
+            ? `/catalog/books/owner/${slug}/`
+            : `/catalog/books/reader/${slug}/`;
+
+        const response = await api.get(endpoint, config);
         return {
             ...response.data,
             translation_status_display: response.data.translation_status_display || 'Невідомо',
             original_status_display: response.data.original_status_display || 'Невідомо'
         };
     } catch (error) {
-        throw new Error(error.response?.data?.message || 'Помилка при завантаженні книги');
+        console.error('Error fetching book:', error);
+        throw new Error('Помилка при завантаженні книги');
     }
 };
 
@@ -88,8 +102,19 @@ const getChapterList = async (bookSlug) => {
 };
 
 const getChapterDetail = async (bookSlug, chapterSlug) => {
+    const token = localStorage.getItem('token');
+    const headers = token ? {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/json'
+    } : {
+        'Accept': 'application/json'
+    };
+
     try {
-        const response = await api.get(`/catalog/books/${bookSlug}/chapters/${chapterSlug}/`);
+        const response = await api.get(
+            `/catalog/books/${bookSlug}/chapters/${chapterSlug}/`,
+            { headers }
+        );
         return {
             data: {
                 ...response.data,
@@ -100,6 +125,7 @@ const getChapterDetail = async (bookSlug, chapterSlug) => {
             }
         };
     } catch (error) {
+        console.error('Chapter detail error:', error.response?.data || error.message);
         throw new Error('Помилка при завантаженні даних розділу');
     }
 };

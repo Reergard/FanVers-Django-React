@@ -56,12 +56,32 @@ class ChapterSerializer(serializers.ModelSerializer):
         representation = super().to_representation(instance)
         representation['position'] = float(instance._position) if instance._position else 0.0
         representation['price'] = float(instance.price) if instance.price else 1.00
+        
+        # Проверяем существование файла
+        if instance.file:
+            try:
+                if not instance.file.storage.exists(instance.file.name):
+                    representation['file'] = None
+            except Exception as e:
+                logger.error(f"Error checking file existence: {str(e)}")
+                representation['file'] = None
+                
         return representation
 
+    def validate(self, data):
+        request = self.context.get('request')
+        book = self.context.get('book')
+        
+        if not request or not request.user:
+            raise serializers.ValidationError('Необхідна авторизація')
+            
+        if book and book.owner != request.user:
+            raise serializers.ValidationError('У вас немає прав для додавання глав до цієї книги')
+            
+        return data
 
-class BookSerializer(serializers.ModelSerializer):
-    bookmark_status = serializers.SerializerMethodField()
-    bookmark_id = serializers.SerializerMethodField()
+
+class BookOwnerSerializer(serializers.ModelSerializer):
     image = serializers.SerializerMethodField()
     owner_username = serializers.SerializerMethodField()
     creator_username = serializers.SerializerMethodField()
@@ -79,8 +99,7 @@ class BookSerializer(serializers.ModelSerializer):
             'translation_status', 'translation_status_display',
             'original_status', 'original_status_display',
             'country', 'slug', 'last_updated', 'owner', 'creator',
-            'bookmark_status', 'bookmark_id', 'adult_content',
-            'owner_username', 'creator_username', 'book_type'
+            'adult_content', 'owner_username', 'creator_username', 'book_type'
         ]
         read_only_fields = ['slug', 'last_updated', 'owner', 'creator']
 
@@ -94,6 +113,55 @@ class BookSerializer(serializers.ModelSerializer):
             data['translation_status'] = current_status or 'TRANSLATING'
         
         return data
+
+    def get_image(self, obj):
+        if obj.image:
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(obj.image.url)
+            return obj.image.url
+        return None
+
+    def get_owner_username(self, obj):
+        return obj.owner.username if obj.owner else None
+
+    def get_creator_username(self, obj):
+        return obj.creator.username if obj.creator else None
+
+    def create(self, validated_data):
+        request = self.context.get('request')
+        if request and request.user.is_authenticated:
+            validated_data['owner'] = request.user
+            validated_data['creator'] = request.user
+        return super().create(validated_data)
+
+
+class BookReaderSerializer(serializers.ModelSerializer):
+    bookmark_status = serializers.SerializerMethodField()
+    bookmark_id = serializers.SerializerMethodField()
+    image = serializers.SerializerMethodField()
+    owner_username = serializers.SerializerMethodField()
+    creator_username = serializers.SerializerMethodField()
+    translation_status_display = serializers.CharField(source='get_translation_status_display', read_only=True)
+    original_status_display = serializers.CharField(source='get_original_status_display', read_only=True)
+    translation_status = serializers.CharField(read_only=True)
+    original_status = serializers.CharField(read_only=True)
+    chapters_count = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Book
+        fields = [
+            'id', 'title', 'title_en', 'author', 'description', 'image',
+            'translation_status', 'translation_status_display', 
+            'original_status', 'original_status_display',
+            'country', 'slug', 'last_updated', 'owner_username', 
+            'creator_username', 'bookmark_status', 'bookmark_id', 
+            'adult_content', 'book_type', 'chapters_count'
+        ]
+        read_only_fields = fields
+
+    def get_chapters_count(self, obj):
+        return obj.chapters.count()
 
     def get_image(self, obj):
         if obj.image:
@@ -128,13 +196,6 @@ class BookSerializer(serializers.ModelSerializer):
 
     def get_creator_username(self, obj):
         return obj.creator.username if obj.creator else None
-
-    def create(self, validated_data):
-        request = self.context.get('request')
-        if request and request.user.is_authenticated:
-            validated_data['owner'] = request.user
-            validated_data['creator'] = request.user
-        return super().create(validated_data)
 
 
 class GenresSerializer(serializers.ModelSerializer):

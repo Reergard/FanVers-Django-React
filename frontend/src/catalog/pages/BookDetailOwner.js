@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux'; 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { catalogAPI } from '../../api/catalog/catalogAPI';
@@ -25,7 +25,7 @@ import {
     getBookTypeLabel 
 } from '../utils/bookUtils';
 
-const BookDetail = () => {
+const BookDetailOwner = ({ book }) => {
   const { slug } = useParams();
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   const currentUser = useSelector(state => state.auth.user);
@@ -40,6 +40,7 @@ const BookDetail = () => {
   const dispatch = useDispatch();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [chapterToDelete, setChapterToDelete] = useState(null);
+  const navigate = useNavigate();
 
   const { data: profile } = useQuery({
     queryKey: ['profile'],
@@ -52,12 +53,6 @@ const BookDetail = () => {
       return response.data;
     },
     enabled: !!isAuthenticated && !!token
-  });
-
-  const { data: book, isLoading: bookLoading, error: bookError } = useQuery({
-    queryKey: ['book', slug],
-    queryFn: () => catalogAPI.fetchBook(slug),
-    enabled: !!slug,
   });
 
   const { data: chapters = [], isLoading: chaptersLoading, error: chaptersError } = useQuery({
@@ -129,7 +124,7 @@ const BookDetail = () => {
         queryClient.invalidateQueries(['profile']);
         
         try {
-            // Отправляем только те поля, которые ожидает сервер
+            // Отправляем только те поя, которые ожидает сервер
             const notificationData = {
                 message: `Ви успішно придбали главу "${chapter.title}" книги "${book?.title}"`,
                 book: book.id,
@@ -288,7 +283,7 @@ const BookDetail = () => {
         }
       } else if (direction === 'up') {
         if (currentIndex > 0) {
-          // Перемещение вверх внутри тома
+          // Перемещ��ние вверх внутри тома
           const updatedChapters = volumeChapters.map((chapter, index) => {
             if (index === currentIndex) {
               return {
@@ -417,9 +412,12 @@ const BookDetail = () => {
   };
 
   const handleDeleteChapter = async () => {
-    if (!chapterToDelete) return;
-    
     try {
+      if (!isBookOwner) {
+        throw new Error('Недостатньо прав');
+      }
+      if (!chapterToDelete) return;
+      
       await catalogAPI.deleteChapter(slug, chapterToDelete);
       queryClient.invalidateQueries(['chapters', slug]);
       toast.success('Главу успішно видалено');
@@ -430,11 +428,17 @@ const BookDetail = () => {
     }
   };
 
-  // Проверяем, является ли текущий пользователь владельцем книги
+  // Проверяем, является ли текущий пол��зователь владельцем книги
   const isBookOwner = currentUser && book && book.owner === currentUser.id;
 
-  if (bookLoading || chaptersLoading) return <div>Завантаження...</div>;
-  if (bookError) return <div>Помилка: {bookError.message}</div>;
+  useEffect(() => {
+    if (!isBookOwner) {
+      toast.error('У вас немає прав для редагування цієї книги');
+      navigate(-1);
+    }
+  }, [isBookOwner]);
+
+  if (chaptersLoading) return <div>Завантаження...</div>;
   if (chaptersError) {
     return (
       <section className="book-detail">
@@ -445,9 +449,6 @@ const BookDetail = () => {
         </Container>
       </section>
     );
-  }
-  if (chaptersLoading) {
-    return <div>Завантаження...</div>;
   }
   if (!book) return <div>Книгу не знайдено</div>;
 
@@ -800,4 +801,4 @@ const BookDetail = () => {
   );
 };
 
-export default BookDetail;
+export default BookDetailOwner;

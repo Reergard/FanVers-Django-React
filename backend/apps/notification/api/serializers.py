@@ -1,9 +1,9 @@
 from rest_framework import serializers
 from ..models import Notification
-from apps.catalog.api.serializers import BookSerializer
+from apps.catalog.api.serializers import BookReaderSerializer
 
 class NotificationSerializer(serializers.ModelSerializer):
-    book = BookSerializer()
+    book = BookReaderSerializer()
     error_report_id = serializers.IntegerField(source='error_report.id', read_only=True, allow_null=True)
     reporter_username = serializers.CharField(source='error_report.user.username', read_only=True, allow_null=True)
     book_title = serializers.CharField(source='book.title', read_only=True, allow_null=True)
