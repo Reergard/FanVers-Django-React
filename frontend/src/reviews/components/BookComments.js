@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { fetchBookComments, postBookComment, updateReaction } from '../../api/reviews/reviewsAPI';
+import { fetchBookComments, postBookComment, updateReaction, updateOwnerLike } from '../../api/reviews/reviewsAPI';
 import CommentForm from './CommentForm';
+import '../style/BookComments.css';
 
-const BookComments = ({ bookSlug }) => {
+const BookComments = ({ bookSlug, book, isBookOwner }) => {
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -79,10 +80,25 @@ const BookComments = ({ bookSlug }) => {
     }
   };
 
+  const handleOwnerLike = async (commentId) => {
+    if (!isAuthenticated) {
+        alert('Будь ласка, увійдіть в систему');
+        return;
+    }
+    
+    try {
+        await updateOwnerLike(commentId, 'book-comment');
+        await loadComments();
+    } catch (error) {
+        console.error('Помилка при оновленні реакції:', error);
+        setError('Помилка при оновленні реакції власника');
+    }
+  };
+
   const renderComment = (comment) => (
     <li key={comment.id}>
       <p>{comment.text}</p>
-      <div>
+      <div className="comment-actions">
         <button 
           onClick={() => handleReaction(comment.id, 'like')}
           style={{color: comment.user_reaction === 'like' ? 'blue' : 'black'}}
@@ -95,8 +111,25 @@ const BookComments = ({ bookSlug }) => {
         >
           👎 {comment.dislikes_count}
         </button>
+        
+        {/* Заменяем отдельную кнопку на кликабельную звездочку для владельца */}
+        {isBookOwner ? (
+          <button 
+            onClick={() => handleOwnerLike(comment.id)}
+            className={`owner-like ${comment.has_owner_like ? 'active' : ''}`}
+          >
+            ⭐ {comment.has_owner_like ? `Лайк від ${comment.owner_like_type}` : 'Лайк власника'}
+          </button>
+        ) : (
+          comment.has_owner_like && (
+            <span className="owner-like">
+              ⭐ Лайк від {comment.owner_like_type}
+            </span>
+          )
+        )}
+        
         <button onClick={() => setReplyingTo({ id: comment.id, text: '' })}>
-          Комментировать
+          Коментувати
         </button>
       </div>
       {replyingTo && replyingTo.id === comment.id && (

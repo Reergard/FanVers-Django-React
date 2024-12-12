@@ -133,7 +133,12 @@ const BookDetailReader = () => {
           <RatingBar bookSlug={slug} />
           
           {book && (
-            <BookComments bookSlug={book.slug} isAuthenticated={isAuthenticated} />
+            <BookComments 
+              bookSlug={book.slug} 
+              book={book}
+              isBookOwner={false}
+              isAuthenticated={isAuthenticated} 
+            />
           )}
         </Container>
       </Container>

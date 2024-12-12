@@ -148,3 +148,39 @@ class LikeDislikeViewSet(viewsets.ViewSet):
 
         serializer = ChapterCommentSerializer(comment, context={'request': request})
         return Response(serializer.data)
+
+    @action(detail=True, methods=['post'])
+    def owner_like(self, request, pk=None):
+        logger.info(f"Received owner like request for comment {pk}")
+        comment_type = self.basename
+        
+        if comment_type == 'book-comment':
+            comment = get_object_or_404(BookComment, pk=pk)
+            serializer_class = BookCommentSerializer
+        elif comment_type == 'chapter-comment':
+            comment = get_object_or_404(ChapterComment, pk=pk)
+            serializer_class = ChapterCommentSerializer
+        else:
+            return Response(
+                {'error': 'Неверный тип комментария'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        book = comment.book if hasattr(comment, 'book') else comment.chapter.book
+        
+        if request.user != book.owner:
+            return Response(
+                {'error': 'Только владелец книги может ставить этот лайк'}, 
+                status=status.HTTP_403_FORBIDDEN
+            )
+
+        # Переключаем состояние owner_like
+        if comment.owner_like == request.user:
+            comment.owner_like = None
+        else:
+            comment.owner_like = request.user
+        
+        comment.save()
+        
+        serializer = serializer_class(comment, context={'request': request})
+        return Response(serializer.data)

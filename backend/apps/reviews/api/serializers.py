@@ -13,6 +13,8 @@ class BaseCommentSerializer(serializers.ModelSerializer):
     dislikes_count = serializers.SerializerMethodField()
     user_reaction = serializers.SerializerMethodField()
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    has_owner_like = serializers.SerializerMethodField()
+    owner_like_type = serializers.SerializerMethodField()
 
     def get_likes_count(self, obj):
         return obj.get_likes_count()
@@ -29,14 +31,23 @@ class BaseCommentSerializer(serializers.ModelSerializer):
                 return 'dislike'
         return None
 
+    def get_has_owner_like(self, obj):
+        return obj.has_owner_like()
+
+    def get_owner_like_type(self, obj):
+        if obj.owner_like:
+            book = obj.book if hasattr(obj, 'book') else obj.chapter.book
+            return 'Автора' if book.book_type == 'AUTHOR' else 'Перекладача'
+        return None
+
 class BookCommentSerializer(BaseCommentSerializer):
     replies = serializers.SerializerMethodField()
     book = serializers.SlugRelatedField(slug_field='slug', read_only=True)
 
     class Meta:
         model = BookComment
-        fields = ['id', 'book', 'user', 'text', 'parent', 'created_at', 'likes_count', 'dislikes_count', 'user_reaction', 'replies']
-        read_only_fields = ['id', 'created_at', 'likes_count', 'dislikes_count', 'user_reaction', 'replies']
+        fields = ['id', 'book', 'user', 'text', 'parent', 'created_at', 'likes_count', 'dislikes_count', 'user_reaction', 'replies', 'has_owner_like', 'owner_like_type']
+        read_only_fields = ['id', 'created_at', 'likes_count', 'dislikes_count', 'user_reaction', 'replies', 'has_owner_like', 'owner_like_type']
 
     def get_replies(self, obj):
         if obj.replies.exists():

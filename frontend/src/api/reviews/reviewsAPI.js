@@ -68,12 +68,37 @@ const updateReaction = async (commentId, type, action) => {
     }
 };
 
+const updateOwnerLike = async (commentId, commentType) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        throw new Error('Необхідна авторизація');
+    }
+
+    try {
+        const response = await api.post(
+            `/reviews/${commentType}/${commentId}/owner_like/`,
+            {},
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.error('Owner like error:', error.response?.data || error.message);
+        throw new Error('Не вдалося оновити реакцію власника');
+    }
+};
+
 export const reviewsAPI = {
     fetchBookComments,
     postBookComment,
     fetchChapterComments,
     postChapterComment,
-    updateReaction
+    updateReaction,
+    updateOwnerLike,
 };
 
 export {
@@ -81,5 +106,6 @@ export {
     postBookComment,
     fetchChapterComments,
     postChapterComment,
-    updateReaction
+    updateReaction,
+    updateOwnerLike,
 };

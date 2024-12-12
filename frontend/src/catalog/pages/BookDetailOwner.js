@@ -283,7 +283,7 @@ const BookDetailOwner = ({ book }) => {
         }
       } else if (direction === 'up') {
         if (currentIndex > 0) {
-          // Перемещ��ние вверх внутри тома
+          // Перемещение вверх внутри тома
           const updatedChapters = volumeChapters.map((chapter, index) => {
             if (index === currentIndex) {
               return {
@@ -428,7 +428,7 @@ const BookDetailOwner = ({ book }) => {
     }
   };
 
-  // Проверяем, является ли текущий пол��зователь владельцем книги
+  // Проверяем, является ли текущий пользователь владельцем книги
   const isBookOwner = currentUser && book && book.owner === currentUser.id;
 
   useEffect(() => {
@@ -782,7 +782,12 @@ const BookDetailOwner = ({ book }) => {
 
                {/* Компонент коментарів */}
                {book && (
-                  <BookComments bookSlug={book.slug} isAuthenticated={isAuthenticated} />
+                  <BookComments 
+                    bookSlug={book.slug} 
+                    book={book}
+                    isBookOwner={true}
+                    isAuthenticated={isAuthenticated} 
+                  />
                 )}
 
         
