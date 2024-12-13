@@ -11,9 +11,13 @@ from django.shortcuts import get_object_or_404
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.contrib.auth.models import Group
 from django.db import transaction
+import logging
 
-from apps.users.api.serializers import ProfileSerializer, UpdateBalanceSerializer, BalanceOperationSerializer
+from apps.users.api.serializers import ProfileSerializer, UpdateBalanceSerializer, BalanceOperationSerializer, TranslatorListSerializer, UsersProfilesSerializer
 from apps.catalog.models import Chapter
+from apps.users.models import Profile
+
+logger = logging.getLogger(__name__)
 
 
 @api_view(['POST'])
@@ -119,6 +123,63 @@ def update_profile_view(request):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+
+
+@api_view(['GET'])
+def get_translators_list(request):
+    try:
+        # Получаем ID профилей, которые нам нужны
+        translator_ids = set(Profile.objects.filter(
+            role='Перекладач'
+        ).values_list('id', flat=True))
+        
+        literator_ids = set(Profile.objects.filter(
+            role='Літератор',
+            user__owned_books__book_type='TRANSLATION'
+        ).distinct().values_list('id', flat=True))
+        
+        # Объединяем ID
+        all_profile_ids = translator_ids.union(literator_ids)
+        
+        # Получаем все профили одним запросом
+        profiles = Profile.objects.filter(id__in=all_profile_ids)
+        
+        serializer = TranslatorListSerializer(profiles, many=True)
+        return Response(serializer.data)
+        
+    except Exception as e:
+        logger.error(f"Error in get_translators_list: {str(e)}", exc_info=True)
+        return Response(
+            {'error': f'Внутрішня помилка сервера: {str(e)}'}, 
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+@api_view(['GET'])
+def get_user_profile(request, username):
+    try:
+        # Ищем профиль по username пользователя
+        profile = Profile.objects.select_related('user').get(
+            user__username=username
+        )
+        
+        serializer = UsersProfilesSerializer(profile)
+        return Response(serializer.data)
+        
+    except Profile.DoesNotExist:
+        logger.error(f"Profile not found for username: {username}")
+        return Response(
+            {'error': 'Профіль не знайдено'}, 
+            status=status.HTTP_404_NOT_FOUND
+        )
+    except Exception as e:
+        logger.error(f"Error in get_user_profile for username {username}: {str(e)}", exc_info=True)
+        return Response(
+            {'error': 'Внутрішня помилка сервера'}, 
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+
 
 
 class AuthStatusView(APIView):

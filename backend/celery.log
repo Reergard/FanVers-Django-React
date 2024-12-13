@@ -22896,3 +22896,475 @@ D:\Website\Fan-vers(React.Django)\backend\apps\reviews\api\serializers.py change
 Watching for file changes with StatReloader
 D:\Website\Fan-vers(React.Django)\backend\apps\reviews\api\serializers.py changed, reloading.
 Watching for file changes with StatReloader
+Received owner like request for comment 4
+Received owner like request for comment 4
+Received owner like request for comment 5
+Received owner like request for comment 5
+Unauthorized: /api/catalog/books/perekladpereklad/chapters/
+Unauthorized: /api/catalog/books/info/perekladpereklad/
+Unauthorized: /api/navigation/bookmarks/status/15/
+Unauthorized: /api/rating/perekladpereklad/book-ratings/
+Unauthorized: /api/catalog/books/perekladpereklad/chapters/
+Unauthorized: /api/catalog/books/info/perekladpereklad/
+Unauthorized: /api/users/profile/
+Unauthorized: /api/navigation/bookmarks/status/15/
+Unauthorized: /api/rating/perekladpereklad/book-ratings/
+Unauthorized: /api/users/profile/
+=== Начало выполнения функции books_news ===
+Fetching main page advertisements...
+Current date: 2024-12-13
+Найдено новых книг: 3
+Found 0 active advertisements
+Advertisements serialized successfully
+
+                Книга ID: 16
+                Название: куопуалодопци
+                Описание: цпцйкйрекекуеекйу
+                Изображение: books/5VgZtO9jy5g_pv9z9yw.jpg
+            
+
+                Книга ID: 15
+                Название: ПерекладПереклад
+                Описание: цкуереукццкеку
+                Изображение: books/ZBd9XTYqO1Y_cS7HYHY.jpg
+            
+
+                Книга ID: 14
+                Название: АвторськаАвторська
+                Описание: ыапруеекуерпа
+                Изображение: books/YfyJVFIhJ-M_DblDUMQ.jpg
+            
+Формирование URL для background_image: /media/books/5VgZtO9jy5g_pv9z9yw.jpg
+Формирование URL для cover_image: /media/books/5VgZtO9jy5g_pv9z9yw.jpg
+Формирование URL для background_image: /media/books/ZBd9XTYqO1Y_cS7HYHY.jpg
+Формирование URL для cover_image: /media/books/ZBd9XTYqO1Y_cS7HYHY.jpg
+Формирование URL для background_image: /media/books/YfyJVFIhJ-M_DblDUMQ.jpg
+Формирование URL для cover_image: /media/books/YfyJVFIhJ-M_DblDUMQ.jpg
+Данные после сериализации: [{'id': 16, 'title': 'куопуалодопци', 'description': 'цпцйкйрекекуеекйу', 'image': 'http://localhost:8000/media/books/5VgZtO9jy5g_pv9z9yw.jpg', 'slug': 'kuopualodoptsi', 'background_image': 'http://localhost:8000/media/books/5VgZtO9jy5g_pv9z9yw.jpg', 'cover_image': 'http://localhost:8000/media/books/5VgZtO9jy5g_pv9z9yw.jpg', 'created_at': '2024-12-05T14:49:23.763399Z'}, {'id': 15, 'title': 'ПерекладПереклад', 'description': 'цкуереукццкеку', 'image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'slug': 'perekladpereklad', 'background_image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'cover_image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'created_at': '2024-12-05T13:58:43.460190Z'}, {'id': 14, 'title': 'АвторськаАвторська', 'description': 'ыапруеекуерпа', 'image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'slug': 'avtorskaavtorska', 'background_image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'cover_image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'created_at': '2024-12-05T13:57:59.379424Z'}]
+=== Начало выполнения функции books_news ===
+Fetching main page advertisements...
+Найдено новых книг: 3
+Current date: 2024-12-13
+
+                Книга ID: 16
+                Название: куопуалодопци
+                Описание: цпцйкйрекекуеекйу
+                Изображение: books/5VgZtO9jy5g_pv9z9yw.jpg
+            
+Found 0 active advertisements
+
+                Книга ID: 15
+                Название: ПерекладПереклад
+                Описание: цкуереукццкеку
+                Изображение: books/ZBd9XTYqO1Y_cS7HYHY.jpg
+            
+Advertisements serialized successfully
+
+                Книга ID: 14
+                Название: АвторськаАвторська
+                Описание: ыапруеекуерпа
+                Изображение: books/YfyJVFIhJ-M_DblDUMQ.jpg
+            
+Формирование URL для background_image: /media/books/5VgZtO9jy5g_pv9z9yw.jpg
+Формирование URL для cover_image: /media/books/5VgZtO9jy5g_pv9z9yw.jpg
+Формирование URL для background_image: /media/books/ZBd9XTYqO1Y_cS7HYHY.jpg
+Формирование URL для cover_image: /media/books/ZBd9XTYqO1Y_cS7HYHY.jpg
+Формирование URL для background_image: /media/books/YfyJVFIhJ-M_DblDUMQ.jpg
+Формирование URL для cover_image: /media/books/YfyJVFIhJ-M_DblDUMQ.jpg
+Данные после сериализации: [{'id': 16, 'title': 'куопуалодопци', 'description': 'цпцйкйрекекуеекйу', 'image': 'http://localhost:8000/media/books/5VgZtO9jy5g_pv9z9yw.jpg', 'slug': 'kuopualodoptsi', 'background_image': 'http://localhost:8000/media/books/5VgZtO9jy5g_pv9z9yw.jpg', 'cover_image': 'http://localhost:8000/media/books/5VgZtO9jy5g_pv9z9yw.jpg', 'created_at': '2024-12-05T14:49:23.763399Z'}, {'id': 15, 'title': 'ПерекладПереклад', 'description': 'цкуереукццкеку', 'image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'slug': 'perekladpereklad', 'background_image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'cover_image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'created_at': '2024-12-05T13:58:43.460190Z'}, {'id': 14, 'title': 'АвторськаАвторська', 'description': 'ыапруеекуерпа', 'image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'slug': 'avtorskaavtorska', 'background_image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'cover_image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'created_at': '2024-12-05T13:57:59.379424Z'}]
+=== Начало выполнения функции books_news ===
+Fetching main page advertisements...
+Current date: 2024-12-13
+Найдено новых книг: 3
+Found 0 active advertisements
+
+                Книга ID: 16
+                Название: куопуалодопци
+                Описание: цпцйкйрекекуеекйу
+                Изображение: books/5VgZtO9jy5g_pv9z9yw.jpg
+            
+Advertisements serialized successfully
+
+                Книга ID: 15
+                Название: ПерекладПереклад
+                Описание: цкуереукццкеку
+                Изображение: books/ZBd9XTYqO1Y_cS7HYHY.jpg
+            
+
+                Книга ID: 14
+                Название: АвторськаАвторська
+                Описание: ыапруеекуерпа
+                Изображение: books/YfyJVFIhJ-M_DblDUMQ.jpg
+            
+Формирование URL для background_image: /media/books/5VgZtO9jy5g_pv9z9yw.jpg
+Формирование URL для cover_image: /media/books/5VgZtO9jy5g_pv9z9yw.jpg
+Формирование URL для background_image: /media/books/ZBd9XTYqO1Y_cS7HYHY.jpg
+Формирование URL для cover_image: /media/books/ZBd9XTYqO1Y_cS7HYHY.jpg
+Формирование URL для background_image: /media/books/YfyJVFIhJ-M_DblDUMQ.jpg
+Формирование URL для cover_image: /media/books/YfyJVFIhJ-M_DblDUMQ.jpg
+Данные после сериализации: [{'id': 16, 'title': 'куопуалодопци', 'description': 'цпцйкйрекекуеекйу', 'image': 'http://localhost:8000/media/books/5VgZtO9jy5g_pv9z9yw.jpg', 'slug': 'kuopualodoptsi', 'background_image': 'http://localhost:8000/media/books/5VgZtO9jy5g_pv9z9yw.jpg', 'cover_image': 'http://localhost:8000/media/books/5VgZtO9jy5g_pv9z9yw.jpg', 'created_at': '2024-12-05T14:49:23.763399Z'}, {'id': 15, 'title': 'ПерекладПереклад', 'description': 'цкуереукццкеку', 'image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'slug': 'perekladpereklad', 'background_image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'cover_image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'created_at': '2024-12-05T13:58:43.460190Z'}, {'id': 14, 'title': 'АвторськаАвторська', 'description': 'ыапруеекуерпа', 'image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'slug': 'avtorskaavtorska', 'background_image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'cover_image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'created_at': '2024-12-05T13:57:59.379424Z'}]
+D:\Website\Fan-vers(React.Django)\backend\apps\users\api\views.py changed, reloading.
+Watching for file changes with StatReloader
+Internal Server Error: /api/users/translators/
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\backend\apps\users\api\views.py", line 139, in get_translators_list
+    profiles = (translators | authors).distinct()
+                ~~~~~~~~~~~~^~~~~~~~~
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\query.py", line 485, in __or__
+    combined.query.combine(other.query, sql.OR)
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\sql\query.py", line 688, in combine
+    raise TypeError("Cannot combine a unique query with a non-unique query.")
+TypeError: Cannot combine a unique query with a non-unique query.
+Internal Server Error: /api/users/translators/
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\backend\apps\users\api\views.py", line 139, in get_translators_list
+    profiles = (translators | authors).distinct()
+                ~~~~~~~~~~~~^~~~~~~~~
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\query.py", line 485, in __or__
+    combined.query.combine(other.query, sql.OR)
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\sql\query.py", line 688, in combine
+    raise TypeError("Cannot combine a unique query with a non-unique query.")
+TypeError: Cannot combine a unique query with a non-unique query.
+D:\Website\Fan-vers(React.Django)\backend\apps\users\api\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\users\api\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\users\api\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\users\api\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\users\api\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\users\api\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\users\api\views.py changed, reloading.
+Watching for file changes with StatReloader
+Internal Server Error: /api/users/translators/
+Internal Server Error: /api/users/translators/
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Fetching main page advertisements...
+=== Начало выполнения функции books_news ===
+Current date: 2024-12-13
+Найдено новых книг: 3
+Found 0 active advertisements
+Advertisements serialized successfully
+
+                Книга ID: 16
+                Название: куопуалодопци
+                Описание: цпцйкйрекекуеекйу
+                Изображение: books/5VgZtO9jy5g_pv9z9yw.jpg
+            
+
+                Книга ID: 15
+                Название: ПерекладПереклад
+                Описание: цкуереукццкеку
+                Изображение: books/ZBd9XTYqO1Y_cS7HYHY.jpg
+            
+
+                Книга ID: 14
+                Название: АвторськаАвторська
+                Описание: ыапруеекуерпа
+                Изображение: books/YfyJVFIhJ-M_DblDUMQ.jpg
+            
+Формирование URL для background_image: /media/books/5VgZtO9jy5g_pv9z9yw.jpg
+Формирование URL для cover_image: /media/books/5VgZtO9jy5g_pv9z9yw.jpg
+Формирование URL для background_image: /media/books/ZBd9XTYqO1Y_cS7HYHY.jpg
+Формирование URL для cover_image: /media/books/ZBd9XTYqO1Y_cS7HYHY.jpg
+Формирование URL для background_image: /media/books/YfyJVFIhJ-M_DblDUMQ.jpg
+Формирование URL для cover_image: /media/books/YfyJVFIhJ-M_DblDUMQ.jpg
+Данные после сериализации: [{'id': 16, 'title': 'куопуалодопци', 'description': 'цпцйкйрекекуеекйу', 'image': 'http://localhost:8000/media/books/5VgZtO9jy5g_pv9z9yw.jpg', 'slug': 'kuopualodoptsi', 'background_image': 'http://localhost:8000/media/books/5VgZtO9jy5g_pv9z9yw.jpg', 'cover_image': 'http://localhost:8000/media/books/5VgZtO9jy5g_pv9z9yw.jpg', 'created_at': '2024-12-05T14:49:23.763399Z'}, {'id': 15, 'title': 'ПерекладПереклад', 'description': 'цкуереукццкеку', 'image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'slug': 'perekladpereklad', 'background_image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'cover_image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'created_at': '2024-12-05T13:58:43.460190Z'}, {'id': 14, 'title': 'АвторськаАвторська', 'description': 'ыапруеекуерпа', 'image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'slug': 'avtorskaavtorska', 'background_image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'cover_image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'created_at': '2024-12-05T13:57:59.379424Z'}]
+Fetching main page advertisements...
+Current date: 2024-12-13
+=== Начало выполнения функции books_news ===
+Found 0 active advertisements
+Advertisements serialized successfully
+Найдено новых книг: 3
+
+                Книга ID: 16
+                Название: куопуалодопци
+                Описание: цпцйкйрекекуеекйу
+                Изображение: books/5VgZtO9jy5g_pv9z9yw.jpg
+            
+
+                Книга ID: 15
+                Название: ПерекладПереклад
+                Описание: цкуереукццкеку
+                Изображение: books/ZBd9XTYqO1Y_cS7HYHY.jpg
+            
+
+                Книга ID: 14
+                Название: АвторськаАвторська
+                Описание: ыапруеекуерпа
+                Изображение: books/YfyJVFIhJ-M_DblDUMQ.jpg
+            
+Формирование URL для background_image: /media/books/5VgZtO9jy5g_pv9z9yw.jpg
+Формирование URL для cover_image: /media/books/5VgZtO9jy5g_pv9z9yw.jpg
+Формирование URL для background_image: /media/books/ZBd9XTYqO1Y_cS7HYHY.jpg
+Формирование URL для cover_image: /media/books/ZBd9XTYqO1Y_cS7HYHY.jpg
+Формирование URL для background_image: /media/books/YfyJVFIhJ-M_DblDUMQ.jpg
+Формирование URL для cover_image: /media/books/YfyJVFIhJ-M_DblDUMQ.jpg
+Данные после сериализации: [{'id': 16, 'title': 'куопуалодопци', 'description': 'цпцйкйрекекуеекйу', 'image': 'http://localhost:8000/media/books/5VgZtO9jy5g_pv9z9yw.jpg', 'slug': 'kuopualodoptsi', 'background_image': 'http://localhost:8000/media/books/5VgZtO9jy5g_pv9z9yw.jpg', 'cover_image': 'http://localhost:8000/media/books/5VgZtO9jy5g_pv9z9yw.jpg', 'created_at': '2024-12-05T14:49:23.763399Z'}, {'id': 15, 'title': 'ПерекладПереклад', 'description': 'цкуереукццкеку', 'image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'slug': 'perekladpereklad', 'background_image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'cover_image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'created_at': '2024-12-05T13:58:43.460190Z'}, {'id': 14, 'title': 'АвторськаАвторська', 'description': 'ыапруеекуерпа', 'image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'slug': 'avtorskaavtorska', 'background_image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'cover_image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'created_at': '2024-12-05T13:57:59.379424Z'}]
+Fetching main page advertisements...
+=== Начало выполнения функции books_news ===
+Current date: 2024-12-13
+Найдено новых книг: 3
+Found 0 active advertisements
+
+                Книга ID: 16
+                Название: куопуалодопци
+                Описание: цпцйкйрекекуеекйу
+                Изображение: books/5VgZtO9jy5g_pv9z9yw.jpg
+            
+Advertisements serialized successfully
+
+                Книга ID: 15
+                Название: ПерекладПереклад
+                Описание: цкуереукццкеку
+                Изображение: books/ZBd9XTYqO1Y_cS7HYHY.jpg
+            
+
+                Книга ID: 14
+                Название: АвторськаАвторська
+                Описание: ыапруеекуерпа
+                Изображение: books/YfyJVFIhJ-M_DblDUMQ.jpg
+            
+Формирование URL для background_image: /media/books/5VgZtO9jy5g_pv9z9yw.jpg
+Формирование URL для cover_image: /media/books/5VgZtO9jy5g_pv9z9yw.jpg
+Формирование URL для background_image: /media/books/ZBd9XTYqO1Y_cS7HYHY.jpg
+Формирование URL для cover_image: /media/books/ZBd9XTYqO1Y_cS7HYHY.jpg
+Формирование URL для background_image: /media/books/YfyJVFIhJ-M_DblDUMQ.jpg
+Формирование URL для cover_image: /media/books/YfyJVFIhJ-M_DblDUMQ.jpg
+Данные после сериализации: [{'id': 16, 'title': 'куопуалодопци', 'description': 'цпцйкйрекекуеекйу', 'image': 'http://localhost:8000/media/books/5VgZtO9jy5g_pv9z9yw.jpg', 'slug': 'kuopualodoptsi', 'background_image': 'http://localhost:8000/media/books/5VgZtO9jy5g_pv9z9yw.jpg', 'cover_image': 'http://localhost:8000/media/books/5VgZtO9jy5g_pv9z9yw.jpg', 'created_at': '2024-12-05T14:49:23.763399Z'}, {'id': 15, 'title': 'ПерекладПереклад', 'description': 'цкуереукццкеку', 'image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'slug': 'perekladpereklad', 'background_image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'cover_image': 'http://localhost:8000/media/books/ZBd9XTYqO1Y_cS7HYHY.jpg', 'created_at': '2024-12-05T13:58:43.460190Z'}, {'id': 14, 'title': 'АвторськаАвторська', 'description': 'ыапруеекуерпа', 'image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'slug': 'avtorskaavtorska', 'background_image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'cover_image': 'http://localhost:8000/media/books/YfyJVFIhJ-M_DblDUMQ.jpg', 'created_at': '2024-12-05T13:57:59.379424Z'}]
+Internal Server Error: /api/users/translators/
+Internal Server Error: /api/users/translators/
+Internal Server Error: /api/users/translators/
+Internal Server Error: /api/users/translators/
+D:\Website\Fan-vers(React.Django)\backend\apps\users\api\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\users\api\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+Internal Server Error: /api/users/translators/
+Internal Server Error: /api/users/translators/
+D:\Website\Fan-vers(React.Django)\backend\apps\users\api\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\users\api\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+Error in get_translators_list: Cannot combine a unique query with a non-unique query.
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\backend\apps\users\api\views.py", line 146, in get_translators_list
+    profiles = (translator_profiles | literator_profiles).distinct()
+                ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\query.py", line 485, in __or__
+    combined.query.combine(other.query, sql.OR)
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\sql\query.py", line 688, in combine
+    raise TypeError("Cannot combine a unique query with a non-unique query.")
+TypeError: Cannot combine a unique query with a non-unique query.
+Error in get_translators_list: Cannot combine a unique query with a non-unique query.
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\backend\apps\users\api\views.py", line 146, in get_translators_list
+    profiles = (translator_profiles | literator_profiles).distinct()
+                ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\query.py", line 485, in __or__
+    combined.query.combine(other.query, sql.OR)
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\sql\query.py", line 688, in combine
+    raise TypeError("Cannot combine a unique query with a non-unique query.")
+TypeError: Cannot combine a unique query with a non-unique query.
+Internal Server Error: /api/users/translators/
+Internal Server Error: /api/users/translators/
+Error in get_translators_list: Cannot combine a unique query with a non-unique query.
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\backend\apps\users\api\views.py", line 146, in get_translators_list
+    profiles = (translator_profiles | literator_profiles).distinct()
+                ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\query.py", line 485, in __or__
+    combined.query.combine(other.query, sql.OR)
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\sql\query.py", line 688, in combine
+    raise TypeError("Cannot combine a unique query with a non-unique query.")
+TypeError: Cannot combine a unique query with a non-unique query.
+Error in get_translators_list: Cannot combine a unique query with a non-unique query.
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\backend\apps\users\api\views.py", line 146, in get_translators_list
+    profiles = (translator_profiles | literator_profiles).distinct()
+                ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\query.py", line 485, in __or__
+    combined.query.combine(other.query, sql.OR)
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\sql\query.py", line 688, in combine
+    raise TypeError("Cannot combine a unique query with a non-unique query.")
+TypeError: Cannot combine a unique query with a non-unique query.
+Internal Server Error: /api/users/translators/
+Internal Server Error: /api/users/translators/
+D:\Website\Fan-vers(React.Django)\backend\apps\users\api\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\users\api\urls.py changed, reloading.
+Watching for file changes with StatReloader
+Internal Server Error: /api/users/profile/1/
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+TypeError: get_user_profile() got an unexpected keyword argument 'username'
+Internal Server Error: /api/users/profile/1/
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+TypeError: get_user_profile() got an unexpected keyword argument 'username'
+Internal Server Error: /api/users/profile/Reergard/
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+TypeError: get_user_profile() got an unexpected keyword argument 'username'
+Internal Server Error: /api/users/profile/Reergard/
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+TypeError: get_user_profile() got an unexpected keyword argument 'username'
+D:\Website\Fan-vers(React.Django)\backend\apps\users\api\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\users\api\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+Unauthorized: /api/users/profile/
+Unauthorized: /api/users/profile/
+D:\Website\Fan-vers(React.Django)\backend\apps\users\models.py changed, reloading.
+Watching for file changes with StatReloader

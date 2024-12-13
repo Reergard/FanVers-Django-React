@@ -7,8 +7,9 @@ import BookDetailRouter from './catalog/pages/BookDetailRouter';
 import ChapterDetail from './catalog/pages/ChapterDetail';
 import AddChapter from './catalog/pages/AddChapter';
 import SearchPage from './search/pages/SearchPage';
-
 import Profile from './users/pages/Profile';
+import TranslatorsList from './users/pages/TranslatorsList';
+import ProfilesUsers from './users/pages/ProfilesUsers';
 import BookmarksPage from './navigation/pages/BookmarksPage';
 import ChatPage from './chat/pages/ChatPage';
 import EditChapter from './editors/pages/EditChapter';
@@ -62,6 +63,8 @@ function App() {
             <Route path="/books/:slug" element={<BookDetailRouter />} />
             <Route path="/create-translation" element={<CreateTranslation />} />
             <Route path="/search" element={<SearchPage />} />
+            <Route path="/translators" element={<TranslatorsList />} />
+            <Route path="/profile/:userId" element={<ProfilesUsers />} />
             <Route path="/profile" element={
               <PrivateRoute>
                 <Profile />

@@ -9,6 +9,14 @@ export const usersAPI = {
             throw error;
         }
     },
+
+    getTranslatorsList: () => {
+        return api.get('/users/translators/').then(response => response.data);
+    },
+    
+    getUserProfile: (username) => {
+        return api.get(`/users/profile/${username}/`).then(response => response.data);
+    },
     
     updateBalance: async (amount) => {
         try {

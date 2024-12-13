@@ -3,6 +3,9 @@ from djoser.serializers import UserCreateSerializer
 from apps.users.models import User, Profile
 from apps.catalog.models import Chapter, Book
 from django.db import models
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class CreateUserSerializer(UserCreateSerializer):
@@ -53,6 +56,46 @@ class ProfileSerializer(serializers.ModelSerializer):
             owner=obj.user,
             book_type='TRANSLATION'
         ).count()
+
+
+class TranslatorListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ['id', 'username', 'role', 'image']
+
+    def to_representation(self, instance):
+        try:
+            data = super().to_representation(instance)
+            if instance.image:
+                data['image'] = instance.image.url
+            return data
+        except Exception as e:
+            logger.error(f"Error in TranslatorListSerializer: {str(e)}", exc_info=True)
+            raise
+
+
+class UsersProfilesSerializer(serializers.ModelSerializer):
+    total_books = serializers.SerializerMethodField()
+    username = serializers.CharField(source='user.username')
+
+    class Meta:
+        model = Profile
+        fields = ['id', 'username', 'role', 'about', 'image', 'total_books']
+
+    def get_total_books(self, obj):
+        return obj.user.owned_books.count()
+
+    def to_representation(self, instance):
+        try:
+            data = super().to_representation(instance)
+            if instance.image:
+                data['image'] = instance.image.url
+            return data
+        except Exception as e:
+            logger.error(f"Error in UsersProfilesSerializer: {str(e)}", exc_info=True)
+            raise
+
+
 
 
 class UserSerializer(serializers.ModelSerializer):
