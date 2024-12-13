@@ -68,6 +68,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'apps.users.middleware.RequestMiddleware',  # Добавляем наш middleware
     # 'django.middleware.cache.FetchFromCacheMiddleware', # запобігає кешуванню
     # 'django.middleware.cache.UpdateCacheMiddleware',    # запобігає кешуванню
     # 'apps.main.middleware.no_cache_middleware',  # запобігає кешуванню  (файл middleware.py)
@@ -96,7 +97,7 @@ CORS_ALLOW_HEADERS = [
     "user-agent",
     "x-csrftoken",
     "x-requested-with",
-    "x-request-id",  # Добавляем заголовок для отслеживания запросов
+    "x-request-id",  # Добавляем заголовок ля отслеживания запросов
     "cache-control"  # Добавляем для no-cache
 ]
 
@@ -142,7 +143,16 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny', 
     ],
-    # ...
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle',
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '100/day',
+        'user': '1000/day',
+        'profile': '100/day',    # Для ProfileThrottle
+        'balance': '10/hour'     # Для BalanceOperationThrottle
+    }
 }
 
 DJOSER = {
@@ -306,24 +316,52 @@ AUTH_USER_MODEL = 'users.User'
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+    },
     'handlers': {
         'console': {
             'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
         },
         'file': {
             'class': 'logging.FileHandler',
+            'filename': 'debug.log',
+            'formatter': 'verbose'
+        },
+        'celery_file': {
+            'class': 'logging.FileHandler',
             'filename': 'celery.log',
+            'formatter': 'verbose'
         },
     },
-    'root': {
-        'handlers': ['console', 'file'],
-        'level': 'INFO',
-    },
     'loggers': {
-        'celery': {
+        'django': {
             'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'apps.users': {
+            'handlers': ['console', 'file'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'celery': {
+            'handlers': ['console', 'celery_file'],
             'level': 'INFO',
             'propagate': False,
         },
     },
+}
+
+# Максимальная сумма операции с балансом
+MAX_BALANCE_OPERATION_AMOUNT = 1000000
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    }
 }

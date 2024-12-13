@@ -26,3 +26,43 @@
     color: #fff;
     font-weight: 600;
 }
+
+.balance-history {
+    margin-top: 2rem;
+}
+
+.operation-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.operation-type {
+    font-weight: bold;
+    min-width: 100px;
+}
+
+.operation-amount {
+    color: #666;
+}
+
+.operation-date {
+    color: #888;
+}
+
+.operation-status {
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+}
+
+.operation-status.completed {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.operation-status.failed {
+    background-color: #f8d7da;
+    color: #721c24;
+}

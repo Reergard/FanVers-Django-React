@@ -2,13 +2,12 @@ import React from 'react';
 import Modal from 'react-modal';
 import '../styles/ModalBalance.css';
 
-const ModalDepositBalance = ({ show, onHide, amount, setAmount, onSubmit, loading }) => {
-    if (!show) return null;
+// Устанавливаем корневой элемент один раз вне компонента
+Modal.setAppElement('#root');
 
+const ModalDepositBalance = ({ show, onHide, amount, setAmount, onSubmit, loading }) => {
     const handleAmountChange = (e) => {
-        // Убираем все нечисловые символы, кроме точки
         const value = e.target.value.replace(/[^\d.]/g, '');
-        // Проверяем, что это валидное число
         if (value === '' || !isNaN(value)) {
             setAmount(value);
         }
@@ -20,9 +19,9 @@ const ModalDepositBalance = ({ show, onHide, amount, setAmount, onSubmit, loadin
             onRequestClose={onHide}
             className="balance-modal"
             overlayClassName="balance-modal__overlay"
-            ariaHideApp={false}
             shouldCloseOnOverlayClick={true}
             shouldCloseOnEsc={true}
+            contentLabel="Поповнення балансу"
         >
             <div className="balance-modal__container">
                 <h2 className="balance-modal__title">Поповнення балансу</h2>
@@ -43,6 +42,7 @@ const ModalDepositBalance = ({ show, onHide, amount, setAmount, onSubmit, loadin
                         <button 
                             className="balance-modal__button balance-modal__button--secondary" 
                             onClick={onHide}
+                            type="button"
                         >
                             Скасувати
                         </button>
@@ -50,12 +50,17 @@ const ModalDepositBalance = ({ show, onHide, amount, setAmount, onSubmit, loadin
                             className="balance-modal__button balance-modal__button--primary" 
                             onClick={onSubmit}
                             disabled={!amount || parseFloat(amount) <= 0 || loading}
+                            type="button"
                         >
                             {loading ? 'Обробка...' : 'Підтвердити'}
                         </button>
                     </div>
                 </div>
-                <button className="balance-modal__close" onClick={onHide}>
+                <button 
+                    className="balance-modal__close" 
+                    onClick={onHide}
+                    type="button"
+                >
                     ✕
                 </button>
             </div>

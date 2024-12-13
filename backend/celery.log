@@ -23368,3 +23368,14 @@ Unauthorized: /api/users/profile/
 Unauthorized: /api/users/profile/
 D:\Website\Fan-vers(React.Django)\backend\apps\users\models.py changed, reloading.
 Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\users\models.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\users\models.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\users\api\views.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\users\api\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\apps\users\api\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+D:\Website\Fan-vers(React.Django)\backend\FanVers_project\settings.py changed, reloading.

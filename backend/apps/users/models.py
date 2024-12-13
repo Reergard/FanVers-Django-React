@@ -1,8 +1,10 @@
 import uuid
-from django.db import models
+from django.db import models, transaction
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, Group
 from django.utils.translation import gettext_lazy as _
 from .managers import CustomUserManager
+from django.core.exceptions import ValidationError
+from .middleware import get_current_request
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -70,10 +72,47 @@ class Profile(models.Model):
         else:
             return f"Id:{self.id}, {self.user.username}"
 
-    def update_balance(self, amount):
-        self.balance += amount
-        self.save()
-        return self.balance
+    def update_balance(self, amount, operation_type):
+        with transaction.atomic():
+            if operation_type == 'withdraw' and self.balance < amount:
+                raise ValidationError('Недостатньо коштів')
+            
+            if operation_type in ['withdraw', 'purchase']:
+                self.balance -= amount
+            else:
+                self.balance += amount
+            
+            self.save()
+            
+            balance_log = self.balance_logs.create(
+                amount=amount,
+                operation_type=operation_type,
+                status='completed'
+            )
+            
+            return balance_log
+    
+    def can_perform_operation(self, operation_type, amount=None):
+        if operation_type == 'withdraw':
+            return self.balance >= amount
+        return True
+    
+    @property
+    def is_owner(self):
+        request = get_current_request()
+        if request and request.user:
+            return self.user == request.user
+        return False
+    
+    @property
+    def total_balance_operations(self):
+        return self.balance_logs.all()
+    
+    def get_balance_history(self, operation_type=None):
+        logs = self.balance_logs.all()
+        if operation_type:
+            logs = logs.filter(operation_type=operation_type)
+        return logs
 
     def save(self, *args, **kwargs):
         # Если это новый профиль без роли, устанавливаем роль из группы
@@ -90,6 +129,40 @@ class Profile(models.Model):
                 self.user.groups.add(group)
         
         super().save(*args, **kwargs)
+
+
+class BalanceLog(models.Model):
+    profile = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE,
+        related_name='balance_logs'
+    )
+    amount = models.DecimalField(
+        max_digits=10,
+        decimal_places=2
+    )
+    operation_type = models.CharField(
+        max_length=20,
+        choices=[
+            ('deposit', 'Поповнення'),
+            ('withdraw', 'Виведення'),
+            ('purchase', 'Покупка'),
+            ('earning', 'Заробіток')
+        ]
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(
+        max_length=20,
+        choices=[
+            ('pending', 'В обробці'),
+            ('completed', 'Завершено'),
+            ('failed', 'Помилка')
+        ],
+        default='pending'
+    )
+    
+    class Meta:
+        ordering = ['-created_at']
 
 
 @receiver(post_save, sender=User)

@@ -49,12 +49,19 @@ export const usersAPI = {
     },
     
     depositBalance: async (amount) => {
-        const response = await api.post('/users/deposit-balance/', { amount });
+        const response = await api.post('/users/add-balance/', { amount });
         return response.data;
     },
     
     withdrawBalance: async (amount) => {
-        const response = await api.post('/users/withdraw-balance/', { amount });
+        const response = await api.post('/users/withdraw-balance/', 
+            { amount },
+            {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+                }
+            }
+        );
         return response.data;
     },
     

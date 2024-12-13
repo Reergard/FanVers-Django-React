@@ -10,15 +10,24 @@ from ..models import Advertisement
 from apps.users.models import User
 from dateutil import parser
 from zoneinfo import ZoneInfo
+from rest_framework.throttling import UserRateThrottle
 
-# Настраиваем логгер
+
 logger = logging.getLogger(__name__)
+
+class AdvertisementThrottle(UserRateThrottle):
+    rate = '60/minute'
 
 class AdvertisementViewSet(viewsets.ModelViewSet):
     serializer_class = AdvertisementSerializer
-    permission_classes = [IsAuthenticated]
+    # throttle_classes = [AdvertisementThrottle]  # Раскомментировать на продакшене
     queryset = Advertisement.objects.all()
     
+    def get_permissions(self):
+        if self.action == 'main_page_ads':
+            return []  # Публичный доступ для main_page_ads
+        return [IsAuthenticated()]  # Авторизация для остальных действий
+
     def get_queryset(self):
         logger.info(f"Getting advertisements for user: {self.request.user.id}")
         return Advertisement.objects.filter(user=self.request.user)
