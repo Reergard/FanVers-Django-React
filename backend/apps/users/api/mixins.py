@@ -7,7 +7,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 class BalanceOperationMixin:
-    MAX_OPERATION_AMOUNT = getattr(settings, 'MAX_BALANCE_OPERATION_AMOUNT', 1000000)
+    MAX_OPERATION_AMOUNT = 10000  # Максимальная сумма операции
 
     @transaction.atomic
     def perform_balance_operation(self, profile, amount, operation_type):
@@ -28,7 +28,7 @@ class BalanceOperationMixin:
                 
             profile.save()
             
-            # Создаем запись в логе
+            # Создаем запись в логе с дополнительной информацией
             BalanceLog.objects.create(
                 profile=profile,
                 amount=amount,
@@ -42,7 +42,6 @@ class BalanceOperationMixin:
             raise ValidationError('Профіль не знайдено')
         except Exception as e:
             logger.error(f"Balance operation error: {str(e)}", exc_info=True)
-            # Логируем неудачную операцию
             if 'profile' in locals():
                 BalanceLog.objects.create(
                     profile=profile,

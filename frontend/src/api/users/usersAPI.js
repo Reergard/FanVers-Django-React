@@ -1,5 +1,9 @@
 import { api } from '../instance';
 
+let purchaseInProgress = false;
+let lastPurchaseTime = 0;
+const PURCHASE_COOLDOWN = 5000; // 5 секунд между попытками
+
 export const usersAPI = {
     getProfile: async () => {
         try {
@@ -31,11 +35,36 @@ export const usersAPI = {
     },
     
     purchaseChapter: async (chapterId) => {
+        const now = Date.now();
+        
+        if (purchaseInProgress) {
+            throw new Error('Купівля вже в процесі');
+        }
+
+        if (now - lastPurchaseTime < PURCHASE_COOLDOWN) {
+            throw new Error('Будь ласка, зачекайте перед наступною спробою');
+        }
+
         try {
-            const response = await api.post(`/users/purchase-chapter/${chapterId}/`);
+            purchaseInProgress = true;
+            lastPurchaseTime = now;
+
+            const response = await api.post(`/users/purchase-chapter/${chapterId}/`, null, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                }
+            });
+
             return response.data;
         } catch (error) {
+            if (error.response?.status === 429) {
+                throw new Error('Занадто багато запитів. Будь ласка, зачекайте хвилину');
+            }
             throw error;
+        } finally {
+            setTimeout(() => {
+                purchaseInProgress = false;
+            }, PURCHASE_COOLDOWN);
         }
     },
     

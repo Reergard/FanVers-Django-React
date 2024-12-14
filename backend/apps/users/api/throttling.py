@@ -5,3 +5,6 @@ class ProfileThrottle(UserRateThrottle):
 
 class BalanceOperationThrottle(UserRateThrottle):
     rate = '10/hour'  # Ограничение на операции с балансом - 10 в час 
+
+class PurchaseThrottle(UserRateThrottle):
+    rate = '30/minute'  # Разрешаем 30 покупок в минуту

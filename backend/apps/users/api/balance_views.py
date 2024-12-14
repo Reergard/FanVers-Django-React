@@ -132,34 +132,54 @@ def update_balance(request):
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-@throttle_classes([BalanceOperationThrottle])
 def purchase_chapter(request, chapter_id):
     try:
         chapter = get_object_or_404(Chapter, id=chapter_id)
-        user_profile = request.user.profile
-
-        if user_profile.purchased_chapters.filter(id=chapter_id).exists():
+        buyer_profile = request.user.profile
+        owner_profile = chapter.book.owner.profile
+        
+        # Проверяем, не куплена ли уже глава
+        if buyer_profile.purchased_chapters.filter(id=chapter_id).exists():
             return Response(
-                {'error': 'Глава вже придбана'}, 
+                {'message': 'Глава вже придбана'}, 
+                status=status.HTTP_200_OK
+            )
+
+        chapter_price = chapter.price
+        commission_percent = owner_profile.commission
+        owner_amount = chapter_price * (1 - commission_percent / 100)
+
+        # Проверяем достаточно ли средств
+        if buyer_profile.balance < chapter_price:
+            return Response(
+                {'error': 'Недостатньо коштів'}, 
                 status=status.HTTP_400_BAD_REQUEST
             )
 
         balance_mixin = BalanceOperationMixin()
         
         with transaction.atomic():
-            # Списываем средства
-            new_balance = balance_mixin.perform_balance_operation(
-                user_profile,
-                chapter.price,
+            # Списываем полную сумму с покупателя
+            balance_mixin.perform_balance_operation(
+                buyer_profile,
+                chapter_price,
                 'purchase'
             )
-            # Добавляем главу в купленные
-            user_profile.purchased_chapters.add(chapter)
+            
+            # Начисляем сумму за вычетом комиссии владельцу
+            balance_mixin.perform_balance_operation(
+                owner_profile,
+                owner_amount,
+                'deposit'
+            )
+            
+            buyer_profile.purchased_chapters.add(chapter)
 
         return Response({
             'message': 'Глава успішно придбана',
-            'new_balance': new_balance,
-            'chapter_id': chapter_id
+            'new_balance': buyer_profile.balance,
+            'chapter_id': chapter_id,
+            'is_purchased': True
         })
 
     except ValidationError as e:

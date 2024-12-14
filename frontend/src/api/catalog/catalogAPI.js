@@ -312,6 +312,19 @@ const deleteChapter = async (bookSlug, chapterId) => {
     }
 };
 
+const getVolumeList = async (bookSlug) => {
+    try {
+        const response = await api.get(`/catalog/books/${bookSlug}/volumes/`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching volumes:', error);
+        if (error.response?.status === 404) {
+            throw new Error('Книга не знайдена');
+        }
+        throw new Error('Помилка при завантаженні томів');
+    }
+};
+
 export const catalogAPI = {
     fetchGenres,
     fetchTags,
@@ -328,6 +341,7 @@ export const catalogAPI = {
     getOwnedBooks,
     getBookTitle,
     deleteChapter,
+    getVolumeList,
 };
 
 export {
@@ -346,4 +360,5 @@ export {
     getOwnedBooks,
     getBookTitle,
     deleteChapter,
+    getVolumeList,
 };

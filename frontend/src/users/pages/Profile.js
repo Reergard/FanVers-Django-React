@@ -106,6 +106,10 @@ const Profile = () => {
                                     <span className="label">Баланс:</span>
                                     <span className="value">{profile.balance} грн</span>
                                 </div>
+                                <div className="info-item">
+                                    <span className="label">Комісія:</span>
+                                    <span className="value">{profile.commission}%</span>
+                                </div>
                             </div>
 
                             <div className="profile-stats">

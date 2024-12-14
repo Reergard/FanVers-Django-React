@@ -32,12 +32,13 @@ class ProfileSerializer(serializers.ModelSerializer):
     total_translations = serializers.SerializerMethodField()
     is_owner = serializers.SerializerMethodField()
     balance_history = serializers.SerializerMethodField()
+    commission = serializers.DecimalField(max_digits=5, decimal_places=2, read_only=True)
 
     class Meta:
         model = Profile
         fields = ['id', 'username', 'about', 'image', 'role',
                  'total_characters', 'total_chapters', 'free_chapters', 
-                 'total_author', 'total_translations', 'is_owner', 'balance_history']
+                 'total_author', 'total_translations', 'is_owner', 'balance_history', 'commission']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

@@ -8,6 +8,7 @@ from .middleware import get_current_request
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.db.models import Sum
 
 
 def generate_token():
@@ -60,6 +61,12 @@ class Profile(models.Model):
         ],
         default='Читач',
         verbose_name='Роль користувача'
+    )
+    commission = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        default=15.00,
+        verbose_name='Комісія (%)'
     )
 
     class Meta:
@@ -130,6 +137,19 @@ class Profile(models.Model):
         
         super().save(*args, **kwargs)
 
+    def update_commission(self):
+        total_chars = self.user.owned_books.aggregate(
+            total=models.Sum('chapters__characters_count')
+        )['total'] or 0
+
+        if total_chars >= 10000000:  # 10 миллионов
+            self.commission = 10.00
+        elif total_chars >= 5000000:  # 5 миллионов
+            self.commission = 12.00
+        else:
+            self.commission = 15.00
+        self.save(update_fields=['commission'])
+
 
 class BalanceLog(models.Model):
     profile = models.ForeignKey(
@@ -180,3 +200,10 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
+
+
+@receiver(post_save, sender='catalog.Chapter')
+def update_user_commission(sender, instance, **kwargs):
+    if instance.book and instance.book.owner:
+        profile = instance.book.owner.profile
+        profile.update_commission()
