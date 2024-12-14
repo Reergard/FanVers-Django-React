@@ -7,13 +7,17 @@ import logging
 logger = logging.getLogger(__name__)
 
 class BalanceOperationMixin:
-    MAX_OPERATION_AMOUNT = 10000  # Максимальная сумма операции
+    MIN_DEPOSIT_AMOUNT = 100
+    MIN_WITHDRAW_AMOUNT = 1000
 
     @transaction.atomic
     def perform_balance_operation(self, profile, amount, operation_type):
         try:
-            if amount > self.MAX_OPERATION_AMOUNT:
-                raise ValidationError(f'Максимальна сума операції: {self.MAX_OPERATION_AMOUNT}')
+            if operation_type == 'deposit' and amount < self.MIN_DEPOSIT_AMOUNT:
+                raise ValidationError(f'Мінімальна сума поповнення: {self.MIN_DEPOSIT_AMOUNT} грн')
+            
+            if operation_type == 'withdraw' and amount < self.MIN_WITHDRAW_AMOUNT:
+                raise ValidationError(f'Мінімальна сума виведення: {self.MIN_WITHDRAW_AMOUNT} грн')
 
             profile = Profile.objects.select_for_update().get(id=profile.id)
             
@@ -21,32 +25,32 @@ class BalanceOperationMixin:
                 if profile.balance < amount:
                     raise ValidationError('Недостатньо коштів')
                 profile.balance -= amount
-            elif operation_type == 'deposit':
+            elif operation_type in ['deposit', 'earning']:
                 profile.balance += amount
             else:
                 raise ValidationError('Невідомий тип операції')
                 
             profile.save()
             
-            # Создаем запись в логе с дополнительной информацией
-            BalanceLog.objects.create(
-                profile=profile,
-                amount=amount,
-                operation_type=operation_type,
-                status='completed'
-            )
-            
+            # Логируем операцию с балансом
+            if operation_type in ['deposit', 'withdraw']:
+                from apps.monitoring.models import BalanceOperationLog
+                BalanceOperationLog.objects.create(
+                    profile=profile,
+                    amount=amount,
+                    operation_type=operation_type,
+                    status='completed'
+                )
+
             return profile.balance
-            
-        except Profile.DoesNotExist:
-            raise ValidationError('Профіль не знайдено')
+
         except Exception as e:
-            logger.error(f"Balance operation error: {str(e)}", exc_info=True)
-            if 'profile' in locals():
-                BalanceLog.objects.create(
+            if operation_type in ['deposit', 'withdraw']:
+                from apps.monitoring.models import BalanceOperationLog
+                BalanceOperationLog.objects.create(
                     profile=profile,
                     amount=amount,
                     operation_type=operation_type,
                     status='failed'
                 )
-            raise ValidationError('Помилка при операції з балансом') 
+            raise

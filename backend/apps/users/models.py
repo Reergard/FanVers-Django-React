@@ -116,6 +116,7 @@ class Profile(models.Model):
         return self.balance_logs.all()
     
     def get_balance_history(self, operation_type=None):
+        """Получение истории операций с балансом"""
         logs = self.balance_logs.all()
         if operation_type:
             logs = logs.filter(operation_type=operation_type)
@@ -138,6 +139,7 @@ class Profile(models.Model):
         super().save(*args, **kwargs)
 
     def update_commission(self):
+        """Обновление комиссии на основе количества символов"""
         total_chars = self.user.owned_books.aggregate(
             total=models.Sum('chapters__characters_count')
         )['total'] or 0
@@ -149,6 +151,10 @@ class Profile(models.Model):
         else:
             self.commission = 15.00
         self.save(update_fields=['commission'])
+
+    def calculate_commission_amount(self, price):
+        """Расчет суммы комиссии"""
+        return price * (self.commission / 100)
 
 
 class BalanceLog(models.Model):

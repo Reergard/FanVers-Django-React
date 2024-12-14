@@ -44,9 +44,10 @@ INSTALLED_APPS = [
     'apps.reviews',
     'apps.navigation',
     'apps.chat',
-    'apps.editors', 
+    'apps.editors',
     'apps.website_advertising',
     'apps.notification.apps.NotificationConfig',
+    'apps.monitoring.apps.MonitoringConfig',
 
     
     'rest_framework',

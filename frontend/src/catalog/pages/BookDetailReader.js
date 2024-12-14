@@ -118,14 +118,13 @@ const BookDetailReader = () => {
       }
       
     } catch (error) {
-      console.error('Purchase error:', error);
-      if (error.response?.status === 429) {
-        toast.error('Перевищено ліміт спроб. Будь ласка, спробуйте пізніше');
-      } else if (error.response?.status === 400) {
-        toast.error(error.response.data.error || 'Помилка при купівлі глави');
-      } else {
-        toast.error('Помилка при купівлі глави');
-      }
+      console.error('Purchase error details:', {
+        message: error.response?.data?.error || error.message,
+        status: error.response?.status,
+        data: error.response?.data
+      });
+      
+      toast.error(error.response?.data?.error || 'Помилка при купівлі глави');
     } finally {
       // Задержка перед сбросом состояния
       setTimeout(() => {

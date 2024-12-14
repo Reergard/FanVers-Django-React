@@ -6000,3 +6000,460 @@ INFO 2024-12-14 15:11:06,288 basehttp 6240 20968 "GET /api/auth/users/me/ HTTP/1
 INFO 2024-12-14 15:11:06,304 basehttp 6240 15876 "GET /api/auth/users/me/ HTTP/1.1" 200 65
 INFO 2024-12-14 15:11:06,320 basehttp 6240 2444 "GET /api/users/profile/ HTTP/1.1" 200 652
 INFO 2024-12-14 15:11:06,320 basehttp 6240 18476 "GET /api/users/profile/ HTTP/1.1" 200 652
+INFO 2024-12-14 18:51:24,864 autoreload 10536 9448 Watching for file changes with StatReloader
+INFO 2024-12-14 18:52:03,409 basehttp 10536 12668 "OPTIONS /api/users/add-balance/ HTTP/1.1" 200 0
+WARNING 2024-12-14 18:52:03,496 log 10536 12668 Unauthorized: /api/users/add-balance/
+WARNING 2024-12-14 18:52:03,496 basehttp 10536 12668 "POST /api/users/add-balance/ HTTP/1.1" 401 183
+INFO 2024-12-14 18:52:03,504 basehttp 10536 12668 "OPTIONS /api/auth/jwt/refresh/ HTTP/1.1" 200 0
+INFO 2024-12-14 18:52:03,512 basehttp 10536 12668 "POST /api/auth/jwt/refresh/ HTTP/1.1" 200 241
+INFO 2024-12-14 18:52:03,528 basehttp 10536 12668 "OPTIONS /api/users/add-balance/ HTTP/1.1" 200 0
+INFO 2024-12-14 18:52:03,552 basehttp 10536 12668 "POST /api/users/add-balance/ HTTP/1.1" 200 80
+INFO 2024-12-14 18:52:26,139 basehttp 10536 2704 "OPTIONS /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 0
+INFO 2024-12-14 18:52:26,139 basehttp 10536 20072 "OPTIONS /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 0
+INFO 2024-12-14 18:52:26,139 basehttp 10536 20060 "OPTIONS /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 0
+INFO 2024-12-14 18:52:26,147 basehttp 10536 19788 "OPTIONS /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 0
+WARNING 2024-12-14 18:52:26,155 log 10536 2704 Unauthorized: /api/catalog/books/info/avtorskaavtorska/
+WARNING 2024-12-14 18:52:26,163 basehttp 10536 2704 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 401 183
+WARNING 2024-12-14 18:52:26,155 log 10536 19788 Unauthorized: /api/navigation/bookmarks/status/14/
+WARNING 2024-12-14 18:52:26,163 log 10536 20072 Unauthorized: /api/rating/avtorskaavtorska/book-ratings/
+WARNING 2024-12-14 18:52:26,155 log 10536 20060 Unauthorized: /api/catalog/books/avtorskaavtorska/chapters/
+WARNING 2024-12-14 18:52:26,163 basehttp 10536 20060 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 401 183
+WARNING 2024-12-14 18:52:26,163 basehttp 10536 20072 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 401 183
+WARNING 2024-12-14 18:52:26,163 basehttp 10536 19788 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 401 183
+INFO 2024-12-14 18:52:26,184 basehttp 10536 20060 "OPTIONS /api/auth/jwt/refresh/ HTTP/1.1" 200 0
+INFO 2024-12-14 18:52:26,184 basehttp 10536 20072 "OPTIONS /api/auth/jwt/refresh/ HTTP/1.1" 200 0
+INFO 2024-12-14 18:52:26,184 basehttp 10536 20060 "POST /api/auth/jwt/refresh/ HTTP/1.1" 200 241
+INFO 2024-12-14 18:52:26,192 basehttp 10536 2704 "POST /api/auth/jwt/refresh/ HTTP/1.1" 200 241
+INFO 2024-12-14 18:52:26,192 basehttp 10536 20072 "POST /api/auth/jwt/refresh/ HTTP/1.1" 200 241
+INFO 2024-12-14 18:52:26,200 basehttp 10536 19788 "POST /api/auth/jwt/refresh/ HTTP/1.1" 200 241
+INFO 2024-12-14 18:52:26,216 basehttp 10536 2704 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 136
+INFO 2024-12-14 18:52:26,232 basehttp 10536 20060 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
+INFO 2024-12-14 18:52:26,248 basehttp 10536 20060 "OPTIONS /api/catalog/books/reader/avtorskaavtorska/ HTTP/1.1" 200 0
+INFO 2024-12-14 18:52:26,248 basehttp 10536 19788 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 25
+INFO 2024-12-14 18:52:26,272 basehttp 10536 20072 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 2083
+INFO 2024-12-14 18:52:26,272 basehttp 10536 20060 "GET /api/catalog/books/reader/avtorskaavtorska/ HTTP/1.1" 200 634
+INFO 2024-12-14 18:56:06,971 basehttp 10536 2704 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 136
+INFO 2024-12-14 18:56:06,971 basehttp 10536 20060 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
+INFO 2024-12-14 18:56:06,979 basehttp 10536 19788 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 25
+INFO 2024-12-14 18:56:06,995 basehttp 10536 20072 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 2083
+INFO 2024-12-14 18:56:07,027 basehttp 10536 20072 "GET /api/catalog/books/reader/avtorskaavtorska/ HTTP/1.1" 200 634
+INFO 2024-12-14 18:56:17,279 basehttp 10536 12668 "OPTIONS /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 0
+INFO 2024-12-14 18:56:17,279 basehttp 10536 12668 "OPTIONS /api/catalog/books/avtorskaavtorska/volumes/ HTTP/1.1" 200 0
+INFO 2024-12-14 18:56:17,287 basehttp 10536 12668 "OPTIONS /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 0
+INFO 2024-12-14 18:56:17,287 basehttp 10536 12668 "OPTIONS /api/catalog/books/avtorskaavtorska/volumes/ HTTP/1.1" 200 0
+INFO 2024-12-14 18:56:17,295 basehttp 10536 12668 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
+INFO 2024-12-14 18:56:17,303 basehttp 10536 12668 "GET /api/catalog/books/avtorskaavtorska/volumes/ HTTP/1.1" 200 95
+INFO 2024-12-14 18:56:17,319 basehttp 10536 12668 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
+INFO 2024-12-14 18:56:17,327 basehttp 10536 12668 "GET /api/catalog/books/avtorskaavtorska/volumes/ HTTP/1.1" 200 95
+INFO 2024-12-14 18:56:17,335 basehttp 10536 12668 "OPTIONS /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 0
+INFO 2024-12-14 18:56:17,335 basehttp 10536 12668 "OPTIONS /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 0
+INFO 2024-12-14 18:56:17,343 basehttp 10536 12668 "GET /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 595
+INFO 2024-12-14 18:56:17,351 basehttp 10536 12668 "GET /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 595
+INFO 2024-12-14 18:56:32,572 basehttp 10536 12668 "OPTIONS /api/catalog/books/avtorskaavtorska/add_chapter/ HTTP/1.1" 200 0
+INFO 2024-12-14 18:56:32,620 basehttp 10536 12668 "POST /api/catalog/books/avtorskaavtorska/add_chapter/ HTTP/1.1" 201 337
+INFO 2024-12-14 18:56:54,146 basehttp 10536 12668 "OPTIONS /api/catalog/books/avtorskaavtorska/add_chapter/ HTTP/1.1" 200 0
+INFO 2024-12-14 18:56:54,211 basehttp 10536 12668 "POST /api/catalog/books/avtorskaavtorska/add_chapter/ HTTP/1.1" 201 306
+INFO 2024-12-14 18:56:56,314 basehttp 10536 20072 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
+INFO 2024-12-14 18:56:56,314 basehttp 10536 20060 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 25
+INFO 2024-12-14 18:56:56,314 basehttp 10536 2704 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 136
+INFO 2024-12-14 18:56:56,338 basehttp 10536 20060 "GET /api/catalog/books/reader/avtorskaavtorska/ HTTP/1.1" 200 634
+INFO 2024-12-14 18:56:56,354 basehttp 10536 19788 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 2770
+INFO 2024-12-14 18:57:16,854 basehttp 10536 2704 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 25
+INFO 2024-12-14 18:57:16,854 basehttp 10536 20072 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 136
+INFO 2024-12-14 18:57:16,854 basehttp 10536 19788 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
+INFO 2024-12-14 18:57:16,878 basehttp 10536 19788 "GET /api/catalog/books/reader/avtorskaavtorska/ HTTP/1.1" 200 634
+INFO 2024-12-14 18:57:16,886 basehttp 10536 20060 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 2770
+INFO 2024-12-14 18:57:18,659 basehttp 10536 20060 "OPTIONS /api/users/purchase-chapter/33/ HTTP/1.1" 200 0
+ERROR 2024-12-14 18:57:18,675 mixins 10536 20060 Balance operation error: ['Невідомий тип операції']
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\backend\apps\users\api\mixins.py", line 27, in perform_balance_operation
+    raise ValidationError('Невідомий тип операції')
+django.core.exceptions.ValidationError: ['Невідомий тип операції']
+WARNING 2024-12-14 18:57:18,675 log 10536 20060 Bad Request: /api/users/purchase-chapter/33/
+WARNING 2024-12-14 18:57:18,675 basehttp 10536 20060 "POST /api/users/purchase-chapter/33/ HTTP/1.1" 400 74
+INFO 2024-12-14 18:57:26,518 basehttp 10536 20060 "OPTIONS /api/auth/users/me/ HTTP/1.1" 200 0
+INFO 2024-12-14 18:57:26,526 basehttp 10536 20060 "GET /api/auth/users/me/ HTTP/1.1" 200 58
+INFO 2024-12-14 18:57:26,543 basehttp 10536 20060 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
+INFO 2024-12-14 18:57:26,551 basehttp 10536 19788 "GET /api/auth/users/me/ HTTP/1.1" 200 58
+INFO 2024-12-14 18:57:26,599 basehttp 10536 19788 "GET /api/catalog/books/reader/avtorskaavtorska/ HTTP/1.1" 200 634
+INFO 2024-12-14 18:57:26,671 basehttp 10536 19788 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
+INFO 2024-12-14 18:57:26,695 basehttp 10536 19788 "GET /api/catalog/books/reader/avtorskaavtorska/ HTTP/1.1" 200 634
+INFO 2024-12-14 18:57:26,703 basehttp 10536 20060 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 2770
+INFO 2024-12-14 18:57:26,743 basehttp 10536 20072 "OPTIONS /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 0
+INFO 2024-12-14 18:57:26,743 basehttp 10536 19788 "OPTIONS /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 0
+INFO 2024-12-14 18:57:26,751 basehttp 10536 20060 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 25
+INFO 2024-12-14 18:57:26,759 basehttp 10536 19788 "GET /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 232
+INFO 2024-12-14 18:57:26,767 basehttp 10536 2704 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 136
+INFO 2024-12-14 18:57:26,775 basehttp 10536 19788 "GET /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 232
+INFO 2024-12-14 18:57:28,418 basehttp 10536 2704 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
+INFO 2024-12-14 18:57:28,418 basehttp 10536 19788 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
+INFO 2024-12-14 18:57:28,426 basehttp 10536 2704 "GET /api/auth/users/me/ HTTP/1.1" 200 58
+INFO 2024-12-14 18:57:28,434 basehttp 10536 2704 "GET /api/auth/users/me/ HTTP/1.1" 200 58
+INFO 2024-12-14 18:57:28,466 basehttp 10536 19788 "GET /api/users/profile/ HTTP/1.1" 200 1088
+INFO 2024-12-14 18:57:28,498 basehttp 10536 19788 "GET /api/users/profile/ HTTP/1.1" 200 1088
+INFO 2024-12-14 18:57:30,851 basehttp 10536 20060 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 25
+INFO 2024-12-14 18:57:30,867 basehttp 10536 20072 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 136
+INFO 2024-12-14 18:57:30,867 basehttp 10536 19788 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
+INFO 2024-12-14 18:57:30,891 basehttp 10536 19788 "GET /api/catalog/books/reader/avtorskaavtorska/ HTTP/1.1" 200 634
+INFO 2024-12-14 18:57:30,899 basehttp 10536 2704 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 2770
+INFO 2024-12-14 18:57:40,542 basehttp 10536 2704 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
+INFO 2024-12-14 18:57:40,550 basehttp 10536 20072 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 25
+INFO 2024-12-14 18:57:40,550 basehttp 10536 20060 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 136
+INFO 2024-12-14 18:57:40,574 basehttp 10536 20072 "GET /api/catalog/books/reader/avtorskaavtorska/ HTTP/1.1" 200 634
+INFO 2024-12-14 18:57:40,590 basehttp 10536 19788 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 2770
+ERROR 2024-12-14 18:57:46,243 mixins 10536 19788 Balance operation error: ['Невідомий тип операції']
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\backend\apps\users\api\mixins.py", line 27, in perform_balance_operation
+    raise ValidationError('Невідомий тип операції')
+django.core.exceptions.ValidationError: ['Невідомий тип операції']
+WARNING 2024-12-14 18:57:46,243 log 10536 19788 Bad Request: /api/users/purchase-chapter/33/
+WARNING 2024-12-14 18:57:46,243 basehttp 10536 19788 "POST /api/users/purchase-chapter/33/ HTTP/1.1" 400 74
+INFO 2024-12-14 18:57:55,441 basehttp 10536 20060 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 25
+INFO 2024-12-14 18:57:55,444 basehttp 10536 19788 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
+INFO 2024-12-14 18:57:55,450 basehttp 10536 2704 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 136
+INFO 2024-12-14 18:57:55,475 basehttp 10536 19788 "GET /api/catalog/books/reader/avtorskaavtorska/ HTTP/1.1" 200 634
+INFO 2024-12-14 18:57:55,483 basehttp 10536 20072 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 2770
+INFO 2024-12-14 18:58:02,464 basehttp 10536 20072 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
+INFO 2024-12-14 18:58:02,480 basehttp 10536 2704 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 25
+INFO 2024-12-14 18:58:02,480 basehttp 10536 20060 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 136
+INFO 2024-12-14 18:58:02,512 basehttp 10536 20060 "GET /api/catalog/books/reader/avtorskaavtorska/ HTTP/1.1" 200 634
+INFO 2024-12-14 18:58:02,536 basehttp 10536 19788 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 2770
+INFO 2024-12-14 18:59:09,034 autoreload 10536 9448 D:\Website\Fan-vers(React.Django)\backend\apps\users\api\balance_views.py changed, reloading.
+INFO 2024-12-14 18:59:11,000 autoreload 20532 16832 Watching for file changes with StatReloader
+INFO 2024-12-14 18:59:26,840 basehttp 20532 2880 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
+INFO 2024-12-14 18:59:26,864 basehttp 20532 2880 "GET /api/catalog/books/reader/avtorskaavtorska/ HTTP/1.1" 200 634
+INFO 2024-12-14 18:59:26,872 basehttp 20532 16976 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 2770
+INFO 2024-12-14 18:59:26,920 basehttp 20532 16976 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
+INFO 2024-12-14 18:59:26,952 basehttp 20532 16976 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 25
+INFO 2024-12-14 18:59:26,968 basehttp 20532 16976 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 136
+INFO 2024-12-14 18:59:26,976 basehttp 20532 2880 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 2770
+INFO 2024-12-14 18:59:26,985 basehttp 20532 16976 "GET /api/catalog/books/reader/avtorskaavtorska/ HTTP/1.1" 200 634
+INFO 2024-12-14 18:59:29,551 basehttp 20532 8232 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 25
+INFO 2024-12-14 18:59:29,551 basehttp 20532 16272 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 136
+INFO 2024-12-14 18:59:29,559 basehttp 20532 16976 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
+INFO 2024-12-14 18:59:29,583 basehttp 20532 16976 "GET /api/catalog/books/reader/avtorskaavtorska/ HTTP/1.1" 200 634
+INFO 2024-12-14 18:59:29,591 basehttp 20532 2880 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 2770
+INFO 2024-12-14 18:59:34,289 basehttp 20532 2880 "GET /api/auth/users/me/ HTTP/1.1" 200 58
+INFO 2024-12-14 18:59:34,297 basehttp 20532 16976 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
+INFO 2024-12-14 18:59:34,297 basehttp 20532 2880 "GET /api/auth/users/me/ HTTP/1.1" 200 58
+INFO 2024-12-14 18:59:34,339 basehttp 20532 2880 "GET /api/catalog/books/reader/avtorskaavtorska/ HTTP/1.1" 200 634
+INFO 2024-12-14 18:59:34,403 basehttp 20532 2880 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
+INFO 2024-12-14 18:59:34,427 basehttp 20532 2880 "GET /api/catalog/books/reader/avtorskaavtorska/ HTTP/1.1" 200 634
+INFO 2024-12-14 18:59:34,435 basehttp 20532 16976 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 2770
+INFO 2024-12-14 18:59:34,459 basehttp 20532 16976 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 25
+INFO 2024-12-14 18:59:34,467 basehttp 20532 2880 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 136
+INFO 2024-12-14 18:59:34,475 basehttp 20532 16272 "GET /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 232
+INFO 2024-12-14 18:59:34,491 basehttp 20532 16272 "GET /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 232
+ERROR 2024-12-14 18:59:38,030 mixins 20532 16272 Balance operation error: ['Невідомий тип операції']
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\backend\apps\users\api\mixins.py", line 27, in perform_balance_operation
+    raise ValidationError('Невідомий тип операції')
+django.core.exceptions.ValidationError: ['Невідомий тип операції']
+ERROR 2024-12-14 18:59:38,035 balance_views 20532 16272 Transaction error: ['Помилка при операції з балансом']
+WARNING 2024-12-14 18:59:38,035 log 20532 16272 Bad Request: /api/users/purchase-chapter/33/
+WARNING 2024-12-14 18:59:38,035 basehttp 20532 16272 "POST /api/users/purchase-chapter/33/ HTTP/1.1" 400 75
+INFO 2024-12-14 18:59:45,182 basehttp 20532 8232 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 136
+INFO 2024-12-14 18:59:45,198 basehttp 20532 16272 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
+INFO 2024-12-14 18:59:45,254 basehttp 20532 16976 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 25
+INFO 2024-12-14 18:59:45,262 basehttp 20532 16272 "GET /api/catalog/books/reader/avtorskaavtorska/ HTTP/1.1" 200 634
+INFO 2024-12-14 18:59:45,262 basehttp 20532 2880 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 2770
+INFO 2024-12-14 18:59:58,019 basehttp 20532 16272 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
+INFO 2024-12-14 18:59:58,027 basehttp 20532 8232 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 136
+INFO 2024-12-14 18:59:58,043 basehttp 20532 16976 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 25
+INFO 2024-12-14 18:59:58,083 basehttp 20532 2880 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 2770
+INFO 2024-12-14 18:59:58,115 basehttp 20532 2880 "GET /api/catalog/books/reader/avtorskaavtorska/ HTTP/1.1" 200 634
+INFO 2024-12-14 19:09:29,613 autoreload 20532 16832 D:\Website\Fan-vers(React.Django)\backend\apps\users\api\mixins.py changed, reloading.
+INFO 2024-12-14 19:09:31,641 autoreload 15068 14140 Watching for file changes with StatReloader
+INFO 2024-12-14 19:09:59,197 autoreload 15068 14140 D:\Website\Fan-vers(React.Django)\backend\apps\users\models.py changed, reloading.
+INFO 2024-12-14 19:10:00,963 autoreload 9980 6388 Watching for file changes with StatReloader
+INFO 2024-12-14 19:10:46,292 autoreload 9980 6388 D:\Website\Fan-vers(React.Django)\backend\apps\users\api\balance_views.py changed, reloading.
+INFO 2024-12-14 19:10:48,155 autoreload 8364 6540 Watching for file changes with StatReloader
+INFO 2024-12-14 19:10:56,306 basehttp 8364 9616 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 25
+INFO 2024-12-14 19:10:56,322 basehttp 8364 19220 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
+INFO 2024-12-14 19:10:56,322 basehttp 8364 11828 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 136
+INFO 2024-12-14 19:10:56,346 basehttp 8364 11828 "GET /api/catalog/books/reader/avtorskaavtorska/ HTTP/1.1" 200 634
+INFO 2024-12-14 19:10:56,346 basehttp 8364 13276 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 2770
+INFO 2024-12-14 19:11:02,620 basehttp 8364 13276 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
+INFO 2024-12-14 19:11:02,682 basehttp 8364 9616 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 136
+INFO 2024-12-14 19:11:02,682 basehttp 8364 19220 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 25
+INFO 2024-12-14 19:11:02,690 basehttp 8364 13276 "GET /api/catalog/books/reader/avtorskaavtorska/ HTTP/1.1" 200 634
+INFO 2024-12-14 19:11:02,698 basehttp 8364 11828 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 2770
+INFO 2024-12-14 19:11:06,609 basehttp 8364 11828 "GET /api/auth/users/me/ HTTP/1.1" 200 58
+INFO 2024-12-14 19:11:06,612 basehttp 8364 13276 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
+INFO 2024-12-14 19:11:06,617 basehttp 8364 11828 "GET /api/auth/users/me/ HTTP/1.1" 200 58
+INFO 2024-12-14 19:11:06,689 basehttp 8364 11828 "GET /api/catalog/books/reader/avtorskaavtorska/ HTTP/1.1" 200 634
+INFO 2024-12-14 19:11:06,746 basehttp 8364 11828 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
+INFO 2024-12-14 19:11:06,778 basehttp 8364 13276 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 2770
+INFO 2024-12-14 19:11:06,794 basehttp 8364 11828 "GET /api/catalog/books/reader/avtorskaavtorska/ HTTP/1.1" 200 634
+INFO 2024-12-14 19:11:06,826 basehttp 8364 11828 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 25
+INFO 2024-12-14 19:11:06,834 basehttp 8364 13276 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 136
+INFO 2024-12-14 19:11:06,842 basehttp 8364 19220 "GET /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 232
+INFO 2024-12-14 19:11:06,854 basehttp 8364 19220 "GET /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 232
+INFO 2024-12-14 19:11:09,240 basehttp 8364 11828 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 25
+INFO 2024-12-14 19:11:09,240 basehttp 8364 19220 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
+INFO 2024-12-14 19:11:09,248 basehttp 8364 9616 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 136
+INFO 2024-12-14 19:11:09,264 basehttp 8364 13276 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 2770
+INFO 2024-12-14 19:11:09,272 basehttp 8364 9616 "GET /api/catalog/books/reader/avtorskaavtorska/ HTTP/1.1" 200 634
+INFO 2024-12-14 19:11:11,470 basehttp 8364 9616 "POST /api/users/purchase-chapter/33/ HTTP/1.1" 200 112
+INFO 2024-12-14 19:11:11,494 basehttp 8364 20188 "OPTIONS /api/notification/notifications/ HTTP/1.1" 200 0
+INFO 2024-12-14 19:11:11,510 basehttp 8364 19220 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 25
+INFO 2024-12-14 19:11:11,518 basehttp 8364 9616 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
+INFO 2024-12-14 19:11:11,526 basehttp 8364 11828 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 136
+INFO 2024-12-14 19:11:11,558 basehttp 8364 20188 "POST /api/notification/notifications/ HTTP/1.1" 201 943
+INFO 2024-12-14 19:11:11,582 basehttp 8364 9616 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
+INFO 2024-12-14 19:11:11,582 basehttp 8364 20188 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 136
+INFO 2024-12-14 19:11:11,590 basehttp 8364 19220 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 25
+INFO 2024-12-14 19:11:11,598 basehttp 8364 9616 "OPTIONS /api/navigation/books/avtorskaavtorska/chapters/uerkavtsp/navigation/ HTTP/1.1" 200 0
+INFO 2024-12-14 19:11:11,606 basehttp 8364 9616 "OPTIONS /api/catalog/books/avtorskaavtorska/chapters/uerkavtsp/ HTTP/1.1" 200 0
+INFO 2024-12-14 19:11:11,606 basehttp 8364 20188 "OPTIONS /api/catalog/books/avtorskaavtorska/chapters/uerkavtsp/ HTTP/1.1" 200 0
+INFO 2024-12-14 19:11:11,606 basehttp 8364 9616 "OPTIONS /api/navigation/books/avtorskaavtorska/chapters/uerkavtsp/navigation/ HTTP/1.1" 200 0
+INFO 2024-12-14 19:11:11,606 basehttp 8364 11828 "GET /api/catalog/books/reader/avtorskaavtorska/ HTTP/1.1" 200 634
+INFO 2024-12-14 19:11:11,614 basehttp 8364 20188 "OPTIONS /api/reviews/chapter/uerkavtsp/comments/ HTTP/1.1" 200 0
+INFO 2024-12-14 19:11:11,614 basehttp 8364 19220 "OPTIONS /api/reviews/chapter/uerkavtsp/comments/ HTTP/1.1" 200 0
+INFO 2024-12-14 19:11:11,622 basehttp 8364 13276 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 2769
+INFO 2024-12-14 19:11:11,646 basehttp 8364 19220 "GET /api/reviews/chapter/uerkavtsp/comments/ HTTP/1.1" 200 54
+INFO 2024-12-14 19:11:11,654 basehttp 8364 20188 "GET /api/catalog/books/reader/avtorskaavtorska/ HTTP/1.1" 200 634
+INFO 2024-12-14 19:11:11,671 basehttp 8364 19220 "GET /api/reviews/chapter/uerkavtsp/comments/ HTTP/1.1" 200 54
+INFO 2024-12-14 19:11:11,674 basehttp 8364 9616 "GET /api/navigation/books/avtorskaavtorska/chapters/uerkavtsp/navigation/ HTTP/1.1" 200 1079
+INFO 2024-12-14 19:11:11,690 basehttp 8364 13276 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 2769
+INFO 2024-12-14 19:11:11,858 basehttp 8364 9616 "GET /api/navigation/books/avtorskaavtorska/chapters/uerkavtsp/navigation/ HTTP/1.1" 200 1079
+INFO 2024-12-14 19:11:12,219 basehttp 8364 11828 "GET /api/catalog/books/avtorskaavtorska/chapters/uerkavtsp/ HTTP/1.1" 200 49674
+INFO 2024-12-14 19:11:12,227 basehttp 8364 11828 "GET /api/catalog/books/avtorskaavtorska/chapters/uerkavtsp/ HTTP/1.1" 200 49674
+INFO 2024-12-14 19:11:17,139 basehttp 8364 11828 "GET /api/auth/users/me/ HTTP/1.1" 200 58
+INFO 2024-12-14 19:11:17,155 basehttp 8364 11828 "GET /api/auth/users/me/ HTTP/1.1" 200 58
+INFO 2024-12-14 19:11:17,163 basehttp 8364 9616 "GET /api/users/profile/ HTTP/1.1" 200 1199
+INFO 2024-12-14 19:11:17,179 basehttp 8364 9616 "GET /api/users/profile/ HTTP/1.1" 200 1199
+INFO 2024-12-14 19:11:31,896 basehttp 8364 18068 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
+INFO 2024-12-14 19:11:31,896 basehttp 8364 13828 "OPTIONS /api/auth/users/me/ HTTP/1.1" 200 0
+INFO 2024-12-14 19:11:31,896 basehttp 8364 20788 "OPTIONS /api/auth/users/me/ HTTP/1.1" 200 0
+INFO 2024-12-14 19:11:31,896 basehttp 8364 14916 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
+INFO 2024-12-14 19:11:31,912 basehttp 8364 20788 "GET /api/auth/users/me/ HTTP/1.1" 200 65
+INFO 2024-12-14 19:11:31,920 basehttp 8364 14916 "GET /api/auth/users/me/ HTTP/1.1" 200 65
+INFO 2024-12-14 19:11:31,928 basehttp 8364 13828 "GET /api/users/profile/ HTTP/1.1" 200 871
+INFO 2024-12-14 19:11:31,944 basehttp 8364 13828 "GET /api/users/profile/ HTTP/1.1" 200 871
+INFO 2024-12-14 19:12:53,312 basehttp 8364 13828 "OPTIONS /api/users/withdraw-balance/ HTTP/1.1" 200 0
+ERROR 2024-12-14 19:12:53,632 log 8364 13828 Internal Server Error: /api/users/withdraw-balance/
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+               ^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\response.py", line 74, in rendered_content
+    ret = renderer.render(self.data, accepted_media_type, context)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\renderers.py", line 100, in render
+    ret = json.dumps(
+          ^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\utils\json.py", line 25, in dumps
+    return json.dumps(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\json\__init__.py", line 238, in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+  File "C:\Python312\Lib\json\encoder.py", line 200, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\json\encoder.py", line 258, in iterencode
+    return _iterencode(o, 0)
+           ^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\utils\encoders.py", line 67, in default
+    return super().default(obj)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\json\encoder.py", line 180, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type BalanceLog is not JSON serializable
+ERROR 2024-12-14 19:12:53,640 basehttp 8364 13828 "POST /api/users/withdraw-balance/ HTTP/1.1" 500 117139
+ERROR 2024-12-14 19:13:00,635 balance_views 8364 13828 Serializer errors: {'non_field_errors': [ErrorDetail(string='Недостатньо коштів для виведення', code='invalid')]}
+WARNING 2024-12-14 19:13:00,635 log 8364 13828 Bad Request: /api/users/withdraw-balance/
+WARNING 2024-12-14 19:13:00,635 basehttp 8364 13828 "POST /api/users/withdraw-balance/ HTTP/1.1" 400 96
+ERROR 2024-12-14 19:13:02,077 balance_views 8364 13828 Serializer errors: {'non_field_errors': [ErrorDetail(string='Недостатньо коштів для виведення', code='invalid')]}
+WARNING 2024-12-14 19:13:02,085 log 8364 13828 Bad Request: /api/users/withdraw-balance/
+WARNING 2024-12-14 19:13:02,085 basehttp 8364 13828 "POST /api/users/withdraw-balance/ HTTP/1.1" 400 96
+INFO 2024-12-14 19:13:08,004 basehttp 8364 13828 "GET /api/auth/users/me/ HTTP/1.1" 200 65
+INFO 2024-12-14 19:13:08,017 basehttp 8364 14916 "GET /api/users/profile/ HTTP/1.1" 200 981
+INFO 2024-12-14 19:13:08,025 basehttp 8364 13828 "GET /api/auth/users/me/ HTTP/1.1" 200 65
+INFO 2024-12-14 19:13:08,049 basehttp 8364 13828 "GET /api/users/profile/ HTTP/1.1" 200 981
+INFO 2024-12-14 19:13:36,434 basehttp 8364 13828 "OPTIONS /api/catalog/books/avtorskaavtorska/add_chapter/ HTTP/1.1" 200 0
+INFO 2024-12-14 19:13:36,496 basehttp 8364 13828 "POST /api/catalog/books/avtorskaavtorska/add_chapter/ HTTP/1.1" 201 396
+INFO 2024-12-14 19:13:46,597 basehttp 8364 19220 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
+INFO 2024-12-14 19:13:46,605 basehttp 8364 11828 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 136
+INFO 2024-12-14 19:13:46,613 basehttp 8364 9616 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 25
+INFO 2024-12-14 19:13:46,637 basehttp 8364 13276 "GET /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 232
+INFO 2024-12-14 19:13:46,645 basehttp 8364 19220 "GET /api/catalog/books/reader/avtorskaavtorska/ HTTP/1.1" 200 634
+INFO 2024-12-14 19:13:46,653 basehttp 8364 20188 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 3187
+INFO 2024-12-14 19:13:46,664 basehttp 8364 9616 "GET /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 232
+INFO 2024-12-14 19:13:48,865 basehttp 8364 9616 "OPTIONS /api/users/purchase-chapter/34/ HTTP/1.1" 200 0
+INFO 2024-12-14 19:13:48,889 basehttp 8364 9616 "POST /api/users/purchase-chapter/34/ HTTP/1.1" 200 112
+INFO 2024-12-14 19:13:48,937 basehttp 8364 19220 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 25
+INFO 2024-12-14 19:13:48,937 basehttp 8364 9616 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
+INFO 2024-12-14 19:13:48,945 basehttp 8364 13276 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 136
+INFO 2024-12-14 19:13:48,969 basehttp 8364 11828 "POST /api/notification/notifications/ HTTP/1.1" 201 961
+INFO 2024-12-14 19:13:49,001 basehttp 8364 9616 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
+INFO 2024-12-14 19:13:49,009 basehttp 8364 19220 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 25
+INFO 2024-12-14 19:13:49,025 basehttp 8364 9616 "OPTIONS /api/catalog/books/avtorskaavtorska/chapters/udekruzltskuidtsvy/ HTTP/1.1" 200 0
+INFO 2024-12-14 19:13:49,025 basehttp 8364 11828 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 136
+INFO 2024-12-14 19:13:49,025 basehttp 8364 9616 "OPTIONS /api/reviews/chapter/udekruzltskuidtsvy/comments/ HTTP/1.1" 200 0
+INFO 2024-12-14 19:13:49,025 basehttp 8364 19220 "OPTIONS /api/navigation/books/avtorskaavtorska/chapters/udekruzltskuidtsvy/navigation/ HTTP/1.1" 200 0
+INFO 2024-12-14 19:13:49,033 basehttp 8364 13276 "GET /api/catalog/books/reader/avtorskaavtorska/ HTTP/1.1" 200 634
+INFO 2024-12-14 19:13:49,033 basehttp 8364 9616 "OPTIONS /api/navigation/books/avtorskaavtorska/chapters/udekruzltskuidtsvy/navigation/ HTTP/1.1" 200 0
+INFO 2024-12-14 19:13:49,033 basehttp 8364 20188 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 3186
+INFO 2024-12-14 19:13:49,041 basehttp 8364 19220 "OPTIONS /api/catalog/books/avtorskaavtorska/chapters/udekruzltskuidtsvy/ HTTP/1.1" 200 0
+INFO 2024-12-14 19:13:49,041 basehttp 8364 11828 "OPTIONS /api/reviews/chapter/udekruzltskuidtsvy/comments/ HTTP/1.1" 200 0
+INFO 2024-12-14 19:13:49,065 basehttp 8364 20188 "GET /api/reviews/chapter/udekruzltskuidtsvy/comments/ HTTP/1.1" 200 54
+INFO 2024-12-14 19:13:49,073 basehttp 8364 19220 "GET /api/catalog/books/reader/avtorskaavtorska/ HTTP/1.1" 200 634
+INFO 2024-12-14 19:13:49,098 basehttp 8364 9616 "GET /api/navigation/books/avtorskaavtorska/chapters/udekruzltskuidtsvy/navigation/ HTTP/1.1" 200 1232
+INFO 2024-12-14 19:13:49,098 basehttp 8364 20188 "GET /api/reviews/chapter/udekruzltskuidtsvy/comments/ HTTP/1.1" 200 54
+INFO 2024-12-14 19:13:49,255 basehttp 8364 11828 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 3186
+INFO 2024-12-14 19:13:49,515 basehttp 8364 9616 "GET /api/navigation/books/avtorskaavtorska/chapters/udekruzltskuidtsvy/navigation/ HTTP/1.1" 200 1232
+INFO 2024-12-14 19:13:50,094 basehttp 8364 13276 "GET /api/catalog/books/avtorskaavtorska/chapters/udekruzltskuidtsvy/ HTTP/1.1" 200 395285
+INFO 2024-12-14 19:13:50,110 basehttp 8364 9616 "GET /api/catalog/books/avtorskaavtorska/chapters/udekruzltskuidtsvy/ HTTP/1.1" 200 395285
+INFO 2024-12-14 19:13:53,548 basehttp 8364 9616 "GET /api/auth/users/me/ HTTP/1.1" 200 58
+INFO 2024-12-14 19:13:53,573 basehttp 8364 9616 "GET /api/auth/users/me/ HTTP/1.1" 200 58
+INFO 2024-12-14 19:13:53,573 basehttp 8364 13276 "GET /api/users/profile/ HTTP/1.1" 200 1310
+INFO 2024-12-14 19:13:53,605 basehttp 8364 13276 "GET /api/users/profile/ HTTP/1.1" 200 1310
+INFO 2024-12-14 19:14:01,618 basehttp 8364 13828 "GET /api/auth/users/me/ HTTP/1.1" 200 65
+INFO 2024-12-14 19:14:01,634 basehttp 8364 14916 "GET /api/users/profile/ HTTP/1.1" 200 1090
+INFO 2024-12-14 19:14:01,642 basehttp 8364 13828 "GET /api/auth/users/me/ HTTP/1.1" 200 65
+INFO 2024-12-14 19:14:01,674 basehttp 8364 14916 "GET /api/users/profile/ HTTP/1.1" 200 1090
+INFO 2024-12-14 19:14:12,300 basehttp 8364 13972 "GET /admin/users/user/ HTTP/1.1" 200 20672
+INFO 2024-12-14 19:14:12,405 basehttp 8364 13972 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2024-12-14 19:14:45,757 basehttp 8364 13972 "GET /admin/users/profile/ HTTP/1.1" 200 20609
+INFO 2024-12-14 19:14:45,797 basehttp 8364 13972 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2024-12-14 19:18:57,955 autoreload 8364 6540 D:\Website\Fan-vers(React.Django)\backend\apps\monitoring\admin.py changed, reloading.
+INFO 2024-12-14 19:19:00,262 autoreload 16264 15132 Watching for file changes with StatReloader
+INFO 2024-12-14 19:19:02,234 basehttp 16264 11500 "GET /admin/users/profile/ HTTP/1.1" 200 21220
+INFO 2024-12-14 19:19:02,274 basehttp 16264 11500 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2024-12-14 19:19:06,904 basehttp 16264 11500 "GET /admin/rating/bookrating/ HTTP/1.1" 200 24804
+INFO 2024-12-14 19:19:06,952 basehttp 16264 11500 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2024-12-14 19:19:14,159 basehttp 16264 11500 "GET /admin/monitoring/transactionlog/ HTTP/1.1" 200 20892
+INFO 2024-12-14 19:21:00,509 basehttp 16264 11500 "GET /admin/monitoring/transactionlog/?o=7.-0 HTTP/1.1" 200 21451
+INFO 2024-12-14 19:22:05,829 autoreload 16264 15132 D:\Website\Fan-vers(React.Django)\backend\apps\monitoring\admin.py changed, reloading.
+INFO 2024-12-14 19:22:07,941 autoreload 3852 13740 Watching for file changes with StatReloader
+INFO 2024-12-14 19:22:09,141 basehttp 3852 19724 "GET /admin/monitoring/transactionlog/?o=7.-0 HTTP/1.1" 200 21952
+WARNING 2024-12-14 19:22:09,219 basehttp 3852 19724 "GET /static/admin/css/custom_admin.css HTTP/1.1" 404 1892
+INFO 2024-12-14 19:26:45,616 autoreload 3852 13740 D:\Website\Fan-vers(React.Django)\backend\apps\monitoring\admin.py changed, reloading.
+INFO 2024-12-14 19:26:47,648 autoreload 1664 20500 Watching for file changes with StatReloader
+INFO 2024-12-14 19:26:49,044 basehttp 1664 1744 "GET /admin/monitoring/transactionlog/?o=7.-0 HTTP/1.1" 200 23116
+WARNING 2024-12-14 19:26:49,068 basehttp 1664 1744 "GET /static/admin/css/custom_admin.css HTTP/1.1" 404 1892
+INFO 2024-12-14 19:29:54,213 autoreload 1664 20500 D:\Website\Fan-vers(React.Django)\backend\apps\monitoring\admin.py changed, reloading.
+INFO 2024-12-14 19:29:56,262 autoreload 7028 17376 Watching for file changes with StatReloader
+INFO 2024-12-14 19:29:58,466 basehttp 7028 11172 "GET /admin/monitoring/transactionlog/?o=7.-0 HTTP/1.1" 200 21952
+WARNING 2024-12-14 19:29:58,490 basehttp 7028 11172 "GET /static/admin/css/custom_admin.css HTTP/1.1" 404 1892
+INFO 2024-12-14 19:30:18,059 autoreload 7028 17376 D:\Website\Fan-vers(React.Django)\backend\apps\monitoring\admin.py changed, reloading.
+INFO 2024-12-14 19:30:19,457 autoreload 19784 17780 Watching for file changes with StatReloader
+INFO 2024-12-14 19:30:22,555 basehttp 19784 13468 "GET /admin/monitoring/transactionlog/?o=7.-0 HTTP/1.1" 200 23116
+WARNING 2024-12-14 19:30:22,579 basehttp 19784 13468 "GET /static/admin/css/custom_admin.css HTTP/1.1" 404 1892
+INFO 2024-12-14 19:40:14,623 autoreload 19784 17780 D:\Website\Fan-vers(React.Django)\backend\apps\monitoring\models.py changed, reloading.
+INFO 2024-12-14 19:40:15,672 autoreload 16508 9416 Watching for file changes with StatReloader
+INFO 2024-12-14 19:40:35,789 autoreload 16508 9416 D:\Website\Fan-vers(React.Django)\backend\apps\users\api\mixins.py changed, reloading.
+INFO 2024-12-14 19:40:36,742 autoreload 16756 10736 Watching for file changes with StatReloader
+INFO 2024-12-14 19:41:04,196 autoreload 16756 10736 D:\Website\Fan-vers(React.Django)\backend\apps\monitoring\admin.py changed, reloading.
+INFO 2024-12-14 19:41:05,150 autoreload 5176 15156 Watching for file changes with StatReloader
+INFO 2024-12-14 19:41:16,029 basehttp 5176 19036 "GET /admin/monitoring/transactionlog/?o=7.-0 HTTP/1.1" 200 23504
+WARNING 2024-12-14 19:41:16,042 basehttp 5176 19036 "GET /static/admin/css/custom_admin.css HTTP/1.1" 404 1892
+ERROR 2024-12-14 19:41:19,333 log 5176 19100 Internal Server Error: /admin/monitoring/balanceoperationlog/
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: monitoring_balanceoperationlog
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\contrib\admin\options.py", line 718, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\contrib\admin\sites.py", line 241, in inner
+    return view(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\contrib\admin\options.py", line 2001, in changelist_view
+    cl = self.get_changelist_instance(request)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\contrib\admin\options.py", line 866, in get_changelist_instance
+    return ChangeList(
+           ^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\contrib\admin\views\main.py", line 146, in __init__
+    self.get_results(request)
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\contrib\admin\views\main.py", line 313, in get_results
+    result_count = paginator.count
+                   ^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\utils\functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\core\paginator.py", line 110, in count
+    return c()
+           ^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\query.py", line 620, in count
+    return self.query.get_count(using=self.db)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\sql\query.py", line 630, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\sql\query.py", line 616, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: monitoring_balanceoperationlog
+ERROR 2024-12-14 19:41:19,344 basehttp 5176 19100 "GET /admin/monitoring/balanceoperationlog/ HTTP/1.1" 500 210038
+INFO 2024-12-14 19:41:24,015 basehttp 5176 19100 "GET /admin/monitoring/transactionlog/?o=7.-0 HTTP/1.1" 200 23504
+INFO 2024-12-14 19:42:22,976 autoreload 20652 16100 Watching for file changes with StatReloader
+INFO 2024-12-14 19:42:27,131 basehttp 20652 16864 "GET /admin/monitoring/balanceoperationlog/ HTTP/1.1" 200 18727
+INFO 2024-12-14 19:42:30,729 basehttp 20652 16864 "GET /admin/monitoring/balanceoperationlog/ HTTP/1.1" 200 18727
+INFO 2024-12-14 19:42:40,273 basehttp 20652 4284 "POST /api/users/add-balance/ HTTP/1.1" 200 80
+INFO 2024-12-14 19:42:44,429 basehttp 20652 16864 "GET /admin/monitoring/balanceoperationlog/ HTTP/1.1" 200 20132
+INFO 2024-12-14 19:44:48,841 basehttp 20652 16864 "GET /admin/monitoring/transactionlog/ HTTP/1.1" 200 23264
+WARNING 2024-12-14 19:44:48,856 basehttp 20652 16864 "GET /static/admin/css/custom_admin.css HTTP/1.1" 404 1892
+INFO 2024-12-14 19:45:31,357 basehttp 20652 8952 "GET /admin/monitoring/balanceoperationlog/ HTTP/1.1" 200 20132
