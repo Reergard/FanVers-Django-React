@@ -66,3 +66,12 @@
     background-color: #f8d7da;
     color: #721c24;
 }
+
+.adult-content-checkbox {
+    margin-top: 1rem;
+}
+
+.info-item .form-check {
+    margin: 0;
+    padding-left: 1.5rem;
+}

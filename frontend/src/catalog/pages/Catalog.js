@@ -6,10 +6,12 @@ import { handleCatalogApiError } from '../utils/errorUtils';
 import { getBookTypeLabel } from '../utils/bookUtils';
 import { toast } from 'react-toastify';
 import "../css/Catalog.css";
+import { useSelector } from 'react-redux';
 
 const Catalog = () => {
   const [books, setBooks] = useState([]);
   const [error, setError] = useState(null);
+  const hideAdultContent = useSelector(state => state.userSettings.hideAdultContent);
 
   useEffect(() => {
     const loadBooks = async () => {
@@ -25,6 +27,14 @@ const Catalog = () => {
     loadBooks();
   }, []);
 
+  // Фильтруем книги перед отображением
+  const filteredBooks = books.filter(book => {
+    if (hideAdultContent && book.adult_content) {
+      return false;
+    }
+    return true;
+  });
+
   return (
     <section>
       <Container fluid className="catalog-section" id="catalog">
@@ -34,7 +44,7 @@ const Catalog = () => {
             <p>{error}</p>
           ) : (
             <ul className="book-list">
-              {books.map(book => (
+              {filteredBooks.map(book => (
                 <li key={book.id} className="book-item">
                   {book.image && (
                     <img 

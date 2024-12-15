@@ -1,14 +1,19 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Container, Button, Spinner, Alert } from 'react-bootstrap';
+import { Container, Button, Spinner, Alert, Form } from 'react-bootstrap';
 import "../css/Profile.css";
 import { usersAPI } from '../../api';
 import { toast } from 'react-toastify';
 import ModalDepositBalance from '../components/ModalDepositBalance';
 import ModalWithdrawBalance from '../components/ModalWithdrawBalance';
 import ModalTransactionHistory from '../components/ModalTransactionHistory';
+import { setHideAdultContent } from '../../settings/userSettingsSlice';
+import ModalAdultContent from '../components/ModalAdultContent';
 
 const Profile = () => {
+    const dispatch = useDispatch();
+    const hideAdultContent = useSelector(state => state.userSettings.hideAdultContent);
+    const [showAdultContentModal, setShowAdultContentModal] = useState(false);
     const [profile, setProfile] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -84,6 +89,19 @@ const Profile = () => {
         }
     };
 
+    const handleAdultContentChange = (e) => {
+        if (e.target.checked) {
+            setShowAdultContentModal(true);
+        } else {
+            dispatch(setHideAdultContent(false));
+        }
+    };
+
+    const handleConfirmAdultContent = () => {
+        dispatch(setHideAdultContent(true));
+        setShowAdultContentModal(false);
+    };
+
     return (
         <section className="profile-section">
             <Container>
@@ -109,6 +127,16 @@ const Profile = () => {
                                 <div className="info-item">
                                     <span className="label">Комісія:</span>
                                     <span className="value">{profile.commission}%</span>
+                                </div>
+                                <div className="info-item">
+                                    <Form.Check 
+                                        type="checkbox"
+                                        id="hide-adult-content"
+                                        label="Приховати всі книги 18+"
+                                        checked={hideAdultContent}
+                                        onChange={handleAdultContentChange}
+                                        className="adult-content-checkbox"
+                                    />
                                 </div>
                             </div>
 
@@ -198,6 +226,12 @@ const Profile = () => {
                 show={showTransactionHistory}
                 onHide={() => setShowTransactionHistory(false)}
                 balanceHistory={balanceHistory}
+            />
+
+            <ModalAdultContent 
+                show={showAdultContentModal}
+                onHide={() => setShowAdultContentModal(false)}
+                onConfirm={handleConfirmAdultContent}
             />
         </section>
     );

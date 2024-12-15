@@ -50,6 +50,9 @@ const CreateBook = () => {
         queryFn: catalogAPI.fetchFandoms
     });
 
+    const adultTag = tags?.find(tag => tag.name === "18+");
+    const adultTagId = adultTag?.id;
+
     const createBookMutation = useMutation({
         mutationFn: catalogAPI.createBook,
         onSuccess: () => {
@@ -276,7 +279,17 @@ const CreateBook = () => {
                                     const newTags = formData.tags.includes(tag.id)
                                         ? formData.tags.filter(id => id !== tag.id)
                                         : [...formData.tags, tag.id];
-                                    setFormData({ ...formData, tags: newTags });
+                                    
+                                    // Если выбран/снят тег 18+
+                                    if (tag.id === adultTagId) {
+                                        setFormData({ 
+                                            ...formData, 
+                                            tags: newTags,
+                                            adult_content: !formData.tags.includes(tag.id)
+                                        });
+                                    } else {
+                                        setFormData({ ...formData, tags: newTags });
+                                    }
                                 }}
                             >
                                 {tag.name}
@@ -346,10 +359,16 @@ const CreateBook = () => {
                         id="adult_content"
                         label="Контент 18+"
                         checked={formData.adult_content}
-                        onChange={(e) => setFormData({ 
-                            ...formData, 
-                            adult_content: e.target.checked 
-                        })}
+                        onChange={(e) => {
+                            const isChecked = e.target.checked;
+                            setFormData({ 
+                                ...formData, 
+                                adult_content: isChecked,
+                                tags: isChecked 
+                                    ? [...new Set([...formData.tags, adultTagId])]
+                                    : formData.tags.filter(id => id !== adultTagId)
+                            });
+                        }}
                     />
                 </Form.Group>
 
