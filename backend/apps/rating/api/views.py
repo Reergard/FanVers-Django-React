@@ -7,6 +7,7 @@ from .serializers import BookRatingSerializer
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 from apps.catalog.models import Book
+from django.db import models
 
 class BookRatingViewSet(viewsets.ModelViewSet):
     serializer_class = BookRatingSerializer
@@ -44,11 +45,19 @@ class BookRatingViewSet(viewsets.ModelViewSet):
             book = get_object_or_404(Book, slug=book_slug)
             
             ratings = BookRating.objects.filter(book=book)
-            book_rating = ratings.filter(rating_type='BOOK').aggregate(
-                avg_rating=Avg('rating')
+            
+            # Получаем статистику по рейтингу книги
+            book_ratings = ratings.filter(rating_type='BOOK')
+            book_rating_stats = book_ratings.aggregate(
+                avg_rating=Avg('rating'),
+                total_votes=models.Count('id')
             )
-            translation_rating = ratings.filter(rating_type='TRANSLATION').aggregate(
-                avg_rating=Avg('rating')
+            
+            # Получаем статистику по рейтингу перевода
+            translation_ratings = ratings.filter(rating_type='TRANSLATION')
+            translation_rating_stats = translation_ratings.aggregate(
+                avg_rating=Avg('rating'),
+                total_votes=models.Count('id')
             )
 
             user_ratings = None
@@ -58,8 +67,14 @@ class BookRatingViewSet(viewsets.ModelViewSet):
                 )
 
             return Response({
-                'book_rating': book_rating['avg_rating'] or 0,
-                'translation_rating': translation_rating['avg_rating'] or 0,
+                'book_rating': {
+                    'average': book_rating_stats['avg_rating'] or 0,
+                    'total_votes': book_rating_stats['total_votes']
+                },
+                'translation_rating': {
+                    'average': translation_rating_stats['avg_rating'] or 0,
+                    'total_votes': translation_rating_stats['total_votes']
+                },
                 'user_ratings': list(user_ratings) if user_ratings else None
             })
         except Exception as e:

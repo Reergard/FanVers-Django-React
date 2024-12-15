@@ -24,7 +24,7 @@ const RatingBar = ({ bookSlug }) => {
             toast.success('Оцінка успішно збережена');
         },
         onError: (error) => {
-            toast.error('Помилка при збереженні оцінки: ' + error.message);
+            toast.error('Помилка при збереженні оці��ки: ' + error.message);
         }
     });
 
@@ -83,14 +83,17 @@ const RatingBar = ({ bookSlug }) => {
                 <h3>Рейтінг книги</h3>
                 <div className="stars">
                     {renderStars(
-                        ratings?.book_rating || 0, 
+                        ratings?.book_rating?.average || 0, 
                         'BOOK', 
                         bookUserRating
                     )}
                 </div>
                 <span className="rating-value">
-                    {ratings?.book_rating ? 
-                        ratings.book_rating.toFixed(1) : '0'}/5
+                    {ratings?.book_rating?.average ? 
+                        ratings.book_rating.average.toFixed(1) : '0'}/5
+                    <span className="votes-count">
+                        ({ratings?.book_rating?.total_votes || 0})
+                    </span>
                 </span>
             </div>
 
@@ -98,14 +101,17 @@ const RatingBar = ({ bookSlug }) => {
                 <h3>Рейтінг перекладу</h3>
                 <div className="stars">
                     {renderStars(
-                        ratings?.translation_rating || 0, 
+                        ratings?.translation_rating?.average || 0, 
                         'TRANSLATION', 
                         translationUserRating
                     )}
                 </div>
                 <span className="rating-value">
-                    {ratings?.translation_rating ? 
-                        ratings.translation_rating.toFixed(1) : '0'}/5
+                    {ratings?.translation_rating?.average ? 
+                        ratings.translation_rating.average.toFixed(1) : '0'}/5
+                    <span className="votes-count">
+                        ({ratings?.translation_rating?.total_votes || 0})
+                    </span>
                 </span>
             </div>
             {ratingMutation.isLoading && (

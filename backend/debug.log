@@ -6457,3 +6457,27 @@ INFO 2024-12-14 19:42:44,429 basehttp 20652 16864 "GET /admin/monitoring/balance
 INFO 2024-12-14 19:44:48,841 basehttp 20652 16864 "GET /admin/monitoring/transactionlog/ HTTP/1.1" 200 23264
 WARNING 2024-12-14 19:44:48,856 basehttp 20652 16864 "GET /static/admin/css/custom_admin.css HTTP/1.1" 404 1892
 INFO 2024-12-14 19:45:31,357 basehttp 20652 8952 "GET /admin/monitoring/balanceoperationlog/ HTTP/1.1" 200 20132
+INFO 2024-12-15 13:19:04,643 autoreload 20652 16100 D:\Website\Fan-vers(React.Django)\backend\apps\rating\api\views.py changed, reloading.
+INFO 2024-12-15 13:19:09,880 autoreload 17748 15268 Watching for file changes with StatReloader
+INFO 2024-12-15 13:20:32,409 basehttp 17748 15952 "OPTIONS /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 0
+WARNING 2024-12-15 13:20:32,855 log 17748 15952 Unauthorized: /api/catalog/books/info/avtorskaavtorska/
+WARNING 2024-12-15 13:20:32,855 basehttp 17748 15952 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 401 183
+INFO 2024-12-15 13:20:32,863 basehttp 17748 15952 "OPTIONS /api/auth/jwt/refresh/ HTTP/1.1" 200 0
+INFO 2024-12-15 13:20:32,871 basehttp 17748 15952 "POST /api/auth/jwt/refresh/ HTTP/1.1" 200 241
+INFO 2024-12-15 13:20:32,887 basehttp 17748 15952 "OPTIONS /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 0
+INFO 2024-12-15 13:20:32,903 basehttp 17748 15952 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
+INFO 2024-12-15 13:20:32,911 basehttp 17748 15952 "OPTIONS /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 0
+INFO 2024-12-15 13:20:32,927 basehttp 17748 15952 "GET /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 595
+INFO 2024-12-15 13:20:32,951 basehttp 17748 15952 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
+INFO 2024-12-15 13:20:32,951 basehttp 17748 15952 "OPTIONS /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 0
+INFO 2024-12-15 13:20:32,959 basehttp 17748 15748 "GET /api/catalog/books/avtorskaavtorska/volumes/ HTTP/1.1" 200 95
+INFO 2024-12-15 13:20:32,991 basehttp 17748 15952 "GET /api/users/profile/ HTTP/1.1" 200 1092
+INFO 2024-12-15 13:20:33,007 basehttp 17748 15748 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 3191
+INFO 2024-12-15 13:20:33,039 basehttp 17748 15748 "OPTIONS /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 0
+INFO 2024-12-15 13:20:33,039 basehttp 17748 15952 "OPTIONS /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 0
+INFO 2024-12-15 13:20:33,039 basehttp 17748 15748 "OPTIONS /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 0
+INFO 2024-12-15 13:20:33,039 basehttp 17748 15952 "OPTIONS /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 0
+INFO 2024-12-15 13:20:33,055 basehttp 17748 15952 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 192
+INFO 2024-12-15 13:20:33,063 basehttp 17748 15748 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 27
+INFO 2024-12-15 13:20:33,087 basehttp 17748 15952 "GET /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 232
+INFO 2024-12-15 13:20:33,103 basehttp 17748 15748 "GET /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 232
