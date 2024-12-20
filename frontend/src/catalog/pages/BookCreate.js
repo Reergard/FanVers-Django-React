@@ -150,7 +150,7 @@ const CreateBook = () => {
         }
     };
 
-    // Добавляем useEffect для отслеживания изменения типа книги
+   
     useEffect(() => {
         setFormData(prev => ({
             ...prev,

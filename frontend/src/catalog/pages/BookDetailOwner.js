@@ -18,7 +18,7 @@ import { notificationAPI } from '../../api/notification/notificationAPI';
 import ConfirmationModal from '../../components/ConfirmationModal';
 import AdultIcon from '../../assets/images/icons/18+.png';
 
-// Импортируем функции из bookUtils
+// Імпортуємо функції з bookUtils
 import { 
     getTranslationStatusLabel, 
     getOriginalStatusLabel,
@@ -81,15 +81,15 @@ const BookDetailOwner = ({ book }) => {
   const groupChaptersByVolume = (chapters, volumes) => {
     const grouped = new Map();
     
-    // Созаем группу для глав без тома
+    // Створюємо групу для розділів без тому
     grouped.set(null, []);
     
-    // Инициализируем группы для каждого тома
+    // Ініціалізуємо групи для кожного тому
     volumes.forEach(volume => {
       grouped.set(volume.id, []);
     });
     
-    // Распределяем главы по томам
+    // Розподіляємо розділи по томах
     chapters.forEach(chapter => {
       const volumeId = chapter.volume;
       
@@ -100,7 +100,7 @@ const BookDetailOwner = ({ book }) => {
       }
     });
     
-    // Удаляем пустые группы
+    // Видаляємо порожні групи
     for (const [key, value] of grouped.entries()) {
       if (value.length === 0) {
         grouped.delete(key);
@@ -115,7 +115,7 @@ const BookDetailOwner = ({ book }) => {
         const chapter = chapters.find(ch => ch.id === chapterId);
         if (!chapter) {
             console.error('Chapter not found:', chapterId);
-            throw new Error('Глава не знайдена');
+            throw new Error('Розділ не знайдена');
         }
 
         const response = await usersAPI.purchaseChapter(chapterId);
@@ -124,13 +124,13 @@ const BookDetailOwner = ({ book }) => {
         queryClient.invalidateQueries(['profile']);
         
         try {
-            // Отправляем только те поя, которые ожидает сервер
+            // Відправляємо тільки ті поля, які очікує сервер
             const notificationData = {
-                message: `Ви успішно придбали главу "${chapter.title}" книги "${book?.title}"`,
+                message: `Ви успішно придбали розділ "${chapter.title}" книги "${book?.title}"`,
                 book: book.id,
                 is_read: false,
                 user: currentUser.id,
-                // Убираем поля type и title, которые вызывают ошибку
+                // Видаляємо поля type і title, які викликають помилку
             };
             
             console.log('Attempting to create notification with data:', notificationData);
@@ -144,15 +144,15 @@ const BookDetailOwner = ({ book }) => {
             // Продолжаем выполнение даже если уведомление не создалось
         }
         
-        toast.success('Глава успішно придбана');
+        toast.success('Розділ успішно придбана');
         
     } catch (error) {
         console.error('Purchase error:', error);
-        let errorMessage = 'Помилка при купівлі глави';
+        let errorMessage = 'Помилка при купівлі розділу';
         
         if (error.response?.status === 400) {
             if (error.response.data.error === 'Недостатньо коштів') {
-                errorMessage = 'Недостатньо коштів для купівлі глави';
+                errorMessage = 'Недостатньо коштів для купівлі розділу';
             } else {
                 errorMessage = error.response.data.error;
             }
@@ -200,7 +200,7 @@ const BookDetailOwner = ({ book }) => {
     }
   };
 
-  // Общая функция для обновления позиций
+  // Загальна функція для оновлення позицій
   const updateChapterPositions = async (updates) => {
     try {
       const newPositions = { ...chapterPositions };
@@ -212,12 +212,12 @@ const BookDetailOwner = ({ book }) => {
       await editorsAPI.updateChapterOrder('no-volume', updates);
       await queryClient.invalidateQueries(['chapters', slug]);
     } catch (error) {
-      alert('Помилка при оноленні позицій глав');
+      alert('Помилка при оноленні позицій розділів');
       throw error;
     }
   };
 
-  // Функция для перемещения главы
+  // Функція для переміщення розділу
   const moveChapter = async (volumeId, chapterId, direction) => {
     try {
       const currentChapter = chapters.find(ch => ch.id === chapterId);
@@ -231,25 +231,25 @@ const BookDetailOwner = ({ book }) => {
 
       if (direction === 'down') {
         if (currentIndex < volumeChapters.length - 1) {
-          // Перемещение вниз внутри тома
-          // Пересчитываем позиции для всех глав в томе
+          // Переміщення вниз всередині тому
+          // Перераховуємо позиції для всіх розділів у томі
           const updatedChapters = volumeChapters.map((chapter, index) => {
             if (index === currentIndex) {
               return {
                 chapter_id: chapter.id,
-                position: (currentIndex + 2), // Новая позиция текущей главы
+                position: (currentIndex + 2), // Нова позиція поточного розділу
                 volume_id: volumeId
               };
             } else if (index === currentIndex + 1) {
               return {
                 chapter_id: chapter.id,
-                position: (currentIndex + 1), // Позиция главы, с которой меняемся
+                position: (currentIndex + 1), // Позиція розділу, з якою міняємося
                 volume_id: volumeId
               };
             } else {
               return {
                 chapter_id: chapter.id,
-                position: index + 1, // Сохраняем существующий порядок для остальных
+                position: index + 1, // Зберігаємо існуючий порядок для інших
                 volume_id: volumeId
               };
             }
@@ -257,19 +257,19 @@ const BookDetailOwner = ({ book }) => {
           
           orderData = updatedChapters;
         } else if (currentVolumeIndex < sortedVolumes.length - 1) {
-          // Перемещение в следующий том
+          // Переміщення в наступний том
           const nextVolume = sortedVolumes[currentVolumeIndex + 1];
           const nextVolumeChapters = chapters.filter(ch => ch.volume === nextVolume.id)
             .sort((a, b) => a.position - b.position);
           
-          // Устанавливаем позицию 1 для перемещаемой главы
+          // Встановлюємо позицію 1 для розділу, що переміщується
           orderData = [{
             chapter_id: chapterId,
             position: 1,
             volume_id: nextVolume.id
           }];
           
-          // Сдвигаем все существующие главы следующего тома на одну позицю вперед
+          // Зсуваємо всі існуючі розділи наступного тому на одну позицію вперед
           if (nextVolumeChapters.length > 0) {
             const shiftedChapters = nextVolumeChapters.map(chapter => ({
               chapter_id: chapter.id,
@@ -277,30 +277,30 @@ const BookDetailOwner = ({ book }) => {
               volume_id: nextVolume.id
             }));
             
-            // Добавляем обновленные позиции всех глав в orderData
+            // Додаємо оновлені позиції всіх розділів в orderData
             orderData = [...orderData, ...shiftedChapters];
           }
         }
       } else if (direction === 'up') {
         if (currentIndex > 0) {
-          // Перемещение вверх внутри тома
+          // Переміщення вгору всередині тому
           const updatedChapters = volumeChapters.map((chapter, index) => {
             if (index === currentIndex) {
               return {
                 chapter_id: chapter.id,
-                position: currentIndex, // Новая позиция текущей главы
+                position: currentIndex, // Нова позиція поточного розділу
                 volume_id: volumeId
               };
             } else if (index === currentIndex - 1) {
               return {
                 chapter_id: chapter.id,
-                position: currentIndex + 1, // Позиция главы, с которой меняемся
+                position: currentIndex + 1, // Позиція розділу, з якою міняємося
                 volume_id: volumeId
               };
             } else {
               return {
                 chapter_id: chapter.id,
-                position: index + 1, // Сохраняем существующий порядок для остальных
+                position: index + 1, // Зберігаємо існуючий порядок для інших
                 volume_id: volumeId
               };
             }
@@ -308,7 +308,7 @@ const BookDetailOwner = ({ book }) => {
           
           orderData = updatedChapters;
         } else if (currentVolumeIndex > 0) {
-          // Перемещение в предыдущий том
+          // Переміщення в попередній том
           const prevVolume = sortedVolumes[currentVolumeIndex - 1];
           const prevVolumeChapters = chapters.filter(ch => ch.volume === prevVolume.id)
             .sort((a, b) => a.position - b.position);
@@ -329,14 +329,14 @@ const BookDetailOwner = ({ book }) => {
         await updateChapterPositions(orderData);
       }
     } catch (error) {
-      alert('Помилка при зміні порядку глав');
+      alert('Помилка при зміні порядку розділів');
     }
   };
 
-  // Обработчик изменения позиции через input
+  // Обробник зміни позиції через input
   const handlePositionChange = async (chapterId, newPosition, volumeId) => {
     try {
-      // Получаем все главы текущего тома
+      // Отримуємо всі розділи поточного тому
       const volumeChapters = chapters
         .filter(ch => ch.volume === volumeId)
         .sort((a, b) => a.position - b.position);
@@ -345,11 +345,11 @@ const BookDetailOwner = ({ book }) => {
       const targetPosition = Number(newPosition);
       const currentPosition = currentChapter.position;
       
-      // Формруем массив обновлений для всех затронутых глав
+      // Формуємо масив оновлень для всіх зачеплених розділів
       let updates = [];
       
       if (targetPosition > currentPosition) {
-        // Перемещение вниз: сдвигаем главы между текущей и целевой позицией вверх
+        // Переміщення вниз: зсуваємо розділи між поточною і цільовою позицією вгору
         updates = volumeChapters
           .filter(ch => ch.position > currentPosition && ch.position <= targetPosition)
           .map(ch => ({
@@ -358,7 +358,7 @@ const BookDetailOwner = ({ book }) => {
             volume_id: volumeId
           }));
       } else if (targetPosition < currentPosition) {
-        // Перемещение вверх: сдвигаем главы между целевой и текущей позиций вниз
+        // Переміщення вгору: зсуваємо розділи між цільовою і поточною позицією вниз
         updates = volumeChapters
           .filter(ch => ch.position >= targetPosition && ch.position < currentPosition)
           .map(ch => ({
@@ -368,7 +368,7 @@ const BookDetailOwner = ({ book }) => {
           }));
       }
 
-      // Добавляем обновлеи для перемещаемой главы
+      // Додаємо оновлення для розділу, що переміщується
       updates.push({
         chapter_id: chapterId,
         position: targetPosition,
@@ -378,22 +378,22 @@ const BookDetailOwner = ({ book }) => {
       await updateChapterPositions(updates);
       
     } catch (error) {
-      alert('Помилка при зміні позиції глави');
+      alert('Помилка при зміні позиції розділу');
     }
   };
 
   const handleChapterStatusChange = async (chapterId, isPaid) => {
     try {
         await catalogAPI.updateChapterStatus(chapterId, isPaid);
-        // Обновляем локальное состояние
+        // Оновлюємо локальний стан
         setChapterStatuses(prev => ({
             ...prev,
             [chapterId]: isPaid
         }));
-        // Обновляем список глав
+        // Оновлюємо список розділів
         queryClient.invalidateQueries(['chapters', slug]);
     } catch (error) {
-        alert('Помилка при зміні статусу глави');
+        alert('Помилка при зміні статусу розділу');
     }
   };
 
@@ -420,15 +420,15 @@ const BookDetailOwner = ({ book }) => {
       
       await catalogAPI.deleteChapter(slug, chapterToDelete);
       queryClient.invalidateQueries(['chapters', slug]);
-      toast.success('Главу успішно видалено');
-    } catch (error) {
-      toast.error(error.message || 'Помилка при видаленні глави');
+      toast.success('Розділ успішно видалено');
+    } catch (error) { 
+      toast.error(error.message || 'Помилка при видаленні розділу');
     } finally {
       setChapterToDelete(null);
     }
   };
 
-  // Проверяем, является ли текущий пользователь владельцем книги
+  // Перевіряємо, чи є поточний користувач власником книги
   const isBookOwner = currentUser && book && book.owner === currentUser.id;
 
   useEffect(() => {
@@ -437,6 +437,16 @@ const BookDetailOwner = ({ book }) => {
       navigate(-1);
     }
   }, [isBookOwner]);
+
+  const handleReadClick = (e, chapter) => {
+    e.preventDefault();
+    if (!chapter.slug) {
+      console.error('Missing chapter slug:', chapter);
+      toast.error('Помилка: відсутній ідентифікатор розділу');
+      return;
+    }
+    navigate(`/books/${slug}/chapters/${chapter.slug}`);
+  };
 
   if (chaptersLoading) return <div>Завантаження...</div>;
   if (chaptersError) {
@@ -506,7 +516,7 @@ const BookDetailOwner = ({ book }) => {
             </div>
           </div>
 
-          {/* Показываем кнопки управления только владельцу книги */}
+          {/* Показуємо кнопки управління тільки власнику книги */}
           {isAuthenticated && isBookOwner && (
             <div className="book-management-buttons">
               <button 
@@ -539,7 +549,7 @@ const BookDetailOwner = ({ book }) => {
             </div>
           )}
 
-          {/* Форма созданя тома доступна только владельцу */}
+          {/* Форма створення тому доступна тільки власнику */}
           {isBookOwner && showVolumeForm && (
             <form onSubmit={handleCreateVolume} className="volume-form">
               {volumeError && <p className="error">{volumeError}</p>}
@@ -557,10 +567,10 @@ const BookDetailOwner = ({ book }) => {
             </form>
           )}
 
-          {/* Управление главами доступно только владельцу */}
+          {/* Керування розділами доступно тільки власнику */}
           {isBookOwner && (
             <div className="chapter-management">
-              {/* ... код управления главами ... */}
+              {/* ... код керування розділами ... */}
             </div>
           )}
             <p>{book.description}</p>
@@ -568,7 +578,7 @@ const BookDetailOwner = ({ book }) => {
           <h2>Розділи:</h2>
           {chapters.length > 0 ? (
             <div className="chapters-list">
-              {/* Сначала отображаем тома с главами, если они есть */}
+              {/* Спочатку відображаємо томи з розділами, якщо вони є */}
               {volumes.length > 0 && volumes.map((volume) => (
                 <div key={volume.id} className="volume-chapters">
                   <h3 className="volume-title">{volume.title}</h3>
@@ -619,6 +629,7 @@ const BookDetailOwner = ({ book }) => {
                               <Link 
                                 to={`/books/${slug}/chapters/${chapter.slug}`}
                                 className="read-btn"
+                                onClick={(e) => handleReadClick(e, chapter)}
                               >
                                 Читати
                               </Link>
@@ -655,7 +666,7 @@ const BookDetailOwner = ({ book }) => {
                 </div>
               ))}
 
-              {/* Отдельный блок для глав без тома - теперь всегда отображается при наличии таких глав */}
+              {/* Окремий блок для розділів без тому - завжди відображається при наявності таких розділів */}
               {chapters.filter(ch => !ch.volume).length > 0 && (
                 <div className="volume-chapters">
                   <h3 className="volume-title">Розділи без тому</h3>
@@ -706,6 +717,7 @@ const BookDetailOwner = ({ book }) => {
                               <Link 
                                 to={`/books/${slug}/chapters/${chapter.slug}`}
                                 className="read-btn"
+                                onClick={(e) => handleReadClick(e, chapter)}
                               >
                                 Читати
                               </Link>
@@ -777,7 +789,7 @@ const BookDetailOwner = ({ book }) => {
 
 
 
-              {/* Компоннт рейтінгу */}
+              {/* Компонент рейтингу */}
               <RatingBar bookSlug={slug} />
 
                {/* Компонент коментарів */}

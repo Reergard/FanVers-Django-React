@@ -23,11 +23,11 @@ def book_image_path(instance, filename):
     filename = clean_filename(filename)
     path = os.path.join('books', book_name)
     return os.path.join(path, filename)
-      # Получаем расширение файла
+    # Отримуємо розширення файлу
     ext = filename.split('.')[-1]
-    # Формируем новое имя файла
+    # Формуємо нове ім'я файлу
     new_filename = f"{instance.slug}.{ext}"
-    # Возвращаем путь для сохранения
+    # Повертаємо шлях для збереження
     return f'books/images/{new_filename}'
 
 
@@ -38,9 +38,8 @@ def book_directory_path(instance, filename):
 
 def chapter_directory_path(instance, filename):
     local_cleaned_filename = clean_chapter_filename(filename)
-    # оздаем путь для книги и главы
+    # Створюємо шлях для книги та розділу
     path = os.path.join('books', instance.book.slug, 'chapters')
-
     return os.path.join(path, local_cleaned_filename)
 
 
@@ -63,7 +62,7 @@ def validate_image_extension(value):
     valid_extensions = ['.jpg', '.jpeg', '.png']
     ext = os.path.splitext(value.name)[1]
     if ext.lower() not in valid_extensions:
-        raise ValidationError('Unsupported file extension.')
+        raise ValidationError('Непідтримуване розширення файлу.')
 
 
 class Tag(models.Model):
@@ -204,45 +203,45 @@ class Book(models.Model):
     
 
     def generate_unique_slug(self):
-        """Генерирует уникальный слаг для книги"""
-        # Транслитерация и базовая очистка
+        """Генерує унікальний слаг для книги"""
+        # Транслітерація та базове очищення
         slug = slugify(unidecode(self.title))
         
-        # Если title_en существует, используем его как основу
+        # Якщо title_en існує, використовуємо його як основу
         if self.title_en:
             slug = slugify(unidecode(self.title_en))
             
-        # Удаляем все специальные символы кроме дефиса
+        # Видаляємо всі спеціальні символи крім дефісу
         slug = re.sub(r'[^a-zA-Z0-9-]', '', slug)
         
-        # Заменяем множественные дефисы на один
+        # Замінюємо множинні дефіси на один
         slug = re.sub(r'-+', '-', slug)
         
-        # Ограничиваем длину слага
+        # Обмежуємо довжину слагу
         max_length = self._meta.get_field('slug').max_length
         if len(slug) > max_length:
             slug = slug[:max_length]
         
-        # Проверяем уникальность и добавляем числовой суффикс если нужно
+        # Перевіряємо унікальність та додаємо числовий суфікс якщо потрібно
         original_slug = slug
         counter = 1
         while Book.objects.filter(slug=slug).exists():
-            # Добавляем числовой суффикс
+            # Додаємо числовий суфікс
             suffix = f'-{counter}'
-            # Обрезаем оригинальный слаг чтобы уместить суффикс
+            # Обрізаємо оригінальний слаг щоб вмістити суфікс
             slug = f'{original_slug[:max_length - len(suffix)]}{suffix}'
             counter += 1
             
         return slug
 
     def clean(self):
-        """Валидация модели"""
+        """Валідація моделі"""
         super().clean()
         if not self.slug:
             self.slug = self.generate_unique_slug()
 
     def save(self, *args, **kwargs):
-        """Сохранение модели"""
+        """Збереження моделі"""
         if self.book_type == 'AUTHOR':
             self.translation_status = None
         elif self.book_type == 'TRANSLATION':
@@ -262,7 +261,7 @@ class Book(models.Model):
         return chapters
 
     def has_recent_activity(self):
-        """Проверяет, была ли активность за последний месяц"""
+        """Перевіряє, чи була активність за останній місяць"""
         month_ago = timezone.now() - timedelta(days=30)
         return (
             self.chapters.filter(created_at__gte=month_ago).exists() or
@@ -323,23 +322,26 @@ class Chapter(models.Model):
         max_digits=10,
         decimal_places=2,
         default=1.00,
-        verbose_name='Вартість глави'
+        verbose_name='Вартість розділу'
     )
+    reading_time = models.IntegerField(default=0)  # час у секундах
+    character_count = models.IntegerField(default=0)
+    min_reading_time = models.IntegerField(default=0)  # мінімальний час для зарахування прочитання
 
     class Meta:
         ordering = ['_position']
 
     def generate_unique_slug(self):
-        """Генерирует уникальный слаг для главы"""
+        """Генерує унікальний слаг для розділів"""
         base_slug = slugify(unidecode(self.title))
         
-        # Удаляем специальные символы
+        # Видаляємо спеціальні символи
         slug = re.sub(r'[^a-zA-Z0-9-]', '', base_slug)
         
-        # Заменяем множественные дефисы
+        # Замінюємо множинні дефіси
         slug = re.sub(r'-+', '-', slug)
         
-        # Проверяем уникальность
+        # Перевіряємо унікальність
         original_slug = slug
         counter = 1
         while Chapter.objects.filter(
@@ -353,16 +355,25 @@ class Chapter(models.Model):
         return slug
 
     def save(self, *args, **kwargs):
+        # Генерація слагу при першому збереженні
         if not self.slug:
             self.slug = self.generate_unique_slug()    
-            
+        
+        # Оновлення часу
         if not self.pk or kwargs.get('update_fields') is None:
             self.last_updated = timezone.now()
+            
+        # Підрахунок символів та часу читання
+        if self.html_content:
+            self.character_count = len(self.html_content)
+            # 3 хвилини на 1000 символів = 180 секунд на 1000 символів
+            self.reading_time = (self.character_count / 1000) * 180
+            self.min_reading_time = self.reading_time * 0.75
             
         try:
             super().save(*args, **kwargs)
         except Exception as e:
-            logger.error(f"Error saving chapter: {str(e)}")
+            logger.error(f"Помилка збереження розділу: {str(e)}")
             raise
 
     def __str__(self):
@@ -396,34 +407,40 @@ class Chapter(models.Model):
 
     def get_html_content(self):
         try:
-            # Сначала проверяем наличие HTML в базе данных
+            # Спочатку перевіряємо наявність HTML в базі даних
             if self.html_content:
                 return self.html_content
             
-            # Затем проверяем файл на диске
+            # Потім перевіряємо файл на диску
             if self.html_file_path:
                 file_path = os.path.join(settings.MEDIA_ROOT, self.html_file_path)
                 
                 if os.path.exists(file_path):
                     with open(file_path, 'r', encoding='utf-8') as f:
                         content = f.read()
-                        # Кэшируем контент в базе данных
+                        # Кешуємо контент в базі даних
                         self.html_content = content
                         self.save(update_fields=['html_content'])
                         return content
             
-            # Если HTML не найден, пробуем сконвертировать docx
+            # Якщо HTML не знайдено, пробуємо конвертувати docx
             if self.file:
-                # Здесь должна быть логика конвертации docx в HTML
-                # Например, использование python-docx или другой библиотеки
+                # Тут має бути логіка конвертації docx в HTML
+                # Наприклад, використання python-docx або іншої бібліотеки
                 pass
             
-            logger.error(f"No HTML content or file found for chapter {self.id}")
             return None
             
-        except Exception as e:
-            logger.error(f"Error getting HTML content for chapter {self.id}: {str(e)}")
+        except Exception:
             return None
+
+    @property
+    def user_progress(self):
+        """
+        Отримати прогрес читання для цього розділу
+        """
+        from apps.monitoring.models import UserChapterProgress
+        return UserChapterProgress.objects.filter(chapter=self)
 
 
 class ChapterOrder(models.Model):

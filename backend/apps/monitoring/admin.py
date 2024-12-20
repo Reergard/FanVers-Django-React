@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import TransactionLog, BalanceOperationLog
+from .models import TransactionLog, BalanceOperationLog, UserChapterProgress
 from django.db.models import Sum
 from django.utils import timezone
 
@@ -150,3 +150,11 @@ class BalanceOperationLogAdmin(admin.ModelAdmin):
 
     def has_change_permission(self, request, obj=None):
         return False
+
+@admin.register(UserChapterProgress)
+class UserChapterProgressAdmin(admin.ModelAdmin):
+    list_display = ['user', 'chapter', 'is_read', 'is_purchased', 
+                   'reading_progress', 'last_read_at']
+    list_filter = ['is_read', 'is_purchased', 'last_read_at']
+    search_fields = ['user__username', 'chapter__title']
+    raw_id_fields = ['user', 'chapter']

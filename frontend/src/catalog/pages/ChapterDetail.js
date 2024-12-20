@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import React, { useEffect, useState, useRef } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { getChapterDetail } from '../../api/catalog/catalogAPI';
 import { Container, Button } from 'react-bootstrap';
@@ -9,12 +9,10 @@ import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
 import '../../navigation/css/BookmarkButton.css';
 import ModalErrorReport from '../../editors/components/ModalErrorReport';
 import '../css/ChapterDetail.css';
-import AdultIcon from '../../assets/images/icons/18+.png';
 import { handleCatalogApiError } from '../utils/errorUtils';
 import { toast } from 'react-toastify';
-
-
-// Импорты для пагинации и отзывов нужно будет добавить или создать
+import { debounce } from 'lodash';
+import { monitoringAPI } from '../../api/monitoring/monitoringAPI';
 import { getChapterNavigation } from '../../api/navigation/navigationAPI';
 import { fetchChapterComments, postChapterComment, updateReaction } from '../../api/reviews/reviewsAPI';
 
@@ -41,11 +39,11 @@ const Comment = ({ comment, onReply, onReaction, isAuthenticated, depth = 0 }) =
             </div>
             {isAuthenticated && (
                 <button onClick={() => setShowReplyForm(!showReplyForm)}>
-                    {showReplyForm ? 'Отменить' : 'Ответить'}
+                    {showReplyForm ? 'Скасувати' : 'Відповісти'}
                 </button>
             )}
             {showReplyForm && (
-                <CommentForm onSubmit={handleReply} initialText={`Ответ на: ${comment.text}`} readOnlyInitialText={true} />
+                <CommentForm onSubmit={handleReply} initialText={`Відповідь на: ${comment.text}`} readOnlyInitialText={true} />
             )}
             {comment.replies && comment.replies.map(reply => (
                 <Comment 
@@ -75,50 +73,189 @@ const ChapterDetail = () => {
     const [error, setError] = useState(null);
     const [comments, setComments] = useState([]);
     const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
-    const user = useSelector(state => state.auth.user);
     const [showErrorModal, setShowErrorModal] = useState(false);
     const [selectedText, setSelectedText] = useState('');
     const [isSelectionMode, setIsSelectionMode] = useState(false);
+    const [readingStartTime, setReadingStartTime] = useState(null);
+    const [isRead, setIsRead] = useState(false);
+    const navigate = useNavigate();
+    const contentRef = useRef(null);
+    const lastScrollTime = useRef(Date.now());
+    const scrollPositions = useRef([]);
+    const lastProgressUpdate = useRef(Date.now());
+
+    const checkReadingProgress = debounce(async (force = false, source = 'unknown') => {
+        if (isRead) {
+            return;
+        }
+        
+        if (!readingStartTime) {
+            return;
+        }
+
+        const element = contentRef.current;
+        if (!element) {
+            return;
+        }
+
+        const contentContainer = element.querySelector('.chapter-content-inner');
+        if (!contentContainer) {
+            return;
+        }
+
+        const currentTime = Date.now();
+        const readingTime = Math.floor((currentTime - readingStartTime) / 1000);
+        
+        const totalHeight = Math.max(
+            document.documentElement.scrollHeight,
+            document.body.scrollHeight
+        );
+        const viewportHeight = window.innerHeight;
+        const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+        
+        const maxScroll = Math.max(1, totalHeight - viewportHeight);
+        const scrollProgress = Math.min(100, Math.max(0, (currentScroll / maxScroll) * 100));
+
+        const progressData = {
+            reading_time: readingTime,
+            scroll_progress: scrollProgress,
+            scroll_speed: 0
+        };
+
+        try {
+            const response = await monitoringAPI.updateReadingProgress(
+                chapterData.id, 
+                progressData
+            );
+            
+            if (response?.is_read) {
+                setIsRead(true);
+            }
+        } catch (error) {
+        }
+    }, 1000);
+
+    // Ініціалізація часу початку читання під час завантаження глави
+    useEffect(() => {
+        if (chapterData.id && !readingStartTime) {
+            const startTime = Date.now();
+            setReadingStartTime(startTime);
+        }
+    }, [chapterData.id]);
+
+    // Відстеження змін readingStartTime
+    useEffect(() => {
+        if (readingStartTime) {
+            checkReadingProgress(true, 'initial');
+        }
+    }, [readingStartTime]);
+
+    // Обробник скролу
+    useEffect(() => {
+        const handleWindowScroll = () => {
+            const currentTime = Date.now();
+            const currentPosition = window.pageYOffset || document.documentElement.scrollTop;
+            
+            scrollPositions.current.push(currentPosition);
+            if (scrollPositions.current.length > 10) {
+                scrollPositions.current.shift();
+            }
+            
+            lastScrollTime.current = currentTime;
+            checkReadingProgress(false, 'scroll');
+        };
+
+        window.addEventListener('scroll', handleWindowScroll);
+        return () => {
+            window.removeEventListener('scroll', handleWindowScroll);
+        };
+    }, []);
+
+    // Відстеження видимості сторінки
+    useEffect(() => {
+        const handleVisibilityChange = () => {
+            if (document.hidden && !isRead && readingStartTime && chapterData.id) {
+                checkReadingProgress(true, 'visibility_change');
+            }
+        };
+
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+        return () => {
+            document.removeEventListener('visibilitychange', handleVisibilityChange);
+        };
+    }, [isRead, readingStartTime, chapterData.id]);
+
+    // Періодичне оновлення прогресу
+    useEffect(() => {
+        if (!isRead && readingStartTime && chapterData.id) {
+            const saveProgressInterval = setInterval(() => {
+                checkReadingProgress(true, 'interval');
+            }, 30000);
+
+            return () => {
+                clearInterval(saveProgressInterval);
+            };
+        }
+    }, [isRead, readingStartTime, chapterData.id]);
+
+    // Збереження прогресу під час розмонтування компонента
+    useEffect(() => {
+        return () => {
+            if (!isRead && readingStartTime && chapterData.id) {
+                checkReadingProgress(true, 'unmount');
+            }
+        };
+    }, [isRead, readingStartTime, chapterData.id]);
 
     useEffect(() => {
+        if (!bookSlug || !chapterSlug) {
+            toast.error('Помилка: відсутні параметри маршруту');
+            navigate('/');
+            return;
+        }
+
         const fetchData = async () => {
             try {
                 setLoading(true);
                 setError(null);
 
-                const [chapterResponse, navigationResponse, commentsResponse] = await Promise.all([
+                const [chapterResponse, navigationResponse] = await Promise.all([
                     getChapterDetail(bookSlug, chapterSlug),
-                    getChapterNavigation(bookSlug, chapterSlug),
-                    fetchChapterComments(chapterSlug)
+                    getChapterNavigation(bookSlug, chapterSlug)
                 ]);
                 
-                if (!chapterResponse.data.content) {
-                    throw new Error('Контент главы недоступен');
+                if (!chapterResponse || !chapterResponse.data) {
+                    throw new Error('Дані глави недоступні');
                 }
 
                 const chapterData = {
-                    ...chapterResponse.data,
-                    book_id: chapterResponse.data.book_id || bookSlug,
-                    id: chapterResponse.data.id || chapterSlug,
-                    book_title: chapterResponse.data.book_title || '',
-                    title: chapterResponse.data.title || ''
+                    title: chapterResponse.data.title,
+                    content: chapterResponse.data.content,
+                    book_title: chapterResponse.data.book_title,
+                    book_id: chapterResponse.data.book_id,
+                    id: chapterResponse.data.id,
+                    is_paid: chapterResponse.data.is_paid,
+                    price: chapterResponse.data.price
                 };
+
+                if (!chapterData.title || !chapterData.content || !chapterData.id) {
+                    throw new Error('Неповні дані розділу');
+                }
 
                 setChapterData(chapterData);
                 setNavigationData(navigationResponse.data);
-                setComments(commentsResponse || []);
                 
             } catch (error) {
-                const errorMessage = error.response?.data?.error || error.message || 'Произошла ошибка при загрузке данных';
-                handleCatalogApiError(error, toast);
+                const errorMessage = error.response?.data?.error || error.message;
                 setError(errorMessage);
+                toast.error(errorMessage);
             } finally {
                 setLoading(false);
             }
         };
 
         fetchData();
-    }, [bookSlug, chapterSlug]);
+    }, [bookSlug, chapterSlug, navigate]);
 
     const handleCommentSubmit = async (commentText, parentId = null) => {
         try {
@@ -171,9 +308,9 @@ const ChapterDetail = () => {
         return (
             <div className="loading-container">
                 <div className="spinner-border text-primary" role="status">
-                    <span className="visually-hidden">Загрузка...</span>
+                    <span className="visually-hidden">Завантаження...</span>
                 </div>
-                <p>Загрузка главы...</p>
+                <p>Завантаження розділу...</p>
             </div>
         );
     }
@@ -181,7 +318,7 @@ const ChapterDetail = () => {
     if (error) {
         return (
             <div className="error-container alert alert-danger">
-                <h3>Ошибка</h3>
+                <h3>Помилка</h3>
                 <p>{error}</p>
             </div>
         );
@@ -202,11 +339,14 @@ const ChapterDetail = () => {
 
                 <h1>{chapterData.title}</h1>
                 
-                <div className="chapter-content">
+                <div ref={contentRef} className="chapter-content">
                     {chapterData.content ? (
-                        <div dangerouslySetInnerHTML={{ __html: chapterData.content }} />
+                        <div 
+                            className="chapter-content-inner"
+                            dangerouslySetInnerHTML={{ __html: chapterData.content }} 
+                        />
                     ) : (
-                        <p>Содержимое главы отсутствует.</p>
+                        <p>Зміст глави відсутній.</p>
                     )}
                 </div>
 
@@ -223,7 +363,7 @@ const ChapterDetail = () => {
                         <div className="selection-mode">
                             {isSelectionMode && (
                                 <div className="instructions-text">
-                                    Виделіть будь ласка текст в якому ви знайшли помилку!
+                                    Виділіть будь ласка текст в якому ви знайшли помилку!
                                 </div>
                             )}
                             <Button 
@@ -271,11 +411,11 @@ const ChapterDetail = () => {
                 )}
 
                 <div className="comments-section">
-                    <h2>Комментарии</h2>
+                    <h2>Коментарі</h2>
                     {isAuthenticated ? (
                         <CommentForm onSubmit={handleCommentSubmit} />
                     ) : (
-                        <p>Войдите, чтобы оставить комментарий</p>
+                        <p>Увійдіть, щоб залишити коментар</p>
                     )}
                     {comments.length > 0 ? (
                         comments.map((comment) => (
@@ -288,7 +428,7 @@ const ChapterDetail = () => {
                             />
                         ))
                     ) : (
-                        <p>Комментариев пока нет.</p>
+                        <p>Коментарів поки ще немає.</p>
                     )}
                 </div>
             </Container>

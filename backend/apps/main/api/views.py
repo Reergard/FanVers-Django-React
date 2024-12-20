@@ -21,26 +21,26 @@ def home_data(request):
 
 @api_view(['GET'])
 def books_news(request):
-    logger.info("=== Начало выполнения функции books_news ===")
+    logger.info("=== Початок виконання функції books_news ===")
     
     try:
         news_books = Book.objects.all().order_by('-created_at')[:10]
-        logger.info(f"Найдено новых книг: {news_books.count()}")
+        logger.info(f"Знайдено нових книг: {news_books.count()}")
         
         for book in news_books:
             logger.info(f"""
                 Книга ID: {book.id}
-                Название: {book.title}
-                Описание: {book.description}
-                Изображение: {book.image if book.image else 'Нет изображения'}
+                Назва: {book.title}
+                Опис: {book.description}
+                Зображення: {book.image if book.image else 'Немає зображення'}
             """)
             
         serializer = BooksNewsSerializer(news_books, many=True, context={'request': request})
-        logger.info(f"Данные после сериализации: {serializer.data}")
+        logger.info(f"Дані після серіалізації: {serializer.data}")
         
         return Response(serializer.data)
     except Exception as e:
-        logger.error(f"Ошибка при получении книг: {str(e)}")
+        logger.error(f"Помилка при отриманні книг: {str(e)}")
         return Response({"error": str(e)}, status=500)
 
 

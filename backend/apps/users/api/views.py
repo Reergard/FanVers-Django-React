@@ -24,24 +24,24 @@ logger = logging.getLogger(__name__)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-# @throttle_classes([ProfileThrottle])  # Раскомментировать на продакшене
+# @throttle_classes([ProfileThrottle])  # Розкоментувати на продакшені
 def save_token_view(request):
-    """Сохранение FCM токена для push-уведомлений"""
+    """Збереження FCM токену для push-сповіщень"""
     token = request.data.get('token')
     user = request.user
     if user.is_authenticated and token:
         profile = user.profile
         profile.token = token
         profile.save()
-        return Response({'message': 'Token saved successfully'})
+        return Response({'message': 'Токен успішно збережено'})
     return Response(
-        {'message': 'Invalid token or user'}, 
+        {'message': 'Невірний токен або користувач'}, 
         status=status.HTTP_400_BAD_REQUEST
     )
 
 
 class RegisterView(APIView):
-    # throttle_classes = [ProfileThrottle]  # Раскомментировать на продакшене
+    # throttle_classes = [ProfileThrottle]  # Розкоментувати на продакшені
 
     def post(self, request):
         serializer = CreateUserSerializer(data=request.data)
@@ -57,7 +57,7 @@ class RegisterView(APIView):
 
 
 class LoginView(APIView):
-    # throttle_classes = [ProfileThrottle]  # Раскомментировать на продакшене
+    # throttle_classes = [ProfileThrottle]  # Розкоментувати на продакшені
 
     def post(self, request):
         username = request.data.get('username')
@@ -70,14 +70,14 @@ class LoginView(APIView):
                 'access': str(refresh.access_token),
             })
         return Response(
-            {'error': 'Неверные учетные данные'}, 
+            {'error': 'Невірні облікові дані'}, 
             status=status.HTTP_401_UNAUTHORIZED
         )
 
 
 class LogoutView(APIView):
     permission_classes = [IsAuthenticated]
-    # throttle_classes = [ProfileThrottle]  # Раскомментировать на продакшене
+    # throttle_classes = [ProfileThrottle]  # Розкоментувати на продакшені
 
     def post(self, request):
         try:
@@ -87,13 +87,13 @@ class LogoutView(APIView):
                 token.blacklist()
                 return Response(status=status.HTTP_205_RESET_CONTENT)
             return Response(
-                {'error': 'Refresh token is required'}, 
+                {'error': 'Потрібен refresh token'}, 
                 status=status.HTTP_400_BAD_REQUEST
             )
         except Exception as e:
-            logger.error(f"Logout error: {str(e)}", exc_info=True)
+            logger.error(f"Помилка виходу: {str(e)}", exc_info=True)
             return Response(
-                {'error': 'Invalid token'}, 
+                {'error': 'Невірний токен'}, 
                 status=status.HTTP_400_BAD_REQUEST
             )
 
@@ -101,7 +101,7 @@ class LogoutView(APIView):
 class UserProfileView(APIView):
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
-    # throttle_classes = [ProfileThrottle]  # Раскомментировать на продакшене
+    # throttle_classes = [ProfileThrottle]  # Розкоментувати на продакшені
 
     def get(self, request):
         try:
@@ -131,7 +131,7 @@ class UserProfileView(APIView):
                 status=status.HTTP_404_NOT_FOUND
             )
         except Exception as e:
-            logger.error(f"Error in UserProfileView: {str(e)}", exc_info=True)
+            logger.error(f"Помилка в UserProfileView: {str(e)}", exc_info=True)
             return Response(
                 {'error': 'Внутрішня помилка сервера'}, 
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
@@ -141,7 +141,7 @@ class UserProfileView(APIView):
 class ProfileDetailView(generics.RetrieveUpdateAPIView):
     serializer_class = ProfileSerializer
     permission_classes = [permissions.IsAuthenticated]
-    # throttle_classes = [ProfileThrottle]  # Раскомментировать на продакшене
+    # throttle_classes = [ProfileThrottle]  # Розкоментувати на продакшені
 
     def get_object(self):
         return self.request.user.profile
@@ -149,7 +149,7 @@ class ProfileDetailView(generics.RetrieveUpdateAPIView):
 
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
-# @throttle_classes([ProfileThrottle])  # Раскомментировать на продакшене
+# @throttle_classes([ProfileThrottle])  # Розкоментувати на продакшені
 def update_profile_view(request):
     try:
         profile = request.user.profile
@@ -164,7 +164,7 @@ def update_profile_view(request):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
-        logger.error(f"Error updating profile: {str(e)}", exc_info=True)
+        logger.error(f"Помилка оновлення профілю: {str(e)}", exc_info=True)
         return Response(
             {'error': 'Помилка при оновленні профілю'}, 
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
@@ -174,28 +174,28 @@ def update_profile_view(request):
 @api_view(['GET'])
 def get_translators_list(request):
     try:
-        # Получаем переводчиков по роли
+        # Отримуємо перекладачів за роллю
         translators_by_role = Profile.objects.filter(
             role='Перекладач'
         ).select_related('user')
 
-        # Получаем литераторов, у которых есть книги с типом TRANSLATION
+        # Отримуємо літераторів, які мають книги з типом TRANSLATION
         literators_with_translations = Profile.objects.filter(
             role='Літератор',
-            user__owned_books__book_type='TRANSLATION'  # используем related_name из модели Book
+            user__owned_books__book_type='TRANSLATION'
         ).select_related('user').distinct()
 
-        # Объединяем результаты без использования union
+        # Об'єднуємо результати без використання union
         all_translators = list(translators_by_role) + list(literators_with_translations)
         
-        # Удаляем дубликаты
+        # Видаляємо дублікати
         unique_translators = list({translator.id: translator for translator in all_translators}.values())
         
         serializer = TranslatorListSerializer(unique_translators, many=True)
         return Response(serializer.data)
         
     except Exception as e:
-        logger.error(f"Error in get_translators_list: {str(e)}", exc_info=True)
+        logger.error(f"Помилка в get_translators_list: {str(e)}", exc_info=True)
         return Response(
             {'error': 'Внутрішня помилка сервера'}, 
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
@@ -203,7 +203,7 @@ def get_translators_list(request):
 
 
 @api_view(['GET'])
-# @throttle_classes([ProfileThrottle])  # Раскомментировать на продакшене
+# @throttle_classes([ProfileThrottle])  # Розкоментувати на продакшені
 def get_user_profile(request, username):
     try:
         profile = Profile.objects.select_related('user').get(
@@ -219,7 +219,7 @@ def get_user_profile(request, username):
             status=status.HTTP_404_NOT_FOUND
         )
     except Exception as e:
-        logger.error(f"Error in get_user_profile: {str(e)}", exc_info=True)
+        logger.error(f"Помилка в get_user_profile: {str(e)}", exc_info=True)
         return Response(
             {'error': 'Внутрішня помилка сервера'}, 
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
@@ -228,7 +228,7 @@ def get_user_profile(request, username):
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-# @throttle_classes([ProfileThrottle])  # Раскомментировать на продакшене
+# @throttle_classes([ProfileThrottle])  # Розкоментувати на продакшені
 def become_translator(request):
     try:
         user = request.user
@@ -241,7 +241,7 @@ def become_translator(request):
             }, status=status.HTTP_400_BAD_REQUEST)
         
         with transaction.atomic():
-            user.groups.clear()  # Удаляем все текущие группы
+            user.groups.clear()  # Видаляємо всі поточні групи
             user.groups.add(translator_group)
             
             profile.role = 'Перекладач'
@@ -252,7 +252,7 @@ def become_translator(request):
             'role': profile.role
         })
     except Exception as e:
-        logger.error(f"Error in become_translator: {str(e)}", exc_info=True)
+        logger.error(f"Помилка в become_translator: {str(e)}", exc_info=True)
         return Response(
             {'error': 'Помилка при зміні ролі'}, 
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
@@ -260,7 +260,7 @@ def become_translator(request):
 
 
 class AuthStatusView(APIView):
-    # throttle_classes = [ProfileThrottle]  # Раскомментировать на продакшене
+    # throttle_classes = [ProfileThrottle]  # Розкоментувати на продакшені
 
     def get(self, request):
         return Response({

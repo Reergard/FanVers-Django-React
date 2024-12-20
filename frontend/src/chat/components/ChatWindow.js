@@ -12,7 +12,7 @@ const ChatWindow = ({ chat, onDeleteChat }) => {
     const [wsConnected, setWsConnected] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-    // Загрузка сообщений
+    // Завантаження повідомлень
     useEffect(() => {
         const loadMessages = async () => {
             if (!chat?.id) return;
@@ -23,15 +23,14 @@ const ChatWindow = ({ chat, onDeleteChat }) => {
                 const chatMessages = await chatApi.getChatMessages(chat.id);
                 setMessages(chatMessages);
             } catch (error) {
-                console.error('Error loading messages:', error);
-                setError('Ошибка загрузки сообщений');
+                setError('Помилка завантаження повідомлень');
             } finally {
                 setLoading(false);
             }
         };
 
         loadMessages();
-        // Добавляем интервал для периодического обновления
+        // Додаємо інтервал для періодичного оновлення
         const interval = setInterval(loadMessages, 5000);
         return () => clearInterval(interval);
     }, [chat?.id]);
@@ -53,8 +52,7 @@ const ChatWindow = ({ chat, onDeleteChat }) => {
                     }]);
                 });
             } catch (error) {
-                console.error('WebSocket connection error:', error);
-                setError('Ошибка подключения к чату');
+                setError('Помилка підключення до чату');
             }
         };
 
@@ -83,27 +81,23 @@ const ChatWindow = ({ chat, onDeleteChat }) => {
             webSocketService.sendMessage(newMessage.trim());
             setNewMessage('');
         } catch (error) {
-            console.error('Error sending message:', error);
-            setError('Ошибка отправки сообщения');
+            setError('Помилка відправки повідомлення');
         }
     };
 
     const handleDeleteChat = async () => {
         try {
-            console.log('Attempting to delete chat:', chat.id);
             await chatApi.deleteChat(chat.id);
-            console.log('Chat deleted successfully');
             onDeleteChat(chat.id);
         } catch (error) {
-            console.error('Error deleting chat:', error);
-            setError('Ошибка при удалении чата');
+            setError('Помилка при видаленні чату');
         }
     };
 
     if (!chat) {
         return (
             <div className="chat-window empty-chat">
-                <p>Выберите чат для начала общения</p>
+                <p>Оберіть чат для початку спілкування</p>
             </div>
         );
     }
@@ -117,7 +111,7 @@ const ChatWindow = ({ chat, onDeleteChat }) => {
             <div className="chat-header">
                 <h3>{otherParticipant?.username || 'Чат'}</h3>
                 <button onClick={() => setShowDeleteModal(true)} className="delete-chat-button">
-                    Удалить чат
+                    Видалити чат
                 </button>
             </div>
 
@@ -132,7 +126,7 @@ const ChatWindow = ({ chat, onDeleteChat }) => {
             )}
 
             <div className="messages-container">
-                {loading && <div className="loading">Загрузка сообщений...</div>}
+                {loading && <div className="loading">Завантаження повідомлень...</div>}
                 {error && <div className="error-message">{error}</div>}
                 {!loading && !error && Array.isArray(messages) && messages.length > 0 ? (
                     messages.map((message) => (
@@ -154,7 +148,7 @@ const ChatWindow = ({ chat, onDeleteChat }) => {
                     ))
                 ) : (
                     <div className="no-messages">
-                        <p>В этом чате пока нет сообщений</p>
+                        <p>У цьому чаті поки немає повідомлень</p>
                     </div>
                 )}
                 <div ref={messagesEndRef} />
@@ -165,11 +159,11 @@ const ChatWindow = ({ chat, onDeleteChat }) => {
                     type="text"
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
-                    placeholder="Введите сообщение..."
+                    placeholder="Введіть повідомлення..."
                     disabled={loading}
                 />
                 <button type="submit" disabled={loading || !newMessage.trim()}>
-                    Отправить
+                    Надіслати
                 </button>
             </form>
         </div>

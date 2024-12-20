@@ -111,22 +111,51 @@ const getChapterDetail = async (bookSlug, chapterSlug) => {
     };
 
     try {
+        console.log('Fetching chapter:', { bookSlug, chapterSlug });
+        
+        if (!bookSlug || !chapterSlug) {
+            throw new Error('Відсутні необхідні параметри');
+        }
+
         const response = await api.get(
             `/catalog/books/${bookSlug}/chapters/${chapterSlug}/`,
             { headers }
         );
+        
+        if (!response.data) {
+            throw new Error('Відповідь сервера порожня');
+        }
+
+        // Проверяем обязательные поля
+        if (!response.data.title || !response.data.content) {
+            console.error('Missing required fields:', response.data);
+            throw new Error('Неповні дані глави');
+        }
+
+        const chapterData = {
+            ...response.data,
+            book: response.data.book || bookSlug,
+            id: response.data.id,
+            book_id: response.data.book_id || response.data.book || bookSlug,
+            book_title: response.data.book_title || '',
+            content: response.data.content,
+            title: response.data.title,
+            slug: response.data.slug || chapterSlug
+        };
+
+        console.log('Processed chapter data:', chapterData);
+
         return {
-            data: {
-                ...response.data,
-                book: response.data.book || bookSlug,
-                id: response.data.id || chapterSlug,
-                book_id: response.data.book || bookSlug,
-                book_title: response.data.book_title || ''
-            }
+            data: chapterData
         };
     } catch (error) {
-        console.error('Chapter detail error:', error.response?.data || error.message);
-        throw new Error('Помилка при завантаженні даних розділу');
+        console.error('Chapter detail error:', {
+            status: error.response?.status,
+            data: error.response?.data,
+            message: error.message,
+            url: `/catalog/books/${bookSlug}/chapters/${chapterSlug}/`
+        });
+        throw error;
     }
 };
 

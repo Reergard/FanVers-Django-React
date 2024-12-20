@@ -9,7 +9,7 @@ const formatDate = (date) => {
 
 const websiteAdvertisingAPI = {
     calculateCost: async (startDate, endDate) => {
-        console.log('Calculating cost for dates:', {
+        console.log('Розрахунок вартості для дат:', {
             startDate: formatDate(startDate),
             endDate: formatDate(endDate),
             rawStartDate: startDate,
@@ -21,10 +21,10 @@ const websiteAdvertisingAPI = {
                 start_date: formatDate(startDate),
                 end_date: formatDate(endDate)
             });
-            console.log('Cost calculation response:', response.data);
+            console.log('Відповідь розрахунку вартості:', response.data);
             return response.data;
         } catch (error) {
-            console.error('Cost calculation error:', {
+            console.error('Помилка розрахунку вартості:', {
                 error: error.response?.data || error,
                 sentData: { start_date: formatDate(startDate), end_date: formatDate(endDate) }
             });
@@ -33,10 +33,10 @@ const websiteAdvertisingAPI = {
     },
 
     createAdvertisement: async (data) => {
-        console.log('Starting advertisement creation with data:', data);
+        console.log('Початок створення оголошення з даними:', data);
         
         try {
-            // Проверяем баланс перед созданием рекламы
+            // Перевіряємо баланс перед створенням реклами
             const hasEnoughBalance = await usersAPI.checkBalanceForAd(data.total_cost);
             if (!hasEnoughBalance) {
                 throw new Error('Недостатньо коштів на балансі');
@@ -50,13 +50,13 @@ const websiteAdvertisingAPI = {
                 total_cost: data.total_cost
             };
             
-            console.log('Formatted data for backend:', formattedData);
+            console.log('Форматовані дані для бекенду:', formattedData);
 
             const response = await api.post('/website-advertising/advertisements/', formattedData);
-            console.log('Advertisement creation successful:', response.data);
+            console.log('Оголошення успішно створено:', response.data);
             return response.data;
         } catch (error) {
-            console.error('Advertisement creation error:', error);
+            console.error('Помилка створення оголошення:', error);
             if (error.response?.data) {
                 throw new Error(error.response.data.detail || error.response.data.error || error.message);
             }
@@ -65,13 +65,13 @@ const websiteAdvertisingAPI = {
     },
 
     getMainPageAds: async () => {
-        console.log('Starting getMainPageAds request');
+        console.log('Початок запиту getMainPageAds');
         try {
             const response = await api.get('/website-advertising/advertisements/main_page_ads/');
-            console.log('Main page ads received:', response.data);
+            console.log('Отримано оголошення головної сторінки:', response.data);
             return response.data;
         } catch (error) {
-            console.error('Error fetching main page ads:', {
+            console.error('Помилка отримання оголошень головної сторінки:', {
                 error: error.response?.data || error,
                 status: error.response?.status
             });

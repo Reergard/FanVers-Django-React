@@ -14,12 +14,12 @@ class BookAdmin(admin.ModelAdmin):
     search_fields = ['title', 'author', 'creator__username', 'owner__username']
 
     def get_creator(self, obj):
-        return obj.creator.username if obj.creator else 'Не указан'
-    get_creator.short_description = 'Создатель'
+        return obj.creator.username if obj.creator else 'Не вказано'
+    get_creator.short_description = 'Творець'
 
     def get_owner(self, obj):
-        return obj.owner.username if obj.owner else 'Не указан'
-    get_owner.short_description = 'Владелец'
+        return obj.owner.username if obj.owner else 'Не вказано'
+    get_owner.short_description = 'Власник'
 
     def get_tags(self, obj):
         return ", ".join([tag.name for tag in obj.tags.all()])
@@ -31,15 +31,15 @@ class BookAdmin(admin.ModelAdmin):
         return ", ".join([fandom.name for fandom in obj.fandoms.all()])
 
     def get_country(self, obj):
-        return obj.country.name if obj.country else 'Не указана'
-    get_country.short_description = 'Страна'
+        return obj.country.name if obj.country else 'Не вказано'
+    get_country.short_description = 'Країна'
 
     def get_chapter(self, obj):
         return ",".join([chapter.title for chapter in obj.chapters.all()])
 
     def get_last_updated(self, obj):
         return obj.last_updated.strftime("%d.%m.%Y %H:%M")
-    get_last_updated.short_description = 'Последнее обновление'
+    get_last_updated.short_description = 'Останнє оновлення'
     get_last_updated.admin_order_field = 'last_updated'
 
 

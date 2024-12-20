@@ -32,7 +32,7 @@ class BalanceOperationMixin:
                 
             profile.save()
             
-            # Логируем операцию с балансом
+            # Логіруємо операцію з балансом
             if operation_type in ['deposit', 'withdraw']:
                 from apps.monitoring.models import BalanceOperationLog
                 BalanceOperationLog.objects.create(

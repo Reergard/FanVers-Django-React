@@ -1,4 +1,4 @@
-// Сообщения об ошибках для каталога
+// Повідомлення про помилки для каталогу
 export const CATALOG_ERROR_MESSAGES = {
     author: {
         blank: 'Ви не вказали Автора книги',
@@ -40,12 +40,12 @@ export const CATALOG_ERROR_MESSAGES = {
     }
 };
 
-// Функция для получения сообщения об ошибке
+// Функція для отримання повідомлення про помилку
 export const getCatalogErrorMessage = (field, code) => {
     return CATALOG_ERROR_MESSAGES[field]?.[code] || 'Невідома помилка';
 };
 
-// Функция для отображения ошибок через toast
+// Функція для відображення помилок через toast
 export const handleCatalogApiError = (error, toast) => {
     if (error.response?.data?.errors) {
         error.response.data.errors.forEach(({ field, code }) => {

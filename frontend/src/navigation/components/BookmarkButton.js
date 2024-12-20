@@ -21,7 +21,7 @@ const BookmarkButton = ({ bookId }) => {
     });
 
     const addMutation = useMutation({
-        mutationFn: (newStatus) => addBookmark(bookId, newStatus),
+        mutationFn: (newStatus) => addBookmark(bookId, newStatus, queryClient),
         onSuccess: () => {
             queryClient.invalidateQueries(['bookmark-status', bookId]);
         },

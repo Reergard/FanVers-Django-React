@@ -6,17 +6,14 @@ const CreateChatModal = ({ onClose, onSubmit }) => {
     const [message, setMessage] = useState('');
 
     useEffect(() => {
-        console.log('Modal mounted');
         document.body.style.overflow = 'hidden';
         return () => {
-            console.log('Modal unmounted');
             document.body.style.overflow = 'unset';
         };
     }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('Submitting form with:', { username, message });
         onSubmit(username, message);
     };
 
@@ -30,33 +27,33 @@ const CreateChatModal = ({ onClose, onSubmit }) => {
         <div className="modal-overlay" onClick={handleOverlayClick}>
             <div className="create-chat-modal" onClick={e => e.stopPropagation()}>
                 <div className="modal-header">
-                    <h2>Создать новый чат</h2>
+                    <h2>Створити новий чат</h2>
                     <button className="close-button" onClick={onClose}>×</button>
                 </div>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <label htmlFor="username">Имя пользователя:</label>
+                        <label htmlFor="username">Ім'я користувача:</label>
                         <input
                             id="username"
                             type="text"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
-                            placeholder="Введите имя пользователя"
+                            placeholder="Введіть ім'я користувача"
                             required
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="message">Сообщение:</label>
+                        <label htmlFor="message">Повідомлення:</label>
                         <textarea
                             id="message"
                             value={message}
                             onChange={(e) => setMessage(e.target.value)}
-                            placeholder="Введите сообщение"
+                            placeholder="Введіть повідомлення"
                             rows="4"
                         />
                     </div>
                     <button type="submit" className="submit-button">
-                        Создать чат
+                        Створити чат
                     </button>
                 </form>
             </div>

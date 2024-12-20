@@ -41,11 +41,11 @@ class ChatViewSet(viewsets.ModelViewSet):
             other_user = User.objects.get(username=username)
             print(f"Found other user: {other_user}")
             
-            # Создаем новый чат
+            # Створюємо новий чат
             chat = Chat.objects.create()
             chat.participants.add(request.user, other_user)
             
-            # Создаем первое сообщение, если оно есть
+            # Створюємо перше повідомлення, якщо воно є
             if message:
                 Message.objects.create(
                     chat=chat,

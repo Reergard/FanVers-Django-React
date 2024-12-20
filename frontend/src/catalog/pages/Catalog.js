@@ -27,7 +27,7 @@ const Catalog = () => {
     loadBooks();
   }, []);
 
-  // Фильтруем книги перед отображением
+  
   const filteredBooks = books.filter(book => {
     if (hideAdultContent && book.adult_content) {
       return false;

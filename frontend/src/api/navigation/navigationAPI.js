@@ -1,4 +1,5 @@
 import { api } from '../instance';
+import { useQueryClient } from '@tanstack/react-query';
 
 const getChapterNavigation = async (bookSlug, chapterSlug) => {
     try {
@@ -20,12 +21,15 @@ const getBookmarksByStatus = async (status) => {
     }
 };
 
-const addBookmark = async (bookId, status) => {
+const addBookmark = async (bookId, status, queryClient) => {
     try {
         const { data } = await api.post('/navigation/bookmarks/', {
             book_id: bookId,
             status: status
         });
+        if (queryClient) {
+            queryClient.invalidateQueries(['readingStats']);
+        }
         return data;
     } catch (error) {
         throw error;

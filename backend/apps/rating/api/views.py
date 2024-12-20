@@ -46,14 +46,14 @@ class BookRatingViewSet(viewsets.ModelViewSet):
             
             ratings = BookRating.objects.filter(book=book)
             
-            # Получаем статистику по рейтингу книги
+            # Отримуємо статистику за рейтингом книги
             book_ratings = ratings.filter(rating_type='BOOK')
             book_rating_stats = book_ratings.aggregate(
                 avg_rating=Avg('rating'),
                 total_votes=models.Count('id')
             )
             
-            # Получаем статистику по рейтингу перевода
+            # Отримуємо статистику за рейтингом перекладу
             translation_ratings = ratings.filter(rating_type='TRANSLATION')
             translation_rating_stats = translation_ratings.aggregate(
                 avg_rating=Avg('rating'),

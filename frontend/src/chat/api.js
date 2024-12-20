@@ -4,7 +4,7 @@ import authService from '../auth/authService';
 const BACKEND_DOMAIN = "http://localhost:8000";
 const CHAT_URL = `${BACKEND_DOMAIN}/api/chat/`;
 
-// Создаем инстанс axios с базовой конфигурацией
+// Створюємо інстанс axios з базовою конфігурацією
 const api = axios.create({
     baseURL: BACKEND_DOMAIN,
     headers: {
@@ -12,7 +12,7 @@ const api = axios.create({
     },
 });
 
-// Добавляем перехватчик для обновления токена
+// Додаємо перехоплювач для оновлення токену
 api.interceptors.request.use(
     async (config) => {
         const token = localStorage.getItem('token');
@@ -26,7 +26,7 @@ api.interceptors.request.use(
     }
 );
 
-// Добавляем перехватчик для обработки ошибок
+// Додаємо перехоплювач для обробки помилок
 api.interceptors.response.use(
     (response) => response,
     async (error) => {
@@ -36,7 +36,7 @@ api.interceptors.response.use(
             originalRequest._retry = true;
             
             try {
-                // Попытка обновить токен
+                // Спроба оновити токен
                 const refreshToken = localStorage.getItem('refreshToken');
                 const response = await authService.refreshToken(refreshToken);
                 
@@ -46,7 +46,7 @@ api.interceptors.response.use(
                     return api(originalRequest);
                 }
             } catch (refreshError) {
-                // Если не удалось обновить токен, перенаправляем на логин
+                // Якщо не вдалося оновити токен, перенаправляємо на логін
                 localStorage.removeItem('token');
                 localStorage.removeItem('refreshToken');
                 window.location.href = '/login';
@@ -63,7 +63,6 @@ const chatApi = {
             const response = await api.get('/api/chat/');
             return response.data;
         } catch (error) {
-            console.error('Error getting chat list:', error);
             throw error;
         }
     },
@@ -73,7 +72,6 @@ const chatApi = {
             const response = await api.post('/api/chat/create/', { username, message });
             return response.data;
         } catch (error) {
-            console.error('Error creating chat:', error);
             throw error;
         }
     },
@@ -83,7 +81,6 @@ const chatApi = {
             const response = await api.get(`/api/chat/${chatId}/messages/`);
             return response.data;
         } catch (error) {
-            console.error('Error getting messages:', error);
             throw error;
         }
     },
@@ -96,7 +93,6 @@ const chatApi = {
             });
             return response.data;
         } catch (error) {
-            console.error('Error sending message:', error);
             throw error;
         }
     },
@@ -105,7 +101,6 @@ const chatApi = {
         try {
             await api.delete(`/api/chat/${chatId}/`);
         } catch (error) {
-            console.error('Error deleting chat:', error);
             throw error;
         }
     }

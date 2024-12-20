@@ -5,7 +5,7 @@ const fetchBookComments = async (bookSlug) => {
         const response = await api.get(`/reviews/book/${bookSlug}/comments/`);
         return Array.isArray(response.data) ? response.data : [];
     } catch (error) {
-        console.error('Error fetching book comments:', 
+        console.error('Помилка при отриманні коментарів до книги:', 
             error.response?.data || error.message
         );
         return [];
@@ -20,10 +20,10 @@ const postBookComment = async (bookSlug, text, parentId = null) => {
         });
         return response.data;
     } catch (error) {
-        console.error('Ошибка при отправке комментария к книге:', 
+        console.error('Помилка при надсиланні коментаря до книги:', 
             error.response?.data || error.message
         );
-        throw new Error('Не удалось отправить комментарий');
+        throw new Error('Не вдалося надіслати коментар');
     }
 };
 
@@ -32,7 +32,7 @@ const fetchChapterComments = async (chapterSlug) => {
         const response = await api.get(`/reviews/chapter/${chapterSlug}/comments/`);
         return Array.isArray(response.data) ? response.data : [];
     } catch (error) {
-        console.error('Error fetching chapter comments:', 
+        console.error('Помилка при отриманні коментарів до глави:', 
             error.response?.data || error.message
         );
         return [];
@@ -47,10 +47,10 @@ const postChapterComment = async (chapterSlug, text, parentId = null) => {
         });
         return response.data;
     } catch (error) {
-        console.error('Ошибка при отправке комментария к главе:', 
+        console.error('Помилка при надсиланні коментаря до глави:', 
             error.response?.data || error.message
         );
-        throw new Error('Не удалось отправить комментарий');
+        throw new Error('Не вдалося надіслати коментар');
     }
 };
 
@@ -61,10 +61,10 @@ const updateReaction = async (commentId, type, action) => {
         });
         return response.data;
     } catch (error) {
-        console.error('Ошибка при обновлении реакции:', 
+        console.error('Помилка при оновленні реакції:', 
             error.response?.data || error.message
         );
-        throw new Error('Не удалось обновить реакцию');
+        throw new Error('Не вдалося оновити реакцію');
     }
 };
 
@@ -87,7 +87,7 @@ const updateOwnerLike = async (commentId, commentType) => {
         );
         return response.data;
     } catch (error) {
-        console.error('Owner like error:', error.response?.data || error.message);
+        console.error('Помилка при оновленні реакції власника:', error.response?.data || error.message);
         throw new Error('Не вдалося оновити реакцію власника');
     }
 };

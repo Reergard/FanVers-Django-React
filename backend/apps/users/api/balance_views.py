@@ -53,13 +53,13 @@ class AddBalanceView(APIView):
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-# @throttle_classes([BalanceOperationThrottle])  # Раскомментировать на продакшене
+# @throttle_classes([BalanceOperationThrottle])  # Розкоментувати на продакшені
 def withdraw_balance(request):
     try:
         amount = float(request.data.get('amount', 0))
         
-        logger.info(f"Withdraw request data: {request.data}")
-        logger.info(f"Amount after conversion: {amount}")
+        logger.info(f"Запит на виведення коштів: {request.data}")
+        logger.info(f"Сума після конвертації: {amount}")
         
         serializer = BalanceOperationSerializer(
             data={
@@ -83,19 +83,19 @@ def withdraw_balance(request):
                     'new_balance': new_balance
                 })
             except ValidationError as e:
-                logger.error(f"Validation error: {str(e)}")
+                logger.error(f"Помилка валідації: {str(e)}")
                 return Response(
                     {'error': str(e)},
                     status=status.HTTP_400_BAD_REQUEST
                 )
         else:
-            logger.error(f"Serializer errors: {serializer.errors}")
+            logger.error(f"Помилки серіалізатора: {serializer.errors}")
             return Response(
                 {'error': serializer.errors},
                 status=status.HTTP_400_BAD_REQUEST
             )
     except Exception as e:
-        logger.error(f"Unexpected error: {str(e)}")
+        logger.error(f"Неочікувана помилка: {str(e)}")
         return Response(
             {'error': 'Неочікувана помилка при виведенні коштів'},
             status=status.HTTP_400_BAD_REQUEST
@@ -152,21 +152,21 @@ def purchase_chapter(request, chapter_id):
         balance_mixin = BalanceOperationMixin()
         
         with transaction.atomic():
-            # Списываем с покупателя
+            # Списуємо з покупця
             buyer_result = balance_mixin.perform_balance_operation(
                 buyer_profile,
                 chapter_price,
                 'purchase'
             )
             
-            # Начисляем владельцу
+            # Нараховуємо власнику
             owner_result = balance_mixin.perform_balance_operation(
                 owner_profile,
                 owner_amount,
                 'earning'
             )
             
-            # Записываем информацию о транзакции
+            # Записуємо інформацію про транзакцію
             TransactionLog.objects.create(
                 buyer=buyer_profile,
                 owner=owner_profile,
@@ -182,7 +182,7 @@ def purchase_chapter(request, chapter_id):
 
         return Response({
             'message': 'Глава успішно придбана',
-            'new_balance': buyer_result['balance'],
+            'new_balance': float(buyer_result),
             'chapter_id': chapter_id,
             'is_purchased': True
         })
@@ -190,7 +190,7 @@ def purchase_chapter(request, chapter_id):
     except ValidationError as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
-        logger.error(f"Purchase error: {str(e)}", exc_info=True)
+        logger.error(f"Помилка покупки: {str(e)}", exc_info=True)
         return Response(
             {'error': 'Внутрішня помилка сервера'}, 
             status=status.HTTP_500_INTERNAL_SERVER_ERROR

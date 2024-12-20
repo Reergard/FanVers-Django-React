@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.shortcuts import get_object_or_404
-from apps.catalog.models import Book, Chapter  # Добавьте импорт Chapter
+from apps.catalog.models import Book, Chapter
 
 User = get_user_model()
 

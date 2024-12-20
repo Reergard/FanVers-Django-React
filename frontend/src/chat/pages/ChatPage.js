@@ -17,7 +17,7 @@ const ChatPage = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    // Вынесем loadChats как отдельную функцию
+
     const loadChats = async () => {
         try {
             setLoading(true);
@@ -25,7 +25,7 @@ const ChatPage = () => {
             setChats(chatList);
         } catch (error) {
             console.error('Error loading chats:', error);
-            setError('Ошибка загрузки чатов');
+            setError('Помилка завантаження чатів');
             if (error.response?.status === 401) {
                 navigate('/login');
             }
@@ -61,7 +61,7 @@ const ChatPage = () => {
     const handleOpenCreateModal = useCallback(() => {
         console.log('handleOpenCreateModal called');
         if (!isAuthenticated) {
-            alert('Пожалуйста, войдите в систему');
+            alert('Будь ласка, увійдіть у систему');
             navigate('/login');
             return;
         }
@@ -75,16 +75,16 @@ const ChatPage = () => {
             const newChat = await chatApi.createChat(username, message);
             console.log('Chat created:', newChat);
             setShowCreateModal(false);
-            await loadChats(); // Теперь функция доступна здесь
+            await loadChats(); 
             setSelectedChat(newChat);
         } catch (error) {
             console.error('Error creating chat:', error);
-            setError('Ошибка при создании чата');
+            setError('Помилка під час створення чату');
             if (error.response?.status === 401) {
                 navigate('/login');
             } else {
                 console.error('Error creating chat:', error);
-                alert('Ошибка при создании чата: ' + (error.response?.data?.error || error.message));
+                alert('Помилка під час створення чату: ' + (error.response?.data?.error || error.message));
             }
         }
     };

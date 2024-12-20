@@ -27,13 +27,13 @@ class ErrorReportSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         try:
-            # Получаем book и chapter из ID если они предоставлены
+            # Отримуємо book і chapter з ID якщо вони надані
             if 'book_id' in data:
                 data['book'] = Book.objects.get(id=data['book_id'])
             if 'chapter_id' in data:
                 data['chapter'] = Chapter.objects.get(id=data['chapter_id'])
             
-            # Используем объекты book и chapter
+            # Використовуємо об'єкти book і chapter
             book = data['book']
             chapter = data['chapter']
             

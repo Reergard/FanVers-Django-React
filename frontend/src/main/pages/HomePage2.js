@@ -7,13 +7,13 @@ import { mainAPI } from '../../api/main/mainAPI';
 const HomePage2 = () => {
     const [currentBookIndex, setCurrentBookIndex] = useState(0);
     
-    // Получаем список новых книг
+    // Отримуємо список нових книг
     const { data: books } = useQuery({
         queryKey: ['books-news'],
         queryFn: () => mainAPI.getBooksNews(),
     });
 
-    // Автоматическое переключение книг каждые 10 секунд
+    // Автоматичне перемикання книг кожні 10 секунд
     useEffect(() => {
         const interval = setInterval(() => {
             if (books && books.length > 0) {
@@ -26,7 +26,7 @@ const HomePage2 = () => {
         return () => clearInterval(interval);
     }, [books]);
 
-    // Текущая книга для отображения
+    // Поточна книга для відображення
     const currentBook = books?.[currentBookIndex];
 
     return (

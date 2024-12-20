@@ -20,7 +20,7 @@ class BookCommentViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         book_slug = self.kwargs.get('slug')
         book = get_object_or_404(Book, slug=book_slug)
-        return BookComment.objects.filter(book=book, parent=None)  # Получаем только корневые комментарии
+        return BookComment.objects.filter(book=book, parent=None)  # Отримуємо тільки кореневі коментарі
 
     def create(self, request, *args, **kwargs):
         logger.info(f"Received data: {request.data}")
@@ -33,7 +33,8 @@ class BookCommentViewSet(viewsets.ModelViewSet):
             headers = self.get_success_headers(serializer.data)
             return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
         else:
-            return Response({"detail": "Authentication required to post comments."}, status=status.HTTP_403_FORBIDDEN)
+            return Response({"detail": "Для додавання коментарів потрібна авторизація."}, 
+                          status=status.HTTP_403_FORBIDDEN)
 
     def perform_create(self, serializer):
         book_slug = self.kwargs.get('slug')
@@ -43,7 +44,7 @@ class BookCommentViewSet(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         if not queryset.exists():
-            return Response({'detail': 'Комментариев пока нет.'}, status=status.HTTP_200_OK)
+            return Response({'detail': 'Коментарів поки немає.'}, status=status.HTTP_200_OK)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -61,7 +62,7 @@ class ChapterCommentViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         chapter_slug = self.kwargs.get('slug')
         chapter = get_object_or_404(Chapter, slug=chapter_slug)
-        return ChapterComment.objects.filter(chapter=chapter, parent=None)  # Получаем только корневые комментарии
+        return ChapterComment.objects.filter(chapter=chapter, parent=None)  # Отримуємо тільки кореневі коментарі
 
     def create(self, request, *args, **kwargs):
         logger.info(f"Received data: {request.data}")
@@ -74,7 +75,8 @@ class ChapterCommentViewSet(viewsets.ModelViewSet):
             headers = self.get_success_headers(serializer.data)
             return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
         else:
-            return Response({"detail": "Authentication required to post comments."}, status=status.HTTP_403_FORBIDDEN)
+            return Response({"detail": "Для додавання коментарів потрібна авторизація."}, 
+                          status=status.HTTP_403_FORBIDDEN)
 
     def perform_create(self, serializer):
         chapter_slug = self.kwargs.get('slug')
@@ -84,7 +86,7 @@ class ChapterCommentViewSet(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         if not queryset.exists():
-            return Response({'detail': 'Комментариев пока нет.'}, status=status.HTTP_200_OK)
+            return Response({'detail': 'Коментарів поки немає.'}, status=status.HTTP_200_OK)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -111,7 +113,7 @@ class LikeDislikeViewSet(viewsets.ViewSet):
         logger.info(f"User: {request.user}")
         logger.info(f"Comment ID: {pk}")
         
-        comment_type = self.basename  # 'book-comment' или 'chapter-comment'
+        comment_type = self.basename  # 'book-comment' або 'chapter-comment'
         action = request.data.get('action')
         
         logger.info(f"Comment type: {comment_type}")
@@ -123,12 +125,13 @@ class LikeDislikeViewSet(viewsets.ViewSet):
             comment = get_object_or_404(ChapterComment, pk=pk)
         else:
             logger.error(f"Invalid comment type: {comment_type}")
-            return Response({'error': 'Неверный тип комментария'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Невірний тип коментаря'}, status=status.HTTP_400_BAD_REQUEST)
 
         user = request.user
         if not user.is_authenticated:
             logger.error("User is not authenticated")
-            return Response({'error': 'Пользователь не аутентифицирован'}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({'error': 'Користувач не авторизований'}, 
+                          status=status.HTTP_401_UNAUTHORIZED)
 
         if action == 'like':
             if user in comment.likes.all():
@@ -143,8 +146,8 @@ class LikeDislikeViewSet(viewsets.ViewSet):
                 comment.dislikes.add(user)
                 comment.likes.remove(user)
         else:
-            logger.error(f"Неверное действие: {action}")
-            return Response({'error': 'Неверное действие'}, status=status.HTTP_400_BAD_REQUEST)
+            logger.error(f"Невірна дія: {action}")
+            return Response({'error': 'Невірна дія'}, status=status.HTTP_400_BAD_REQUEST)
 
         serializer = ChapterCommentSerializer(comment, context={'request': request})
         return Response(serializer.data)
@@ -162,7 +165,7 @@ class LikeDislikeViewSet(viewsets.ViewSet):
             serializer_class = ChapterCommentSerializer
         else:
             return Response(
-                {'error': 'Неверный тип комментария'}, 
+                {'error': 'Невірний тип коментаря'}, 
                 status=status.HTTP_400_BAD_REQUEST
             )
 
@@ -170,11 +173,11 @@ class LikeDislikeViewSet(viewsets.ViewSet):
         
         if request.user != book.owner:
             return Response(
-                {'error': 'Только владелец книги может ставить этот лайк'}, 
+                {'error': 'Тільки власник книги може ставити цей лайк'}, 
                 status=status.HTTP_403_FORBIDDEN
             )
 
-        # Переключаем состояние owner_like
+        # Перемикаємо стан owner_like
         if comment.owner_like == request.user:
             comment.owner_like = None
         else:

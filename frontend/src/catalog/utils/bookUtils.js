@@ -1,4 +1,4 @@
-// Статусы перевода
+// Статуси перекладу
 export const TRANSLATION_STATUSES = {
     TRANSLATING: 'Перекладається',
     WAITING: 'В очікуванні розділів',
@@ -6,7 +6,7 @@ export const TRANSLATION_STATUSES = {
     ABANDONED: 'Покинутий'
 };
 
-// Статусы оригинала
+// Статуси оригіналу
 export const ORIGINAL_STATUSES = {
     ONGOING: 'Виходить',
     COMPLETED: 'Завершено',
@@ -14,17 +14,17 @@ export const ORIGINAL_STATUSES = {
     PAUSED: 'На перерві'
 };
 
-// Получение метки статуса перевода
+// Отримання мітки статусу перекладу
 export const getTranslationStatusLabel = (status) => {
     return TRANSLATION_STATUSES[status] || status;
 };
 
-// Получение метки статуса оригинала
+// Отримання мітки статусу оригіналу
 export const getOriginalStatusLabel = (status) => {
     return ORIGINAL_STATUSES[status] || status;
 };
 
-// Получение метки типа книги
+// Отримання мітки типу книги
 export const getBookTypeLabel = (type) => {
     const bookTypes = {
         AUTHOR: 'Авторська',

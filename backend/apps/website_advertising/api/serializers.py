@@ -30,7 +30,7 @@ class AdvertisementSerializer(serializers.ModelSerializer):
         """
         if data['start_date'] > data['end_date']:
             raise serializers.ValidationError(
-                'Дата початку не може бути пізніше дати закінчення'
+                'Дата начала не может быть позже даты окончания'
             )
         
         # Проверка на пересечение дат

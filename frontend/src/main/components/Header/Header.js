@@ -30,7 +30,7 @@ const Header = () => {
     { text: "Пошук", to: "/search" }
   ];
 
-  // Состояние для ховера
+  // Стан для ховера
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
   return (

@@ -23,7 +23,7 @@ const EditChapter = () => {
                 setSelectedVolume(data.volume || '');
                 setOriginalData(data);
 
-                // Загружаем список томов для книги
+                // Завантажуємо список томів для книги
                 const bookSlug = data.book_slug;
                 const volumesResponse = await axios.get(
                     `http://localhost:8000/api/catalog/books/${bookSlug}/volumes/`
@@ -73,7 +73,7 @@ const EditChapter = () => {
 
             await editorsAPI.updateChapter(chapterId, formData);
             
-            // Возвращаемся на страницу книги
+            // Повертаємося на сторінку книги
             navigate(`/books/${originalData.book_slug}`);
             
         } catch (error) {

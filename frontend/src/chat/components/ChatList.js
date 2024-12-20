@@ -45,7 +45,7 @@ const ChatList = ({ chats, selectedChat, onSelectChat, onCreateChat }) => {
                         </div>
                     ))
                 ) : (
-                    <div className="no-chats">Нет активных чатов</div>
+                    <div className="no-chats">Немає активних чатів</div>
                 )}
             </div>
         </div>

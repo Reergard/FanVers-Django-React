@@ -8,9 +8,9 @@ from .models import Notification
 
 @receiver(post_save, sender=Chapter)
 def notify_bookmarked_users(sender, instance, created, **kwargs):
-    if created:  # Только для новых глав
+    if created: # Тільки для нових розділів
         book = instance.book
-        # Получаем всех пользователей, у которых есть закладка на эту книгу
+        # Отримуємо всіх користувачів, у яких є закладка на цю книгу
         bookmarks = Bookmark.objects.filter(book=book)
         
         for bookmark in bookmarks:

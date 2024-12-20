@@ -9,8 +9,10 @@ import ModalWithdrawBalance from '../components/ModalWithdrawBalance';
 import ModalTransactionHistory from '../components/ModalTransactionHistory';
 import { setHideAdultContent } from '../../settings/userSettingsSlice';
 import ModalAdultContent from '../components/ModalAdultContent';
+import { monitoringAPI } from '../../api/monitoring/monitoringAPI';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
-const Profile = () => {
+const Profile = () => { 
     const dispatch = useDispatch();
     const hideAdultContent = useSelector(state => state.userSettings.hideAdultContent);
     const [showAdultContentModal, setShowAdultContentModal] = useState(false);
@@ -22,6 +24,20 @@ const Profile = () => {
     const [amount, setAmount] = useState('');
     const [balanceHistory, setBalanceHistory] = useState([]);
     const [showTransactionHistory, setShowTransactionHistory] = useState(false);
+    const [readingStats, setReadingStats] = useState(null);
+
+    const queryClient = useQueryClient();
+
+    const { data: readingStatsData, refetch: refetchStats } = useQuery({
+        queryKey: ['readingStats'],
+        queryFn: () => monitoringAPI.getUserReadingStats()
+    });
+
+    useEffect(() => {
+        if (readingStatsData) {
+            setReadingStats(readingStatsData);
+        }
+    }, [readingStatsData]);
 
     const fetchProfile = useCallback(async () => {
         try {
@@ -44,6 +60,10 @@ const Profile = () => {
     useEffect(() => {
         fetchProfile();
     }, [fetchProfile]);
+
+    useEffect(() => {
+        queryClient.invalidateQueries(['readingStats']);
+    }, [queryClient]);
 
     const handleDeposit = async () => {
         try {
@@ -167,6 +187,18 @@ const Profile = () => {
                                     <span className="stat-label">Кількість перекладів:</span>
                                     <span className="stat-value">{profile.total_translations}</span>
                                 </div>
+                                <div className="stat-item">
+                                    <span className="stat-label">Прочитано книг:</span>
+                                    <span className="stat-value">{readingStats?.completed_books || 0}</span>
+                                </div>
+                                <div className="stat-item">
+                                    <span className="stat-label">Прочитано глав:</span>
+                                    <span className="stat-value">{profile.read_chapters}</span>
+                                </div>
+                                <div className="stat-item">
+                                    <span className="stat-label">Куплено глав:</span>
+                                    <span className="stat-value">{profile.purchased_chapters}</span>
+                                </div>
                             </div>
 
                             {profile.is_owner && (
@@ -233,6 +265,26 @@ const Profile = () => {
                 onHide={() => setShowAdultContentModal(false)}
                 onConfirm={handleConfirmAdultContent}
             />
+
+            {readingStats && (
+                <div className="reading-stats">
+                    <h3>Статистика читання</h3>
+                    <div className="stats-grid">
+                        <div className="stat-item">
+                            <span className="stat-label">Прочитано книг:</span>
+                            <span className="stat-value">{readingStats.completed_books}</span>
+                        </div>
+                        <div className="stat-item">
+                            <span className="stat-label">Прочитано глав:</span>
+                            <span className="stat-value">{readingStats.read_chapters}</span>
+                        </div>
+                        <div className="stat-item">
+                            <span className="stat-label">Куплено глав:</span>
+                            <span className="stat-value">{readingStats.purchased_chapters}</span>
+                        </div>
+                    </div>
+                </div>
+            )}
         </section>
     );
 };

@@ -1,6 +1,6 @@
 import { api } from '../instance';
 
-// Функция для получения рейтингов книги
+// Функція для отримання рейтингів книги
 export const fetchBookRatings = async (bookSlug, token) => {
   try {
     const response = await api.get(`/rating/${bookSlug}/book-ratings/`, {
@@ -8,12 +8,12 @@ export const fetchBookRatings = async (bookSlug, token) => {
     });
     return response.data;
   } catch (error) {
-    throw new Error('Ошибка при получении рейтингов: ' + 
+    throw new Error('Помилка при отриманні рейтингів: ' + 
       (error.response?.data?.error || error.message));
   }
 };
 
-// Функция для отправки оценки пользователя
+// Функція для надсилання оцінки користувача
 export const submitRating = async (bookSlug, ratingType, rating, token) => {
   try {
     const response = await api.post(
@@ -32,7 +32,7 @@ export const submitRating = async (bookSlug, ratingType, rating, token) => {
     );
     return response.data;
   } catch (error) {
-    throw new Error('Ошибка при отправке оценки: ' + 
+    throw new Error('Помилка при надсиланні оцінки: ' + 
       (error.response?.data?.error || error.message));
   }
 };

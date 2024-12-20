@@ -25,7 +25,7 @@ const AddChapter = () => {
   useEffect(() => {
     const checkOwnerAccess = async () => {
       if (!user) {
-        toast.error('Необхідна авторизація');
+        toast.error('Необхідна авто��изація');
         navigate(`/books/${slug}`);
         return;
       }
@@ -33,7 +33,7 @@ const AddChapter = () => {
       try {
         const bookData = await catalogAPI.fetchBook(slug);
         
-        // Проверяем права владельца
+        // Перевіряємо права власника
         if (user.id !== bookData.owner) {
           toast.error('У вас немає прав для додавання глав до цієї книги');
           navigate(`/books/${slug}`);
@@ -56,7 +56,7 @@ const AddChapter = () => {
         const volumesData = await catalogAPI.getVolumeList(slug);
         setVolumes(volumesData);
       } catch (error) {
-        console.error('Error fetching volumes:', error);
+        console.error('Помилка при отриманні томів:', error);
         toast.error(error.message || 'Помилка при завантаженні томів');
       }
     };
@@ -67,7 +67,7 @@ const AddChapter = () => {
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile && selectedFile.type !== 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
-      setError('Пожалуйста, загрузите файл в формате .docx');
+      setError('Будь ласка, завантажте файл у форматі .docx');
       return;
     }
     setFile(selectedFile);
@@ -79,12 +79,12 @@ const AddChapter = () => {
 
     try {
       if (!title || !file) {
-        setError('Заполните все обязательные поля');
+        setError('Заповніть усі обов\'язкові поля');
         return;
       }
 
       if (isPaid && (!price || price <= 0 || isNaN(price))) {
-        setError('Укажите корректную стоимость главы');
+        setError('Вкажіть коректну вартість глави');
         return;
       }
 
@@ -116,11 +116,11 @@ const AddChapter = () => {
       <Container fluid className="catalog-section" id="catalog">
         <Container className="catalog-content">
           <div>
-            <h2>Добавить главу</h2>
+            <h2>Додати главу</h2>
             {error && <p style={{ color: 'red' }}>{error}</p>}
             <form onSubmit={handleUploadChapter}>
               <div>
-                <label htmlFor="title">Название главы:</label>
+                <label htmlFor="title">Назва глави:</label>
                 <input
                   type="text"
                   id="title"
@@ -131,7 +131,7 @@ const AddChapter = () => {
               </div>
 
               <div>
-                <label htmlFor="file">Загрузить .docx файл:</label>
+                <label htmlFor="file">Завантажити .docx файл:</label>
                 <input
                   type="file"
                   id="file"
@@ -148,7 +148,7 @@ const AddChapter = () => {
                     checked={isPaid}
                     onChange={(e) => setIsPaid(e.target.checked)}
                   />
-                  Закрытый доступ (требует оплаты)
+                  Закритий доступ (потребує оплати)
                 </label>
               </div>
 
@@ -160,7 +160,7 @@ const AddChapter = () => {
                     value={selectedVolume}
                     onChange={(e) => setSelectedVolume(e.target.value)}
                   >
-                    <option value="">Выберите том</option>
+                    <option value="">Оберіть том</option>
                     {volumes.map((volume) => (
                       <option key={volume.id} value={volume.id}>
                         {volume.title}
@@ -187,7 +187,7 @@ const AddChapter = () => {
                 </div>
               )}
 
-              <button type="submit">Добавить главу</button>
+              <button type="submit">Додати розділ</button>
             </form>
           </div>
         </Container>

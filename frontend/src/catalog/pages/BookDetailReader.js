@@ -76,9 +76,15 @@ const BookDetailReader = () => {
         try {
           const response = await usersAPI.purchaseChapter(chapterId);
           
-          // Успешная покупка
-          queryClient.invalidateQueries(['chapters', slug]);
-          queryClient.invalidateQueries(['profile']);
+          // Спочатку інвалідуємо кеш
+          await Promise.all([
+            queryClient.invalidateQueries(['chapters', slug]),
+            queryClient.invalidateQueries(['profile']),
+            queryClient.invalidateQueries(['readingStats']),
+          ]);
+          
+          // Чекаємо трохи, щоб дані встигли оновитися
+          await new Promise(resolve => setTimeout(resolve, 1000));
           
           const notificationData = {
             message: `Ви успішно придбали главу "${chapter.title}" книги "${book?.title}"`,
@@ -87,10 +93,17 @@ const BookDetailReader = () => {
             user: currentUser.id,
           };
           
-          await notificationAPI.createNotification(notificationData);
-          toast.success('Глава успішно придбана');
+          try {
+            await notificationAPI.createNotification(notificationData);
+            toast.success('Розділ успішно придбаний');
+          } catch (notificationError) {
+            console.error('Notification error:', notificationError);
+          }
+          
+          
           navigate(`/books/${slug}/chapters/${chapter.slug}`);
-          return; // Выходим из функции при успехе
+          
+          return; 
           
         } catch (error) {
           lastError = error;
@@ -112,7 +125,7 @@ const BookDetailReader = () => {
         }
       }
 
-      // Если все попытки исчерпаны
+      // Якщо всі спроби вичерпано
       if (lastError) {
         throw lastError;
       }
@@ -126,7 +139,7 @@ const BookDetailReader = () => {
       
       toast.error(error.response?.data?.error || 'Помилка при купівлі глави');
     } finally {
-      // Задержка перед сбросом состояния
+      // Затримка перед скиданням стану
       setTimeout(() => {
         setIsPurchasing(false);
         purchaseInProgressRef.current = false;
@@ -136,7 +149,7 @@ const BookDetailReader = () => {
     }
   };
 
-  // Очистка при размонтировании
+  // Очищення під час розмонтування
   useEffect(() => {
     return () => {
       setIsPurchasing(false);
@@ -230,6 +243,15 @@ const BookDetailReader = () => {
                       <Link 
                         to={`/books/${slug}/chapters/${chapter.slug}`}
                         className="read-btn"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          if (!chapter.slug) {
+                            console.error('Missing chapter slug:', chapter);
+                            toast.error('Помилка: відсутній ідентифікатор глави');
+                            return;
+                          }
+                          navigate(`/books/${slug}/chapters/${chapter.slug}`);
+                        }}
                       >
                         Читати
                       </Link>

@@ -20,22 +20,22 @@ class BooksNewsSerializer(serializers.ModelSerializer):
         if obj.image:
             request = self.context.get('request')
             if request:
-                logger.info(f"Формирование URL для background_image: {obj.image.url}")
+                logger.info(f"Формування URL для background_image: {obj.image.url}")
                 return request.build_absolute_uri(obj.image.url)
-        logger.warning(f"Отсутствует изображение для книги {obj.id}")
+        logger.warning(f"Відсутнє зображення для книги {obj.id}")
         return None
 
     def get_cover_image(self, obj):
         if obj.image:
             request = self.context.get('request')
             if request:
-                logger.info(f"Формирование URL для cover_image: {obj.image.url}")
+                logger.info(f"Формування URL для cover_image: {obj.image.url}")
                 return request.build_absolute_uri(obj.image.url)
-        logger.warning(f"Отсутствует изображение для книги {obj.id}")
+        logger.warning(f"Відсутнє зображення для книги {obj.id}")
         return None
 
     def to_representation(self, instance):
-        logger.debug(f"Сериализация книги: id={instance.id}, title={instance.title}")
+        logger.debug(f"Серіалізація книги: id={instance.id}, title={instance.title}")
         representation = super().to_representation(instance)
         request = self.context.get('request')
         
@@ -44,10 +44,10 @@ class BooksNewsSerializer(serializers.ModelSerializer):
                 representation['cover_image'] = request.build_absolute_uri(instance.image.url)
                 logger.debug(f"Cover image URL: {representation['cover_image']}")
             else:
-                logger.warning(f"У книги id={instance.id} отсутствует изображение")
+                logger.warning(f"У книги id={instance.id} відсутнє зображення")
             
             representation['background_image'] = representation['cover_image']
         else:
-            logger.warning("Отсутствует объект request в контексте сериализатора")
+            logger.warning("Відсутній об'єкт request в контексті серіалізатора")
         
         return representation

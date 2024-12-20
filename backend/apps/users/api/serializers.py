@@ -33,12 +33,16 @@ class ProfileSerializer(serializers.ModelSerializer):
     is_owner = serializers.SerializerMethodField()
     balance_history = serializers.SerializerMethodField()
     commission = serializers.DecimalField(max_digits=5, decimal_places=2, read_only=True)
+    read_chapters = serializers.SerializerMethodField()
+    purchased_chapters = serializers.SerializerMethodField()
+    completed_books = serializers.SerializerMethodField()
 
     class Meta:
         model = Profile
         fields = ['id', 'username', 'about', 'image', 'role',
                  'total_characters', 'total_chapters', 'free_chapters', 
-                 'total_author', 'total_translations', 'is_owner', 'balance_history', 'commission']
+                 'total_author', 'total_translations', 'is_owner', 'balance_history', 'commission',
+                 'read_chapters', 'purchased_chapters', 'completed_books']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -91,6 +95,39 @@ class ProfileSerializer(serializers.ModelSerializer):
         return Book.objects.filter(
             owner=obj.user,
             book_type='TRANSLATION'
+        ).count()
+
+    def get_read_chapters(self, obj):
+        from apps.monitoring.models import UserChapterProgress
+        return UserChapterProgress.objects.filter(
+            user=obj.user, 
+            is_read=True
+        ).count()
+
+    def get_purchased_chapters(self, obj):
+        from apps.monitoring.models import UserChapterProgress
+        return UserChapterProgress.objects.filter(
+            user=obj.user, 
+            is_purchased=True
+        ).count()
+
+    def get_completed_books(self, obj):
+        from django.db.models import Count, Q, F
+        from apps.catalog.models import Book
+        
+        books = Book.objects.annotate(
+            total_chapters=Count('chapters'),
+            read_chapters=Count(
+                'chapters',
+                filter=Q(
+                    chapters__user_progress__user=obj.user,
+                    chapters__user_progress__is_read=True
+                )
+            )
+        ).filter(total_chapters__gt=0)
+        
+        return books.filter(
+            total_chapters=F('read_chapters')
         ).count()
 
     def to_representation(self, instance):

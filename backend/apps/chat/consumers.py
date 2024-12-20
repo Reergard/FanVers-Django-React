@@ -13,7 +13,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
         self.room_group_name = f'chat_{self.room_name}'
 
-        # Проверяем доступ к чату
+        # Перевіряємо доступ до чату
         chat_exists = await self.check_chat_access()
         if not chat_exists:
             await self.close()
@@ -46,7 +46,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
         
-        # Сохраняем сообщение в базу данных
+        # Зберігаємо повідомлення в базу даних
         saved_message = await self.save_message(message)
 
         await self.channel_layer.group_send(

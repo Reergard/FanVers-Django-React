@@ -9,6 +9,8 @@ from .middleware import get_current_request
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.db.models import Sum
+from django.core.cache import cache
+from django.db.models import Count, Q, F
 
 
 def generate_token():
@@ -116,20 +118,20 @@ class Profile(models.Model):
         return self.balance_logs.all()
     
     def get_balance_history(self, operation_type=None):
-        """Получение истории операций с балансом"""
+        """Отримання історії операцій з балансом"""
         logs = self.balance_logs.all()
         if operation_type:
             logs = logs.filter(operation_type=operation_type)
         return logs
 
     def save(self, *args, **kwargs):
-        # Если это новый профиль без роли, устанавливаем роль из группы
+        # Якщо це новий профіль без ролі, встановлюємо роль з групи
         if not self.role:
             groups = self.user.groups.all()
             self.role = 'Перекладач' if groups.filter(name='Перекладач').exists() else 'Читач'
         
-        # Если роль изменилась, обновляем группы
-        if self.pk:  # Если объект уже существует
+        # Якщо роль змінилася, оновлюємо групи
+        if self.pk:  # Якщо об'єкт вже існує
             old_profile = Profile.objects.get(pk=self.pk)
             if old_profile.role != self.role:
                 self.user.groups.clear()
@@ -139,22 +141,74 @@ class Profile(models.Model):
         super().save(*args, **kwargs)
 
     def update_commission(self):
-        """Обновление комиссии на основе количества символов"""
+        """Оновлення комісії на основі кількості символів"""
         total_chars = self.user.owned_books.aggregate(
             total=models.Sum('chapters__characters_count')
         )['total'] or 0
 
-        if total_chars >= 10000000:  # 10 миллионов
+        if total_chars >= 10000000:  # 10 мільйонів
             self.commission = 10.00
-        elif total_chars >= 5000000:  # 5 миллионов
+        elif total_chars >= 5000000:  # 5 мільйонів
             self.commission = 12.00
         else:
             self.commission = 15.00
         self.save(update_fields=['commission'])
 
     def calculate_commission_amount(self, price):
-        """Расчет суммы комиссии"""
+        """Розрахунок суми комісії"""
         return price * (self.commission / 100)
+
+    def get_reading_stats(self):
+        """Отримання статистики читання з використанням кешу"""
+        cache_key = f'user_reading_stats_{self.user.id}'
+        stats = cache.get(cache_key)
+        
+        if stats is None:
+            from apps.monitoring.models import UserChapterProgress
+            from apps.catalog.models import Book
+            
+            # Підрахунок прочитаних та придбаних глав
+            read_chapters = UserChapterProgress.objects.filter(
+                user=self.user, 
+                is_read=True
+            ).count()
+            
+            purchased_chapters = UserChapterProgress.objects.filter(
+                user=self.user, 
+                is_purchased=True
+            ).count()
+            
+            # Підрахунок повністю прочитаних книг
+            books = Book.objects.annotate(
+                total_chapters=Count('chapters'),
+                read_chapters=Count(
+                    'chapters',
+                    filter=Q(
+                        chapters__reader_progress__user=self.user,
+                        chapters__reader_progress__is_read=True
+                    )
+                )
+            ).filter(total_chapters__gt=0)
+            
+            completed_books = books.filter(
+                total_chapters=F('read_chapters')
+            ).count()
+            
+            stats = {
+                'read_chapters': read_chapters,
+                'purchased_chapters': purchased_chapters,
+                'completed_books': completed_books
+            }
+            
+            # Кешуємо на 1 годину
+            cache.set(cache_key, stats, 3600)
+            
+        return stats
+
+    def clear_reading_stats_cache(self):
+        """Очищення кешу статистики читання"""
+        cache_key = f'user_reading_stats_{self.user.id}'
+        cache.delete(cache_key)
 
 
 class BalanceLog(models.Model):
@@ -213,3 +267,10 @@ def update_user_commission(sender, instance, **kwargs):
     if instance.book and instance.book.owner:
         profile = instance.book.owner.profile
         profile.update_commission()
+
+
+@receiver(post_save, sender='monitoring.UserChapterProgress')
+def clear_reading_stats_cache(sender, instance, **kwargs):
+    """Очищення кешу статистики при оновленні прогресу читання"""
+    if instance.user and hasattr(instance.user, 'profile'):
+        instance.user.profile.clear_reading_stats_cache()

@@ -4,7 +4,8 @@ from .views import (
     BookOwnerViewSet, BookReaderViewSet,
     genres_list, tags_list, countries_list, fandoms_list,
     add_chapter, chapter_list, chapter_detail, volume_list,
-    create_volume, owned_books, delete_chapter, BookInfoView
+    create_volume, owned_books, delete_chapter, BookInfoView,
+    create_book
 )
 
 router = DefaultRouter()
@@ -26,4 +27,5 @@ urlpatterns = [
     path('owned-books/', owned_books, name='owned-books'),
     path('books/<slug:book_slug>/chapters/<int:chapter_id>/delete/', delete_chapter, name='delete_chapter'),
     path('books/info/<slug:slug>/', BookInfoView.as_view(), name='book-info'),
+    path('books/create/', create_book, name='book-create'),
 ] + router.urls
