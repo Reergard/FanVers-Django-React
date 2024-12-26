@@ -69,10 +69,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'apps.users.middleware.RequestMiddleware',  # Добавляем наш middleware
-    # 'django.middleware.cache.FetchFromCacheMiddleware', # запобігає кешуванню
-    # 'django.middleware.cache.UpdateCacheMiddleware',    # запобігає кешуванню
-    # 'apps.main.middleware.no_cache_middleware',  # запобігає кешуванню  (файл middleware.py)
+    'apps.users.middleware.RequestMiddleware',  
 ]
 
 
@@ -282,11 +279,16 @@ AUTH_PASSWORD_VALIDATORS = [
 ASGI_APPLICATION = 'FanVers_project.asgi.application'
 
 CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer"
-    }
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+            "symmetric_encryption_keys": [SECRET_KEY],
+            "capacity": 1500,
+            "expiry": 10,
+        },
+    },
 }
-
 
 
 LANGUAGE_CODE = 'en-us'

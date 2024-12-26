@@ -41,11 +41,24 @@ class ChatViewSet(viewsets.ModelViewSet):
             other_user = User.objects.get(username=username)
             print(f"Found other user: {other_user}")
             
-            # Створюємо новий чат
+            # Проверяем существующий чат
+            existing_chat = Chat.objects.filter(
+                participants=request.user
+            ).filter(
+                participants=other_user
+            ).first()
+            
+            if existing_chat:
+                return Response(
+                    {'error': f'Чат с пользователем {username} уже существует'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            
+            # Создаем новый чат
             chat = Chat.objects.create()
             chat.participants.add(request.user, other_user)
             
-            # Створюємо перше повідомлення, якщо воно є
+            # Создаем первое сообщение, если оно есть
             if message:
                 Message.objects.create(
                     chat=chat,
@@ -61,7 +74,7 @@ class ChatViewSet(viewsets.ModelViewSet):
         except User.DoesNotExist:
             print(f"User not found: {username}")
             return Response(
-                {'error': 'User not found'},
+                {'error': f'Користувач {username} не знайдений'},
                 status=status.HTTP_404_NOT_FOUND
             )
         except Exception as e:

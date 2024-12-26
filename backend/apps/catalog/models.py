@@ -132,6 +132,13 @@ class Book(models.Model):
         ('COMPLETED', 'Завершений'),
     ]
 
+    # Book.OriginalStatucChoices.STOPPED - "stopped"  
+
+    #class OriginalStatusChoices(models.TextChoices):
+    #    ONGOING = 'ONGOING', 'Виходить'
+    #    STOPPED = 'STOPPED', 'Припинено'
+    #    COMPLETED = 'COMPLETED', 'Завершений'
+
     id = models.AutoField(primary_key=True)
     
     title = models.CharField(max_length=255)
@@ -140,7 +147,7 @@ class Book(models.Model):
     book_type = models.CharField(
         max_length=20,
         choices=BOOK_TYPES,
-        default='TRANSLATION',
+        default='TRANSLATION', #  Book.TranslationStatuses.TRANSLATION
         verbose_name='Тип твору'
     )
     creator = models.ForeignKey(

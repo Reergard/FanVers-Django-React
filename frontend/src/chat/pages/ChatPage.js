@@ -71,21 +71,42 @@ const ChatPage = () => {
 
     const handleCreateChat = async (username, message) => {
         try {
+            if (!username.trim()) {
+                alert('Будь ласка, введіть ім\'я користувача');
+                return;
+            }
+
+            setLoading(true);
+            setError(null);
+            
             console.log('Creating chat with:', { username, message });
             const newChat = await chatApi.createChat(username, message);
             console.log('Chat created:', newChat);
+            
             setShowCreateModal(false);
             await loadChats(); 
             setSelectedChat(newChat);
+            
         } catch (error) {
             console.error('Error creating chat:', error);
-            setError('Помилка під час створення чату');
+            
             if (error.response?.status === 401) {
+                setError('Необхідна авторизація');
                 navigate('/login');
-            } else {
-                console.error('Error creating chat:', error);
-                alert('Помилка під час створення чату: ' + (error.response?.data?.error || error.message));
+            } 
+            else if (error.response?.status === 404) {
+                alert('Користувач не знайдений');
             }
+            else if (error.response?.status === 400) {
+                // Обработка случая существующего чата или других ошибок валидации
+                alert(error.response?.data?.error || 'Помилка при створенні чату');
+            }
+            else {
+                setError('Помилка під час створення чату');
+                alert('Невідома помилка: ' + (error.message || 'Спробуйте пізніше'));
+            }
+        } finally {
+            setLoading(false);
         }
     };
 
