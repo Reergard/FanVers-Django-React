@@ -123,6 +123,17 @@ const websiteAdvertisingAPI = {
             console.error('Помилка при отриманні реклами користувача:', error);
             throw error;
         }
+    },
+
+    getCatalogAds: async () => {
+        try {
+            const response = await api.get('/website-advertising/advertisements/catalog_page_ads/');
+            console.log('Успішно отримано рекламу для каталогу:', response.data);
+            return response.data;
+        } catch (error) {
+            console.error('Помилка при отриманні реклами для каталогу:', error);
+            throw error;
+        }
     }
 };
 

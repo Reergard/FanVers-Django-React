@@ -172,7 +172,7 @@ class AdvertisementViewSet(viewsets.ModelViewSet):
                 # Створення повідомлення
                 from apps.notification.models import Notification
                 location_names = dict(Advertisement.LOCATION_CHOICES)
-                message = f"Увага! Ви замовили рекламу на сторінці '{location_names[location]}' для книги '{book.title}' н�� період з {start_date} по {end_date} на суму {total_cost} грн!"
+                message = f"Увага! Ви замовили рекламу на сторінці '{location_names[location]}' для книги '{book.title}' на період з {start_date} по {end_date} на суму {total_cost} грн!"
                 
                 Notification.objects.create(
                     user=user,
@@ -216,6 +216,30 @@ class AdvertisementViewSet(viewsets.ModelViewSet):
             
         except Exception as e:
             logger.error(f"Помилка в main_page_ads: {str(e)}", exc_info=True)
+            raise
+
+    @action(detail=False, methods=['get'])
+    def catalog_page_ads(self, request):
+        logger.info("Отримання реклами для сторінки каталогу...")
+        try:
+            current_date = timezone.now().date()
+            logger.info(f"Поточна дата: {current_date}")
+            
+            ads = self.queryset.filter(
+                start_date__lte=current_date,
+                end_date__gte=current_date,
+                location='catalog'
+            ).select_related('book')
+            
+            logger.info(f"Знайдено {ads.count()} активних реклам для каталогу")
+            
+            serializer = self.get_serializer(ads, many=True)
+            logger.info("Реклама для каталогу успішно серіалізовано")
+            
+            return Response(serializer.data)
+            
+        except Exception as e:
+            logger.error(f"Помилка в catalog_page_ads: {str(e)}", exc_info=True)
             raise
 
     @action(detail=False, methods=['get'])

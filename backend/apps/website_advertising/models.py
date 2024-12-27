@@ -10,6 +10,7 @@ logger = logging.getLogger(__name__)
 class Advertisement(models.Model):
     LOCATION_CHOICES = [
         ('main', 'Головна сторінка'),
+        ('catalog', 'Каталог'),
         ('genres', 'Пошук за жанрами'),
         ('tags', 'Пошук за тегами'),
         ('fandoms', 'Пошук за фендомами'),

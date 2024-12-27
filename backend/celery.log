@@ -32244,3 +32244,2733 @@ INFO 2024-12-27 18:44:00,015 strategy 21476 13328 Task apps.notification.tasks.s
 INFO 2024-12-27 18:44:00,015 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[abb6dad3-8573-4972-b01b-1fb9f51fd5eb] succeeded in 0.0s: None
 INFO 2024-12-27 18:44:00,023 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[ad855153-0b7b-407a-a328-5844d0bb825b] received
 INFO 2024-12-27 18:44:00,023 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[ad855153-0b7b-407a-a328-5844d0bb825b] succeeded in 0.0s: None
+ERROR 2024-12-27 18:45:00,007 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': 'c38ec169-4666-4d13-a580-163d0e3896e8', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'c38ec169-4666-4d13-a580-163d0e3896e8', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+INFO 2024-12-27 18:45:00,007 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[3acf0f8a-01d1-4ea1-9351-e00078b28cf1] received
+INFO 2024-12-27 18:45:00,015 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[3acf0f8a-01d1-4ea1-9351-e00078b28cf1] succeeded in 0.0s: None
+ERROR 2024-12-27 18:45:00,015 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': 'dbb77307-8f51-4afd-91de-626573cbe3f8', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'dbb77307-8f51-4afd-91de-626573cbe3f8', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+INFO 2024-12-27 18:45:00,023 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[7b745921-a57e-442c-93ad-6df59e77f8f2] received
+INFO 2024-12-27 18:45:00,023 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[7b745921-a57e-442c-93ad-6df59e77f8f2] succeeded in 0.0s: None
+ERROR 2024-12-27 18:46:00,001 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': 'a4b5bea7-323c-46f4-b4f6-122aeb4622b9', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'a4b5bea7-323c-46f4-b4f6-122aeb4622b9', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+INFO 2024-12-27 18:46:00,009 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[f960aa1b-7cc8-4f6d-a8a4-437f1bdc315c] received
+INFO 2024-12-27 18:46:00,063 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[f960aa1b-7cc8-4f6d-a8a4-437f1bdc315c] succeeded in 0.06199999991804361s: None
+INFO 2024-12-27 18:46:00,063 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[a6636ac5-1a88-49ce-81f2-3f281b7b2c66] received
+INFO 2024-12-27 18:46:00,071 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[a6636ac5-1a88-49ce-81f2-3f281b7b2c66] succeeded in 0.0s: None
+ERROR 2024-12-27 18:46:00,071 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': '67df0ca9-c9fa-4867-bb75-50d22f6fe424', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '67df0ca9-c9fa-4867-bb75-50d22f6fe424', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+INFO 2024-12-27 18:47:00,004 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[b8f1aed6-76e3-45b3-98a2-32eb617f755b] received
+INFO 2024-12-27 18:47:00,004 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[b8f1aed6-76e3-45b3-98a2-32eb617f755b] succeeded in 0.0s: None
+ERROR 2024-12-27 18:47:00,004 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': '04757cdc-3912-4528-85c4-691702c93945', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '04757cdc-3912-4528-85c4-691702c93945', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+ERROR 2024-12-27 18:47:00,012 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': '893429cc-f79d-454f-b125-c452a62e0443', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '893429cc-f79d-454f-b125-c452a62e0443', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+INFO 2024-12-27 18:47:00,020 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[72f09aea-2be1-4503-b3df-cd13e0edd170] received
+INFO 2024-12-27 18:47:00,020 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[72f09aea-2be1-4503-b3df-cd13e0edd170] succeeded in 0.0s: None
+ERROR 2024-12-27 18:48:00,006 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': '2a76dd30-378b-48bb-9d9d-ccc0f1d5a911', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '2a76dd30-378b-48bb-9d9d-ccc0f1d5a911', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+ERROR 2024-12-27 18:48:00,014 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': '0236babf-e29f-4350-817a-f39b121b54f3', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '0236babf-e29f-4350-817a-f39b121b54f3', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+INFO 2024-12-27 18:48:00,014 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[9fc3120a-817e-49b3-bbfe-7095ba9b29b8] received
+INFO 2024-12-27 18:48:00,022 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[9fc3120a-817e-49b3-bbfe-7095ba9b29b8] succeeded in 0.0s: None
+INFO 2024-12-27 18:48:00,022 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[3432aa72-c5b7-44ef-b2e1-5a170efd222d] received
+INFO 2024-12-27 18:48:00,022 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[3432aa72-c5b7-44ef-b2e1-5a170efd222d] succeeded in 0.0s: None
+ERROR 2024-12-27 18:49:00,005 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': 'd8f1fe57-1404-4123-aaf0-0528c9a1ef7a', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'd8f1fe57-1404-4123-aaf0-0528c9a1ef7a', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+INFO 2024-12-27 18:49:00,013 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[4f112174-1e1f-4f37-b111-6bbd5531000a] received
+INFO 2024-12-27 18:49:00,013 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[4f112174-1e1f-4f37-b111-6bbd5531000a] succeeded in 0.0s: None
+ERROR 2024-12-27 18:49:00,013 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': '5a2b8ae6-3bc5-4214-9976-e1bac7ff9857', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '5a2b8ae6-3bc5-4214-9976-e1bac7ff9857', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+INFO 2024-12-27 18:49:00,021 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[a9bfeb64-bd30-49f4-ad62-8bd1d3a7fd7b] received
+INFO 2024-12-27 18:49:00,021 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[a9bfeb64-bd30-49f4-ad62-8bd1d3a7fd7b] succeeded in 0.0s: None
+INFO 2024-12-27 18:50:00,005 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[6f3782c7-7ca1-46e9-80f6-4559b53f0491] received
+INFO 2024-12-27 18:50:00,005 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[6f3782c7-7ca1-46e9-80f6-4559b53f0491] succeeded in 0.0s: None
+ERROR 2024-12-27 18:50:00,013 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': 'e0a5d6d1-4f9c-4a12-8e35-ecbc8254192e', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'e0a5d6d1-4f9c-4a12-8e35-ecbc8254192e', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+ERROR 2024-12-27 18:50:00,013 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': 'c451ac06-40aa-4f20-95b4-5f7ea2086b02', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'c451ac06-40aa-4f20-95b4-5f7ea2086b02', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+INFO 2024-12-27 18:50:00,021 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[07c2386e-459c-49ab-93da-18983bfae8ff] received
+INFO 2024-12-27 18:50:00,066 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[07c2386e-459c-49ab-93da-18983bfae8ff] succeeded in 0.04700000025331974s: None
+ERROR 2024-12-27 18:51:00,001 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': '32f1ae62-ed8a-4ddb-9159-7e519bd11748', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '32f1ae62-ed8a-4ddb-9159-7e519bd11748', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+INFO 2024-12-27 18:51:00,009 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[0bf79eaa-32d4-4cea-b3be-17cae3f4964a] received
+INFO 2024-12-27 18:51:00,009 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[0bf79eaa-32d4-4cea-b3be-17cae3f4964a] succeeded in 0.0s: None
+INFO 2024-12-27 18:51:00,009 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[df880fae-d8ad-407b-acb8-5a974c2be7a8] received
+INFO 2024-12-27 18:51:00,017 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[df880fae-d8ad-407b-acb8-5a974c2be7a8] succeeded in 0.014999999664723873s: None
+ERROR 2024-12-27 18:51:00,017 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': 'a0bc0a1d-ea9a-4af1-b560-b4167eeac75a', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'a0bc0a1d-ea9a-4af1-b560-b4167eeac75a', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+ERROR 2024-12-27 18:52:00,005 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': '7ee1b6cd-eb29-478c-83c5-8a651840c715', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '7ee1b6cd-eb29-478c-83c5-8a651840c715', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+INFO 2024-12-27 18:52:00,005 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[7c09d61c-e91c-4deb-abc9-63fd1b32d59d] received
+INFO 2024-12-27 18:52:00,013 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[7c09d61c-e91c-4deb-abc9-63fd1b32d59d] succeeded in 0.014999999664723873s: None
+ERROR 2024-12-27 18:52:00,013 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': '43f9aa9a-206b-4bad-810f-9d4e48367363', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '43f9aa9a-206b-4bad-810f-9d4e48367363', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+INFO 2024-12-27 18:52:00,021 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[6590b514-8353-40e7-8854-ba5b2583f689] received
+INFO 2024-12-27 18:52:00,021 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[6590b514-8353-40e7-8854-ba5b2583f689] succeeded in 0.0s: None
+INFO 2024-12-27 18:53:00,005 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[476233b1-04eb-4958-bbc9-5110b7ed2ade] received
+INFO 2024-12-27 18:53:00,008 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[476233b1-04eb-4958-bbc9-5110b7ed2ade] succeeded in 0.0s: None
+ERROR 2024-12-27 18:53:00,010 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': '3d953677-5aa2-43fa-b180-558df764e831', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '3d953677-5aa2-43fa-b180-558df764e831', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+ERROR 2024-12-27 18:53:00,014 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': '2d59a287-05aa-4dd1-b5a5-1e2ef4a4a3a5', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '2d59a287-05aa-4dd1-b5a5-1e2ef4a4a3a5', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+INFO 2024-12-27 18:53:00,018 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[c3eb6ff7-ace3-4938-bf2d-8322a25835ac] received
+INFO 2024-12-27 18:53:00,021 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[c3eb6ff7-ace3-4938-bf2d-8322a25835ac] succeeded in 0.0s: None
+INFO 2024-12-27 18:54:00,001 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[028bbe27-055f-42e4-a084-3e755a81680f] received
+INFO 2024-12-27 18:54:00,057 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[028bbe27-055f-42e4-a084-3e755a81680f] succeeded in 0.04699999978765845s: None
+INFO 2024-12-27 18:54:00,057 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[e1ada2c4-cee2-4430-b374-9cf271c64750] received
+INFO 2024-12-27 18:54:00,065 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[e1ada2c4-cee2-4430-b374-9cf271c64750] succeeded in 0.01500000013038516s: None
+ERROR 2024-12-27 18:54:00,065 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': '380a2e7e-f3a3-47bc-ba7d-247430a274fb', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '380a2e7e-f3a3-47bc-ba7d-247430a274fb', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+ERROR 2024-12-27 18:54:00,073 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': 'bc951ec9-9794-4dfb-96c0-f684f12b0acc', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'bc951ec9-9794-4dfb-96c0-f684f12b0acc', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+ERROR 2024-12-27 18:55:00,005 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': '963520b3-b4d7-4883-9334-99e34827a29f', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '963520b3-b4d7-4883-9334-99e34827a29f', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+ERROR 2024-12-27 18:55:00,013 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': '3fcf4733-fbb3-44ec-9420-89f8ef1fd322', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '3fcf4733-fbb3-44ec-9420-89f8ef1fd322', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+INFO 2024-12-27 18:55:00,013 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[74dbc069-2e4c-45c9-a9f4-a2ad8db488cd] received
+INFO 2024-12-27 18:55:00,021 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[74dbc069-2e4c-45c9-a9f4-a2ad8db488cd] succeeded in 0.0s: None
+INFO 2024-12-27 18:55:00,021 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[fec82d49-372f-4890-8f9c-34c9f731c91e] received
+INFO 2024-12-27 18:55:00,021 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[fec82d49-372f-4890-8f9c-34c9f731c91e] succeeded in 0.0s: None
+ERROR 2024-12-27 18:56:00,008 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': 'd4b9f258-bb62-490c-a671-1557fd3fd1b8', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'd4b9f258-bb62-490c-a671-1557fd3fd1b8', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+INFO 2024-12-27 18:56:00,015 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[8a866e4c-5eb7-4b53-81b6-4aff5d6bebb2] received
+INFO 2024-12-27 18:56:00,015 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[8a866e4c-5eb7-4b53-81b6-4aff5d6bebb2] succeeded in 0.0s: None
+ERROR 2024-12-27 18:56:00,015 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': 'fb58e25f-b1d3-43b7-8be6-f1ec814f5490', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'fb58e25f-b1d3-43b7-8be6-f1ec814f5490', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+INFO 2024-12-27 18:56:00,023 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[2d137f23-4d0b-4634-a9e0-0db11ef3f19c] received
+INFO 2024-12-27 18:56:00,023 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[2d137f23-4d0b-4634-a9e0-0db11ef3f19c] succeeded in 0.0s: None
+ERROR 2024-12-27 18:57:00,006 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': '7fd9114b-3ba2-46ad-9f47-4ec0c0f4d3aa', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '7fd9114b-3ba2-46ad-9f47-4ec0c0f4d3aa', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+ERROR 2024-12-27 18:57:00,014 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': '11a34739-5bd1-4450-8054-923193a77695', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '11a34739-5bd1-4450-8054-923193a77695', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+INFO 2024-12-27 18:57:00,014 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[f9d4c6ad-db02-4340-afa9-9f645ae9b7b8] received
+INFO 2024-12-27 18:57:00,022 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[f9d4c6ad-db02-4340-afa9-9f645ae9b7b8] succeeded in 0.0s: None
+INFO 2024-12-27 18:57:00,022 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[7b74e0fb-cfeb-4bdd-a5ec-497c84c6fd43] received
+INFO 2024-12-27 18:57:00,022 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[7b74e0fb-cfeb-4bdd-a5ec-497c84c6fd43] succeeded in 0.0s: None
+INFO 2024-12-27 18:58:00,001 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[ef09895b-1c69-4b81-b0f6-40636ede90c5] received
+INFO 2024-12-27 18:58:00,009 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[ef09895b-1c69-4b81-b0f6-40636ede90c5] succeeded in 0.0s: None
+INFO 2024-12-27 18:58:00,009 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[e84b9519-4b77-438a-851e-8e0e509a9e0d] received
+INFO 2024-12-27 18:58:00,064 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[e84b9519-4b77-438a-851e-8e0e509a9e0d] succeeded in 0.06199999991804361s: None
+ERROR 2024-12-27 18:58:00,064 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': 'abf037c7-0474-4d3c-bc1f-54f7be00f4fc', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'abf037c7-0474-4d3c-bc1f-54f7be00f4fc', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+ERROR 2024-12-27 18:58:00,064 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': '653561ab-4be0-4729-8874-45b31589ea63', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '653561ab-4be0-4729-8874-45b31589ea63', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+INFO 2024-12-27 18:59:00,004 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[2c5fd26b-62d6-4e26-a91a-ae30b8446802] received
+INFO 2024-12-27 18:59:00,004 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[2c5fd26b-62d6-4e26-a91a-ae30b8446802] succeeded in 0.0s: None
+INFO 2024-12-27 18:59:00,012 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[d58f8107-1cba-47a3-8e2b-dba5e3d3ddb5] received
+INFO 2024-12-27 18:59:00,012 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[d58f8107-1cba-47a3-8e2b-dba5e3d3ddb5] succeeded in 0.0s: None
+ERROR 2024-12-27 18:59:00,012 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': '8160791b-8833-4524-8cc2-a4228a1409e7', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '8160791b-8833-4524-8cc2-a4228a1409e7', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+ERROR 2024-12-27 18:59:00,020 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': '2d455320-5e45-4ac6-90d7-d01cc2126f8d', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '2d455320-5e45-4ac6-90d7-d01cc2126f8d', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+ERROR 2024-12-27 19:00:00,007 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': '5c1d2966-5c4e-4c5f-8b8d-9bd16f1f5cca', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '5c1d2966-5c4e-4c5f-8b8d-9bd16f1f5cca', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+ERROR 2024-12-27 19:00:00,015 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': 'c5a2bf2b-aec7-4c4a-9922-a4b6e085699a', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'c5a2bf2b-aec7-4c4a-9922-a4b6e085699a', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+INFO 2024-12-27 19:00:00,015 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[1f4e4658-e0fd-4e12-8faa-d96c634f5f0b] received
+INFO 2024-12-27 19:00:00,015 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[1f4e4658-e0fd-4e12-8faa-d96c634f5f0b] succeeded in 0.0s: None
+INFO 2024-12-27 19:00:00,023 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[49e7231c-c1be-4df0-9113-cf4fe904504a] received
+INFO 2024-12-27 19:00:00,023 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[49e7231c-c1be-4df0-9113-cf4fe904504a] succeeded in 0.0s: None
+ERROR 2024-12-27 19:01:00,000 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': '072cdfaa-e1a5-4ac9-b624-99c1ac0ffbcc', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '072cdfaa-e1a5-4ac9-b624-99c1ac0ffbcc', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+INFO 2024-12-27 19:01:00,008 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[57fa527b-a602-4db5-bef5-f8be845eecf3] received
+INFO 2024-12-27 19:01:00,008 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[57fa527b-a602-4db5-bef5-f8be845eecf3] succeeded in 0.0s: None
+INFO 2024-12-27 19:01:00,016 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[654a5592-85b8-4388-8494-9237531dd44b] received
+INFO 2024-12-27 19:01:00,016 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[654a5592-85b8-4388-8494-9237531dd44b] succeeded in 0.0s: None
+ERROR 2024-12-27 19:01:00,016 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': '8f2f96b1-df2f-493b-9b92-7446783b2aa0', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '8f2f96b1-df2f-493b-9b92-7446783b2aa0', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+ERROR 2024-12-27 19:02:00,002 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': '57b5736d-860e-4901-9b31-6a3481ecc802', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '57b5736d-860e-4901-9b31-6a3481ecc802', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+ERROR 2024-12-27 19:02:00,002 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': '90e43bba-8bb3-44be-a7fb-44161fe574cd', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '90e43bba-8bb3-44be-a7fb-44161fe574cd', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+INFO 2024-12-27 19:02:00,010 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[efb2d867-a485-464b-9ac3-80a3b14163f9] received
+INFO 2024-12-27 19:02:00,010 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[efb2d867-a485-464b-9ac3-80a3b14163f9] succeeded in 0.0s: None
+INFO 2024-12-27 19:02:00,018 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[66527211-8803-4f24-99e5-5b83df706698] received
+INFO 2024-12-27 19:02:00,068 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[66527211-8803-4f24-99e5-5b83df706698] succeeded in 0.04700000025331974s: None
+INFO 2024-12-27 19:03:00,007 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[ba5faf2c-900e-4c81-99eb-052d46f84a30] received
+INFO 2024-12-27 19:03:00,007 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[ba5faf2c-900e-4c81-99eb-052d46f84a30] succeeded in 0.0s: None
+ERROR 2024-12-27 19:03:00,015 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': 'a5ed3461-109d-4abd-ab05-d258f5d877ab', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'a5ed3461-109d-4abd-ab05-d258f5d877ab', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+ERROR 2024-12-27 19:03:00,015 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': 'd3b58533-5aae-4696-8c7f-4c5110c816f3', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'd3b58533-5aae-4696-8c7f-4c5110c816f3', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+INFO 2024-12-27 19:03:00,023 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[0ae2e3ea-d3e7-4882-9b1d-1d2262c7a21b] received
+INFO 2024-12-27 19:03:00,027 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[0ae2e3ea-d3e7-4882-9b1d-1d2262c7a21b] succeeded in 0.0s: None
+INFO 2024-12-27 19:04:00,007 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[930cb273-bb84-4430-a8d2-71303d877972] received
+INFO 2024-12-27 19:04:00,007 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[930cb273-bb84-4430-a8d2-71303d877972] succeeded in 0.0s: None
+INFO 2024-12-27 19:04:00,007 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[6a531d7a-9619-494a-9311-5e19c94d66e4] received
+INFO 2024-12-27 19:04:00,015 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[6a531d7a-9619-494a-9311-5e19c94d66e4] succeeded in 0.0s: None
+ERROR 2024-12-27 19:04:00,015 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': '207cdd93-0a2b-4d28-9f9c-2041e0738adf', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '207cdd93-0a2b-4d28-9f9c-2041e0738adf', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+ERROR 2024-12-27 19:04:00,023 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': '875f798d-fcd9-4101-b4a1-391169f03967', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '875f798d-fcd9-4101-b4a1-391169f03967', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+ERROR 2024-12-27 19:05:00,060 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': '5fd51cda-e372-47ea-bc19-4c16fdf55af0', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '5fd51cda-e372-47ea-bc19-4c16fdf55af0', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+INFO 2024-12-27 19:05:00,060 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[690b69fd-8e7e-4fcd-811b-5e26c7d7e9e1] received
+INFO 2024-12-27 19:05:00,084 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[690b69fd-8e7e-4fcd-811b-5e26c7d7e9e1] succeeded in 0.015999999828636646s: None
+INFO 2024-12-27 19:05:00,084 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[78c981d5-5346-4b52-ab1a-d4e66bd9170f] received
+INFO 2024-12-27 19:05:00,084 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[78c981d5-5346-4b52-ab1a-d4e66bd9170f] succeeded in 0.0s: None
+ERROR 2024-12-27 19:05:00,092 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': '513f5260-6d67-45b2-94da-9abffc6f18ea', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '513f5260-6d67-45b2-94da-9abffc6f18ea', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+ERROR 2024-12-27 19:06:00,003 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': 'e3d3d7b3-1274-4eab-a224-3f0e2f45c679', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'e3d3d7b3-1274-4eab-a224-3f0e2f45c679', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+INFO 2024-12-27 19:06:00,003 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[1d95c2a2-066b-451e-92c6-f1fa02bc96f8] received
+INFO 2024-12-27 19:06:00,011 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[1d95c2a2-066b-451e-92c6-f1fa02bc96f8] succeeded in 0.0s: None
+INFO 2024-12-27 19:06:00,011 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[ecdbf65b-a479-4f5c-969f-92beb277e31d] received
+INFO 2024-12-27 19:06:00,019 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[ecdbf65b-a479-4f5c-969f-92beb277e31d] succeeded in 0.014999999664723873s: None
+ERROR 2024-12-27 19:06:00,019 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': '39920601-4b6c-40a9-adcb-b0cc09cf49ad', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '39920601-4b6c-40a9-adcb-b0cc09cf49ad', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+ERROR 2024-12-27 19:07:00,001 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': 'cd6cb103-2e21-4393-b04a-436c5c2e1598', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'cd6cb103-2e21-4393-b04a-436c5c2e1598', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+INFO 2024-12-27 19:07:00,001 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[df679e63-d3af-4946-bfe5-42ca96d34f4d] received
+INFO 2024-12-27 19:07:00,009 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[df679e63-d3af-4946-bfe5-42ca96d34f4d] succeeded in 0.0s: None
+INFO 2024-12-27 19:07:00,009 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[661a2a88-2880-42e6-9e34-92920791cc04] received
+INFO 2024-12-27 19:07:00,009 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[661a2a88-2880-42e6-9e34-92920791cc04] succeeded in 0.0s: None
+ERROR 2024-12-27 19:07:00,017 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': 'fe7c8b0d-7a9f-4ec0-9ce5-b0f28364427f', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'fe7c8b0d-7a9f-4ec0-9ce5-b0f28364427f', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+INFO 2024-12-27 19:08:00,007 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[82b6014c-d001-4639-8f39-6f01bb0e62bb] received
+INFO 2024-12-27 19:08:00,007 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[82b6014c-d001-4639-8f39-6f01bb0e62bb] succeeded in 0.0s: None
+ERROR 2024-12-27 19:08:00,015 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': '5b62f3ec-37cc-4942-86f9-3d3cb903c109', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '5b62f3ec-37cc-4942-86f9-3d3cb903c109', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+ERROR 2024-12-27 19:08:00,015 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': '1d5f62fb-aa7c-49af-b723-95ca3fcb714a', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '1d5f62fb-aa7c-49af-b723-95ca3fcb714a', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+INFO 2024-12-27 19:08:00,023 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[b8c0e9d3-18e3-4311-999e-159168f0ddb1] received
+INFO 2024-12-27 19:08:00,023 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[b8c0e9d3-18e3-4311-999e-159168f0ddb1] succeeded in 0.0s: None
+ERROR 2024-12-27 19:09:00,002 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': '03e1f01d-2bb5-44f3-a0af-a30ee30d24ac', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '03e1f01d-2bb5-44f3-a0af-a30ee30d24ac', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+ERROR 2024-12-27 19:09:00,002 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': '2889f951-5098-4e8f-b3cb-eed11c827041', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '2889f951-5098-4e8f-b3cb-eed11c827041', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+INFO 2024-12-27 19:09:00,010 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[ba502845-0010-4ec2-96f7-a4b49d2576a6] received
+INFO 2024-12-27 19:09:00,058 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[ba502845-0010-4ec2-96f7-a4b49d2576a6] succeeded in 0.04699999978765845s: None
+INFO 2024-12-27 19:09:00,058 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[8fd7d48b-3330-45ed-895b-fc223559f0f2] received
+INFO 2024-12-27 19:09:00,066 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[8fd7d48b-3330-45ed-895b-fc223559f0f2] succeeded in 0.01500000013038516s: None
+ERROR 2024-12-27 19:10:00,005 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': '4f467fe2-f5c7-4f8f-8168-4c69e792342f', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '4f467fe2-f5c7-4f8f-8168-4c69e792342f', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+ERROR 2024-12-27 19:10:00,005 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': '46ed29c8-d966-486e-834e-cd6627ed9f7c', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '46ed29c8-d966-486e-834e-cd6627ed9f7c', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+INFO 2024-12-27 19:10:00,013 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[fdb63a0d-2f1e-4ab0-a317-561c1192705c] received
+INFO 2024-12-27 19:10:00,021 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[fdb63a0d-2f1e-4ab0-a317-561c1192705c] succeeded in 0.0s: None
+INFO 2024-12-27 19:10:00,021 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[99550627-1e13-42ac-842e-bc848f555622] received
+INFO 2024-12-27 19:10:00,021 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[99550627-1e13-42ac-842e-bc848f555622] succeeded in 0.0s: None
+INFO 2024-12-27 19:11:00,003 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[4b68e049-e3c0-468a-82db-2452d69e12fc] received
+INFO 2024-12-27 19:11:00,003 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[4b68e049-e3c0-468a-82db-2452d69e12fc] succeeded in 0.0s: None
+ERROR 2024-12-27 19:11:00,011 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': 'f2b25ed0-4f7e-49bc-ac45-8c0040d5b138', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'f2b25ed0-4f7e-49bc-ac45-8c0040d5b138', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+ERROR 2024-12-27 19:11:00,011 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': 'bf87cf31-8953-415f-a66d-d08e7c4bca1a', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'bf87cf31-8953-415f-a66d-d08e7c4bca1a', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+INFO 2024-12-27 19:11:00,019 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[a1afe730-806c-4b88-9a34-ab4cb6045de5] received
+INFO 2024-12-27 19:11:00,019 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[a1afe730-806c-4b88-9a34-ab4cb6045de5] succeeded in 0.0s: None
+ERROR 2024-12-27 19:12:00,005 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': '82465da9-a633-4229-8e64-1fdb3f26fb06', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '82465da9-a633-4229-8e64-1fdb3f26fb06', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+INFO 2024-12-27 19:12:00,013 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[83603740-3ae4-4ac1-829c-24c240557e96] received
+INFO 2024-12-27 19:12:00,013 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[83603740-3ae4-4ac1-829c-24c240557e96] succeeded in 0.0s: None
+ERROR 2024-12-27 19:12:00,013 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': '2d2512ac-2f39-49d0-b8fc-113cd511b265', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '2d2512ac-2f39-49d0-b8fc-113cd511b265', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+INFO 2024-12-27 19:12:00,021 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[7376ba98-0087-48b6-ab35-054f3398e844] received
+INFO 2024-12-27 19:12:00,021 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[7376ba98-0087-48b6-ab35-054f3398e844] succeeded in 0.0s: None
+INFO 2024-12-27 19:13:00,007 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[cc930679-5ea3-4d53-b4ff-873de5cf03ce] received
+INFO 2024-12-27 19:13:00,007 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[cc930679-5ea3-4d53-b4ff-873de5cf03ce] succeeded in 0.0s: None
+INFO 2024-12-27 19:13:00,015 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[1737a015-c71d-4953-b5c6-7d4458985833] received
+INFO 2024-12-27 19:13:00,060 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[1737a015-c71d-4953-b5c6-7d4458985833] succeeded in 0.04700000025331974s: None
+ERROR 2024-12-27 19:13:00,068 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': 'd4013e8d-0bce-49cd-90cf-fa22a6876790', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'd4013e8d-0bce-49cd-90cf-fa22a6876790', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+ERROR 2024-12-27 19:13:00,068 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': 'c4595072-f10e-4bc3-8c57-f7dbe89c698e', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'c4595072-f10e-4bc3-8c57-f7dbe89c698e', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+INFO 2024-12-27 19:14:00,004 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[475e25da-5c4e-483a-876b-a9402728016f] received
+INFO 2024-12-27 19:14:00,004 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[475e25da-5c4e-483a-876b-a9402728016f] succeeded in 0.0s: None
+ERROR 2024-12-27 19:14:00,012 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': '4aa34adf-8dab-4b02-918a-76abeee7df07', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '4aa34adf-8dab-4b02-918a-76abeee7df07', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+ERROR 2024-12-27 19:14:00,012 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': 'f78838b6-18ad-471c-ae82-e6b8b7d60021', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'f78838b6-18ad-471c-ae82-e6b8b7d60021', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+INFO 2024-12-27 19:14:00,020 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[24fd97ca-5119-4279-bcdc-9bf37f4db5ae] received
+INFO 2024-12-27 19:14:00,020 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[24fd97ca-5119-4279-bcdc-9bf37f4db5ae] succeeded in 0.0s: None
+INFO 2024-12-27 19:15:00,002 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[3deb3772-b7dc-4871-a9a6-b5489730abe9] received
+INFO 2024-12-27 19:15:00,002 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[3deb3772-b7dc-4871-a9a6-b5489730abe9] succeeded in 0.0s: None
+INFO 2024-12-27 19:15:00,010 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[fcbcae7d-d66b-4a99-8808-a274295f9b7e] received
+INFO 2024-12-27 19:15:00,010 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[fcbcae7d-d66b-4a99-8808-a274295f9b7e] succeeded in 0.0s: None
+ERROR 2024-12-27 19:15:00,018 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': '0e5ee804-1d19-44cc-ab8b-ab3819078e1d', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '0e5ee804-1d19-44cc-ab8b-ab3819078e1d', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+ERROR 2024-12-27 19:15:00,018 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': 'd1ad9209-881b-412d-9e4a-9d92363d8e6a', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'd1ad9209-881b-412d-9e4a-9d92363d8e6a', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+ERROR 2024-12-27 19:16:00,002 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': '373fe48c-ad0d-4cd7-b966-383f1a2fff7d', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '373fe48c-ad0d-4cd7-b966-383f1a2fff7d', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+INFO 2024-12-27 19:16:00,010 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[f85019ec-f61d-4c28-9fc9-cdfffbc8abbd] received
+INFO 2024-12-27 19:16:00,010 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[f85019ec-f61d-4c28-9fc9-cdfffbc8abbd] succeeded in 0.0s: None
+ERROR 2024-12-27 19:16:00,010 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': 'bba09d1f-6893-444f-b2b4-94fb2e483f1f', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'bba09d1f-6893-444f-b2b4-94fb2e483f1f', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+INFO 2024-12-27 19:16:00,018 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[7934fcf0-55b9-48e2-9d0a-9f65bacdcf3f] received
+INFO 2024-12-27 19:16:00,018 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[7934fcf0-55b9-48e2-9d0a-9f65bacdcf3f] succeeded in 0.0s: None
+INFO 2024-12-27 19:17:00,007 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[d12218c7-c36a-4dcb-b312-065cd0636b0a] received
+INFO 2024-12-27 19:17:00,007 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[d12218c7-c36a-4dcb-b312-065cd0636b0a] succeeded in 0.0s: None
+ERROR 2024-12-27 19:17:00,015 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': '64860dcf-10c7-4cd9-86aa-f5c6d3904757', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '64860dcf-10c7-4cd9-86aa-f5c6d3904757', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+INFO 2024-12-27 19:17:00,015 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[4b963006-9c0c-4e92-b1de-2bc72bf7e623] received
+INFO 2024-12-27 19:17:00,039 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[4b963006-9c0c-4e92-b1de-2bc72bf7e623] succeeded in 0.016000000294297934s: None
+ERROR 2024-12-27 19:17:00,039 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': '102196fd-50b2-4eaa-afe3-178fb4f6098a', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '102196fd-50b2-4eaa-afe3-178fb4f6098a', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+ERROR 2024-12-27 19:18:00,002 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': '7c1a7a62-4bc6-4277-a5de-f8cdcab3074b', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '7c1a7a62-4bc6-4277-a5de-f8cdcab3074b', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+ERROR 2024-12-27 19:18:00,010 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': 'bd41ece0-550e-4b91-9d44-462137dcc045', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'bd41ece0-550e-4b91-9d44-462137dcc045', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+INFO 2024-12-27 19:18:00,010 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[76282cd5-5d4c-4598-a004-95ce5069072b] received
+INFO 2024-12-27 19:18:00,018 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[76282cd5-5d4c-4598-a004-95ce5069072b] succeeded in 0.014999999664723873s: None
+INFO 2024-12-27 19:18:00,018 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[78328bc9-b681-48f1-9e1e-0d27797436d7] received
+INFO 2024-12-27 19:18:00,018 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[78328bc9-b681-48f1-9e1e-0d27797436d7] succeeded in 0.0s: None
+INFO 2024-12-27 19:19:00,004 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[e95e45b3-7606-4a47-a1b7-1edf16aae87b] received
+INFO 2024-12-27 19:19:00,004 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[e95e45b3-7606-4a47-a1b7-1edf16aae87b] succeeded in 0.0s: None
+ERROR 2024-12-27 19:19:00,012 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': 'aed7fc23-cc61-45de-b4d6-59ae07929db9', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'aed7fc23-cc61-45de-b4d6-59ae07929db9', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+INFO 2024-12-27 19:19:00,012 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[9554d790-4ced-4227-a316-95ee04354549] received
+INFO 2024-12-27 19:19:00,012 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[9554d790-4ced-4227-a316-95ee04354549] succeeded in 0.0s: None
+ERROR 2024-12-27 19:19:00,020 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': '7c1cdfa9-71f1-4942-8a10-aada696203d1', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '7c1cdfa9-71f1-4942-8a10-aada696203d1', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+ERROR 2024-12-27 19:20:00,007 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': '7263e4d1-d8e0-48af-bbc3-f08b8808f85c', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '7263e4d1-d8e0-48af-bbc3-f08b8808f85c', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+INFO 2024-12-27 19:20:00,015 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[96c04d62-a7d8-4a25-a5bd-29df24547fa8] received
+INFO 2024-12-27 19:20:00,015 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[96c04d62-a7d8-4a25-a5bd-29df24547fa8] succeeded in 0.0s: None
+ERROR 2024-12-27 19:20:00,015 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': 'e4191fc0-ec3e-4584-a0f6-9dc95a24fcbe', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'e4191fc0-ec3e-4584-a0f6-9dc95a24fcbe', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+INFO 2024-12-27 19:20:00,023 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[b8acc147-8457-46ec-93eb-1b640ca3b7f4] received
+INFO 2024-12-27 19:20:00,023 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[b8acc147-8457-46ec-93eb-1b640ca3b7f4] succeeded in 0.0s: None
+INFO 2024-12-27 19:21:00,007 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[421e62c8-0bb5-41ea-9618-b1e1024f1b4b] received
+INFO 2024-12-27 19:21:00,063 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[421e62c8-0bb5-41ea-9618-b1e1024f1b4b] succeeded in 0.06199999991804361s: None
+ERROR 2024-12-27 19:21:00,063 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': '1fa209e3-6d1e-4853-b32f-20af9420cdda', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '1fa209e3-6d1e-4853-b32f-20af9420cdda', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+INFO 2024-12-27 19:21:00,079 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[4d60cb88-6c3b-4728-861c-c7d2df258e87] received
+INFO 2024-12-27 19:21:00,095 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[4d60cb88-6c3b-4728-861c-c7d2df258e87] succeeded in 0.01500000013038516s: None
+ERROR 2024-12-27 19:21:00,095 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': '12a7925c-5e7d-4183-8ef6-cc017caf48b7', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '12a7925c-5e7d-4183-8ef6-cc017caf48b7', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+ERROR 2024-12-27 19:22:00,006 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': 'a364c11f-187d-4427-9ed4-95b15e29cb09', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'a364c11f-187d-4427-9ed4-95b15e29cb09', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+INFO 2024-12-27 19:22:00,006 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[d5709984-c4c5-4a13-801a-0421337e8f3f] received
+INFO 2024-12-27 19:22:00,014 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[d5709984-c4c5-4a13-801a-0421337e8f3f] succeeded in 0.0s: None
+INFO 2024-12-27 19:22:00,014 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[712cd961-2b5e-4821-a3d9-3cc480fe6f6e] received
+INFO 2024-12-27 19:22:00,022 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[712cd961-2b5e-4821-a3d9-3cc480fe6f6e] succeeded in 0.0s: None
+ERROR 2024-12-27 19:22:00,022 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': '3680e8db-86cb-4457-916f-179a086fa2c9', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '3680e8db-86cb-4457-916f-179a086fa2c9', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+INFO 2024-12-27 19:23:00,004 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[c0829e5a-2196-4c61-b668-e726532976cc] received
+INFO 2024-12-27 19:23:00,004 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[c0829e5a-2196-4c61-b668-e726532976cc] succeeded in 0.0s: None
+INFO 2024-12-27 19:23:00,012 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[e1ca0b3c-8e2c-4902-9999-2af72aaf4f6b] received
+INFO 2024-12-27 19:23:00,012 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[e1ca0b3c-8e2c-4902-9999-2af72aaf4f6b] succeeded in 0.0s: None
+ERROR 2024-12-27 19:23:00,012 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': '036f3723-6e58-4f8b-bddd-3d4a051ac85a', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '036f3723-6e58-4f8b-bddd-3d4a051ac85a', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+ERROR 2024-12-27 19:23:00,020 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': '8b7b67a3-6d28-492a-a627-c09f3688f9e5', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '8b7b67a3-6d28-492a-a627-c09f3688f9e5', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+ERROR 2024-12-27 19:24:00,001 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': '8e3ae0bd-32c5-4c5b-abca-085c3c2fc88c', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '8e3ae0bd-32c5-4c5b-abca-085c3c2fc88c', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+INFO 2024-12-27 19:24:00,001 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[72c578b3-8073-4a7d-bad7-01db3636fc36] received
+INFO 2024-12-27 19:24:00,009 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[72c578b3-8073-4a7d-bad7-01db3636fc36] succeeded in 0.0s: None
+ERROR 2024-12-27 19:24:00,009 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': '321bb8a7-7a9b-446a-934c-2f9c8a6cb78b', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '321bb8a7-7a9b-446a-934c-2f9c8a6cb78b', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+INFO 2024-12-27 19:24:00,017 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[54110cde-2fef-465f-b032-e95beae3098f] received
+INFO 2024-12-27 19:24:00,017 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[54110cde-2fef-465f-b032-e95beae3098f] succeeded in 0.0s: None
+ERROR 2024-12-27 19:25:00,007 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': '317f81ed-30c9-4d0b-815c-ff8f77c8b2df', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '317f81ed-30c9-4d0b-815c-ff8f77c8b2df', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+INFO 2024-12-27 19:25:00,015 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[45fb1345-491b-4cad-92ba-461c036c73bb] received
+INFO 2024-12-27 19:25:00,015 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[45fb1345-491b-4cad-92ba-461c036c73bb] succeeded in 0.0s: None
+ERROR 2024-12-27 19:25:00,015 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': 'b0e5e310-6321-4986-b4da-561a8d8f3e7f', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'b0e5e310-6321-4986-b4da-561a8d8f3e7f', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+INFO 2024-12-27 19:25:00,023 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[ea28be30-27be-4ffa-95a4-26d8348ce499] received
+INFO 2024-12-27 19:25:00,068 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[ea28be30-27be-4ffa-95a4-26d8348ce499] succeeded in 0.04700000025331974s: None
+ERROR 2024-12-27 19:26:00,005 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': '5605eedd-2d7a-4412-9982-d9601c158954', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '5605eedd-2d7a-4412-9982-d9601c158954', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+INFO 2024-12-27 19:26:00,013 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[3896a81f-cda8-4511-b2d4-28d2a45c36a3] received
+INFO 2024-12-27 19:26:00,013 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[3896a81f-cda8-4511-b2d4-28d2a45c36a3] succeeded in 0.0s: None
+INFO 2024-12-27 19:26:00,013 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[3664f30d-122e-4614-9b3d-a4e1cd691c65] received
+INFO 2024-12-27 19:26:00,021 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[3664f30d-122e-4614-9b3d-a4e1cd691c65] succeeded in 0.0s: None
+ERROR 2024-12-27 19:26:00,021 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': '453df63e-2a98-4065-b041-26d361926de9', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '453df63e-2a98-4065-b041-26d361926de9', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+ERROR 2024-12-27 19:27:00,003 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': '4adb3dfd-302e-41d4-9a9d-5d057a30024f', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '4adb3dfd-302e-41d4-9a9d-5d057a30024f', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+INFO 2024-12-27 19:27:00,011 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[86422f8e-3075-4e80-b2ec-ce4b0157b8f1] received
+INFO 2024-12-27 19:27:00,011 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[86422f8e-3075-4e80-b2ec-ce4b0157b8f1] succeeded in 0.0s: None
+INFO 2024-12-27 19:27:00,011 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[8f884e4c-ac7d-43b5-815e-d70ddeed0eae] received
+INFO 2024-12-27 19:27:00,019 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[8f884e4c-ac7d-43b5-815e-d70ddeed0eae] succeeded in 0.014999999664723873s: None
+ERROR 2024-12-27 19:27:00,019 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': '0b0402d0-4b3e-4d78-966a-99bd25c19477', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '0b0402d0-4b3e-4d78-966a-99bd25c19477', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+INFO 2024-12-27 19:28:00,001 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[620954af-718b-405d-9697-eb52fa12aea2] received
+INFO 2024-12-27 19:28:00,001 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[620954af-718b-405d-9697-eb52fa12aea2] succeeded in 0.0s: None
+ERROR 2024-12-27 19:28:00,009 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': '2cc83bd4-2f50-47e4-879f-8771ec1674b6', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '2cc83bd4-2f50-47e4-879f-8771ec1674b6', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+INFO 2024-12-27 19:28:00,017 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[76caffea-b368-489b-acbe-1676355eac02] received
+INFO 2024-12-27 19:28:00,017 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[76caffea-b368-489b-acbe-1676355eac02] succeeded in 0.0s: None
+ERROR 2024-12-27 19:28:00,017 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': 'c70b6976-b5fc-4ce4-a737-8499a5ae3f48', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'c70b6976-b5fc-4ce4-a737-8499a5ae3f48', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+ERROR 2024-12-27 19:29:00,004 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': 'e3f5715d-62c6-468f-a32b-bf0eb4126c98', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'e3f5715d-62c6-468f-a32b-bf0eb4126c98', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+ERROR 2024-12-27 19:29:00,012 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': 'e7d5dfcf-85d4-432b-9fdd-8cb33214ce95', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'e7d5dfcf-85d4-432b-9fdd-8cb33214ce95', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+INFO 2024-12-27 19:29:00,012 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[4ba15fd4-f236-447a-8b86-3ef92dc280b7] received
+INFO 2024-12-27 19:29:00,020 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[4ba15fd4-f236-447a-8b86-3ef92dc280b7] succeeded in 0.014999999664723873s: None
+INFO 2024-12-27 19:29:00,020 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[1acf5ba3-f964-4e14-a60c-c94d1093c4e8] received
+INFO 2024-12-27 19:29:00,067 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[1acf5ba3-f964-4e14-a60c-c94d1093c4e8] succeeded in 0.04700000025331974s: None
+ERROR 2024-12-27 19:30:00,000 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': 'f2f59ed8-06b2-4efd-9c84-91889bbb21dc', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'f2f59ed8-06b2-4efd-9c84-91889bbb21dc', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+ERROR 2024-12-27 19:30:00,008 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': 'e91bc324-cb97-4ae9-a12a-f10896886df4', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'e91bc324-cb97-4ae9-a12a-f10896886df4', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+INFO 2024-12-27 19:30:00,008 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[521c9ba0-07be-498f-bfa5-1ac8688411b7] received
+INFO 2024-12-27 19:30:00,016 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[521c9ba0-07be-498f-bfa5-1ac8688411b7] succeeded in 0.014999999664723873s: None
+INFO 2024-12-27 19:30:00,016 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[44cbfe43-db26-42ad-bba5-887dfc5ab182] received
+INFO 2024-12-27 19:30:00,016 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[44cbfe43-db26-42ad-bba5-887dfc5ab182] succeeded in 0.0s: None
+INFO 2024-12-27 19:31:00,001 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[929c7d4f-1125-4395-b496-811719f11c70] received
+INFO 2024-12-27 19:31:00,009 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[929c7d4f-1125-4395-b496-811719f11c70] succeeded in 0.0s: None
+ERROR 2024-12-27 19:31:00,009 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': 'fbb41ff8-6d22-4245-b926-4a46efd4dc00', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'fbb41ff8-6d22-4245-b926-4a46efd4dc00', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+INFO 2024-12-27 19:31:00,017 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[44224fd3-b654-4529-938d-7e3c65369c70] received
+INFO 2024-12-27 19:31:00,025 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[44224fd3-b654-4529-938d-7e3c65369c70] succeeded in 0.0s: None
+ERROR 2024-12-27 19:31:00,025 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': 'adaea989-ad90-48a5-b58d-543d919e7309', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'adaea989-ad90-48a5-b58d-543d919e7309', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+ERROR 2024-12-27 19:32:00,001 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': '1319682c-5b49-4626-b5e0-7c0d810209bc', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '1319682c-5b49-4626-b5e0-7c0d810209bc', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+INFO 2024-12-27 19:32:00,001 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[c65b68e0-e195-4f76-a979-66dfaff9813d] received
+INFO 2024-12-27 19:32:00,009 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[c65b68e0-e195-4f76-a979-66dfaff9813d] succeeded in 0.0s: None
+INFO 2024-12-27 19:32:00,009 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[84c92551-914e-4a54-84e7-0f0dc3b829eb] received
+INFO 2024-12-27 19:32:00,017 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[84c92551-914e-4a54-84e7-0f0dc3b829eb] succeeded in 0.014999999664723873s: None
+ERROR 2024-12-27 19:32:00,017 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': '0286ef04-f4a4-4830-bdd9-1740b34d884c', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '0286ef04-f4a4-4830-bdd9-1740b34d884c', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+INFO 2024-12-27 19:33:00,001 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[5373d98f-9e50-4b03-b724-9c87d091c0a6] received
+INFO 2024-12-27 19:33:00,049 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[5373d98f-9e50-4b03-b724-9c87d091c0a6] succeeded in 0.04699999978765845s: None
+ERROR 2024-12-27 19:33:00,049 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': 'ac253c82-1b0f-4534-9ca3-773d73a55951', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'ac253c82-1b0f-4534-9ca3-773d73a55951', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+INFO 2024-12-27 19:33:00,057 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[491be612-b09a-41bf-ab84-a5832ea7531c] received
+INFO 2024-12-27 19:33:00,057 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[491be612-b09a-41bf-ab84-a5832ea7531c] succeeded in 0.0s: None
+ERROR 2024-12-27 19:33:00,057 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': '6f5dc0d5-c52e-42ae-ac6d-d96d95f46c81', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '6f5dc0d5-c52e-42ae-ac6d-d96d95f46c81', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+INFO 2024-12-27 19:34:00,006 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[2aee2e7e-fbf9-4d4a-9261-b678adac33fe] received
+INFO 2024-12-27 19:34:00,006 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[2aee2e7e-fbf9-4d4a-9261-b678adac33fe] succeeded in 0.0s: None
+ERROR 2024-12-27 19:34:00,014 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': '598285a3-b073-47c3-a0aa-d0f8c9792d93', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '598285a3-b073-47c3-a0aa-d0f8c9792d93', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+INFO 2024-12-27 19:34:00,014 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[d2624131-abf1-4012-b968-bf02170e64a7] received
+INFO 2024-12-27 19:34:00,022 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[d2624131-abf1-4012-b968-bf02170e64a7] succeeded in 0.0s: None
+ERROR 2024-12-27 19:34:00,022 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': '60110aee-cc2c-4895-8940-801d34a854a0', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '60110aee-cc2c-4895-8940-801d34a854a0', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+INFO 2024-12-27 19:35:00,004 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[4b717eec-b1fe-42e9-9ea2-42d32b5d052c] received
+INFO 2024-12-27 19:35:00,004 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[4b717eec-b1fe-42e9-9ea2-42d32b5d052c] succeeded in 0.0s: None
+ERROR 2024-12-27 19:35:00,012 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': '685ec5f8-51a0-4bdb-ba73-032c70f28061', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '685ec5f8-51a0-4bdb-ba73-032c70f28061', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+ERROR 2024-12-27 19:35:00,014 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': 'c0679484-8067-4c9c-b47f-2134a1f3c82e', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'c0679484-8067-4c9c-b47f-2134a1f3c82e', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+INFO 2024-12-27 19:35:00,014 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[0bb83366-bfb5-44a0-b772-75856cd4ac7c] received
+INFO 2024-12-27 19:35:00,022 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[0bb83366-bfb5-44a0-b772-75856cd4ac7c] succeeded in 0.0s: None
+INFO 2024-12-27 19:36:00,007 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[c30b79fc-d8db-42a2-a889-67cbaf1d8ddf] received
+INFO 2024-12-27 19:36:00,007 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[c30b79fc-d8db-42a2-a889-67cbaf1d8ddf] succeeded in 0.0s: None
+INFO 2024-12-27 19:36:00,015 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[72cd4b01-4cc2-4fd7-a445-cf859d5dfa20] received
+INFO 2024-12-27 19:36:00,015 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[72cd4b01-4cc2-4fd7-a445-cf859d5dfa20] succeeded in 0.0s: None
+ERROR 2024-12-27 19:36:00,015 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': 'dea2f457-eb1f-4d2b-b45a-9e6148e8d034', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'dea2f457-eb1f-4d2b-b45a-9e6148e8d034', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+ERROR 2024-12-27 19:36:00,023 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': 'd552f8bf-4f40-4c16-b173-37fb3c2212ac', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': 'd552f8bf-4f40-4c16-b173-37fb3c2212ac', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+ERROR 2024-12-27 19:37:00,010 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': '39a6ff1f-4ef2-4fb0-8d9f-dccf6bda1154', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '39a6ff1f-4ef2-4fb0-8d9f-dccf6bda1154', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+INFO 2024-12-27 19:37:00,014 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[9c8620a7-5e34-4918-b754-60b3b599cdb9] received
+INFO 2024-12-27 19:37:00,055 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[9c8620a7-5e34-4918-b754-60b3b599cdb9] succeeded in 0.03200000012293458s: None
+INFO 2024-12-27 19:37:00,055 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[48257080-b413-4d66-824e-e0fe5b423f75] received
+INFO 2024-12-27 19:37:00,063 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[48257080-b413-4d66-824e-e0fe5b423f75] succeeded in 0.01500000013038516s: None
+ERROR 2024-12-27 19:37:00,063 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': '09ec9a40-7c72-4e7a-b4bf-053ca94e989b', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '09ec9a40-7c72-4e7a-b4bf-053ca94e989b', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+ERROR 2024-12-27 19:38:00,001 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.update_trending_score'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.update_trending_score', 'id': '293cd9aa-310f-427b-9910-6a8eeaff00fc', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '293cd9aa-310f-427b-9910-6a8eeaff00fc', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.update_trending_score'
+INFO 2024-12-27 19:38:00,009 strategy 21476 13328 Task apps.notification.tasks.send_abandoned_notification[770c6ec6-a64c-42dd-b763-04c011ebc937] received
+INFO 2024-12-27 19:38:00,009 trace 21476 13328 Task apps.notification.tasks.send_abandoned_notification[770c6ec6-a64c-42dd-b763-04c011ebc937] succeeded in 0.0s: None
+INFO 2024-12-27 19:38:00,017 strategy 21476 13328 Task apps.notification.tasks.check_abandoned_books[4c741be8-734f-438c-b470-968998d7b05a] received
+INFO 2024-12-27 19:38:00,017 trace 21476 13328 Task apps.notification.tasks.check_abandoned_books[4c741be8-734f-438c-b470-968998d7b05a] succeeded in 0.0s: None
+ERROR 2024-12-27 19:38:00,017 consumer 21476 13328 Received unregistered task of type 'catalog.tasks.simple_debug_task'.
+The message has been ignored and discarded.
+
+Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+Please see
+https://docs.celeryq.dev/en/latest/internals/protocol.html
+for more information.
+
+The full contents of the message body was:
+b'[[], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (77b)
+
+The full contents of the message headers:
+{'lang': 'py', 'task': 'catalog.tasks.simple_debug_task', 'id': '7f3235c6-efd6-468f-9d34-99591cc1eeb1', 'shadow': None, 'eta': None, 'expires': None, 'group': None, 'group_index': None, 'retries': 0, 'timelimit': [None, None], 'root_id': '7f3235c6-efd6-468f-9d34-99591cc1eeb1', 'parent_id': None, 'argsrepr': '()', 'kwargsrepr': '{}', 'origin': 'gen19840@DESKTOP-7JOK2DH', 'ignore_result': False, 'replaced_task_nesting': 0, 'stamped_headers': None, 'stamps': {}}
+
+The delivery info for this task is:
+{'exchange': '', 'routing_key': 'celery'}
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\worker\consumer\consumer.py", line 659, in on_task_received
+    strategy = strategies[type_]
+               ~~~~~~~~~~^^^^^^^
+KeyError: 'catalog.tasks.simple_debug_task'
+ERROR 2024-12-27 19:38:31,065 signal 10564 16188 Signal handler <bound method DjangoFixup.on_import_modules of <celery.fixups.django.DjangoFixup object at 0x000001608CA074D0>> raised: ImportError("cannot import name 'Genre' from 'apps.catalog.models' (D:\\Website\\Fan-vers(React.Django)\\backend\\apps\\catalog\\models.py)")
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\utils\dispatch\signal.py", line 276, in send
+    response = receiver(signal=self, sender=sender, **named)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\fixups\django.py", line 100, in on_import_modules
+    self.worker_fixup.validate_models()
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\fixups\django.py", line 138, in validate_models
+    self.django_setup()
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\celery\fixups\django.py", line 134, in django_setup
+    django.setup()
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\__init__.py", line 24, in setup
+    apps.populate(settings.INSTALLED_APPS)
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\apps\registry.py", line 116, in populate
+    app_config.import_models()
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\apps\config.py", line 269, in import_models
+    self.models_module = import_module(models_module_name)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "D:\Website\Fan-vers(React.Django)\backend\apps\website_advertising\models.py", line 5, in <module>
+    from apps.catalog.models import Book, Genre, Tag, Fandom
+ImportError: cannot import name 'Genre' from 'apps.catalog.models' (D:\Website\Fan-vers(React.Django)\backend\apps\catalog\models.py)

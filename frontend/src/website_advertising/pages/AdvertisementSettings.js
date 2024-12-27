@@ -12,27 +12,23 @@ import '../styles/AdvertisementSettings.css';
 const AdvertisementSettings = () => {
     const navigate = useNavigate();
     const { slug } = useParams();
-    const [selectedAd, setSelectedAd] = useState('main');
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
-    const [totalCost, setTotalCost] = useState(0);
+    const [mainPageDates, setMainPageDates] = useState({ startDate: null, endDate: null });
+    const [catalogDates, setCatalogDates] = useState({ startDate: null, endDate: null });
+    const [mainPageCost, setMainPageCost] = useState(0);
+    const [catalogCost, setCatalogCost] = useState(0);
+    const [mainPageOrdered, setMainPageOrdered] = useState(false);
+    const [catalogOrdered, setCatalogOrdered] = useState(false);
     const [book, setBook] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    // Получаем информацию о балансе пользователя
     const { data: userBalance, refetch: refetchBalance } = useQuery({
         queryKey: ['userBalance'],
         queryFn: () => usersAPI.getUserBalance(),
         refetchOnWindowFocus: true
     });
 
-    const adTypes = [
-        { id: 'main', name: 'Реклама на Головній', enabled: true },
-        { id: 'genres', name: 'Реклама у Пошуку за жанрами', enabled: false },
-        { id: 'tags', name: 'Реклама у Пошуку за тегами', enabled: false },
-        { id: 'fandoms', name: 'Реклама у Пошуку за фендомами', enabled: false }
-    ];
+    const totalCost = mainPageOrdered ? mainPageCost : 0 + catalogOrdered ? catalogCost : 0;
 
     useEffect(() => {
         const fetchBookData = async () => {
@@ -54,36 +50,73 @@ const AdvertisementSettings = () => {
         }
     }, [slug, navigate]);
 
-    const handleDateChange = async (dates) => {
+    const handleMainPageDateChange = async (dates) => {
         const [start, end] = dates;
-        setStartDate(start);
-        setEndDate(end);
+        setMainPageDates({ startDate: start, endDate: end });
+        setMainPageOrdered(false);
 
         if (start && end) {
             try {
                 const response = await websiteAdvertisingAPI.calculateCost(start, end);
-                setTotalCost(response.total_cost);
+                setMainPageCost(response.total_cost);
             } catch (error) {
                 toast.error(error.response?.data?.error || 'Помилка при розрахунку вартості');
-                setTotalCost(0);
+                setMainPageCost(0);
             }
         } else {
-            setTotalCost(0);
+            setMainPageCost(0);
         }
     };
 
-    const handleOrder = async () => {
-        if (!startDate || !endDate) {
+    const handleCatalogDateChange = async (dates) => {
+        const [start, end] = dates;
+        setCatalogDates({ startDate: start, endDate: end });
+        setCatalogOrdered(false);
+
+        if (start && end) {
+            try {
+                const response = await websiteAdvertisingAPI.calculateCost(start, end);
+                setCatalogCost(response.total_cost);
+            } catch (error) {
+                toast.error(error.response?.data?.error || 'Помилка при розрахунку вартості');
+                setCatalogCost(0);
+            }
+        } else {
+            setCatalogCost(0);
+        }
+    };
+
+    const handleMainPageOrder = async () => {
+        if (!mainPageDates.startDate || !mainPageDates.endDate) {
             toast.error('Будь ласка, виберіть дати');
             return;
         }
 
         try {
-            const response = await websiteAdvertisingAPI.calculateCost(startDate, endDate);
-            setTotalCost(response.total_cost);
+            const response = await websiteAdvertisingAPI.calculateCost(mainPageDates.startDate, mainPageDates.endDate);
+            setMainPageCost(response.total_cost);
+            setMainPageOrdered(true);
             toast.success('Вартість розраховано');
         } catch (error) {
             toast.error(error.response?.data?.error || 'Помилка при розрахунку вартості');
+            setMainPageOrdered(false);
+        }
+    };
+
+    const handleCatalogOrder = async () => {
+        if (!catalogDates.startDate || !catalogDates.endDate) {
+            toast.error('Будь ласка, виберіть дати');
+            return;
+        }
+
+        try {
+            const response = await websiteAdvertisingAPI.calculateCost(catalogDates.startDate, catalogDates.endDate);
+            setCatalogCost(response.total_cost);
+            setCatalogOrdered(true);
+            toast.success('Вартість розраховано');
+        } catch (error) {
+            toast.error(error.response?.data?.error || 'Помилка при розрахунку вартості');
+            setCatalogOrdered(false);
         }
     };
 
@@ -93,8 +126,8 @@ const AdvertisementSettings = () => {
             return;
         }
 
-        if (!startDate || !endDate) {
-            toast.error('Будь ласка, оберіть дати реклами');
+        if (!mainPageOrdered && !catalogOrdered) {
+            toast.error('Будь ласка, замовте хоча б один тип реклами');
             return;
         }
 
@@ -110,17 +143,30 @@ const AdvertisementSettings = () => {
 
         try {
             setIsSubmitting(true);
-            const advertisementData = {
-                book: book.id,
-                location: selectedAd,
-                start_date: startDate,
-                end_date: endDate,
-                total_cost: totalCost
-            };
             
-            await websiteAdvertisingAPI.createAdvertisement(advertisementData);
+            if (mainPageOrdered) {
+                const mainPageData = {
+                    book: book.id,
+                    location: 'main',
+                    start_date: mainPageDates.startDate,
+                    end_date: mainPageDates.endDate,
+                    total_cost: mainPageCost
+                };
+                await websiteAdvertisingAPI.createAdvertisement(mainPageData);
+            }
+
+            if (catalogOrdered) {
+                const catalogData = {
+                    book: book.id,
+                    location: 'catalog',
+                    start_date: catalogDates.startDate,
+                    end_date: catalogDates.endDate,
+                    total_cost: catalogCost
+                };
+                await websiteAdvertisingAPI.createAdvertisement(catalogData);
+            }
+
             await refetchBalance();
-            
             toast.success('Реклама успішно створена');
             navigate('/profile/my-advertisements');
         } catch (error) {
@@ -146,57 +192,80 @@ const AdvertisementSettings = () => {
         <div className="ad-settings-container">
             <h2>Налаштування реклами для книги "{book.title}"</h2>
 
-            {adTypes.map(adType => (
-                <div key={adType.id} className={`ad-block ${!adType.enabled ? 'disabled' : ''}`}>
-                    <div className="ad-type-header">
-                        <input
-                            type="radio"
-                            name="adType"
-                            checked={selectedAd === adType.id}
-                            onChange={() => adType.enabled && setSelectedAd(adType.id)}
-                            disabled={!adType.enabled}
-                        />
-                        <span className={!adType.enabled ? 'disabled-text' : ''}>
-                            {adType.name}
-                            {!adType.enabled && ' (Скоро)'}
-                        </span>
-                    </div>
-                    
-                    {adType.enabled && selectedAd === adType.id && (
-                        <div className="ad-details">
-                            <div className="date-picker-container">
-                                <DatePicker
-                                    selected={startDate}
-                                    onChange={handleDateChange}
-                                    startDate={startDate}
-                                    endDate={endDate}
-                                    selectsRange
-                                    minDate={new Date()}
-                                    dateFormat="dd/MM/yyyy"
-                                    placeholderText="Виберіть період"
-                                    className="custom-datepicker"
-                                />
-                            </div>
-                            <button 
-                                onClick={handleOrder}
-                                className="order-button"
-                                disabled={!startDate || !endDate}
-                            >
-                                Замовити
-                            </button>
-                        </div>
-                    )}
+            <div className="ad-block">
+                <div className="ad-type-header">
+                    <h3>Реклама на Головній</h3>
                 </div>
-            ))}
+                <div className="ad-details">
+                    <div className="date-picker-container">
+                        <DatePicker
+                            selected={mainPageDates.startDate}
+                            onChange={handleMainPageDateChange}
+                            startDate={mainPageDates.startDate}
+                            endDate={mainPageDates.endDate}
+                            selectsRange
+                            minDate={new Date()}
+                            dateFormat="dd/MM/yyyy"
+                            placeholderText="Виберіть період"
+                            className="custom-datepicker"
+                        />
+                    </div>
+                    <div className="cost-details">
+                        <span>Вартість: {mainPageCost} грн</span>
+                    </div>
+                    <div className="buttons-container">
+                        <button 
+                            onClick={handleMainPageOrder}
+                            className="order-button"
+                            disabled={!mainPageDates.startDate || !mainPageDates.endDate}
+                        >
+                            Замовити
+                        </button>
+                    </div>
+                </div>
+            </div>
 
-            <div className="total-cost-container">
-                <div className="cost-details">
-                    <span>Вартість: {totalCost} грн</span>
-                    <span>Баланс: {userBalance?.balance || 0} грн</span>
+            <div className="ad-block">
+                <div className="ad-type-header">
+                    <h3>Реклама в Каталозі</h3>
+                </div>
+                <div className="ad-details">
+                    <div className="date-picker-container">
+                        <DatePicker
+                            selected={catalogDates.startDate}
+                            onChange={handleCatalogDateChange}
+                            startDate={catalogDates.startDate}
+                            endDate={catalogDates.endDate}
+                            selectsRange
+                            minDate={new Date()}
+                            dateFormat="dd/MM/yyyy"
+                            placeholderText="Виберіть період"
+                            className="custom-datepicker"
+                        />
+                    </div>
+                    <div className="cost-details">
+                        <span>Вартість: {catalogCost} грн</span>
+                    </div>
+                    <div className="buttons-container">
+                        <button 
+                            onClick={handleCatalogOrder}
+                            className="order-button"
+                            disabled={!catalogDates.startDate || !catalogDates.endDate}
+                        >
+                            Замовити
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div className="total-container">
+                <div className="total-cost">
+                    <span>Загальна вартість: {totalCost} грн</span>
+                    <span>Ваш баланс: {userBalance?.balance || 0} грн</span>
                 </div>
                 <button 
                     onClick={handlePublish}
-                    disabled={totalCost === 0 || !startDate || !endDate || isSubmitting}
+                    disabled={totalCost === 0 || (!mainPageOrdered && !catalogOrdered) || isSubmitting}
                     className="publish-button"
                 >
                     {isSubmitting ? 'Публікація...' : 'Опублікувати'}
