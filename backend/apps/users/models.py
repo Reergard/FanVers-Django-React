@@ -86,7 +86,7 @@ class Profile(models.Model):
             if operation_type == 'withdraw' and self.balance < amount:
                 raise ValidationError('Недостатньо коштів')
             
-            if operation_type in ['withdraw', 'purchase']:
+            if operation_type in ['withdraw', 'purchase', 'advertising']:
                 self.balance -= amount
             else:
                 self.balance += amount
@@ -227,7 +227,8 @@ class BalanceLog(models.Model):
             ('deposit', 'Поповнення'),
             ('withdraw', 'Виведення'),
             ('purchase', 'Покупка'),
-            ('earning', 'Заробіток')
+            ('earning', 'Заробіток'),
+            ('advertising', 'Реклама')
         ]
     )
     created_at = models.DateTimeField(auto_now_add=True)
@@ -271,6 +272,6 @@ def update_user_commission(sender, instance, **kwargs):
 
 @receiver(post_save, sender='monitoring.UserChapterProgress')
 def clear_reading_stats_cache(sender, instance, **kwargs):
-    """Очищення кешу статистики при оновленні прогресу читання"""
+    """Очищення кешу статисти��и при оновленні прогресу читання"""
     if instance.user and hasattr(instance.user, 'profile'):
         instance.user.profile.clear_reading_stats_cache()

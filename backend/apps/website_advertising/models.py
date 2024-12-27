@@ -1,19 +1,22 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils import timezone
-from apps.catalog.models import Book
 from apps.users.models import User
+from apps.catalog.models import Book
+import logging
+
+logger = logging.getLogger(__name__)
 
 class Advertisement(models.Model):
     LOCATION_CHOICES = [
-        ('main', 'Реклама на Головній'),
-        ('genres', 'Реклама у Пошуку за жанрами'),
-        ('tags', 'Реклама у Пошуку за тегами'),
-        ('fandoms', 'Реклама у Пошуку за фендомами'),
+        ('main', 'Головна сторінка'),
+        ('genres', 'Пошук за жанрами'),
+        ('tags', 'Пошук за тегами'),
+        ('fandoms', 'Пошук за фендомами'),
     ]
 
-    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='advertisements')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='advertisements')
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='advertisements')
     location = models.CharField(max_length=20, choices=LOCATION_CHOICES)
     start_date = models.DateField()
     end_date = models.DateField()
@@ -23,24 +26,27 @@ class Advertisement(models.Model):
 
     class Meta:
         ordering = ['-created_at']
+        verbose_name = 'Реклама'
+        verbose_name_plural = 'Реклами'
+
+    def __str__(self):
+        return f'Реклама для {self.book.title} від {self.user.username}'
 
     def clean(self):
-        if self.start_date < timezone.now().date():
-            raise ValidationError('Дата початку не може бути раніше поточної дати')
-        if self.end_date < self.start_date:
-            raise ValidationError('Дата закінчення не може бути раніше дати початку')
-        
-        # Проверка на пересечение дат
-        overlapping_ads = Advertisement.objects.filter(
-            location=self.location,
-            start_date__lte=self.end_date,
-            end_date__gte=self.start_date,
-            is_active=True
-        )
-        if self.pk:
-            overlapping_ads = overlapping_ads.exclude(pk=self.pk)
-        if overlapping_ads.exists():
-            raise ValidationError('На вибрані дати вже є активна реклама')
+        if not self.pk:  # Тільки для нових записів
+            overlapping = Advertisement.objects.filter(
+                book=self.book,
+                location=self.location,
+                start_date__lte=self.end_date,
+                end_date__gte=self.start_date,
+                is_active=True
+            )
+            
+            if overlapping.exists():
+                logger.warning(f"Знайдено пересічні реклами для книги {self.book.title}")
+                raise ValidationError(
+                    f'Для книги "{self.book.title}" вже є активна реклама на вибрані дати'
+                )
 
     def save(self, *args, **kwargs):
         self.clean()

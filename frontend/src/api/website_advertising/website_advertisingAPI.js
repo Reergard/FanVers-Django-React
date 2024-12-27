@@ -1,5 +1,6 @@
 import { api } from '../instance';
 import { usersAPI } from '../users/usersAPI';
+import axios from 'axios';
 
 const formatDate = (date) => {
     return date instanceof Date 
@@ -42,24 +43,57 @@ const websiteAdvertisingAPI = {
                 throw new Error('Недостатньо коштів на балансі');
             }
 
+            // Форматуємо дати
             const formattedData = {
                 book: parseInt(data.book),
                 location: data.location,
                 start_date: formatDate(data.start_date),
-                end_date: formatDate(data.end_date),
-                total_cost: data.total_cost
+                end_date: formatDate(data.end_date)
             };
             
             console.log('Форматовані дані для бекенду:', formattedData);
 
-            const response = await api.post('/website-advertising/advertisements/', formattedData);
-            console.log('Оголошення успішно створено:', response.data);
-            return response.data;
-        } catch (error) {
-            console.error('Помилка створення оголошення:', error);
-            if (error.response?.data) {
-                throw new Error(error.response.data.detail || error.response.data.error || error.message);
+            try {
+                const response = await api.post('/website-advertising/advertisements/', formattedData);
+                console.log('Оголошення успішно створено:', response.data);
+                return response.data;
+            } catch (error) {
+                console.error('Деталі помилки:', {
+                    status: error.response?.status,
+                    data: error.response?.data,
+                    headers: error.response?.headers,
+                    config: error.config
+                });
+
+                // Форматуємо повідомлення про помилку
+                let errorMessage = 'Помилка створення оголошення';
+                if (error.response?.data) {
+                    if (typeof error.response.data === 'string') {
+                        errorMessage = error.response.data;
+                    } else if (error.response.data.error) {
+                        errorMessage = error.response.data.error;
+                    } else if (error.response.data.detail) {
+                        errorMessage = error.response.data.detail;
+                    } else if (error.response.data.non_field_errors) {
+                        errorMessage = error.response.data.non_field_errors[0];
+                    } else {
+                        // Якщо є помилки по конкретних полях
+                        const fieldErrors = Object.entries(error.response.data)
+                            .map(([field, errors]) => `${field}: ${Array.isArray(errors) ? errors[0] : errors}`)
+                            .join('; ');
+                        if (fieldErrors) {
+                            errorMessage = fieldErrors;
+                        }
+                    }
+                }
+                throw new Error(errorMessage);
             }
+        } catch (error) {
+            console.error('Помилка створення оголошення:', {
+                error: error.response?.data || error,
+                status: error.response?.status,
+                sentData: data
+            });
             throw error;
         }
     },
@@ -75,6 +109,18 @@ const websiteAdvertisingAPI = {
                 error: error.response?.data || error,
                 status: error.response?.status
             });
+            throw error;
+        }
+    },
+
+    getUserAdvertisements: async () => {
+        console.log('Початок запиту getUserAdvertisements');
+        try {
+            const response = await api.get('/website-advertising/advertisements/user_advertisements/');
+            console.log('Отримано рекламні оголошення користувача:', response.data);
+            return response.data;
+        } catch (error) {
+            console.error('Помилка при отриманні реклами користувача:', error);
             throw error;
         }
     }

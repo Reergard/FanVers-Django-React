@@ -18338,3 +18338,599 @@ WARNING 2024-12-26 18:36:05,717 log 7636 18112 Not Found: /static/admin/js/cance
 WARNING 2024-12-26 18:36:09,928 log 7636 18112 Not Found: /api/chat/3/messages/
 WARNING 2024-12-26 18:36:10,289 log 7636 18112 Not Found: /api/chat/3/messages/
 WARNING 2024-12-26 18:36:14,876 log 7636 18112 Not Found: /api/chat/3/messages/
+WARNING 2024-12-27 16:48:28,519 log 17368 8892 Unauthorized: /api/main/books-news/
+WARNING 2024-12-27 16:48:28,519 log 17368 11608 Unauthorized: /api/website-advertising/advertisements/main_page_ads/
+WARNING 2024-12-27 16:48:55,397 log 17368 8892 Unauthorized: /api/notification/notifications/
+WARNING 2024-12-27 17:44:53,513 log 17368 8892 Not Found: /admin/website_advertising/advertisement/
+WARNING 2024-12-27 17:45:34,623 log 15428 22080 Not Found: /static/admin/css/custom_admin.css
+WARNING 2024-12-27 17:45:34,623 log 15428 17956 Not Found: /static/admin/css/base.css
+WARNING 2024-12-27 17:45:34,639 log 15428 22080 Not Found: /static/admin/css/dark_mode.css
+WARNING 2024-12-27 17:45:34,639 log 15428 17956 Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2024-12-27 17:45:34,655 log 15428 17956 Not Found: /static/admin/css/changelists.css
+WARNING 2024-12-27 17:45:34,655 log 15428 22080 Not Found: /static/admin/css/responsive.css
+WARNING 2024-12-27 17:45:34,663 log 15428 17956 Not Found: /static/admin/js/theme.js
+WARNING 2024-12-27 17:45:34,671 log 15428 15232 Not Found: /static/admin/js/jquery.init.js
+WARNING 2024-12-27 17:45:34,679 log 15428 17956 Not Found: /static/admin/js/core.js
+WARNING 2024-12-27 17:45:34,687 log 15428 22080 Not Found: /static/admin/js/admin/RelatedObjectLookups.js
+WARNING 2024-12-27 17:45:34,695 log 15428 22080 Not Found: /static/admin/js/actions.js
+WARNING 2024-12-27 17:45:34,703 log 15428 15232 Not Found: /static/admin/js/vendor/jquery/jquery.js
+WARNING 2024-12-27 17:45:34,711 log 15428 15232 Not Found: /static/admin/js/prepopulate.js
+WARNING 2024-12-27 17:45:34,719 log 15428 15232 Not Found: /static/admin/js/vendor/xregexp/xregexp.js
+WARNING 2024-12-27 17:45:34,727 log 15428 22080 Not Found: /static/admin/js/urlify.js
+WARNING 2024-12-27 17:45:34,735 log 15428 17956 Not Found: /static/admin/img/search.svg
+WARNING 2024-12-27 17:45:34,743 log 15428 15232 Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2024-12-27 17:45:34,751 log 15428 22080 Not Found: /static/admin/css/changelists.css
+WARNING 2024-12-27 17:45:34,759 log 15428 15232 Not Found: /static/admin/css/custom_admin.css
+WARNING 2024-12-27 17:45:34,767 log 15428 22444 Not Found: /static/admin/js/nav_sidebar.js
+WARNING 2024-12-27 17:45:34,783 log 15428 22080 Not Found: /static/admin/js/filters.js
+WARNING 2024-12-27 17:45:34,783 log 15428 22080 Not Found: /static/admin/css/responsive.css
+WARNING 2024-12-27 17:45:34,807 log 15428 17956 Not Found: /static/admin/img/sorting-icons.svg
+ERROR 2024-12-27 17:45:48,534 log 15428 22444 Internal Server Error: /admin/monitoring/advertisinglog/
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: monitoring_advertisinglog
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\asgiref\sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\asgiref\sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\asgiref\sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\asgiref\current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\asgiref\sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\contrib\admin\options.py", line 718, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\contrib\admin\sites.py", line 241, in inner
+    return view(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\contrib\admin\options.py", line 2001, in changelist_view
+    cl = self.get_changelist_instance(request)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\contrib\admin\options.py", line 866, in get_changelist_instance
+    return ChangeList(
+           ^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\contrib\admin\views\main.py", line 146, in __init__
+    self.get_results(request)
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\contrib\admin\views\main.py", line 313, in get_results
+    result_count = paginator.count
+                   ^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\utils\functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\core\paginator.py", line 110, in count
+    return c()
+           ^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\query.py", line 620, in count
+    return self.query.get_count(using=self.db)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\sql\query.py", line 630, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\sql\query.py", line 616, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: monitoring_advertisinglog
+WARNING 2024-12-27 17:45:54,728 log 15428 13068 Not Found: /static/admin/css/changelists.css
+WARNING 2024-12-27 17:45:54,728 log 15428 8548 Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2024-12-27 17:45:54,728 log 15428 22080 Not Found: /static/admin/css/dark_mode.css
+WARNING 2024-12-27 17:45:54,728 log 15428 13024 Not Found: /static/admin/css/base.css
+WARNING 2024-12-27 17:45:54,728 log 15428 22444 Not Found: /static/admin/js/theme.js
+WARNING 2024-12-27 17:45:54,728 log 15428 17956 Not Found: /static/admin/css/custom_admin.css
+WARNING 2024-12-27 17:45:54,752 log 15428 22080 Not Found: /static/admin/css/responsive.css
+WARNING 2024-12-27 17:45:54,752 log 15428 13024 Not Found: /static/admin/js/vendor/jquery/jquery.js
+WARNING 2024-12-27 17:45:54,752 log 15428 22444 Not Found: /static/admin/js/jquery.init.js
+WARNING 2024-12-27 17:45:54,768 log 15428 8548 Not Found: /static/admin/js/core.js
+WARNING 2024-12-27 17:45:54,768 log 15428 22080 Not Found: /static/admin/js/actions.js
+WARNING 2024-12-27 17:45:54,768 log 15428 17956 Not Found: /static/admin/js/admin/RelatedObjectLookups.js
+WARNING 2024-12-27 17:45:54,784 log 15428 8984 Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2024-12-27 17:45:54,800 log 15428 22080 Not Found: /static/admin/css/changelists.css
+WARNING 2024-12-27 17:45:54,800 log 15428 13024 Not Found: /static/admin/js/urlify.js
+WARNING 2024-12-27 17:45:54,800 log 15428 15232 Not Found: /static/admin/js/vendor/xregexp/xregexp.js
+WARNING 2024-12-27 17:45:54,800 log 15428 12404 Not Found: /static/admin/js/prepopulate.js
+WARNING 2024-12-27 17:45:54,800 log 15428 8984 Not Found: /static/admin/img/search.svg
+WARNING 2024-12-27 17:45:54,832 log 15428 22080 Not Found: /static/admin/js/filters.js
+WARNING 2024-12-27 17:45:54,832 log 15428 13024 Not Found: /static/admin/js/nav_sidebar.js
+WARNING 2024-12-27 17:45:54,832 log 15428 15232 Not Found: /static/admin/css/responsive.css
+WARNING 2024-12-27 17:45:58,454 log 15428 13024 Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2024-12-27 17:45:58,454 log 15428 15232 Not Found: /static/admin/css/dark_mode.css
+WARNING 2024-12-27 17:45:58,454 log 15428 22080 Not Found: /static/admin/css/base.css
+WARNING 2024-12-27 17:45:58,454 log 15428 13068 Not Found: /static/admin/css/dashboard.css
+WARNING 2024-12-27 17:45:58,454 log 15428 8548 Not Found: /static/admin/css/responsive.css
+WARNING 2024-12-27 17:45:58,454 log 15428 12404 Not Found: /static/admin/js/theme.js
+WARNING 2024-12-27 17:45:58,485 log 15428 22080 Not Found: /static/admin/css/dashboard.css
+WARNING 2024-12-27 17:45:58,485 log 15428 13068 Not Found: /static/admin/css/responsive.css
+WARNING 2024-12-27 17:45:58,485 log 15428 12404 Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2024-12-27 17:45:58,493 log 15428 15232 Not Found: /static/admin/js/nav_sidebar.js
+WARNING 2024-12-27 17:46:12,399 log 15428 12404 Not Found: /static/admin/css/base.css
+WARNING 2024-12-27 17:46:12,399 log 15428 15232 Not Found: /static/admin/css/dark_mode.css
+WARNING 2024-12-27 17:46:12,399 log 15428 22444 Not Found: /static/admin/css/responsive.css
+WARNING 2024-12-27 17:46:12,399 log 15428 12404 Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2024-12-27 17:46:12,399 log 15428 17956 Not Found: /static/admin/js/theme.js
+WARNING 2024-12-27 17:46:12,399 log 15428 8984 Not Found: /static/admin/css/dashboard.css
+WARNING 2024-12-27 17:46:12,439 log 15428 12404 Not Found: /static/admin/css/dashboard.css
+WARNING 2024-12-27 17:46:12,439 log 15428 17956 Not Found: /static/admin/js/nav_sidebar.js
+WARNING 2024-12-27 17:46:12,439 log 15428 8984 Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2024-12-27 17:46:12,439 log 15428 22080 Not Found: /static/admin/css/responsive.css
+ERROR 2024-12-27 17:47:45,542 log 15428 13024 Internal Server Error: /api/website-advertising/advertisements/
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: monitoring_advertisinglog
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\asgiref\sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\asgiref\sync.py", line 518, in thread_handler
+    raise exc_info[1]
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\asgiref\sync.py", line 468, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\asgiref\current_thread_executor.py", line 40, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\asgiref\sync.py", line 522, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\mixins.py", line 19, in create
+    self.perform_create(serializer)
+  File "D:\Website\Fan-vers(React.Django)\backend\apps\website_advertising\api\views.py", line 155, in perform_create
+    AdvertisingLog.objects.create(
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\query.py", line 679, in create
+    obj.save(force_insert=True, using=self.db)
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\base.py", line 891, in save
+    self.save_base(
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\base.py", line 997, in save_base
+    updated = self._save_table(
+              ^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\base.py", line 1160, in _save_table
+    results = self._do_insert(
+              ^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\base.py", line 1201, in _do_insert
+    return manager._insert(
+           ^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\query.py", line 1847, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1836, in execute_sql
+    cursor.execute(sql, params)
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: monitoring_advertisinglog
+WARNING 2024-12-27 17:51:09,159 log 3312 21260 Not Found: /api/users/profile/my-advertisements/
+WARNING 2024-12-27 17:51:09,159 log 3312 3772 Not Found: /api/users/profile/my-advertisements/
+WARNING 2024-12-27 17:59:34,493 log 3312 21260 Not Found: /api/users/profile/my-advertisements/
+WARNING 2024-12-27 17:59:34,509 log 3312 3772 Not Found: /api/users/profile/my-advertisements/
+WARNING 2024-12-27 18:01:26,005 log 3312 21260 Bad Request: /api/website-advertising/advertisements/
+WARNING 2024-12-27 18:04:19,772 log 3312 3772 Bad Request: /api/website-advertising/advertisements/
+WARNING 2024-12-27 18:06:11,672 log 3312 21260 Bad Request: /api/website-advertising/advertisements/
+WARNING 2024-12-27 18:09:08,324 log 3312 3772 Bad Request: /api/website-advertising/advertisements/
+WARNING 2024-12-27 18:11:42,530 log 3312 21260 Bad Request: /api/website-advertising/advertisements/
+WARNING 2024-12-27 18:11:49,694 log 3312 21260 Not Found: /static/admin/css/base.css
+WARNING 2024-12-27 18:11:49,702 log 3312 21260 Not Found: /static/admin/css/dark_mode.css
+WARNING 2024-12-27 18:11:49,710 log 3312 21260 Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2024-12-27 18:11:49,718 log 3312 21260 Not Found: /static/admin/css/dashboard.css
+WARNING 2024-12-27 18:11:49,726 log 3312 21260 Not Found: /static/admin/css/responsive.css
+WARNING 2024-12-27 18:11:49,734 log 3312 21260 Not Found: /static/admin/js/theme.js
+WARNING 2024-12-27 18:11:49,750 log 3312 21260 Not Found: /static/admin/js/nav_sidebar.js
+WARNING 2024-12-27 18:11:49,758 log 3312 21260 Not Found: /static/admin/css/nav_sidebar.css
+WARNING 2024-12-27 18:11:49,774 log 3312 3772 Not Found: /static/admin/css/dashboard.css
+WARNING 2024-12-27 18:11:49,790 log 3312 3772 Not Found: /static/admin/css/responsive.css
+INFO 2024-12-27 18:12:44,799 autoreload 3472 22032 Watching for file changes with StatReloader
+INFO 2024-12-27 18:12:47,905 basehttp 3472 21764 "GET /admin/ HTTP/1.1" 200 25108
+INFO 2024-12-27 18:12:47,984 basehttp 3472 21764 "GET /static/admin/css/base.css HTTP/1.1" 200 22092
+INFO 2024-12-27 18:12:47,984 basehttp 3472 21764 "GET /static/admin/css/dark_mode.css HTTP/1.1" 200 2804
+INFO 2024-12-27 18:12:47,992 basehttp 3472 21764 "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 200 2810
+INFO 2024-12-27 18:12:47,992 basehttp 3472 21764 "GET /static/admin/css/dashboard.css HTTP/1.1" 200 441
+INFO 2024-12-27 18:12:47,992 basehttp 3472 21764 "GET /static/admin/css/responsive.css HTTP/1.1" 200 17972
+INFO 2024-12-27 18:12:47,992 basehttp 3472 21764 "GET /static/admin/js/theme.js HTTP/1.1" 200 1653
+INFO 2024-12-27 18:12:48,008 basehttp 3472 21764 "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 200 3063
+INFO 2024-12-27 18:12:48,020 basehttp 3472 21764 "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 304 0
+INFO 2024-12-27 18:12:48,022 basehttp 3472 21764 "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 380
+INFO 2024-12-27 18:12:48,024 basehttp 3472 21764 "GET /static/admin/img/icon-viewlink.svg HTTP/1.1" 304 0
+INFO 2024-12-27 18:12:48,025 basehttp 3472 21764 "GET /static/admin/img/icon-deletelink.svg HTTP/1.1" 200 392
+INFO 2024-12-27 18:12:55,411 basehttp 3472 21920 "GET /api/notification/notifications/ HTTP/1.1" 200 13132
+INFO 2024-12-27 18:13:55,061 basehttp 3472 21920 "GET /api/notification/notifications/ HTTP/1.1" 200 13132
+INFO 2024-12-27 18:14:55,073 basehttp 3472 21920 "GET /api/notification/notifications/ HTTP/1.1" 200 13132
+INFO 2024-12-27 18:15:21,115 autoreload 3472 22032 D:\Website\Fan-vers(React.Django)\backend\apps\website_advertising\admin.py changed, reloading.
+INFO 2024-12-27 18:15:22,631 autoreload 20864 21496 Watching for file changes with StatReloader
+INFO 2024-12-27 18:15:28,208 autoreload 20864 21496 D:\Website\Fan-vers(React.Django)\backend\apps\website_advertising\admin.py changed, reloading.
+INFO 2024-12-27 18:15:29,590 autoreload 316 12608 Watching for file changes with StatReloader
+INFO 2024-12-27 18:15:34,715 basehttp 316 19640 "GET /admin/ HTTP/1.1" 200 25979
+INFO 2024-12-27 18:15:38,263 basehttp 316 19640 "GET /admin/website_advertising/advertisement/ HTTP/1.1" 200 26051
+INFO 2024-12-27 18:15:38,302 basehttp 316 14384 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2024-12-27 18:15:38,334 basehttp 316 19640 "GET /static/admin/css/changelists.css HTTP/1.1" 200 6878
+INFO 2024-12-27 18:15:38,334 basehttp 316 19640 "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+INFO 2024-12-27 18:15:38,342 basehttp 316 19640 "GET /static/admin/js/core.js HTTP/1.1" 200 6208
+INFO 2024-12-27 18:15:38,342 basehttp 316 19640 "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9097
+INFO 2024-12-27 18:15:38,342 basehttp 316 19640 "GET /static/admin/js/actions.js HTTP/1.1" 200 8076
+INFO 2024-12-27 18:15:38,342 basehttp 316 19640 "GET /static/admin/js/urlify.js HTTP/1.1" 200 7887
+INFO 2024-12-27 18:15:38,350 basehttp 316 19640 "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+INFO 2024-12-27 18:15:38,350 basehttp 316 19640 "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 200 325171
+INFO 2024-12-27 18:15:38,350 basehttp 316 19640 "GET /static/admin/img/search.svg HTTP/1.1" 200 458
+INFO 2024-12-27 18:15:38,350 basehttp 316 19640 "GET /static/admin/img/icon-yes.svg HTTP/1.1" 304 0
+INFO 2024-12-27 18:15:38,350 basehttp 316 14384 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+INFO 2024-12-27 18:15:38,374 basehttp 316 14384 "GET /static/admin/js/filters.js HTTP/1.1" 200 978
+INFO 2024-12-27 18:15:38,406 basehttp 316 14384 "GET /static/admin/img/sorting-icons.svg HTTP/1.1" 200 1097
+INFO 2024-12-27 18:15:42,273 basehttp 316 21040 "OPTIONS /api/catalog/genres/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:15:42,273 basehttp 316 8596 "OPTIONS /api/catalog/tags/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:15:42,273 basehttp 316 18696 "OPTIONS /api/catalog/countries/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:15:42,281 basehttp 316 2568 "OPTIONS /api/catalog/fandoms/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:15:42,334 basehttp 316 2568 "GET /api/catalog/fandoms/ HTTP/1.1" 200 768
+INFO 2024-12-27 18:15:42,342 basehttp 316 21040 "GET /api/catalog/genres/ HTTP/1.1" 200 1494
+INFO 2024-12-27 18:15:42,342 basehttp 316 8596 "GET /api/catalog/countries/ HTTP/1.1" 200 1169
+INFO 2024-12-27 18:15:42,366 basehttp 316 18696 "GET /api/catalog/tags/ HTTP/1.1" 200 7739
+INFO 2024-12-27 18:15:44,563 basehttp 316 8596 "GET /api/main/books-news/ HTTP/1.1" 200 1527
+INFO 2024-12-27 18:15:44,571 basehttp 316 18696 "GET /api/website-advertising/advertisements/main_page_ads/ HTTP/1.1" 200 911
+INFO 2024-12-27 18:15:52,837 basehttp 316 8596 "OPTIONS /api/catalog/books/reader/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:15:52,837 basehttp 316 18696 "OPTIONS /api/catalog/books/reader/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:15:52,853 basehttp 316 8596 "GET /api/catalog/books/reader/ HTTP/1.1" 200 2547
+INFO 2024-12-27 18:15:52,869 basehttp 316 8596 "GET /api/catalog/books/reader/ HTTP/1.1" 200 2547
+INFO 2024-12-27 18:15:54,813 basehttp 316 8596 "OPTIONS /api/catalog/books/info/kuopualodoptsi/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:15:54,829 basehttp 316 8596 "GET /api/catalog/books/info/kuopualodoptsi/ HTTP/1.1" 200 525
+INFO 2024-12-27 18:15:54,845 basehttp 316 8596 "OPTIONS /api/catalog/books/owner/kuopualodoptsi/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:15:54,853 basehttp 316 8596 "GET /api/catalog/books/owner/kuopualodoptsi/ HTTP/1.1" 200 579
+INFO 2024-12-27 18:15:54,869 basehttp 316 8596 "OPTIONS /api/catalog/books/kuopualodoptsi/chapters/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:15:54,877 basehttp 316 18696 "GET /api/catalog/books/kuopualodoptsi/volumes/ HTTP/1.1" 200 37
+INFO 2024-12-27 18:15:54,893 basehttp 316 21040 "GET /api/users/profile/ HTTP/1.1" 200 1267
+INFO 2024-12-27 18:15:54,893 basehttp 316 8596 "GET /api/catalog/books/kuopualodoptsi/chapters/ HTTP/1.1" 200 85735
+INFO 2024-12-27 18:15:54,925 basehttp 316 18696 "OPTIONS /api/reviews/book/kuopualodoptsi/comments/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:15:54,925 basehttp 316 2568 "OPTIONS /api/reviews/book/kuopualodoptsi/comments/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:15:54,925 basehttp 316 21040 "OPTIONS /api/rating/kuopualodoptsi/book-ratings/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:15:54,925 basehttp 316 8596 "OPTIONS /api/navigation/bookmarks/status/16/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:15:54,941 basehttp 316 21040 "GET /api/navigation/bookmarks/status/16/ HTTP/1.1" 200 25
+INFO 2024-12-27 18:15:54,949 basehttp 316 8596 "GET /api/rating/kuopualodoptsi/book-ratings/ HTTP/1.1" 200 192
+INFO 2024-12-27 18:15:54,957 basehttp 316 2568 "GET /api/reviews/book/kuopualodoptsi/comments/ HTTP/1.1" 200 754
+INFO 2024-12-27 18:15:54,981 basehttp 316 2568 "GET /api/reviews/book/kuopualodoptsi/comments/ HTTP/1.1" 200 754
+INFO 2024-12-27 18:15:55,368 basehttp 316 6932 "GET /api/notification/notifications/ HTTP/1.1" 200 13132
+INFO 2024-12-27 18:15:58,543 basehttp 316 8596 "GET /api/catalog/books/info/kuopualodoptsi/ HTTP/1.1" 200 525
+INFO 2024-12-27 18:15:58,551 basehttp 316 8596 "GET /api/catalog/books/info/kuopualodoptsi/ HTTP/1.1" 200 525
+INFO 2024-12-27 18:15:58,567 basehttp 316 8596 "GET /api/catalog/books/owner/kuopualodoptsi/ HTTP/1.1" 200 579
+INFO 2024-12-27 18:15:58,567 basehttp 316 2568 "GET /api/users/profile/ HTTP/1.1" 200 1267
+INFO 2024-12-27 18:15:58,583 basehttp 316 2568 "GET /api/catalog/books/owner/kuopualodoptsi/ HTTP/1.1" 200 579
+INFO 2024-12-27 18:16:01,644 basehttp 316 2568 "POST /api/website-advertising/advertisements/calculate_cost/ HTTP/1.1" 200 137
+INFO 2024-12-27 18:16:02,464 basehttp 316 2568 "POST /api/website-advertising/advertisements/calculate_cost/ HTTP/1.1" 200 137
+INFO 2024-12-27 18:16:05,371 basehttp 316 2568 "GET /api/users/profile/ HTTP/1.1" 200 1267
+WARNING 2024-12-27 18:16:05,387 log 316 2568 Bad Request: /api/website-advertising/advertisements/
+WARNING 2024-12-27 18:16:05,387 basehttp 316 2568 "POST /api/website-advertising/advertisements/ HTTP/1.1" 400 93
+INFO 2024-12-27 18:22:03,292 basehttp 316 21144 "GET /api/notification/notifications/ HTTP/1.1" 200 13132
+INFO 2024-12-27 18:22:04,162 basehttp 316 19592 "GET /api/users/profile/ HTTP/1.1" 200 1267
+INFO 2024-12-27 18:22:55,348 basehttp 316 19192 "GET /api/notification/notifications/ HTTP/1.1" 200 13132
+INFO 2024-12-27 18:22:58,387 basehttp 316 19948 "GET /admin/website_advertising/advertisement/ HTTP/1.1" 200 26051
+INFO 2024-12-27 18:22:58,421 basehttp 316 19948 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2024-12-27 18:23:02,185 basehttp 316 17416 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:23:02,193 basehttp 316 17416 "GET /api/users/profile/ HTTP/1.1" 200 1267
+INFO 2024-12-27 18:23:04,719 basehttp 316 17416 "OPTIONS /api/auth/users/me/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:23:04,719 basehttp 316 11024 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:23:04,719 basehttp 316 17416 "OPTIONS /api/catalog/books/info/kuopualodoptsi/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:23:04,719 basehttp 316 11024 "OPTIONS /api/auth/users/me/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:23:04,727 basehttp 316 17416 "OPTIONS /api/catalog/books/info/kuopualodoptsi/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:23:04,731 basehttp 316 11024 "GET /api/auth/users/me/ HTTP/1.1" 200 65
+INFO 2024-12-27 18:23:04,739 basehttp 316 11024 "GET /api/auth/users/me/ HTTP/1.1" 200 65
+INFO 2024-12-27 18:23:04,764 basehttp 316 11024 "GET /api/catalog/books/info/kuopualodoptsi/ HTTP/1.1" 200 525
+INFO 2024-12-27 18:23:04,764 basehttp 316 17416 "GET /api/users/profile/ HTTP/1.1" 200 1267
+INFO 2024-12-27 18:23:04,780 basehttp 316 11024 "GET /api/catalog/books/info/kuopualodoptsi/ HTTP/1.1" 200 525
+INFO 2024-12-27 18:23:04,780 basehttp 316 11024 "OPTIONS /api/catalog/books/owner/kuopualodoptsi/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:23:04,796 basehttp 316 11024 "GET /api/catalog/books/owner/kuopualodoptsi/ HTTP/1.1" 200 579
+INFO 2024-12-27 18:23:04,804 basehttp 316 11024 "OPTIONS /api/catalog/books/owner/kuopualodoptsi/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:23:04,820 basehttp 316 11024 "GET /api/catalog/books/owner/kuopualodoptsi/ HTTP/1.1" 200 579
+INFO 2024-12-27 18:23:08,622 basehttp 316 11024 "OPTIONS /api/website-advertising/advertisements/calculate_cost/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:23:08,630 basehttp 316 11024 "POST /api/website-advertising/advertisements/calculate_cost/ HTTP/1.1" 200 137
+INFO 2024-12-27 18:23:12,722 basehttp 316 11024 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:23:12,738 basehttp 316 11024 "GET /api/users/profile/ HTTP/1.1" 200 1267
+INFO 2024-12-27 18:23:12,754 basehttp 316 11024 "OPTIONS /api/website-advertising/advertisements/ HTTP/1.1" 200 0
+WARNING 2024-12-27 18:23:12,754 log 316 11024 Bad Request: /api/website-advertising/advertisements/
+WARNING 2024-12-27 18:23:12,754 basehttp 316 11024 "POST /api/website-advertising/advertisements/ HTTP/1.1" 400 93
+INFO 2024-12-27 18:23:55,037 basehttp 316 19192 "GET /api/notification/notifications/ HTTP/1.1" 200 13132
+INFO 2024-12-27 18:24:04,995 basehttp 316 11024 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:24:05,011 basehttp 316 11024 "GET /api/users/profile/ HTTP/1.1" 200 1267
+INFO 2024-12-27 18:24:32,560 basehttp 316 11024 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:24:32,576 basehttp 316 11024 "GET /api/users/profile/ HTTP/1.1" 200 1267
+INFO 2024-12-27 18:24:55,043 basehttp 316 19192 "GET /api/notification/notifications/ HTTP/1.1" 200 13132
+INFO 2024-12-27 18:25:55,036 basehttp 316 19192 "GET /api/notification/notifications/ HTTP/1.1" 200 13132
+INFO 2024-12-27 18:26:55,040 basehttp 316 19192 "GET /api/notification/notifications/ HTTP/1.1" 200 13132
+INFO 2024-12-27 18:27:55,037 basehttp 316 19192 "GET /api/notification/notifications/ HTTP/1.1" 200 13132
+INFO 2024-12-27 18:28:55,044 basehttp 316 19192 "GET /api/notification/notifications/ HTTP/1.1" 200 13132
+INFO 2024-12-27 18:29:55,043 basehttp 316 19192 "GET /api/notification/notifications/ HTTP/1.1" 200 13132
+INFO 2024-12-27 18:30:55,036 basehttp 316 19192 "GET /api/notification/notifications/ HTTP/1.1" 200 13132
+INFO 2024-12-27 18:31:55,035 basehttp 316 19192 "GET /api/notification/notifications/ HTTP/1.1" 200 13132
+INFO 2024-12-27 18:32:55,046 basehttp 316 19192 "GET /api/notification/notifications/ HTTP/1.1" 200 13132
+INFO 2024-12-27 18:33:29,295 autoreload 316 12608 D:\Website\Fan-vers(React.Django)\backend\apps\website_advertising\api\serializers.py changed, reloading.
+INFO 2024-12-27 18:33:30,899 autoreload 14704 16012 Watching for file changes with StatReloader
+INFO 2024-12-27 18:33:34,166 basehttp 14704 22024 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:33:34,232 basehttp 14704 22024 "GET /api/users/profile/ HTTP/1.1" 200 1267
+INFO 2024-12-27 18:33:47,021 basehttp 14704 22024 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:33:47,021 basehttp 14704 17032 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:33:47,021 basehttp 14704 22024 "OPTIONS /api/catalog/books/info/kuopualodoptsi/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:33:47,021 basehttp 14704 17032 "OPTIONS /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:33:47,045 basehttp 14704 22024 "GET /api/users/profile/ HTTP/1.1" 200 1267
+INFO 2024-12-27 18:33:47,045 basehttp 14704 17032 "GET /api/users/profile/ HTTP/1.1" 200 1267
+INFO 2024-12-27 18:33:47,061 basehttp 14704 17032 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
+INFO 2024-12-27 18:33:47,061 basehttp 14704 22024 "GET /api/catalog/books/info/kuopualodoptsi/ HTTP/1.1" 200 525
+INFO 2024-12-27 18:33:47,075 basehttp 14704 22024 "OPTIONS /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:33:47,075 basehttp 14704 17032 "OPTIONS /api/catalog/books/owner/kuopualodoptsi/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:33:47,091 basehttp 14704 17032 "GET /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 595
+INFO 2024-12-27 18:33:47,091 basehttp 14704 22024 "GET /api/catalog/books/owner/kuopualodoptsi/ HTTP/1.1" 200 579
+INFO 2024-12-27 18:33:55,348 basehttp 14704 9384 "GET /api/notification/notifications/ HTTP/1.1" 200 13132
+INFO 2024-12-27 18:34:14,035 basehttp 14704 17032 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:34:14,051 basehttp 14704 17032 "GET /api/users/profile/ HTTP/1.1" 200 1267
+INFO 2024-12-27 18:34:16,356 basehttp 14704 17032 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:34:16,372 basehttp 14704 17032 "GET /api/users/profile/ HTTP/1.1" 200 1267
+INFO 2024-12-27 18:34:55,047 basehttp 14704 9384 "GET /api/notification/notifications/ HTTP/1.1" 200 13132
+INFO 2024-12-27 18:35:16,540 autoreload 14704 16012 D:\Website\Fan-vers(React.Django)\backend\apps\website_advertising\api\serializers.py changed, reloading.
+INFO 2024-12-27 18:35:18,059 autoreload 20264 2724 Watching for file changes with StatReloader
+INFO 2024-12-27 18:35:42,846 basehttp 20264 19500 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:35:42,908 basehttp 20264 19500 "GET /api/users/profile/ HTTP/1.1" 200 1267
+INFO 2024-12-27 18:35:47,207 basehttp 20264 19820 "OPTIONS /api/auth/users/me/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:35:47,207 basehttp 20264 19820 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:35:47,207 basehttp 20264 19820 "OPTIONS /api/catalog/books/info/kuopualodoptsi/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:35:47,207 basehttp 20264 15332 "OPTIONS /api/auth/users/me/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:35:47,215 basehttp 20264 13652 "OPTIONS /api/catalog/books/info/kuopualodoptsi/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:35:47,223 basehttp 20264 18444 "GET /api/auth/users/me/ HTTP/1.1" 200 65
+INFO 2024-12-27 18:35:47,232 basehttp 20264 15332 "GET /api/auth/users/me/ HTTP/1.1" 200 65
+INFO 2024-12-27 18:35:47,242 basehttp 20264 13652 "GET /api/catalog/books/info/kuopualodoptsi/ HTTP/1.1" 200 525
+INFO 2024-12-27 18:35:47,242 basehttp 20264 19820 "GET /api/catalog/books/info/kuopualodoptsi/ HTTP/1.1" 200 525
+INFO 2024-12-27 18:35:47,250 basehttp 20264 19820 "OPTIONS /api/catalog/books/owner/kuopualodoptsi/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:35:47,250 basehttp 20264 13652 "OPTIONS /api/catalog/books/owner/kuopualodoptsi/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:35:47,250 basehttp 20264 16928 "GET /api/users/profile/ HTTP/1.1" 200 1267
+INFO 2024-12-27 18:35:47,266 basehttp 20264 16928 "GET /api/catalog/books/owner/kuopualodoptsi/ HTTP/1.1" 200 579
+INFO 2024-12-27 18:35:47,266 basehttp 20264 13652 "GET /api/catalog/books/owner/kuopualodoptsi/ HTTP/1.1" 200 579
+INFO 2024-12-27 18:35:52,045 basehttp 20264 13652 "OPTIONS /api/website-advertising/advertisements/calculate_cost/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:35:52,053 basehttp 20264 13652 "POST /api/website-advertising/advertisements/calculate_cost/ HTTP/1.1" 200 137
+INFO 2024-12-27 18:35:53,874 basehttp 20264 13652 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:35:53,890 basehttp 20264 13652 "GET /api/users/profile/ HTTP/1.1" 200 1267
+INFO 2024-12-27 18:35:53,906 basehttp 20264 13652 "OPTIONS /api/website-advertising/advertisements/ HTTP/1.1" 200 0
+ERROR 2024-12-27 18:35:53,966 log 20264 13652 Internal Server Error: /api/website-advertising/advertisements/
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\backend\apps\website_advertising\api\views.py", line 155, in perform_create
+    ad = serializer.save(
+         ^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\serializers.py", line 208, in save
+    self.instance = self.create(validated_data)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\serializers.py", line 989, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\db\models\query.py", line 679, in create
+    obj.save(force_insert=True, using=self.db)
+  File "D:\Website\Fan-vers(React.Django)\backend\apps\website_advertising\models.py", line 46, in save
+    self.clean()
+  File "D:\Website\Fan-vers(React.Django)\backend\apps\website_advertising\models.py", line 43, in clean
+    raise ValidationError('На вибрані дати вже є активна реклама')
+django.core.exceptions.ValidationError: ['На вибрані дати вже є активна реклама']
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\mixins.py", line 19, in create
+    self.perform_create(serializer)
+  File "D:\Website\Fan-vers(React.Django)\backend\apps\website_advertising\api\views.py", line 186, in perform_create
+    except serializers.ValidationError as e:
+           ^^^^^^^^^^^
+NameError: name 'serializers' is not defined. Did you mean: 'serializer'?
+ERROR 2024-12-27 18:35:53,974 basehttp 20264 13652 "POST /api/website-advertising/advertisements/ HTTP/1.1" 500 164473
+INFO 2024-12-27 18:35:55,355 basehttp 20264 10848 "GET /api/notification/notifications/ HTTP/1.1" 200 13132
+INFO 2024-12-27 18:36:21,725 basehttp 20264 13652 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:36:21,741 basehttp 20264 13652 "GET /api/users/profile/ HTTP/1.1" 200 1267
+INFO 2024-12-27 18:36:43,224 basehttp 20264 13652 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:36:43,242 basehttp 20264 13652 "GET /api/users/profile/ HTTP/1.1" 200 1267
+INFO 2024-12-27 18:36:55,049 basehttp 20264 10848 "GET /api/notification/notifications/ HTTP/1.1" 200 13132
+INFO 2024-12-27 18:37:18,679 autoreload 20264 2724 D:\Website\Fan-vers(React.Django)\backend\apps\website_advertising\api\views.py changed, reloading.
+INFO 2024-12-27 18:37:20,133 autoreload 15656 20580 Watching for file changes with StatReloader
+INFO 2024-12-27 18:37:37,822 autoreload 15656 20580 D:\Website\Fan-vers(React.Django)\backend\apps\website_advertising\models.py changed, reloading.
+INFO 2024-12-27 18:37:39,306 autoreload 7872 12952 Watching for file changes with StatReloader
+INFO 2024-12-27 18:37:55,390 basehttp 7872 13568 "GET /api/notification/notifications/ HTTP/1.1" 200 13132
+INFO 2024-12-27 18:38:05,917 autoreload 7872 12952 D:\Website\Fan-vers(React.Django)\backend\apps\website_advertising\api\views.py changed, reloading.
+INFO 2024-12-27 18:38:07,402 autoreload 13184 17088 Watching for file changes with StatReloader
+INFO 2024-12-27 18:38:20,762 autoreload 13184 17088 D:\Website\Fan-vers(React.Django)\backend\apps\website_advertising\models.py changed, reloading.
+INFO 2024-12-27 18:38:22,152 autoreload 21644 15432 Watching for file changes with StatReloader
+INFO 2024-12-27 18:38:28,331 basehttp 21644 19308 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:38:28,403 basehttp 21644 19308 "GET /api/users/profile/ HTTP/1.1" 200 1267
+INFO 2024-12-27 18:38:36,028 basehttp 21644 19308 "OPTIONS /api/auth/users/me/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:38:36,028 basehttp 21644 9020 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:38:36,036 basehttp 21644 19308 "OPTIONS /api/catalog/books/info/kuopualodoptsi/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:38:36,036 basehttp 21644 19308 "OPTIONS /api/auth/users/me/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:38:36,044 basehttp 21644 9020 "GET /api/auth/users/me/ HTTP/1.1" 200 65
+INFO 2024-12-27 18:38:36,044 basehttp 21644 19308 "OPTIONS /api/catalog/books/info/kuopualodoptsi/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:38:36,060 basehttp 21644 9020 "GET /api/catalog/books/info/kuopualodoptsi/ HTTP/1.1" 200 525
+INFO 2024-12-27 18:38:36,076 basehttp 21644 9020 "GET /api/auth/users/me/ HTTP/1.1" 200 65
+INFO 2024-12-27 18:38:36,076 basehttp 21644 19308 "GET /api/users/profile/ HTTP/1.1" 200 1267
+INFO 2024-12-27 18:38:36,084 basehttp 21644 9020 "GET /api/catalog/books/info/kuopualodoptsi/ HTTP/1.1" 200 525
+INFO 2024-12-27 18:38:36,092 basehttp 21644 9020 "OPTIONS /api/catalog/books/owner/kuopualodoptsi/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:38:36,100 basehttp 21644 19308 "OPTIONS /api/catalog/books/owner/kuopualodoptsi/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:38:36,100 basehttp 21644 9020 "GET /api/catalog/books/owner/kuopualodoptsi/ HTTP/1.1" 200 579
+INFO 2024-12-27 18:38:36,108 basehttp 21644 19308 "GET /api/catalog/books/owner/kuopualodoptsi/ HTTP/1.1" 200 579
+INFO 2024-12-27 18:38:38,987 basehttp 21644 2312 "GET /admin/website_advertising/advertisement/ HTTP/1.1" 200 26034
+INFO 2024-12-27 18:38:39,019 basehttp 21644 2312 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2024-12-27 18:38:41,011 basehttp 21644 19308 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:38:41,027 basehttp 21644 19308 "GET /api/users/profile/ HTTP/1.1" 200 1267
+INFO 2024-12-27 18:38:44,787 basehttp 21644 19308 "OPTIONS /api/website-advertising/advertisements/calculate_cost/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:38:44,795 basehttp 21644 19308 "POST /api/website-advertising/advertisements/calculate_cost/ HTTP/1.1" 200 137
+INFO 2024-12-27 18:38:46,407 basehttp 21644 19308 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:38:46,427 basehttp 21644 19308 "GET /api/users/profile/ HTTP/1.1" 200 1267
+INFO 2024-12-27 18:38:46,443 basehttp 21644 19308 "OPTIONS /api/website-advertising/advertisements/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:38:46,467 basehttp 21644 19308 "POST /api/website-advertising/advertisements/ HTTP/1.1" 201 891
+INFO 2024-12-27 18:38:46,483 basehttp 21644 19308 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:38:46,507 basehttp 21644 19308 "GET /api/users/profile/ HTTP/1.1" 200 1381
+INFO 2024-12-27 18:38:46,531 basehttp 21644 9020 "OPTIONS /api/website-advertising/advertisements/user_advertisements/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:38:46,531 basehttp 21644 19308 "OPTIONS /api/website-advertising/advertisements/user_advertisements/ HTTP/1.1" 200 0
+WARNING 2024-12-27 18:38:46,547 log 21644 19308 Not Found: /api/website-advertising/advertisements/user_advertisements/
+WARNING 2024-12-27 18:38:46,547 log 21644 9020 Not Found: /api/website-advertising/advertisements/user_advertisements/
+WARNING 2024-12-27 18:38:46,547 basehttp 21644 19308 "GET /api/website-advertising/advertisements/user_advertisements/ HTTP/1.1" 404 8398
+WARNING 2024-12-27 18:38:46,547 basehttp 21644 9020 "GET /api/website-advertising/advertisements/user_advertisements/ HTTP/1.1" 404 8398
+INFO 2024-12-27 18:38:51,080 basehttp 21644 9020 "OPTIONS /api/main/books-news/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:38:51,080 basehttp 21644 18560 "OPTIONS /api/auth/users/me/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:38:51,080 basehttp 21644 19308 "OPTIONS /api/website-advertising/advertisements/main_page_ads/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:38:51,080 basehttp 21644 9076 "OPTIONS /api/auth/users/me/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:38:51,104 basehttp 21644 9020 "GET /api/auth/users/me/ HTTP/1.1" 200 65
+INFO 2024-12-27 18:38:51,104 basehttp 21644 19308 "GET /api/auth/users/me/ HTTP/1.1" 200 65
+INFO 2024-12-27 18:38:51,104 basehttp 21644 18560 "GET /api/main/books-news/ HTTP/1.1" 200 1527
+INFO 2024-12-27 18:38:51,128 basehttp 21644 9076 "GET /api/website-advertising/advertisements/main_page_ads/ HTTP/1.1" 200 1803
+INFO 2024-12-27 18:38:51,280 basehttp 21644 2312 "GET /media/books/017_8CemAQs.jpg HTTP/1.1" 200 629514
+INFO 2024-12-27 18:38:51,293 basehttp 21644 9536 "GET /media/books/5VgZtO9jy5g_pv9z9yw.jpg HTTP/1.1" 200 121514
+INFO 2024-12-27 18:38:51,294 basehttp 21644 2312 "GET /media/books/YfyJVFIhJ-M_DblDUMQ.jpg HTTP/1.1" 200 67914
+INFO 2024-12-27 18:38:55,364 basehttp 21644 9548 "GET /api/notification/notifications/ HTTP/1.1" 200 13132
+INFO 2024-12-27 18:39:01,179 basehttp 21644 2312 "GET /media/books/5VgZtO9jy5g_pv9z9yw.jpg HTTP/1.1" 200 121514
+INFO 2024-12-27 18:39:05,544 basehttp 21644 9076 "OPTIONS /api/website-advertising/advertisements/user_advertisements/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:39:05,544 basehttp 21644 18560 "OPTIONS /api/website-advertising/advertisements/user_advertisements/ HTTP/1.1" 200 0
+WARNING 2024-12-27 18:39:05,552 log 21644 18560 Not Found: /api/website-advertising/advertisements/user_advertisements/
+WARNING 2024-12-27 18:39:05,560 log 21644 9076 Not Found: /api/website-advertising/advertisements/user_advertisements/
+WARNING 2024-12-27 18:39:05,560 basehttp 21644 18560 "GET /api/website-advertising/advertisements/user_advertisements/ HTTP/1.1" 404 8398
+WARNING 2024-12-27 18:39:05,560 basehttp 21644 9076 "GET /api/website-advertising/advertisements/user_advertisements/ HTTP/1.1" 404 8398
+INFO 2024-12-27 18:39:55,044 basehttp 21644 9548 "GET /api/notification/notifications/ HTTP/1.1" 200 13132
+INFO 2024-12-27 18:40:55,035 basehttp 21644 9548 "GET /api/notification/notifications/ HTTP/1.1" 200 13132
+INFO 2024-12-27 18:41:55,040 basehttp 21644 9548 "GET /api/notification/notifications/ HTTP/1.1" 200 13132
+INFO 2024-12-27 18:42:55,048 basehttp 21644 9548 "GET /api/notification/notifications/ HTTP/1.1" 200 13132
+INFO 2024-12-27 18:42:59,017 basehttp 21644 9076 "OPTIONS /api/auth/users/me/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:42:59,017 basehttp 21644 9020 "OPTIONS /api/website-advertising/advertisements/user_advertisements/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:42:59,017 basehttp 21644 19308 "OPTIONS /api/auth/users/me/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:42:59,017 basehttp 21644 18560 "OPTIONS /api/website-advertising/advertisements/user_advertisements/ HTTP/1.1" 200 0
+WARNING 2024-12-27 18:42:59,033 log 21644 9076 Not Found: /api/website-advertising/advertisements/user_advertisements/
+WARNING 2024-12-27 18:42:59,041 log 21644 9020 Not Found: /api/website-advertising/advertisements/user_advertisements/
+WARNING 2024-12-27 18:42:59,041 basehttp 21644 9076 "GET /api/website-advertising/advertisements/user_advertisements/ HTTP/1.1" 404 8398
+INFO 2024-12-27 18:42:59,041 basehttp 21644 18560 "GET /api/auth/users/me/ HTTP/1.1" 200 65
+WARNING 2024-12-27 18:42:59,041 basehttp 21644 9020 "GET /api/website-advertising/advertisements/user_advertisements/ HTTP/1.1" 404 8398
+INFO 2024-12-27 18:42:59,041 basehttp 21644 19308 "GET /api/auth/users/me/ HTTP/1.1" 200 65
+INFO 2024-12-27 18:43:23,253 autoreload 21644 15432 D:\Website\Fan-vers(React.Django)\backend\apps\website_advertising\api\urls.py changed, reloading.
+INFO 2024-12-27 18:43:24,816 autoreload 12104 18976 Watching for file changes with StatReloader
+INFO 2024-12-27 18:43:48,313 basehttp 12104 2032 "OPTIONS /api/website-advertising/advertisements/user_advertisements/ HTTP/1.1" 200 0
+INFO 2024-12-27 18:43:48,369 basehttp 12104 2032 "GET /api/website-advertising/advertisements/user_advertisements/ HTTP/1.1" 200 1803
+INFO 2024-12-27 18:43:48,780 basehttp 12104 10920 "GET /media/books/5VgZtO9jy5g_pv9z9yw.jpg HTTP/1.1" 200 121514
+INFO 2024-12-27 18:43:48,788 basehttp 12104 14896 "GET /media/books/YfyJVFIhJ-M_DblDUMQ.jpg HTTP/1.1" 200 67914
+INFO 2024-12-27 18:43:55,351 basehttp 12104 22128 "GET /api/notification/notifications/ HTTP/1.1" 200 13132
+INFO 2024-12-27 18:44:41,933 autoreload 12104 18976 D:\Website\Fan-vers(React.Django)\backend\apps\website_advertising\api\urls.py changed, reloading.
+INFO 2024-12-27 18:44:43,428 autoreload 6476 18468 Watching for file changes with StatReloader

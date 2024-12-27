@@ -25,6 +25,7 @@ import "./components/Preloader.css";
 import "./components/Scrollbar.css";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import AdvertisementSettings from './website_advertising/pages/AdvertisementSettings';
+import AdvertisementsUsers from './users/pages/AdvertisementsUsers';
 
 const queryClient = new QueryClient();
 
@@ -105,6 +106,11 @@ function App() {
             <Route path="/books/:slug/advertisement" element={
               <PrivateRoute>
                 <AdvertisementSettings />
+              </PrivateRoute>
+            } />
+            <Route path="/profile/my-advertisements" element={
+              <PrivateRoute>
+                <AdvertisementsUsers />
               </PrivateRoute>
             } />
             <Route path="*" element={<Navigate to="/" replace />} />

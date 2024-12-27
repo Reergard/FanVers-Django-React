@@ -18,11 +18,13 @@ const AdvertisementSettings = () => {
     const [totalCost, setTotalCost] = useState(0);
     const [book, setBook] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     // Получаем информацию о балансе пользователя
-    const { data: userBalance } = useQuery({
+    const { data: userBalance, refetch: refetchBalance } = useQuery({
         queryKey: ['userBalance'],
-        queryFn: () => usersAPI.getUserBalance()
+        queryFn: () => usersAPI.getUserBalance(),
+        refetchOnWindowFocus: true
     });
 
     const adTypes = [
@@ -32,14 +34,11 @@ const AdvertisementSettings = () => {
         { id: 'fandoms', name: 'Реклама у Пошуку за фендомами', enabled: false }
     ];
 
-    // Загружаем данные книги при монтировании
     useEffect(() => {
         const fetchBookData = async () => {
             try {
                 setIsLoading(true);
-                console.log('Fetching book data for slug:', slug);
                 const bookData = await catalogAPI.fetchBook(slug);
-                console.log('Loaded book data:', bookData);
                 setBook(bookData);
             } catch (error) {
                 console.error('Error loading book:', error);
@@ -62,14 +61,14 @@ const AdvertisementSettings = () => {
 
         if (start && end) {
             try {
-                console.log('Selected dates:', { start, end });
                 const response = await websiteAdvertisingAPI.calculateCost(start, end);
                 setTotalCost(response.total_cost);
-                console.log('Cost calculation successful:', response);
             } catch (error) {
-                console.error('Cost calculation failed:', error);
                 toast.error(error.response?.data?.error || 'Помилка при розрахунку вартості');
+                setTotalCost(0);
             }
+        } else {
+            setTotalCost(0);
         }
     };
 
@@ -84,13 +83,11 @@ const AdvertisementSettings = () => {
             setTotalCost(response.total_cost);
             toast.success('Вартість розраховано');
         } catch (error) {
-            toast.error('Помилка при розрахунку вартості');
+            toast.error(error.response?.data?.error || 'Помилка при розрахунку вартості');
         }
     };
 
     const handlePublish = async () => {
-        console.log('Starting advertisement publication...');
-
         if (!book?.id) {
             toast.error('Помилка: некоректні дані книги');
             return;
@@ -101,7 +98,18 @@ const AdvertisementSettings = () => {
             return;
         }
 
+        if (totalCost === 0) {
+            toast.error('Помилка: не розраховано вартість');
+            return;
+        }
+
+        if (userBalance?.balance < totalCost) {
+            toast.error('Недостатньо коштів на балансі');
+            return;
+        }
+
         try {
+            setIsSubmitting(true);
             const advertisementData = {
                 book: book.id,
                 location: selectedAd,
@@ -109,26 +117,29 @@ const AdvertisementSettings = () => {
                 end_date: endDate,
                 total_cost: totalCost
             };
-
-            console.log('Sending advertisement data:', advertisementData);
             
-            const result = await websiteAdvertisingAPI.createAdvertisement(advertisementData);
-            console.log('Advertisement created successfully:', result);
+            await websiteAdvertisingAPI.createAdvertisement(advertisementData);
+            await refetchBalance();
             
             toast.success('Реклама успішно створена');
             navigate('/profile/my-advertisements');
         } catch (error) {
-            console.error('Error in handlePublish:', error);
-            toast.error(error.message || 'Помилка при створенні реклами');
+            if (error.message && error.message.includes('вже є активна реклама')) {
+                toast.warning(error.message);
+            } else {
+                toast.error(error.message || 'Помилка при створенні реклами');
+            }
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
     if (isLoading) {
-        return <div>Завантаження...</div>;
+        return <div className="loading-container">Завантаження...</div>;
     }
 
     if (!book) {
-        return <div>Книгу не знайдено</div>;
+        return <div className="error-container">Книгу не знайдено</div>;
     }
 
     return (
@@ -137,16 +148,22 @@ const AdvertisementSettings = () => {
 
             {adTypes.map(adType => (
                 <div key={adType.id} className={`ad-block ${!adType.enabled ? 'disabled' : ''}`}>
-                    <input
-                        type="checkbox"
-                        checked={selectedAd === adType.id}
-                        onChange={() => adType.enabled && setSelectedAd(adType.id)}
-                        disabled={!adType.enabled}
-                    />
-                    <span>{adType.name}</span>
+                    <div className="ad-type-header">
+                        <input
+                            type="radio"
+                            name="adType"
+                            checked={selectedAd === adType.id}
+                            onChange={() => adType.enabled && setSelectedAd(adType.id)}
+                            disabled={!adType.enabled}
+                        />
+                        <span className={!adType.enabled ? 'disabled-text' : ''}>
+                            {adType.name}
+                            {!adType.enabled && ' (Скоро)'}
+                        </span>
+                    </div>
                     
                     {adType.enabled && selectedAd === adType.id && (
-                        <>
+                        <div className="ad-details">
                             <div className="date-picker-container">
                                 <DatePicker
                                     selected={startDate}
@@ -157,22 +174,32 @@ const AdvertisementSettings = () => {
                                     minDate={new Date()}
                                     dateFormat="dd/MM/yyyy"
                                     placeholderText="Виберіть період"
+                                    className="custom-datepicker"
                                 />
                             </div>
-                            <button onClick={handleOrder}>Замовити</button>
-                        </>
+                            <button 
+                                onClick={handleOrder}
+                                className="order-button"
+                                disabled={!startDate || !endDate}
+                            >
+                                Замовити
+                            </button>
+                        </div>
                     )}
                 </div>
             ))}
 
-            <div className="total-cost">
-                <span>Вартість: {totalCost} грн</span>
-                <span>Баланс: {userBalance?.balance || 0} грн</span>
+            <div className="total-cost-container">
+                <div className="cost-details">
+                    <span>Вартість: {totalCost} грн</span>
+                    <span>Баланс: {userBalance?.balance || 0} грн</span>
+                </div>
                 <button 
                     onClick={handlePublish}
-                    disabled={totalCost === 0 || !startDate || !endDate}
+                    disabled={totalCost === 0 || !startDate || !endDate || isSubmitting}
+                    className="publish-button"
                 >
-                    Опублікувати
+                    {isSubmitting ? 'Публікація...' : 'Опублікувати'}
                 </button>
             </div>
         </div>

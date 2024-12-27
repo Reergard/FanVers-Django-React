@@ -2,6 +2,9 @@ from rest_framework import serializers
 from ..models import Advertisement
 from apps.catalog.api.serializers import BookReaderSerializer
 from apps.users.api.serializers import CreateUserSerializer
+import logging
+
+logger = logging.getLogger(__name__)
 
 class AdvertisementSerializer(serializers.ModelSerializer):
     book_details = BookReaderSerializer(source='book', read_only=True)
@@ -28,13 +31,17 @@ class AdvertisementSerializer(serializers.ModelSerializer):
         """
         Проверка валидности дат и других условий
         """
+        logger.info(f"Валідація даних в сериалізаторі: {data}")
+        
         if data['start_date'] > data['end_date']:
+            logger.warning(f"Помилка валідації: дата початку {data['start_date']} пізніше дати закінчення {data['end_date']}")
             raise serializers.ValidationError(
-                'Дата начала не может быть позже даты окончания'
+                'Дата початку не може бути пізніше дати закінчення'
             )
         
-        # Проверка на пересечение дат
+        # Проверка на пересечение дат для конкретной книги
         overlapping_ads = Advertisement.objects.filter(
+            book=data['book'],
             location=data['location'],
             start_date__lte=data['end_date'],
             end_date__gte=data['start_date'],
@@ -45,8 +52,9 @@ class AdvertisementSerializer(serializers.ModelSerializer):
             overlapping_ads = overlapping_ads.exclude(pk=self.instance.pk)
             
         if overlapping_ads.exists():
+            logger.warning(f"Знайдено пересічні реклами для книги {data['book'].title}: {overlapping_ads.count()}")
             raise serializers.ValidationError(
-                'На вибрані дати вже є активна реклама'
+                f'Для книги "{data["book"].title}" вже є активна реклама на вибрані дати'
             )
             
         return data

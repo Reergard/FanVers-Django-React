@@ -1,5 +1,5 @@
 import logging
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, serializers
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -11,6 +11,8 @@ from apps.users.models import User
 from dateutil import parser
 from zoneinfo import ZoneInfo
 from rest_framework.throttling import UserRateThrottle
+from django.db import transaction
+from django.core.exceptions import ValidationError
 
 
 logger = logging.getLogger(__name__)
@@ -109,17 +111,25 @@ class AdvertisementViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         logger.info("Початок створення реклами...")
         logger.info(f"Отримані дані: {serializer.validated_data}")
+        logger.info(f"Початкові дані: {self.request.data}")
         
         try:
             user = self.request.user
-            profile = user.profile  # Отримуємо профіль користувача
+            profile = user.profile
             logger.info(f"Створення реклами для користувача: {user.id}, баланс профілю: {profile.balance}")
             
             start_date = serializer.validated_data['start_date']
             end_date = serializer.validated_data['end_date']
             book = serializer.validated_data['book']
+            location = serializer.validated_data['location']
             
-            logger.info(f"Деталі реклами: початок={start_date}, кінець={end_date}, книга={book.id}")
+            logger.info(f"""
+            Деталі реклами:
+            - початок: {start_date}
+            - кінець: {end_date}
+            - книга: {book.id}
+            - локація: {location}
+            """)
             
             # Розрахунок вартості
             days = (end_date - start_date).days
@@ -138,18 +148,48 @@ class AdvertisementViewSet(viewsets.ModelViewSet):
                     'required': float(total_cost)
                 })
             
-            # Списання коштів через профіль
-            profile.update_balance(-total_cost)
+            with transaction.atomic():
+                # Списання коштів через профіль
+                profile.update_balance(total_cost, 'advertising')
+                
+                # Збереження реклами
+                ad = serializer.save(
+                    user=user,
+                    total_cost=total_cost
+                )
+                
+                # Створення запису в журналі реклами
+                from apps.monitoring.models import AdvertisingLog
+                AdvertisingLog.objects.create(
+                    user=user,
+                    book=book,
+                    location=location,
+                    start_date=start_date,
+                    end_date=end_date,
+                    total_cost=total_cost
+                )
+                
+                # Створення повідомлення
+                from apps.notification.models import Notification
+                location_names = dict(Advertisement.LOCATION_CHOICES)
+                message = f"Увага! Ви замовили рекламу на сторінці '{location_names[location]}' для книги '{book.title}' н�� період з {start_date} по {end_date} на суму {total_cost} грн!"
+                
+                Notification.objects.create(
+                    user=user,
+                    book=book,
+                    message=message,
+                    is_read=False
+                )
+                
+                logger.info(f"Реклама успішно створена: {ad.id}")
+                return ad
             
-            # Збереження реклами
-            ad = serializer.save(
-                user=user,
-                total_cost=total_cost
-            )
-            logger.info(f"Реклама успішно створено: {ad.id}")
-            
-            return ad
-            
+        except ValidationError as e:
+            logger.error(f"Помилка валідації моделі: {str(e)}")
+            raise serializers.ValidationError(str(e))
+        except serializers.ValidationError as e:
+            logger.error(f"Помилка валідації серіалізатора: {str(e)}")
+            raise
         except Exception as e:
             logger.error(f"Помилка в perform_create: {str(e)}", exc_info=True)
             raise
@@ -176,4 +216,16 @@ class AdvertisementViewSet(viewsets.ModelViewSet):
             
         except Exception as e:
             logger.error(f"Помилка в main_page_ads: {str(e)}", exc_info=True)
+            raise
+
+    @action(detail=False, methods=['get'])
+    def user_advertisements(self, request):
+        logger.info(f"Отримання реклами для користувача: {request.user.id}")
+        try:
+            ads = self.queryset.filter(user=request.user).order_by('-created_at')
+            serializer = self.get_serializer(ads, many=True)
+            logger.info(f"Знайдено {ads.count()} рекламних оголошень")
+            return Response(serializer.data)
+        except Exception as e:
+            logger.error(f"Помилка в user_advertisements: {str(e)}", exc_info=True)
             raise

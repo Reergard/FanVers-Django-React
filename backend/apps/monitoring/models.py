@@ -145,3 +145,36 @@ class UserChapterProgress(models.Model):
         ).count()
 
         return stats
+
+class AdvertisingLog(models.Model):
+    user = models.ForeignKey(
+        'users.User',
+        on_delete=models.CASCADE,
+        related_name='advertising_logs'
+    )
+    book = models.ForeignKey(
+        'catalog.Book',
+        on_delete=models.CASCADE,
+        related_name='advertising_logs'
+    )
+    location = models.CharField(
+        max_length=20,
+        choices=[
+            ('main', 'Реклама на Головній'),
+            ('genres', 'Реклама у Пошуку за жанрами'),
+            ('tags', 'Реклама у Пошуку за тегами'),
+            ('fandoms', 'Реклама у Пошуку за фендомами'),
+        ]
+    )
+    start_date = models.DateField()
+    end_date = models.DateField()
+    total_cost = models.DecimalField(max_digits=10, decimal_places=2)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = 'Журнал реклами'
+        verbose_name_plural = 'Журнал реклами'
+
+    def __str__(self):
+        return f"Реклама книги {self.book.title} від {self.user.username}"

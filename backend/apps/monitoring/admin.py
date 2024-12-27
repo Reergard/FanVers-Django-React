@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import TransactionLog, BalanceOperationLog, UserChapterProgress
+from .models import TransactionLog, BalanceOperationLog, UserChapterProgress, AdvertisingLog
 from django.db.models import Sum
 from django.utils import timezone
 
@@ -158,3 +158,28 @@ class UserChapterProgressAdmin(admin.ModelAdmin):
     list_filter = ['is_read', 'is_purchased', 'last_read_at']
     search_fields = ['user__username', 'chapter__title']
     raw_id_fields = ['user', 'chapter']
+
+@admin.register(AdvertisingLog)
+class AdvertisingLogAdmin(admin.ModelAdmin):
+    list_display = (
+        'user',
+        'book',
+        'location',
+        'start_date',
+        'end_date',
+        'total_cost',
+        'created_at'
+    )
+    list_filter = ('location', 'created_at', 'start_date', 'end_date')
+    search_fields = ('user__username', 'book__title')
+    readonly_fields = ('created_at',)
+    ordering = ('-created_at',)
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
