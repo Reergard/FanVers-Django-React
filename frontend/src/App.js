@@ -27,6 +27,21 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import AdvertisementSettings from './website_advertising/pages/AdvertisementSettings';
 import AdvertisementsUsers from './users/pages/AdvertisementsUsers';
 
+// Legal pages
+import UserAgreement from './legal/pages/UserAgreement';
+import PrivacyPolicy from './legal/pages/PrivacyPolicy';
+import ContentRules from './legal/pages/ContentRules';
+import Confidentiality from './legal/pages/Confidentiality';
+import AuthorAgreement from './legal/pages/AuthorAgreement';
+
+// Help pages
+import TranslatorAgreement from './help/pages/TranslatorAgreement';
+import SayThanks from './help/pages/SayThanks';
+import Contacts from './help/pages/Contacts';
+import BalanceHelp from './help/pages/BalanceHelp';
+import Support from './help/pages/Support';
+import Payment from './help/pages/Payment';
+
 const queryClient = new QueryClient();
 
 function App() {
@@ -113,6 +128,17 @@ function App() {
                 <AdvertisementsUsers />
               </PrivateRoute>
             } />
+            <Route path="/user-agreement" element={<UserAgreement />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/content-rules" element={<ContentRules />} />
+            <Route path="/confidentiality" element={<Confidentiality />} />
+            <Route path="/author-agreement" element={<AuthorAgreement />} />
+            <Route path="/translator-agreement" element={<TranslatorAgreement />} />
+            <Route path="/say-thanks" element={<SayThanks />} />
+            <Route path="/contacts" element={<Contacts />} />
+            <Route path="/balance-help" element={<BalanceHelp />} />
+            <Route path="/support" element={<Support />} />
+            <Route path="/payment" element={<Payment />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
           <Footer />
