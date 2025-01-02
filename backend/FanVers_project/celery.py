@@ -37,6 +37,11 @@ app.conf.beat_schedule = {
         'task': 'catalog.tasks.simple_debug_task',
         'schedule': crontab(minute='*/1'),
     },
+
+    'cleanup-old-analytics': {
+        'task': 'apps.analytics_books.tasks.cleanup_old_analytics',
+        'schedule': crontab(hour=3, minute=0),
+    },
 }
 
 app.conf.update(

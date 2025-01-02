@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { fetchBookComments, postBookComment, updateReaction, updateOwnerLike } from '../../api/reviews/reviewsAPI';
 import CommentForm from './CommentForm';
+import useBookAnalytics from '../../hooks/useBookAnalytics';
 import '../style/BookComments.css';
 
 const BookComments = ({ bookSlug, book, isBookOwner }) => {
@@ -11,6 +12,7 @@ const BookComments = ({ bookSlug, book, isBookOwner }) => {
   const [replyingTo, setReplyingTo] = useState(null);
   
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  const { trackComment, trackCommentLike } = useBookAnalytics();
 
   const loadComments = async () => {
     setLoading(true);
@@ -34,12 +36,17 @@ const BookComments = ({ bookSlug, book, isBookOwner }) => {
         alert('Пожалуйста, войдите в систему, чтобы оставить комментарий');
         return;
     }
+    console.log('Попытка добавления комментария для книги:', bookSlug);
     setLoading(true);
     try {
         const newComment = await postBookComment(bookSlug, text, parentId);
+        console.log('Комментарий успешно добавлен:', newComment);
         setComments(prevComments => 
           Array.isArray(prevComments) ? [...prevComments, newComment] : [newComment]
         );
+        console.log('Отправка данных в аналитику для комментария');
+        await trackComment(bookSlug);
+        console.log('Аналитика комментария обновлена');
         await loadComments();
     } catch (error) {
         console.error('Ошибка при отправке комментария:', error);
@@ -71,8 +78,14 @@ const BookComments = ({ bookSlug, book, isBookOwner }) => {
         alert('Пожалуйста, войдите в систему, чтобы оставить реакцию');
         return;
     }
+    console.log('Попытка добавления реакции:', { commentId, action, bookSlug });
     try {
       await updateReaction(commentId, 'book', action);
+      if (action === 'like') {
+        console.log('Отправка данных в аналитику для лайка');
+        await trackCommentLike(bookSlug);
+        console.log('Аналитика лайка обновлена');
+      }
       loadComments();
     } catch (error) {
       console.error('Ошибка при обновлении реакции:', error);
@@ -160,6 +173,7 @@ const BookComments = ({ bookSlug, book, isBookOwner }) => {
         <CommentForm
           onSubmit={handleCommentSubmit}
           loading={loading}
+          bookId={bookSlug}
         />
       )}
 

@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'apps.website_advertising',
     'apps.notification.apps.NotificationConfig',
     'apps.monitoring.apps.MonitoringConfig',
+    'apps.analytics_books.apps.AnalyticsBooksConfig',
 
     
     'rest_framework',

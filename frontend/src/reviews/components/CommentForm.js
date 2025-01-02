@@ -1,18 +1,22 @@
 import React, { useState } from 'react';
+import useBookAnalytics from '../../hooks/useBookAnalytics';
 
-const CommentForm = ({ onSubmit, initialText = '', readOnlyInitialText = false }) => {
+const CommentForm = ({ onSubmit, initialText = '', readOnlyInitialText = false, bookId }) => {
     const [text, setText] = useState(initialText);
+    const { trackComment } = useBookAnalytics();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (text.trim()) {
-            onSubmit(text);  // Передаем только текст
-            setText('');  // Очищаем поле после отправки
+            await onSubmit(text);
+            if (bookId) {
+                trackComment(bookId);
+            }
+            setText('');
         }
     };
 
     const handleTextChange = (e) => {
-        // Исправляем логику обновления текста
         if (readOnlyInitialText) {
             setText(e.target.value);
         } else {
@@ -29,7 +33,7 @@ const CommentForm = ({ onSubmit, initialText = '', readOnlyInitialText = false }
                 </div>
             )}
             <textarea
-                value={text}  // Используем просто text вместо условия
+                value={text}
                 onChange={handleTextChange}
                 placeholder="Напишите ваш комментарий..."
                 rows="4"

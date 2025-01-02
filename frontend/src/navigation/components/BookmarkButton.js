@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query';
 import { addBookmark, updateBookmark, getBookmarkStatus } from '../../api/navigation/navigationAPI';
-import '../css/BookmarkButton.css'; // Создайте этот файл для стилей
+import { analyticsBooksAPI } from '../../api/analytics_books/analytics_booksAPI';
+import '../css/BookmarkButton.css';
 
 const STATUS_LABELS = {
     'reading': 'Читаю',
@@ -21,10 +22,25 @@ const BookmarkButton = ({ bookId }) => {
     });
 
     const addMutation = useMutation({
-        mutationFn: (newStatus) => addBookmark(bookId, newStatus, queryClient),
-        onSuccess: () => {
-            queryClient.invalidateQueries(['bookmark-status', bookId]);
+        mutationFn: (newStatus) => {
+            console.log('Попытка добавления закладки:', { bookId, newStatus });
+            return addBookmark(bookId, newStatus, queryClient);
         },
+        onSuccess: async (data) => {
+            console.log('Закладка успешно добавлена:', data);
+            queryClient.invalidateQueries(['bookmark-status', bookId]);
+            // Отправляем данные в аналитику при добавлении закладки
+            try {
+                console.log('Отправка данных в аналитику для закладки');
+                await analyticsBooksAPI.updateAnalytics(bookId, 'bookmark');
+                console.log('Аналитика закладки обновлена');
+            } catch (error) {
+                console.error('Ошибка при обновлении аналитики:', error);
+            }
+        },
+        onError: (error) => {
+            console.error('Ошибка при добавлении закладки:', error);
+        }
     });
 
     const updateMutation = useMutation({

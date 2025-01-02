@@ -132,12 +132,6 @@ class Book(models.Model):
         ('COMPLETED', 'Завершений'),
     ]
 
-    # Book.OriginalStatucChoices.STOPPED - "stopped"  
-
-    #class OriginalStatusChoices(models.TextChoices):
-    #    ONGOING = 'ONGOING', 'Виходить'
-    #    STOPPED = 'STOPPED', 'Припинено'
-    #    COMPLETED = 'COMPLETED', 'Завершений'
 
     id = models.AutoField(primary_key=True)
     

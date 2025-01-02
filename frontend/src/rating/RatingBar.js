@@ -3,12 +3,14 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSelector } from 'react-redux';
 import { fetchBookRatings, submitRating } from '../api/rating/ratingAPI';
 import { toast } from 'react-toastify';
+import useBookAnalytics from '../hooks/useBookAnalytics';
 import './styles/RatingBar.css';
 
 const RatingBar = ({ bookSlug }) => {
     const queryClient = useQueryClient();
     const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
     const token = localStorage.getItem('token');
+    const { trackBookRating, trackTranslationRating } = useBookAnalytics();
 
     const { data: ratings, isLoading, error } = useQuery({
         queryKey: ['bookRatings', bookSlug],
@@ -24,19 +26,38 @@ const RatingBar = ({ bookSlug }) => {
             toast.success('Оцінка успішно збережена');
         },
         onError: (error) => {
-            toast.error('Помилка при збереженні оці��ки: ' + error.message);
+            toast.error('Помилка при збереженні оцінки: ' + error.message);
         }
     });
 
     const [hoverRating, setHoverRating] = useState({ BOOK: 0, TRANSLATION: 0 });
 
-    const handleRating = (ratingType, rating) => {
+    const handleRating = async (ratingType, rating) => {
         if (!isAuthenticated) {
             toast.warning('Будь ласка, увійдіть для оцінювання');
             return;
         }
         if (ratingMutation.isLoading) return;
-        ratingMutation.mutate({ ratingType, rating });
+        
+        console.log('Попытка добавления рейтинга:', { ratingType, rating, bookSlug });
+        
+        try {
+            if (ratingType === 'BOOK') {
+                console.log('Отправка данных в аналитику для рейтинга книги');
+                await trackBookRating(bookSlug);
+                console.log('Аналитика рейтинга книги обновлена');
+            } else if (ratingType === 'TRANSLATION') {
+                console.log('Отправка данных в аналитику для рейтинга перевода');
+                await trackTranslationRating(bookSlug);
+                console.log('Аналитика рейтинга перевода обновлена');
+            }
+            
+            await ratingMutation.mutateAsync({ ratingType, rating });
+            console.log('Рейтинг успешно сохранен');
+        } catch (error) {
+            console.error('Ошибка при сохранении рейтинга:', error);
+            toast.error('Помилка при збереженні оцінки: ' + error.message);
+        }
     };
 
     const renderStars = (rating, ratingType, userRating) => {

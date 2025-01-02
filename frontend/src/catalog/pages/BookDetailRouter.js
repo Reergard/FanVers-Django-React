@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useQuery } from '@tanstack/react-query';
@@ -7,12 +7,14 @@ import { navigationAPI } from '../../api/navigation/navigationAPI';
 import BookDetailOwner from './BookDetailOwner';
 import BookDetailReader from './BookDetailReader';
 import ChapterRangeSelector from '../../navigation/components/ChapterRangeSelector';
+import useBookAnalytics from '../../hooks/useBookAnalytics';
 
 const BookDetailRouter = () => {
   const { slug } = useParams();
   const currentUser = useSelector(state => state.auth.user);
   const [currentStartChapter, setCurrentStartChapter] = useState(1);
-  
+  const { trackView } = useBookAnalytics();
+
   const { data: book, isLoading: bookLoading, error: bookError } = useQuery({
     queryKey: ['book', slug],
     queryFn: () => catalogAPI.fetchBook(slug),
@@ -24,6 +26,12 @@ const BookDetailRouter = () => {
     queryFn: () => navigationAPI.getPaginatedChapters(book.id, currentStartChapter),
     enabled: !!book?.id,
   });
+
+  useEffect(() => {
+    if (slug) {
+      trackView(slug);
+    }
+  }, [slug, trackView]);
 
   const handleRangeSelect = (startChapter) => {
     setCurrentStartChapter(startChapter);

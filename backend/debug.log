@@ -1,681 +1,80 @@
-WARNING 2025-01-02 15:49:50,770 log 5996 5608 Too Many Requests: /api/catalog/books/info/avtorskaavtorska/
-WARNING 2025-01-02 15:49:50,778 log 5996 14812 Too Many Requests: /api/users/profile/my-books/
-WARNING 2025-01-02 15:49:50,778 log 5996 13128 Too Many Requests: /api/users/profile/my-books/
-WARNING 2025-01-02 15:49:51,792 log 5996 5608 Too Many Requests: /api/catalog/books/info/avtorskaavtorska/
-WARNING 2025-01-02 15:49:53,827 log 5996 14812 Too Many Requests: /api/catalog/books/info/avtorskaavtorska/
-WARNING 2025-01-02 15:49:57,865 log 5996 13128 Too Many Requests: /api/catalog/books/info/avtorskaavtorska/
-WARNING 2025-01-02 15:49:58,632 log 5996 5608 Too Many Requests: /api/website-advertising/advertisements/main_page_ads/
-WARNING 2025-01-02 15:49:58,632 log 5996 9668 Too Many Requests: /api/main/books-news/
-WARNING 2025-01-02 15:49:59,701 log 5996 6300 Too Many Requests: /api/website-advertising/advertisements/main_page_ads/
-WARNING 2025-01-02 15:49:59,701 log 5996 13128 Too Many Requests: /api/main/books-news/
-WARNING 2025-01-02 15:50:00,481 log 5996 5608 Too Many Requests: /api/website-advertising/advertisements/catalog_page_ads/
-WARNING 2025-01-02 15:50:00,481 log 5996 14812 Too Many Requests: /api/catalog/books/reader/
-WARNING 2025-01-02 15:50:00,481 log 5996 6300 Too Many Requests: /api/catalog/books/reader/
-WARNING 2025-01-02 15:50:01,511 log 5996 9668 Too Many Requests: /api/website-advertising/advertisements/catalog_page_ads/
-INFO 2025-01-02 15:51:49,617 autoreload 20628 19808 Watching for file changes with StatReloader
-INFO 2025-01-02 15:52:22,808 autoreload 3540 5636 Watching for file changes with StatReloader
-INFO 2025-01-02 15:52:42,735 autoreload 11060 19908 Watching for file changes with StatReloader
-INFO 2025-01-02 15:52:45,148 basehttp 11060 22124 "OPTIONS /api/website-advertising/advertisements/catalog_page_ads/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:52:45,687 basehttp 11060 22124 "GET /api/website-advertising/advertisements/catalog_page_ads/ HTTP/1.1" 200 916
-INFO 2025-01-02 15:52:46,104 basehttp 11060 3580 "GET /media/books/YfyJVFIhJ-M_DblDUMQ.jpg HTTP/1.1" 200 67914
-INFO 2025-01-02 15:52:48,734 basehttp 11060 22124 "OPTIONS /api/website-advertising/advertisements/catalog_page_ads/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:52:48,734 basehttp 11060 14224 "OPTIONS /api/catalog/books/reader/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:52:48,734 basehttp 11060 22124 "OPTIONS /api/catalog/books/reader/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:52:48,762 basehttp 11060 14224 "GET /api/website-advertising/advertisements/catalog_page_ads/ HTTP/1.1" 200 916
-INFO 2025-01-02 15:52:48,783 basehttp 11060 22124 "GET /api/catalog/books/reader/ HTTP/1.1" 200 2548
-INFO 2025-01-02 15:52:48,797 basehttp 11060 14224 "GET /api/catalog/books/reader/ HTTP/1.1" 200 2548
-INFO 2025-01-02 15:52:48,801 basehttp 11060 3580 "GET /media/books/YfyJVFIhJ-M_DblDUMQ.jpg HTTP/1.1" 200 67914
-INFO 2025-01-02 15:52:48,812 basehttp 11060 22076 "GET /media/books/ZBd9XTYqO1Y_cS7HYHY.jpg HTTP/1.1" 200 181494
-INFO 2025-01-02 15:52:48,820 basehttp 11060 22076 "GET /media/books/5VgZtO9jy5g_pv9z9yw.jpg HTTP/1.1" 200 121514
-INFO 2025-01-02 15:52:48,820 basehttp 11060 3580 "GET /media/books/017_8CemAQs.jpg HTTP/1.1" 200 629514
-INFO 2025-01-02 15:52:56,304 basehttp 11060 14224 "OPTIONS /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:52:56,315 basehttp 11060 14224 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
-INFO 2025-01-02 15:52:56,323 basehttp 11060 14224 "OPTIONS /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:52:56,331 basehttp 11060 14224 "GET /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 595
-INFO 2025-01-02 15:52:56,355 basehttp 11060 14224 "OPTIONS /api/navigation/chapters/paginated/?book_id=14&start_chapter=1 HTTP/1.1" 200 0
-INFO 2025-01-02 15:52:56,427 basehttp 11060 14224 "GET /api/navigation/chapters/paginated/?book_id=14&start_chapter=1 HTTP/1.1" 200 930159
-INFO 2025-01-02 15:52:56,460 basehttp 11060 14224 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:52:56,460 basehttp 11060 22124 "OPTIONS /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:52:56,468 basehttp 11060 12612 "GET /api/catalog/books/avtorskaavtorska/volumes/ HTTP/1.1" 200 95
-INFO 2025-01-02 15:52:56,500 basehttp 11060 22124 "GET /api/users/profile/ HTTP/1.1" 200 2064
-INFO 2025-01-02 15:52:56,565 basehttp 11060 14224 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 933719
-INFO 2025-01-02 15:52:56,637 basehttp 11060 14224 "OPTIONS /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:52:56,637 basehttp 11060 22124 "OPTIONS /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:52:56,637 basehttp 11060 12612 "OPTIONS /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:52:56,637 basehttp 11060 5256 "OPTIONS /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:52:56,669 basehttp 11060 12612 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 27
-INFO 2025-01-02 15:52:56,669 basehttp 11060 5256 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 192
-INFO 2025-01-02 15:52:56,669 basehttp 11060 22124 "GET /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 232
-INFO 2025-01-02 15:52:56,677 basehttp 11060 14224 "GET /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 232
-INFO 2025-01-02 15:52:57,656 basehttp 11060 21484 "GET /api/notification/notifications/ HTTP/1.1" 200 13137
-INFO 2025-01-02 15:53:19,734 basehttp 11060 14224 "OPTIONS /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:53:19,743 basehttp 11060 14224 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
-INFO 2025-01-02 15:53:19,792 basehttp 11060 14224 "OPTIONS /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:53:19,808 basehttp 11060 14224 "GET /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 595
-INFO 2025-01-02 15:53:19,833 basehttp 11060 14224 "OPTIONS /api/navigation/chapters/paginated/?book_id=14&start_chapter=1 HTTP/1.1" 200 0
-INFO 2025-01-02 15:53:19,927 basehttp 11060 14224 "GET /api/navigation/chapters/paginated/?book_id=14&start_chapter=1 HTTP/1.1" 200 930159
-INFO 2025-01-02 15:53:19,959 basehttp 11060 22124 "OPTIONS /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:53:19,959 basehttp 11060 14224 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:53:19,969 basehttp 11060 5256 "GET /api/catalog/books/avtorskaavtorska/volumes/ HTTP/1.1" 200 95
-INFO 2025-01-02 15:53:20,001 basehttp 11060 22124 "GET /api/users/profile/ HTTP/1.1" 200 2064
-INFO 2025-01-02 15:53:20,065 basehttp 11060 14224 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 933719
-INFO 2025-01-02 15:53:20,113 basehttp 11060 14224 "OPTIONS /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:53:20,113 basehttp 11060 22124 "OPTIONS /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:53:20,113 basehttp 11060 5256 "OPTIONS /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:53:20,113 basehttp 11060 12612 "OPTIONS /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:53:20,137 basehttp 11060 22124 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 27
-INFO 2025-01-02 15:53:20,137 basehttp 11060 12612 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 192
-INFO 2025-01-02 15:53:20,137 basehttp 11060 14224 "GET /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 232
-INFO 2025-01-02 15:53:20,137 basehttp 11060 5256 "GET /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 232
-INFO 2025-01-02 15:53:29,350 basehttp 11060 5256 "OPTIONS /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 0
-INFO 2025-01-02 15:53:29,357 basehttp 11060 5256 "GET /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 163
-INFO 2025-01-02 15:53:29,405 basehttp 11060 5256 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:53:29,405 basehttp 11060 14224 "OPTIONS /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:53:29,405 basehttp 11060 12612 "OPTIONS /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:53:29,405 basehttp 11060 22124 "OPTIONS /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:53:29,405 basehttp 11060 5256 "OPTIONS /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:53:29,405 basehttp 11060 2120 "OPTIONS /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:53:29,421 basehttp 11060 14224 "GET /api/catalog/books/avtorskaavtorska/volumes/ HTTP/1.1" 200 95
-INFO 2025-01-02 15:53:29,437 basehttp 11060 22124 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 27
-INFO 2025-01-02 15:53:29,437 basehttp 11060 2120 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 192
-INFO 2025-01-02 15:53:29,453 basehttp 11060 5256 "GET /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 232
-INFO 2025-01-02 15:53:29,461 basehttp 11060 12612 "GET /api/users/profile/ HTTP/1.1" 200 2064
-INFO 2025-01-02 15:53:29,482 basehttp 11060 22124 "GET /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 232
-INFO 2025-01-02 15:53:29,543 basehttp 11060 14224 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 933719
-INFO 2025-01-02 15:53:57,342 basehttp 11060 21484 "GET /api/notification/notifications/ HTTP/1.1" 200 13137
-INFO 2025-01-02 15:53:57,911 basehttp 11060 5256 "OPTIONS /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:53:57,911 basehttp 11060 14224 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:53:57,911 basehttp 11060 20068 "OPTIONS /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 0
-INFO 2025-01-02 15:53:57,911 basehttp 11060 2120 "OPTIONS /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:53:57,911 basehttp 11060 22124 "OPTIONS /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:53:57,911 basehttp 11060 12612 "OPTIONS /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:53:57,951 basehttp 11060 12612 "GET /api/catalog/books/avtorskaavtorska/volumes/ HTTP/1.1" 200 95
-INFO 2025-01-02 15:53:57,959 basehttp 11060 2120 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
-INFO 2025-01-02 15:53:57,959 basehttp 11060 14224 "GET /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 163
-INFO 2025-01-02 15:53:57,967 basehttp 11060 22124 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 192
-INFO 2025-01-02 15:53:57,983 basehttp 11060 22124 "OPTIONS /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:53:57,991 basehttp 11060 12612 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 27
-INFO 2025-01-02 15:53:58,015 basehttp 11060 22124 "GET /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 595
-INFO 2025-01-02 15:53:58,015 basehttp 11060 20068 "GET /api/users/profile/ HTTP/1.1" 200 2064
-INFO 2025-01-02 15:53:58,107 basehttp 11060 5256 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 933719
-INFO 2025-01-02 15:54:04,763 basehttp 11060 5256 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:54:04,763 basehttp 11060 20068 "OPTIONS /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:54:04,763 basehttp 11060 2120 "OPTIONS /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:54:04,763 basehttp 11060 22124 "OPTIONS /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:54:04,763 basehttp 11060 12612 "OPTIONS /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:54:04,779 basehttp 11060 5256 "OPTIONS /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 0
-INFO 2025-01-02 15:54:04,779 basehttp 11060 14224 "GET /api/catalog/books/avtorskaavtorska/volumes/ HTTP/1.1" 200 95
-INFO 2025-01-02 15:54:04,803 basehttp 11060 20068 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 27
-INFO 2025-01-02 15:54:04,804 basehttp 11060 12612 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
-INFO 2025-01-02 15:54:04,804 basehttp 11060 2120 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 192
-INFO 2025-01-02 15:54:04,810 basehttp 11060 14224 "GET /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 163
-INFO 2025-01-02 15:54:04,825 basehttp 11060 22124 "GET /api/users/profile/ HTTP/1.1" 200 2064
-INFO 2025-01-02 15:54:04,825 basehttp 11060 14224 "OPTIONS /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:54:04,843 basehttp 11060 22124 "GET /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 595
-INFO 2025-01-02 15:54:04,912 basehttp 11060 5256 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 933719
-INFO 2025-01-02 15:54:08,424 basehttp 11060 14224 "OPTIONS /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:54:08,424 basehttp 11060 5256 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:54:08,424 basehttp 11060 22124 "OPTIONS /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:54:08,424 basehttp 11060 2120 "OPTIONS /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:54:08,424 basehttp 11060 20068 "OPTIONS /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:54:08,432 basehttp 11060 14224 "OPTIONS /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 0
-INFO 2025-01-02 15:54:08,440 basehttp 11060 12612 "GET /api/catalog/books/avtorskaavtorska/volumes/ HTTP/1.1" 200 95
-INFO 2025-01-02 15:54:08,456 basehttp 11060 22124 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 27
-INFO 2025-01-02 15:54:08,464 basehttp 11060 14224 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 192
-INFO 2025-01-02 15:54:08,464 basehttp 11060 2120 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
-INFO 2025-01-02 15:54:08,488 basehttp 11060 2120 "OPTIONS /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:54:08,496 basehttp 11060 5256 "GET /api/users/profile/ HTTP/1.1" 200 2064
-INFO 2025-01-02 15:54:08,496 basehttp 11060 12612 "GET /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 163
-INFO 2025-01-02 15:54:08,512 basehttp 11060 2120 "GET /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 595
-INFO 2025-01-02 15:54:08,593 basehttp 11060 20068 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 933719
-INFO 2025-01-02 15:54:21,527 basehttp 11060 12612 "OPTIONS /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:54:21,527 basehttp 11060 5256 "OPTIONS /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:54:21,527 basehttp 11060 2120 "OPTIONS /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:54:21,527 basehttp 11060 20068 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:54:21,527 basehttp 11060 22124 "OPTIONS /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 0
-INFO 2025-01-02 15:54:21,527 basehttp 11060 14224 "OPTIONS /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:54:21,559 basehttp 11060 5256 "GET /api/catalog/books/avtorskaavtorska/volumes/ HTTP/1.1" 200 95
-INFO 2025-01-02 15:54:21,559 basehttp 11060 12612 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
-INFO 2025-01-02 15:54:21,559 basehttp 11060 14224 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 27
-INFO 2025-01-02 15:54:21,559 basehttp 11060 20068 "GET /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 163
-INFO 2025-01-02 15:54:21,575 basehttp 11060 20068 "OPTIONS /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:54:21,587 basehttp 11060 5256 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 192
-INFO 2025-01-02 15:54:21,591 basehttp 11060 22124 "GET /api/users/profile/ HTTP/1.1" 200 2064
-INFO 2025-01-02 15:54:21,607 basehttp 11060 20068 "GET /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 595
-INFO 2025-01-02 15:54:21,679 basehttp 11060 2120 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 933719
-INFO 2025-01-02 15:54:42,682 basehttp 11060 2120 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:54:42,687 basehttp 11060 12612 "OPTIONS /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 0
-INFO 2025-01-02 15:54:42,687 basehttp 11060 22124 "OPTIONS /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:54:42,687 basehttp 11060 20068 "OPTIONS /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:54:42,687 basehttp 11060 5256 "OPTIONS /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:54:42,687 basehttp 11060 14224 "OPTIONS /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:54:42,711 basehttp 11060 2120 "GET /api/catalog/books/avtorskaavtorska/volumes/ HTTP/1.1" 200 95
-INFO 2025-01-02 15:54:42,735 basehttp 11060 14224 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
-INFO 2025-01-02 15:54:42,735 basehttp 11060 12612 "GET /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 163
-INFO 2025-01-02 15:54:42,743 basehttp 11060 22124 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 27
-INFO 2025-01-02 15:54:42,743 basehttp 11060 2120 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 192
-INFO 2025-01-02 15:54:42,759 basehttp 11060 22124 "OPTIONS /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:54:42,783 basehttp 11060 20068 "GET /api/users/profile/ HTTP/1.1" 200 2064
-INFO 2025-01-02 15:54:42,783 basehttp 11060 22124 "GET /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 595
-INFO 2025-01-02 15:54:42,865 basehttp 11060 5256 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 933719
-INFO 2025-01-02 15:54:57,347 basehttp 11060 21484 "GET /api/notification/notifications/ HTTP/1.1" 200 13137
-INFO 2025-01-02 15:54:58,428 basehttp 11060 5256 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:54:58,428 basehttp 11060 20068 "OPTIONS /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:54:58,428 basehttp 11060 22124 "OPTIONS /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:54:58,428 basehttp 11060 2120 "OPTIONS /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:54:58,428 basehttp 11060 14224 "OPTIONS /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:54:58,436 basehttp 11060 5256 "OPTIONS /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 0
-INFO 2025-01-02 15:54:58,444 basehttp 11060 12612 "GET /api/catalog/books/avtorskaavtorska/volumes/ HTTP/1.1" 200 95
-INFO 2025-01-02 15:54:58,460 basehttp 11060 22124 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
-INFO 2025-01-02 15:54:58,460 basehttp 11060 20068 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 27
-INFO 2025-01-02 15:54:58,476 basehttp 11060 5256 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 192
-INFO 2025-01-02 15:54:58,476 basehttp 11060 20068 "OPTIONS /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:54:58,476 basehttp 11060 12612 "GET /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 163
-INFO 2025-01-02 15:54:58,492 basehttp 11060 14224 "GET /api/users/profile/ HTTP/1.1" 200 2064
-INFO 2025-01-02 15:54:58,500 basehttp 11060 20068 "GET /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 595
-INFO 2025-01-02 15:54:58,580 basehttp 11060 2120 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 933719
-INFO 2025-01-02 15:55:35,970 basehttp 11060 20068 "OPTIONS /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:55:35,970 basehttp 11060 14224 "OPTIONS /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:55:35,970 basehttp 11060 12612 "OPTIONS /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:55:35,970 basehttp 11060 2120 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:55:35,970 basehttp 11060 22124 "OPTIONS /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:55:35,978 basehttp 11060 20068 "OPTIONS /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 0
-INFO 2025-01-02 15:55:35,986 basehttp 11060 5256 "GET /api/catalog/books/avtorskaavtorska/volumes/ HTTP/1.1" 200 95
-INFO 2025-01-02 15:55:36,003 basehttp 11060 12612 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
-INFO 2025-01-02 15:55:36,003 basehttp 11060 22124 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 192
-INFO 2025-01-02 15:55:36,003 basehttp 11060 20068 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 27
-INFO 2025-01-02 15:55:36,011 basehttp 11060 5256 "GET /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 163
-INFO 2025-01-02 15:55:36,027 basehttp 11060 5256 "OPTIONS /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:55:36,035 basehttp 11060 14224 "GET /api/users/profile/ HTTP/1.1" 200 2064
-INFO 2025-01-02 15:55:36,051 basehttp 11060 5256 "GET /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 595
-INFO 2025-01-02 15:55:36,115 basehttp 11060 2120 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 933719
-INFO 2025-01-02 15:55:50,129 basehttp 11060 2120 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:55:50,129 basehttp 11060 20068 "OPTIONS /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:55:50,129 basehttp 11060 14224 "OPTIONS /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:55:50,129 basehttp 11060 5256 "OPTIONS /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:55:50,129 basehttp 11060 22124 "OPTIONS /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:55:50,129 basehttp 11060 12612 "OPTIONS /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 0
-INFO 2025-01-02 15:55:50,161 basehttp 11060 2120 "GET /api/catalog/books/avtorskaavtorska/volumes/ HTTP/1.1" 200 95
-INFO 2025-01-02 15:55:50,169 basehttp 11060 20068 "GET /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 163
-INFO 2025-01-02 15:55:50,169 basehttp 11060 14224 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 192
-INFO 2025-01-02 15:55:50,169 basehttp 11060 12612 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 27
-INFO 2025-01-02 15:55:50,185 basehttp 11060 5256 "GET /api/users/profile/ HTTP/1.1" 200 2064
-INFO 2025-01-02 15:55:50,201 basehttp 11060 2120 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
-INFO 2025-01-02 15:55:50,212 basehttp 11060 2120 "OPTIONS /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:55:50,228 basehttp 11060 2120 "GET /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 595
-INFO 2025-01-02 15:55:50,284 basehttp 11060 22124 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 933719
-INFO 2025-01-02 15:55:57,347 basehttp 11060 21484 "GET /api/notification/notifications/ HTTP/1.1" 200 13137
-INFO 2025-01-02 15:56:57,340 basehttp 11060 21484 "GET /api/notification/notifications/ HTTP/1.1" 200 13137
-INFO 2025-01-02 15:57:48,538 basehttp 11060 2120 "OPTIONS /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:57:48,538 basehttp 11060 5256 "OPTIONS /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:57:48,538 basehttp 11060 20068 "OPTIONS /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 0
-INFO 2025-01-02 15:57:48,538 basehttp 11060 14224 "OPTIONS /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:57:48,538 basehttp 11060 22124 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:57:48,538 basehttp 11060 12612 "OPTIONS /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:57:48,570 basehttp 11060 2120 "GET /api/catalog/books/avtorskaavtorska/volumes/ HTTP/1.1" 200 95
-INFO 2025-01-02 15:57:48,578 basehttp 11060 22124 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
-INFO 2025-01-02 15:57:48,578 basehttp 11060 12612 "GET /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 163
-INFO 2025-01-02 15:57:48,578 basehttp 11060 20068 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 27
-INFO 2025-01-02 15:57:48,586 basehttp 11060 5256 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 192
-INFO 2025-01-02 15:57:48,626 basehttp 11060 2120 "GET /api/users/profile/ HTTP/1.1" 200 2064
-INFO 2025-01-02 15:57:48,634 basehttp 11060 2120 "OPTIONS /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:57:48,650 basehttp 11060 2120 "GET /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 595
-INFO 2025-01-02 15:57:48,698 basehttp 11060 14224 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 933719
-INFO 2025-01-02 15:57:50,869 basehttp 11060 2120 "OPTIONS /api/catalog/books/reader/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:57:50,869 basehttp 11060 5256 "OPTIONS /api/catalog/books/reader/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:57:50,869 basehttp 11060 14224 "OPTIONS /api/website-advertising/advertisements/catalog_page_ads/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:57:50,906 basehttp 11060 5256 "GET /api/website-advertising/advertisements/catalog_page_ads/ HTTP/1.1" 200 916
-INFO 2025-01-02 15:57:50,914 basehttp 11060 14224 "GET /api/catalog/books/reader/ HTTP/1.1" 200 2548
-INFO 2025-01-02 15:57:50,914 basehttp 11060 2120 "GET /api/catalog/books/reader/ HTTP/1.1" 200 2548
-INFO 2025-01-02 15:57:51,231 basehttp 11060 16040 "GET /media/books/YfyJVFIhJ-M_DblDUMQ.jpg HTTP/1.1" 200 67914
-INFO 2025-01-02 15:57:51,231 basehttp 11060 16040 "GET /media/books/017_8CemAQs.jpg HTTP/1.1" 200 629514
-INFO 2025-01-02 15:57:51,239 basehttp 11060 18696 "GET /media/books/5VgZtO9jy5g_pv9z9yw.jpg HTTP/1.1" 200 121514
-INFO 2025-01-02 15:57:51,239 basehttp 11060 17112 "GET /media/books/ZBd9XTYqO1Y_cS7HYHY.jpg HTTP/1.1" 200 181494
-INFO 2025-01-02 15:57:52,049 basehttp 11060 2120 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:57:52,049 basehttp 11060 14224 "OPTIONS /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:57:52,057 basehttp 11060 12612 "OPTIONS /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:57:52,065 basehttp 11060 22124 "OPTIONS /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:57:52,065 basehttp 11060 20068 "OPTIONS /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:57:52,065 basehttp 11060 14224 "OPTIONS /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:57:52,065 basehttp 11060 12612 "OPTIONS /api/navigation/chapters/paginated/?book_id=14&start_chapter=1 HTTP/1.1" 200 0
-INFO 2025-01-02 15:57:52,073 basehttp 11060 22124 "OPTIONS /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:57:52,081 basehttp 11060 5256 "GET /api/catalog/books/avtorskaavtorska/volumes/ HTTP/1.1" 200 95
-INFO 2025-01-02 15:57:52,097 basehttp 11060 22124 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 192
-INFO 2025-01-02 15:57:52,097 basehttp 11060 20068 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 27
-INFO 2025-01-02 15:57:52,105 basehttp 11060 14224 "GET /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 232
-INFO 2025-01-02 15:57:52,105 basehttp 11060 2120 "GET /api/users/profile/ HTTP/1.1" 200 2064
-INFO 2025-01-02 15:57:52,121 basehttp 11060 5256 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
-INFO 2025-01-02 15:57:52,137 basehttp 11060 20068 "GET /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 232
-INFO 2025-01-02 15:57:52,170 basehttp 11060 20068 "OPTIONS /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:57:52,194 basehttp 11060 20068 "GET /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 595
-INFO 2025-01-02 15:57:52,266 basehttp 11060 22124 "GET /api/navigation/chapters/paginated/?book_id=14&start_chapter=1 HTTP/1.1" 200 930159
-INFO 2025-01-02 15:57:52,276 basehttp 11060 12612 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 933719
-INFO 2025-01-02 15:57:57,345 basehttp 11060 21484 "GET /api/notification/notifications/ HTTP/1.1" 200 13137
-INFO 2025-01-02 15:58:57,365 basehttp 11060 21484 "GET /api/notification/notifications/ HTTP/1.1" 200 13137
-INFO 2025-01-02 15:59:57,071 basehttp 11060 5256 "OPTIONS /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:59:57,071 basehttp 11060 12612 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:59:57,071 basehttp 11060 22124 "OPTIONS /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:59:57,071 basehttp 11060 2120 "OPTIONS /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:59:57,071 basehttp 11060 14224 "OPTIONS /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:59:57,071 basehttp 11060 20068 "OPTIONS /api/navigation/chapters/paginated/?book_id=14&start_chapter=1 HTTP/1.1" 200 0
-INFO 2025-01-02 15:59:57,103 basehttp 11060 5256 "GET /api/catalog/books/avtorskaavtorska/volumes/ HTTP/1.1" 200 95
-INFO 2025-01-02 15:59:57,111 basehttp 11060 12612 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
-INFO 2025-01-02 15:59:57,111 basehttp 11060 2120 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 192
-INFO 2025-01-02 15:59:57,127 basehttp 11060 14224 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 27
-INFO 2025-01-02 15:59:57,151 basehttp 11060 14224 "OPTIONS /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 15:59:57,175 basehttp 11060 14224 "GET /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 595
-INFO 2025-01-02 15:59:57,185 basehttp 11060 22124 "GET /api/users/profile/ HTTP/1.1" 200 2064
-INFO 2025-01-02 15:59:57,287 basehttp 11060 5256 "GET /api/navigation/chapters/paginated/?book_id=14&start_chapter=1 HTTP/1.1" 200 930159
-INFO 2025-01-02 15:59:57,303 basehttp 11060 20068 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 933719
-INFO 2025-01-02 15:59:57,352 basehttp 11060 21484 "GET /api/notification/notifications/ HTTP/1.1" 200 13137
-INFO 2025-01-02 16:00:01,772 basehttp 11060 20068 "OPTIONS /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 0
-INFO 2025-01-02 16:00:01,780 basehttp 11060 20068 "GET /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 163
-INFO 2025-01-02 16:00:37,006 basehttp 11060 14224 "OPTIONS /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:00:37,006 basehttp 11060 20068 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:00:37,006 basehttp 11060 22124 "OPTIONS /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:00:37,006 basehttp 11060 5256 "OPTIONS /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:00:37,006 basehttp 11060 12612 "OPTIONS /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:00:37,014 basehttp 11060 20068 "OPTIONS /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 0
-INFO 2025-01-02 16:00:37,030 basehttp 11060 2120 "GET /api/catalog/books/avtorskaavtorska/volumes/ HTTP/1.1" 200 95
-INFO 2025-01-02 16:00:37,046 basehttp 11060 5256 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
-INFO 2025-01-02 16:00:37,054 basehttp 11060 2120 "GET /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 163
-INFO 2025-01-02 16:00:37,062 basehttp 11060 22124 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 27
-INFO 2025-01-02 16:00:37,070 basehttp 11060 2120 "OPTIONS /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:00:37,078 basehttp 11060 20068 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 192
-INFO 2025-01-02 16:00:37,086 basehttp 11060 2120 "GET /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 595
-INFO 2025-01-02 16:00:37,102 basehttp 11060 12612 "GET /api/users/profile/ HTTP/1.1" 200 2064
-INFO 2025-01-02 16:00:37,183 basehttp 11060 14224 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 933719
-INFO 2025-01-02 16:00:57,344 basehttp 11060 21484 "GET /api/notification/notifications/ HTTP/1.1" 200 13137
-INFO 2025-01-02 16:01:43,081 basehttp 11060 14224 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:01:43,081 basehttp 11060 12612 "OPTIONS /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:01:43,081 basehttp 11060 2120 "OPTIONS /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:01:43,081 basehttp 11060 5256 "OPTIONS /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:01:43,081 basehttp 11060 20068 "OPTIONS /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:01:43,089 basehttp 11060 14224 "OPTIONS /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 0
-INFO 2025-01-02 16:01:43,097 basehttp 11060 22124 "GET /api/catalog/books/avtorskaavtorska/volumes/ HTTP/1.1" 200 95
-INFO 2025-01-02 16:01:43,121 basehttp 11060 14224 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 27
-INFO 2025-01-02 16:01:43,121 basehttp 11060 2120 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
-INFO 2025-01-02 16:01:43,129 basehttp 11060 22124 "GET /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 163
-INFO 2025-01-02 16:01:43,137 basehttp 11060 22124 "OPTIONS /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:01:43,137 basehttp 11060 20068 "GET /api/users/profile/ HTTP/1.1" 200 2064
-INFO 2025-01-02 16:01:43,145 basehttp 11060 5256 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 192
-INFO 2025-01-02 16:01:43,161 basehttp 11060 20068 "GET /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 595
-INFO 2025-01-02 16:01:43,241 basehttp 11060 12612 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 933719
-INFO 2025-01-02 16:01:48,586 basehttp 11060 12612 "OPTIONS /api/navigation/chapters/paginated/?book_id=14&start_chapter=1 HTTP/1.1" 200 0
-INFO 2025-01-02 16:01:48,658 basehttp 11060 12612 "GET /api/navigation/chapters/paginated/?book_id=14&start_chapter=1 HTTP/1.1" 200 930159
-INFO 2025-01-02 16:01:50,150 basehttp 11060 12612 "OPTIONS /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 0
-INFO 2025-01-02 16:01:50,158 basehttp 11060 12612 "GET /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 163
-INFO 2025-01-02 16:01:57,363 basehttp 11060 21484 "GET /api/notification/notifications/ HTTP/1.1" 200 13137
-INFO 2025-01-02 16:02:57,345 basehttp 11060 21484 "GET /api/notification/notifications/ HTTP/1.1" 200 13137
-INFO 2025-01-02 16:03:09,285 basehttp 11060 12612 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:03:09,285 basehttp 11060 22124 "OPTIONS /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:03:09,285 basehttp 11060 20068 "OPTIONS /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:03:09,285 basehttp 11060 5256 "OPTIONS /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:03:09,285 basehttp 11060 14224 "OPTIONS /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:03:09,293 basehttp 11060 20068 "OPTIONS /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 0
-INFO 2025-01-02 16:03:09,301 basehttp 11060 2120 "GET /api/catalog/books/avtorskaavtorska/volumes/ HTTP/1.1" 200 95
-INFO 2025-01-02 16:03:09,309 basehttp 11060 14224 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
-INFO 2025-01-02 16:03:09,317 basehttp 11060 22124 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 27
-INFO 2025-01-02 16:03:09,317 basehttp 11060 2120 "GET /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 163
-INFO 2025-01-02 16:03:09,317 basehttp 11060 20068 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 192
-INFO 2025-01-02 16:03:09,325 basehttp 11060 2120 "OPTIONS /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:03:09,341 basehttp 11060 2120 "GET /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 595
-INFO 2025-01-02 16:03:09,357 basehttp 11060 5256 "GET /api/users/profile/ HTTP/1.1" 200 2064
-INFO 2025-01-02 16:03:09,413 basehttp 11060 12612 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 933719
-INFO 2025-01-02 16:03:11,655 basehttp 11060 12612 "OPTIONS /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:03:11,663 basehttp 11060 12612 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
-INFO 2025-01-02 16:03:11,695 basehttp 11060 12612 "OPTIONS /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:03:11,711 basehttp 11060 12612 "GET /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 595
-INFO 2025-01-02 16:03:11,727 basehttp 11060 12612 "OPTIONS /api/navigation/chapters/paginated/?book_id=14&start_chapter=1 HTTP/1.1" 200 0
-INFO 2025-01-02 16:03:11,816 basehttp 11060 12612 "GET /api/navigation/chapters/paginated/?book_id=14&start_chapter=1 HTTP/1.1" 200 930159
-INFO 2025-01-02 16:03:11,832 basehttp 11060 12612 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:03:11,840 basehttp 11060 5256 "OPTIONS /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:03:11,848 basehttp 11060 2120 "GET /api/catalog/books/avtorskaavtorska/volumes/ HTTP/1.1" 200 95
-INFO 2025-01-02 16:03:11,865 basehttp 11060 12612 "GET /api/users/profile/ HTTP/1.1" 200 2064
-INFO 2025-01-02 16:03:11,937 basehttp 11060 5256 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 933719
-INFO 2025-01-02 16:03:11,977 basehttp 11060 12612 "OPTIONS /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:03:11,985 basehttp 11060 5256 "OPTIONS /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:03:11,985 basehttp 11060 20068 "OPTIONS /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:03:11,985 basehttp 11060 2120 "OPTIONS /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:03:12,001 basehttp 11060 20068 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 27
-INFO 2025-01-02 16:03:12,001 basehttp 11060 2120 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 192
-INFO 2025-01-02 16:03:12,009 basehttp 11060 5256 "GET /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 232
-INFO 2025-01-02 16:03:12,017 basehttp 11060 12612 "GET /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 232
-INFO 2025-01-02 16:03:15,426 basehttp 11060 12612 "OPTIONS /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 0
-INFO 2025-01-02 16:03:15,434 basehttp 11060 12612 "GET /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 163
-INFO 2025-01-02 16:03:15,482 basehttp 11060 12612 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:03:15,490 basehttp 11060 5256 "OPTIONS /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:03:15,490 basehttp 11060 2120 "OPTIONS /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:03:15,490 basehttp 11060 22124 "OPTIONS /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:03:15,490 basehttp 11060 20068 "OPTIONS /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:03:15,490 basehttp 11060 14224 "OPTIONS /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:03:15,514 basehttp 11060 12612 "GET /api/catalog/books/avtorskaavtorska/volumes/ HTTP/1.1" 200 95
-INFO 2025-01-02 16:03:15,522 basehttp 11060 2120 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 27
-INFO 2025-01-02 16:03:15,618 basehttp 11060 14224 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 192
-INFO 2025-01-02 16:03:15,626 basehttp 11060 22124 "GET /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 232
-INFO 2025-01-02 16:03:15,626 basehttp 11060 20068 "GET /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 232
-INFO 2025-01-02 16:03:15,626 basehttp 11060 5256 "GET /api/users/profile/ HTTP/1.1" 200 2064
-INFO 2025-01-02 16:03:15,698 basehttp 11060 12612 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 933719
-INFO 2025-01-02 16:03:57,350 basehttp 11060 21484 "GET /api/notification/notifications/ HTTP/1.1" 200 13137
-INFO 2025-01-02 16:04:57,341 basehttp 11060 21484 "GET /api/notification/notifications/ HTTP/1.1" 200 13137
-INFO 2025-01-02 16:05:31,829 basehttp 11060 5256 "OPTIONS /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:05:31,829 basehttp 11060 2120 "OPTIONS /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 0
-INFO 2025-01-02 16:05:31,829 basehttp 11060 14224 "OPTIONS /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:05:31,829 basehttp 11060 20068 "OPTIONS /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:05:31,829 basehttp 11060 22124 "OPTIONS /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:05:31,829 basehttp 11060 12612 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:05:31,853 basehttp 11060 5256 "GET /api/catalog/books/avtorskaavtorska/volumes/ HTTP/1.1" 200 95
-INFO 2025-01-02 16:05:31,861 basehttp 11060 12612 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
-INFO 2025-01-02 16:05:31,861 basehttp 11060 20068 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 27
-INFO 2025-01-02 16:05:31,861 basehttp 11060 14224 "GET /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 163
-INFO 2025-01-02 16:05:31,861 basehttp 11060 2120 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 192
-INFO 2025-01-02 16:05:31,885 basehttp 11060 2120 "OPTIONS /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:05:31,909 basehttp 11060 2120 "GET /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 595
-INFO 2025-01-02 16:05:31,909 basehttp 11060 5256 "GET /api/users/profile/ HTTP/1.1" 200 2064
-INFO 2025-01-02 16:05:31,973 basehttp 11060 22124 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 933719
-INFO 2025-01-02 16:05:57,356 basehttp 11060 21484 "GET /api/notification/notifications/ HTTP/1.1" 200 13137
-INFO 2025-01-02 16:06:38,306 autoreload 11060 19908 D:\Website\Fan-vers(React.Django)\backend\apps\navigation\models.py changed, reloading.
-INFO 2025-01-02 16:06:40,006 autoreload 15872 13128 Watching for file changes with StatReloader
-INFO 2025-01-02 16:06:57,725 basehttp 15872 3564 "GET /api/notification/notifications/ HTTP/1.1" 200 13137
-INFO 2025-01-02 16:07:02,887 autoreload 15872 13128 D:\Website\Fan-vers(React.Django)\backend\apps\navigation\api\views.py changed, reloading.
-INFO 2025-01-02 16:07:04,538 autoreload 11956 17580 Watching for file changes with StatReloader
-INFO 2025-01-02 16:07:57,705 basehttp 11956 21704 "GET /api/notification/notifications/ HTTP/1.1" 200 13137
-INFO 2025-01-02 16:08:00,756 autoreload 11956 17580 D:\Website\Fan-vers(React.Django)\backend\apps\navigation\models.py changed, reloading.
-INFO 2025-01-02 16:08:02,511 autoreload 18780 5200 Watching for file changes with StatReloader
-INFO 2025-01-02 16:08:20,279 autoreload 18780 5200 D:\Website\Fan-vers(React.Django)\backend\apps\navigation\api\views.py changed, reloading.
-INFO 2025-01-02 16:08:21,882 autoreload 22512 14136 Watching for file changes with StatReloader
-INFO 2025-01-02 16:08:32,280 basehttp 22512 5376 "OPTIONS /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:08:32,280 basehttp 22512 7992 "OPTIONS /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:08:32,280 basehttp 22512 14408 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:08:32,280 basehttp 22512 12476 "OPTIONS /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:08:32,280 basehttp 22512 20084 "OPTIONS /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:08:32,288 basehttp 22512 5376 "OPTIONS /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 0
-INFO 2025-01-02 16:08:32,296 basehttp 22512 6720 "GET /api/catalog/books/avtorskaavtorska/volumes/ HTTP/1.1" 200 95
-INFO 2025-01-02 16:08:32,376 basehttp 22512 20084 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
-INFO 2025-01-02 16:08:32,384 basehttp 22512 12476 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 27
-INFO 2025-01-02 16:08:32,384 basehttp 22512 5376 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 192
-INFO 2025-01-02 16:08:32,392 basehttp 22512 6720 "GET /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 903
-INFO 2025-01-02 16:08:32,392 basehttp 22512 12476 "OPTIONS /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:08:32,408 basehttp 22512 7992 "GET /api/users/profile/ HTTP/1.1" 200 2064
-INFO 2025-01-02 16:08:32,408 basehttp 22512 12476 "GET /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 595
-INFO 2025-01-02 16:08:32,480 basehttp 22512 14408 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 933719
-INFO 2025-01-02 16:08:34,992 basehttp 22512 14408 "OPTIONS /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:08:35,000 basehttp 22512 14408 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
-INFO 2025-01-02 16:08:35,024 basehttp 22512 14408 "OPTIONS /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:08:35,032 basehttp 22512 14408 "GET /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 595
-INFO 2025-01-02 16:08:35,064 basehttp 22512 14408 "OPTIONS /api/navigation/chapters/paginated/?book_id=14&start_chapter=1 HTTP/1.1" 200 0
-INFO 2025-01-02 16:08:35,146 basehttp 22512 14408 "GET /api/navigation/chapters/paginated/?book_id=14&start_chapter=1 HTTP/1.1" 200 933138
-INFO 2025-01-02 16:08:35,170 basehttp 22512 14408 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:08:35,178 basehttp 22512 12476 "GET /api/catalog/books/avtorskaavtorska/volumes/ HTTP/1.1" 200 95
-INFO 2025-01-02 16:08:35,178 basehttp 22512 7992 "OPTIONS /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:08:35,194 basehttp 22512 14408 "GET /api/users/profile/ HTTP/1.1" 200 2064
-INFO 2025-01-02 16:08:35,267 basehttp 22512 7992 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 933719
-INFO 2025-01-02 16:08:35,315 basehttp 22512 14408 "OPTIONS /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:08:35,315 basehttp 22512 7992 "OPTIONS /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:08:35,315 basehttp 22512 6720 "OPTIONS /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:08:35,315 basehttp 22512 12476 "OPTIONS /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:08:35,339 basehttp 22512 6720 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 192
-INFO 2025-01-02 16:08:35,339 basehttp 22512 12476 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 27
-INFO 2025-01-02 16:08:35,347 basehttp 22512 14408 "GET /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 232
-INFO 2025-01-02 16:08:35,347 basehttp 22512 7992 "GET /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 232
-INFO 2025-01-02 16:08:45,142 basehttp 22512 7992 "OPTIONS /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 0
-INFO 2025-01-02 16:08:45,158 basehttp 22512 7992 "GET /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 903
-INFO 2025-01-02 16:08:45,206 basehttp 22512 7992 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:08:45,206 basehttp 22512 14408 "OPTIONS /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:08:45,206 basehttp 22512 6720 "OPTIONS /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:08:45,206 basehttp 22512 12476 "OPTIONS /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:08:45,206 basehttp 22512 5376 "OPTIONS /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:08:45,206 basehttp 22512 7992 "OPTIONS /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 0
-INFO 2025-01-02 16:08:45,222 basehttp 22512 20084 "GET /api/catalog/books/avtorskaavtorska/volumes/ HTTP/1.1" 200 95
-INFO 2025-01-02 16:08:45,238 basehttp 22512 6720 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 192
-INFO 2025-01-02 16:08:45,238 basehttp 22512 12476 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 27
-INFO 2025-01-02 16:08:45,254 basehttp 22512 7992 "GET /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 232
-INFO 2025-01-02 16:08:45,254 basehttp 22512 14408 "GET /api/users/profile/ HTTP/1.1" 200 2064
-INFO 2025-01-02 16:08:45,254 basehttp 22512 5376 "GET /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 232
-INFO 2025-01-02 16:08:45,358 basehttp 22512 20084 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 933719
-INFO 2025-01-02 17:33:34,407 basehttp 22512 8944 "GET /api/notification/notifications/ HTTP/1.1" 200 13137
-INFO 2025-01-02 17:33:35,121 basehttp 22512 18604 "OPTIONS /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:33:35,121 basehttp 22512 8676 "OPTIONS /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:33:35,121 basehttp 22512 19892 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:33:35,121 basehttp 22512 20452 "OPTIONS /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:33:35,121 basehttp 22512 21132 "OPTIONS /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:33:35,129 basehttp 22512 8676 "OPTIONS /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 0
-INFO 2025-01-02 17:33:35,137 basehttp 22512 18920 "GET /api/catalog/books/avtorskaavtorska/volumes/ HTTP/1.1" 200 95
-INFO 2025-01-02 17:33:35,145 basehttp 22512 19892 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
-INFO 2025-01-02 17:33:35,154 basehttp 22512 21132 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 27
-INFO 2025-01-02 17:33:35,154 basehttp 22512 8676 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 192
-INFO 2025-01-02 17:33:35,162 basehttp 22512 8676 "OPTIONS /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:33:35,170 basehttp 22512 20452 "GET /api/users/profile/ HTTP/1.1" 200 2064
-INFO 2025-01-02 17:33:35,178 basehttp 22512 18920 "GET /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 903
-INFO 2025-01-02 17:33:35,178 basehttp 22512 8676 "GET /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 595
-INFO 2025-01-02 17:33:35,234 basehttp 22512 18604 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 933719
-INFO 2025-01-02 17:33:57,630 basehttp 22512 13896 "GET /api/notification/notifications/ HTTP/1.1" 200 13137
-INFO 2025-01-02 17:34:57,318 basehttp 22512 13896 "GET /api/notification/notifications/ HTTP/1.1" 200 13137
-INFO 2025-01-02 17:35:57,318 basehttp 22512 13896 "GET /api/notification/notifications/ HTTP/1.1" 200 13137
-INFO 2025-01-02 17:36:57,320 basehttp 22512 13896 "GET /api/notification/notifications/ HTTP/1.1" 200 13137
-INFO 2025-01-02 17:37:46,806 basehttp 22512 22500 "OPTIONS /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:37:46,806 basehttp 22512 3580 "OPTIONS /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:37:46,806 basehttp 22512 11208 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:37:46,806 basehttp 22512 17932 "OPTIONS /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:37:46,814 basehttp 22512 18740 "OPTIONS /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:37:46,814 basehttp 22512 11208 "OPTIONS /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 0
-INFO 2025-01-02 17:37:46,830 basehttp 22512 4828 "GET /api/catalog/books/avtorskaavtorska/volumes/ HTTP/1.1" 200 95
-INFO 2025-01-02 17:37:46,838 basehttp 22512 22500 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
-INFO 2025-01-02 17:37:46,838 basehttp 22512 3580 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 27
-INFO 2025-01-02 17:37:46,846 basehttp 22512 11208 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 192
-INFO 2025-01-02 17:37:46,854 basehttp 22512 11208 "OPTIONS /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:37:46,870 basehttp 22512 17932 "GET /api/users/profile/ HTTP/1.1" 200 2064
-INFO 2025-01-02 17:37:46,878 basehttp 22512 4828 "GET /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 903
-INFO 2025-01-02 17:37:46,886 basehttp 22512 11208 "GET /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 595
-INFO 2025-01-02 17:37:46,950 basehttp 22512 18740 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 933719
-INFO 2025-01-02 17:37:57,321 basehttp 22512 13896 "GET /api/notification/notifications/ HTTP/1.1" 200 13137
-INFO 2025-01-02 17:38:57,322 basehttp 22512 13896 "GET /api/notification/notifications/ HTTP/1.1" 200 13137
-INFO 2025-01-02 17:39:57,318 basehttp 22512 13896 "GET /api/notification/notifications/ HTTP/1.1" 200 13137
-INFO 2025-01-02 17:40:22,318 basehttp 22512 18740 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:40:22,318 basehttp 22512 11208 "GET /api/catalog/books/avtorskaavtorska/volumes/ HTTP/1.1" 200 95
-INFO 2025-01-02 17:40:22,334 basehttp 22512 18740 "GET /api/users/profile/ HTTP/1.1" 200 2064
-INFO 2025-01-02 17:40:22,358 basehttp 22512 3580 "OPTIONS /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:40:22,358 basehttp 22512 11208 "OPTIONS /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:40:22,358 basehttp 22512 18740 "OPTIONS /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:40:22,358 basehttp 22512 17932 "OPTIONS /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:40:22,358 basehttp 22512 4828 "OPTIONS /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:40:22,358 basehttp 22512 22500 "OPTIONS /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 0
-INFO 2025-01-02 17:40:22,364 basehttp 22512 11208 "OPTIONS /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:40:22,382 basehttp 22512 3580 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
-INFO 2025-01-02 17:40:22,390 basehttp 22512 17932 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 192
-INFO 2025-01-02 17:40:22,398 basehttp 22512 22500 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 27
-INFO 2025-01-02 17:40:22,406 basehttp 22512 18740 "GET /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 903
-INFO 2025-01-02 17:40:22,414 basehttp 22512 11208 "GET /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 232
-INFO 2025-01-02 17:40:22,414 basehttp 22512 22500 "OPTIONS /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:40:22,430 basehttp 22512 3580 "GET /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 232
-INFO 2025-01-02 17:40:22,430 basehttp 22512 11208 "GET /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 595
-INFO 2025-01-02 17:40:22,495 basehttp 22512 4828 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 933719
-INFO 2025-01-02 17:40:36,373 basehttp 22512 4828 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:40:36,389 basehttp 22512 17932 "OPTIONS /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:40:36,389 basehttp 22512 22500 "OPTIONS /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:40:36,389 basehttp 22512 11208 "OPTIONS /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:40:36,389 basehttp 22512 18740 "OPTIONS /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:40:36,397 basehttp 22512 22500 "OPTIONS /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 0
-INFO 2025-01-02 17:40:36,397 basehttp 22512 3580 "GET /api/catalog/books/avtorskaavtorska/volumes/ HTTP/1.1" 200 95
-INFO 2025-01-02 17:40:36,405 basehttp 22512 17932 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
-INFO 2025-01-02 17:40:36,413 basehttp 22512 11208 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 192
-INFO 2025-01-02 17:40:36,413 basehttp 22512 22500 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 27
-INFO 2025-01-02 17:40:36,421 basehttp 22512 4828 "GET /api/users/profile/ HTTP/1.1" 200 2064
-INFO 2025-01-02 17:40:36,429 basehttp 22512 4828 "OPTIONS /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:40:36,437 basehttp 22512 3580 "GET /api/navigation/chapters/paginated/?book_id=14&start_chapter=51 HTTP/1.1" 200 903
-INFO 2025-01-02 17:40:36,437 basehttp 22512 4828 "GET /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 595
-INFO 2025-01-02 17:40:36,494 basehttp 22512 18740 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 933719
-INFO 2025-01-02 17:40:38,631 basehttp 22512 18740 "OPTIONS /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:40:38,639 basehttp 22512 18740 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
-INFO 2025-01-02 17:40:38,655 basehttp 22512 18740 "OPTIONS /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:40:38,671 basehttp 22512 18740 "GET /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 595
-INFO 2025-01-02 17:40:38,689 basehttp 22512 18740 "OPTIONS /api/navigation/chapters/paginated/?book_id=14&start_chapter=1 HTTP/1.1" 200 0
-INFO 2025-01-02 17:40:38,761 basehttp 22512 18740 "GET /api/navigation/chapters/paginated/?book_id=14&start_chapter=1 HTTP/1.1" 200 933138
-INFO 2025-01-02 17:40:38,786 basehttp 22512 18740 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:40:38,786 basehttp 22512 4828 "OPTIONS /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:40:38,797 basehttp 22512 3580 "GET /api/catalog/books/avtorskaavtorska/volumes/ HTTP/1.1" 200 95
-INFO 2025-01-02 17:40:38,813 basehttp 22512 18740 "GET /api/users/profile/ HTTP/1.1" 200 2064
-INFO 2025-01-02 17:40:38,877 basehttp 22512 4828 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 933719
-INFO 2025-01-02 17:40:38,927 basehttp 22512 3580 "OPTIONS /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:40:38,927 basehttp 22512 18740 "OPTIONS /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:40:38,927 basehttp 22512 4828 "OPTIONS /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:40:38,927 basehttp 22512 22500 "OPTIONS /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:40:38,951 basehttp 22512 3580 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 192
-INFO 2025-01-02 17:40:38,951 basehttp 22512 4828 "GET /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 232
-INFO 2025-01-02 17:40:38,951 basehttp 22512 18740 "GET /api/reviews/book/avtorskaavtorska/comments/ HTTP/1.1" 200 232
-INFO 2025-01-02 17:40:38,959 basehttp 22512 22500 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 27
-INFO 2025-01-02 17:40:56,806 basehttp 22512 22500 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:40:56,806 basehttp 22512 11208 "OPTIONS /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:40:56,806 basehttp 22512 18740 "OPTIONS /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:40:56,806 basehttp 22512 4828 "OPTIONS /api/navigation/chapters/paginated/?book_id=14&start_chapter=1 HTTP/1.1" 200 0
-INFO 2025-01-02 17:40:56,806 basehttp 22512 3580 "OPTIONS /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:40:56,806 basehttp 22512 17932 "OPTIONS /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:40:56,838 basehttp 22512 22500 "GET /api/catalog/books/avtorskaavtorska/volumes/ HTTP/1.1" 200 95
-INFO 2025-01-02 17:40:56,846 basehttp 22512 4828 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
-INFO 2025-01-02 17:40:56,846 basehttp 22512 3580 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 192
-INFO 2025-01-02 17:40:56,862 basehttp 22512 3580 "OPTIONS /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:40:56,870 basehttp 22512 11208 "GET /api/users/profile/ HTTP/1.1" 200 2064
-INFO 2025-01-02 17:40:56,878 basehttp 22512 22500 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 27
-INFO 2025-01-02 17:40:56,894 basehttp 22512 3580 "GET /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 595
-INFO 2025-01-02 17:40:57,025 basehttp 22512 18740 "GET /api/navigation/chapters/paginated/?book_id=14&start_chapter=1 HTTP/1.1" 200 933138
-INFO 2025-01-02 17:40:57,057 basehttp 22512 17932 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 933719
-INFO 2025-01-02 17:40:57,345 basehttp 22512 13896 "GET /api/notification/notifications/ HTTP/1.1" 200 13137
-INFO 2025-01-02 17:41:11,579 basehttp 22512 3580 "OPTIONS /api/navigation/chapters/paginated/?book_id=14&start_chapter=1 HTTP/1.1" 200 0
-INFO 2025-01-02 17:41:11,579 basehttp 22512 11208 "OPTIONS /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:41:11,579 basehttp 22512 4828 "OPTIONS /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:41:11,579 basehttp 22512 17932 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:41:11,579 basehttp 22512 22500 "OPTIONS /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:41:11,579 basehttp 22512 18740 "OPTIONS /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:41:11,611 basehttp 22512 3580 "GET /api/catalog/books/avtorskaavtorska/volumes/ HTTP/1.1" 200 95
-INFO 2025-01-02 17:41:11,619 basehttp 22512 22500 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 27
-INFO 2025-01-02 17:41:11,619 basehttp 22512 17932 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 192
-INFO 2025-01-02 17:41:11,644 basehttp 22512 3580 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
-INFO 2025-01-02 17:41:11,652 basehttp 22512 4828 "GET /api/users/profile/ HTTP/1.1" 200 2064
-INFO 2025-01-02 17:41:11,660 basehttp 22512 4828 "OPTIONS /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:41:11,680 basehttp 22512 4828 "GET /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 595
-INFO 2025-01-02 17:41:11,784 basehttp 22512 18740 "GET /api/navigation/chapters/paginated/?book_id=14&start_chapter=1 HTTP/1.1" 200 933138
-INFO 2025-01-02 17:41:11,800 basehttp 22512 11208 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 933719
-INFO 2025-01-02 17:41:19,052 basehttp 22512 11208 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:41:19,052 basehttp 22512 4828 "OPTIONS /api/navigation/chapters/paginated/?book_id=14&start_chapter=1 HTTP/1.1" 200 0
-INFO 2025-01-02 17:41:19,052 basehttp 22512 18740 "OPTIONS /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:41:19,052 basehttp 22512 3580 "OPTIONS /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:41:19,052 basehttp 22512 22500 "OPTIONS /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:41:19,052 basehttp 22512 17932 "OPTIONS /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:41:19,068 basehttp 22512 11208 "GET /api/catalog/books/avtorskaavtorska/volumes/ HTTP/1.1" 200 95
-INFO 2025-01-02 17:41:19,084 basehttp 22512 3580 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
-INFO 2025-01-02 17:41:19,092 basehttp 22512 17932 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 192
-INFO 2025-01-02 17:41:19,100 basehttp 22512 11208 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 27
-INFO 2025-01-02 17:41:19,100 basehttp 22512 17932 "OPTIONS /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:41:19,108 basehttp 22512 4828 "GET /api/users/profile/ HTTP/1.1" 200 2064
-INFO 2025-01-02 17:41:19,132 basehttp 22512 11208 "GET /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 595
-INFO 2025-01-02 17:41:19,264 basehttp 22512 18740 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 933719
-INFO 2025-01-02 17:41:19,280 basehttp 22512 22500 "GET /api/navigation/chapters/paginated/?book_id=14&start_chapter=1 HTTP/1.1" 200 933138
-INFO 2025-01-02 17:41:35,644 basehttp 22512 22500 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:41:35,652 basehttp 22512 18740 "OPTIONS /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:41:35,652 basehttp 22512 4828 "OPTIONS /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:41:35,652 basehttp 22512 17932 "OPTIONS /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:41:35,652 basehttp 22512 22500 "OPTIONS /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:41:35,652 basehttp 22512 11208 "OPTIONS /api/navigation/chapters/paginated/?book_id=14&start_chapter=1 HTTP/1.1" 200 0
-INFO 2025-01-02 17:41:35,684 basehttp 22512 3580 "GET /api/catalog/books/avtorskaavtorska/volumes/ HTTP/1.1" 200 95
-INFO 2025-01-02 17:41:35,700 basehttp 22512 4828 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
-INFO 2025-01-02 17:41:35,700 basehttp 22512 22500 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 27
-INFO 2025-01-02 17:41:35,700 basehttp 22512 11208 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 192
-INFO 2025-01-02 17:41:35,716 basehttp 22512 11208 "OPTIONS /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:41:35,716 basehttp 22512 18740 "GET /api/users/profile/ HTTP/1.1" 200 2064
-INFO 2025-01-02 17:41:35,732 basehttp 22512 11208 "GET /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 595
-INFO 2025-01-02 17:41:35,863 basehttp 22512 3580 "GET /api/navigation/chapters/paginated/?book_id=14&start_chapter=1 HTTP/1.1" 200 933138
-INFO 2025-01-02 17:41:35,879 basehttp 22512 17932 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 933719
-INFO 2025-01-02 17:41:48,130 basehttp 22512 11208 "OPTIONS /api/navigation/chapters/paginated/?book_id=14&start_chapter=1 HTTP/1.1" 200 0
-INFO 2025-01-02 17:41:48,130 basehttp 22512 17932 "OPTIONS /api/users/profile/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:41:48,130 basehttp 22512 3580 "OPTIONS /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:41:48,130 basehttp 22512 18740 "OPTIONS /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:41:48,130 basehttp 22512 4828 "OPTIONS /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:41:48,130 basehttp 22512 22500 "OPTIONS /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:41:48,166 basehttp 22512 3580 "GET /api/catalog/books/avtorskaavtorska/volumes/ HTTP/1.1" 200 95
-INFO 2025-01-02 17:41:48,167 basehttp 22512 4828 "GET /api/catalog/books/info/avtorskaavtorska/ HTTP/1.1" 200 541
-INFO 2025-01-02 17:41:48,169 basehttp 22512 18740 "GET /api/navigation/bookmarks/status/14/ HTTP/1.1" 200 27
-INFO 2025-01-02 17:41:48,184 basehttp 22512 18740 "OPTIONS /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 0
-INFO 2025-01-02 17:41:48,194 basehttp 22512 3580 "GET /api/rating/avtorskaavtorska/book-ratings/ HTTP/1.1" 200 192
-INFO 2025-01-02 17:41:48,208 basehttp 22512 11208 "GET /api/users/profile/ HTTP/1.1" 200 2064
-INFO 2025-01-02 17:41:48,208 basehttp 22512 18740 "GET /api/catalog/books/owner/avtorskaavtorska/ HTTP/1.1" 200 595
-INFO 2025-01-02 17:41:48,325 basehttp 22512 22500 "GET /api/catalog/books/avtorskaavtorska/chapters/ HTTP/1.1" 200 933719
-INFO 2025-01-02 17:41:48,349 basehttp 22512 17932 "GET /api/navigation/chapters/paginated/?book_id=14&start_chapter=1 HTTP/1.1" 200 933138
-INFO 2025-01-02 17:41:57,324 basehttp 22512 13896 "GET /api/notification/notifications/ HTTP/1.1" 200 13137
-INFO 2025-01-02 17:42:57,320 basehttp 22512 13896 "GET /api/notification/notifications/ HTTP/1.1" 200 13137
-INFO 2025-01-02 17:43:57,325 basehttp 22512 13896 "GET /api/notification/notifications/ HTTP/1.1" 200 13137
-INFO 2025-01-02 17:44:57,330 basehttp 22512 13896 "GET /api/notification/notifications/ HTTP/1.1" 200 13137
-INFO 2025-01-02 18:02:14,896 autoreload 17628 6244 Watching for file changes with StatReloader
-INFO 2025-01-02 18:02:35,043 basehttp 17628 9812 "OPTIONS /api/main/books-news/ HTTP/1.1" 200 0
-INFO 2025-01-02 18:02:35,043 basehttp 17628 11484 "OPTIONS /api/website-advertising/advertisements/main_page_ads/ HTTP/1.1" 200 0
-WARNING 2025-01-02 18:02:35,107 log 17628 11484 Unauthorized: /api/main/books-news/
-WARNING 2025-01-02 18:02:35,107 log 17628 9812 Unauthorized: /api/website-advertising/advertisements/main_page_ads/
-WARNING 2025-01-02 18:02:35,107 basehttp 17628 11484 "GET /api/main/books-news/ HTTP/1.1" 401 183
-WARNING 2025-01-02 18:02:35,107 basehttp 17628 9812 "GET /api/website-advertising/advertisements/main_page_ads/ HTTP/1.1" 401 183
-INFO 2025-01-02 18:02:35,123 basehttp 17628 11484 "OPTIONS /api/auth/jwt/refresh/ HTTP/1.1" 200 0
-INFO 2025-01-02 18:02:35,123 basehttp 17628 9812 "OPTIONS /api/auth/jwt/refresh/ HTTP/1.1" 200 0
-INFO 2025-01-02 18:02:35,139 basehttp 17628 9812 "POST /api/auth/jwt/refresh/ HTTP/1.1" 200 241
-INFO 2025-01-02 18:02:35,139 basehttp 17628 11484 "POST /api/auth/jwt/refresh/ HTTP/1.1" 200 241
-INFO 2025-01-02 18:02:35,179 basehttp 17628 9812 "OPTIONS /api/main/books-news/ HTTP/1.1" 200 0
-INFO 2025-01-02 18:02:35,179 basehttp 17628 11484 "OPTIONS /api/website-advertising/advertisements/main_page_ads/ HTTP/1.1" 200 0
-INFO 2025-01-02 18:02:35,195 basehttp 17628 11484 "GET /api/main/books-news/ HTTP/1.1" 200 1527
-INFO 2025-01-02 18:02:35,203 basehttp 17628 9812 "GET /api/website-advertising/advertisements/main_page_ads/ HTTP/1.1" 200 913
-INFO 2025-01-02 18:02:35,596 basehttp 17628 19108 "GET /media/books/YfyJVFIhJ-M_DblDUMQ.jpg HTTP/1.1" 200 67914
-INFO 2025-01-02 18:02:35,604 basehttp 17628 17932 "GET /media/books/017_8CemAQs.jpg HTTP/1.1" 200 629514
-INFO 2025-01-02 18:02:45,290 basehttp 17628 17932 "GET /media/books/5VgZtO9jy5g_pv9z9yw.jpg HTTP/1.1" 200 121514
-INFO 2025-01-02 18:02:49,994 basehttp 17628 11484 "OPTIONS /api/main/books-news/ HTTP/1.1" 200 0
-INFO 2025-01-02 18:02:49,994 basehttp 17628 9812 "OPTIONS /api/website-advertising/advertisements/main_page_ads/ HTTP/1.1" 200 0
-INFO 2025-01-02 18:02:50,010 basehttp 17628 9812 "GET /api/main/books-news/ HTTP/1.1" 200 1527
-INFO 2025-01-02 18:02:50,018 basehttp 17628 11484 "GET /api/website-advertising/advertisements/main_page_ads/ HTTP/1.1" 200 913
-INFO 2025-01-02 18:02:55,236 basehttp 17628 17932 "GET /media/books/ZBd9XTYqO1Y_cS7HYHY.jpg HTTP/1.1" 200 181494
-INFO 2025-01-02 18:02:56,423 basehttp 17628 9812 "OPTIONS /api/main/books-news/ HTTP/1.1" 200 0
-INFO 2025-01-02 18:02:56,423 basehttp 17628 11484 "OPTIONS /api/website-advertising/advertisements/main_page_ads/ HTTP/1.1" 200 0
-INFO 2025-01-02 18:02:56,423 basehttp 17628 17932 "GET /media/books/YfyJVFIhJ-M_DblDUMQ.jpg HTTP/1.1" 200 67914
-INFO 2025-01-02 18:02:56,463 basehttp 17628 11484 "GET /api/main/books-news/ HTTP/1.1" 200 1527
-INFO 2025-01-02 18:02:56,471 basehttp 17628 9812 "GET /api/website-advertising/advertisements/main_page_ads/ HTTP/1.1" 200 913
-INFO 2025-01-02 18:02:56,471 basehttp 17628 19108 "GET /media/books/017_8CemAQs.jpg HTTP/1.1" 200 629514
-INFO 2025-01-02 18:02:57,598 basehttp 17628 14636 "OPTIONS /api/notification/notifications/ HTTP/1.1" 200 0
-WARNING 2025-01-02 18:02:57,598 log 17628 14636 Unauthorized: /api/notification/notifications/
-WARNING 2025-01-02 18:02:57,598 basehttp 17628 14636 "GET /api/notification/notifications/ HTTP/1.1" 401 183
-INFO 2025-01-02 18:02:57,680 basehttp 17628 14636 "OPTIONS /api/auth/jwt/refresh/ HTTP/1.1" 200 0
-INFO 2025-01-02 18:02:57,680 basehttp 17628 14636 "POST /api/auth/jwt/refresh/ HTTP/1.1" 200 241
-INFO 2025-01-02 18:02:57,728 basehttp 17628 14636 "GET /api/notification/notifications/ HTTP/1.1" 200 13137
-INFO 2025-01-02 18:03:07,290 basehttp 17628 19108 "GET /media/books/5VgZtO9jy5g_pv9z9yw.jpg HTTP/1.1" 200 121514
-INFO 2025-01-02 18:03:17,289 basehttp 17628 19108 "GET /media/books/ZBd9XTYqO1Y_cS7HYHY.jpg HTTP/1.1" 200 181494
-INFO 2025-01-02 18:03:27,294 basehttp 17628 19108 "GET /media/books/YfyJVFIhJ-M_DblDUMQ.jpg HTTP/1.1" 200 67914
-INFO 2025-01-02 18:03:37,293 basehttp 17628 19108 "GET /media/books/017_8CemAQs.jpg HTTP/1.1" 200 629514
-INFO 2025-01-02 18:03:47,291 basehttp 17628 19108 "GET /media/books/5VgZtO9jy5g_pv9z9yw.jpg HTTP/1.1" 200 121514
-INFO 2025-01-02 18:03:57,297 basehttp 17628 19108 "GET /media/books/ZBd9XTYqO1Y_cS7HYHY.jpg HTTP/1.1" 200 181494
-INFO 2025-01-02 18:03:57,329 basehttp 17628 14636 "GET /api/notification/notifications/ HTTP/1.1" 200 13137
-INFO 2025-01-02 18:04:57,297 basehttp 17628 19108 "GET /media/books/YfyJVFIhJ-M_DblDUMQ.jpg HTTP/1.1" 200 67914
-INFO 2025-01-02 18:04:57,337 basehttp 17628 14636 "GET /api/notification/notifications/ HTTP/1.1" 200 13137
-INFO 2025-01-02 18:05:04,096 basehttp 17628 9812 "OPTIONS /api/website-advertising/advertisements/main_page_ads/ HTTP/1.1" 200 0
-INFO 2025-01-02 18:05:04,096 basehttp 17628 11484 "OPTIONS /api/main/books-news/ HTTP/1.1" 200 0
-INFO 2025-01-02 18:05:04,112 basehttp 17628 9812 "GET /api/main/books-news/ HTTP/1.1" 200 1527
-INFO 2025-01-02 18:05:04,112 basehttp 17628 11484 "GET /api/website-advertising/advertisements/main_page_ads/ HTTP/1.1" 200 913
-INFO 2025-01-02 18:05:07,281 basehttp 17628 19108 "GET /media/books/017_8CemAQs.jpg HTTP/1.1" 200 629514
-INFO 2025-01-02 18:05:17,282 basehttp 17628 19108 "GET /media/books/5VgZtO9jy5g_pv9z9yw.jpg HTTP/1.1" 200 121514
-INFO 2025-01-02 18:05:27,285 basehttp 17628 19108 "GET /media/books/ZBd9XTYqO1Y_cS7HYHY.jpg HTTP/1.1" 200 181494
-INFO 2025-01-02 18:05:37,286 basehttp 17628 19108 "GET /media/books/YfyJVFIhJ-M_DblDUMQ.jpg HTTP/1.1" 200 67914
-INFO 2025-01-02 18:05:47,283 basehttp 17628 19108 "GET /media/books/017_8CemAQs.jpg HTTP/1.1" 200 629514
-INFO 2025-01-02 18:05:57,314 basehttp 17628 19108 "GET /media/books/5VgZtO9jy5g_pv9z9yw.jpg HTTP/1.1" 200 121514
-INFO 2025-01-02 18:05:57,330 basehttp 17628 14636 "GET /api/notification/notifications/ HTTP/1.1" 200 13137
-INFO 2025-01-02 18:06:57,290 basehttp 17628 19108 "GET /media/books/ZBd9XTYqO1Y_cS7HYHY.jpg HTTP/1.1" 200 181494
-INFO 2025-01-02 18:06:57,314 basehttp 17628 14636 "GET /api/notification/notifications/ HTTP/1.1" 200 13137
-INFO 2025-01-02 18:07:57,334 basehttp 17628 14636 "GET /api/notification/notifications/ HTTP/1.1" 200 13137
-INFO 2025-01-02 18:07:57,358 basehttp 17628 19108 "GET /media/books/YfyJVFIhJ-M_DblDUMQ.jpg HTTP/1.1" 200 67914
-INFO 2025-01-02 18:08:57,323 basehttp 17628 14636 "GET /api/notification/notifications/ HTTP/1.1" 200 13137
-INFO 2025-01-02 18:08:57,355 basehttp 17628 19108 "GET /media/books/017_8CemAQs.jpg HTTP/1.1" 200 629514
-INFO 2025-01-02 18:09:57,323 basehttp 17628 14636 "GET /api/notification/notifications/ HTTP/1.1" 200 13137
-INFO 2025-01-02 18:09:57,355 basehttp 17628 19108 "GET /media/books/5VgZtO9jy5g_pv9z9yw.jpg HTTP/1.1" 200 121514
-INFO 2025-01-02 18:10:57,317 basehttp 17628 14636 "GET /api/notification/notifications/ HTTP/1.1" 200 13137
-INFO 2025-01-02 18:10:57,349 basehttp 17628 19108 "GET /media/books/ZBd9XTYqO1Y_cS7HYHY.jpg HTTP/1.1" 200 181494
-INFO 2025-01-02 18:11:14,355 basehttp 17628 19108 "GET /media/books/YfyJVFIhJ-M_DblDUMQ.jpg HTTP/1.1" 200 67914
-INFO 2025-01-02 18:11:16,427 basehttp 17628 19108 "GET /media/books/017_8CemAQs.jpg HTTP/1.1" 200 629514
-INFO 2025-01-02 18:11:34,497 basehttp 17628 14376 "OPTIONS /api/website-advertising/advertisements/main_page_ads/ HTTP/1.1" 200 0
-INFO 2025-01-02 18:11:34,497 basehttp 17628 17172 "OPTIONS /api/main/books-news/ HTTP/1.1" 200 0
-INFO 2025-01-02 18:11:34,506 basehttp 17628 14376 "GET /api/main/books-news/ HTTP/1.1" 200 1527
-INFO 2025-01-02 18:11:34,512 basehttp 17628 17172 "GET /api/website-advertising/advertisements/main_page_ads/ HTTP/1.1" 200 913
-INFO 2025-01-02 18:11:34,520 basehttp 17628 19108 "GET /media/books/YfyJVFIhJ-M_DblDUMQ.jpg HTTP/1.1" 200 67914
-INFO 2025-01-02 18:11:34,536 basehttp 17628 19108 "GET /media/books/017_8CemAQs.jpg HTTP/1.1" 200 629514
-INFO 2025-01-02 18:11:57,327 basehttp 17628 14636 "GET /api/notification/notifications/ HTTP/1.1" 200 13137
-INFO 2025-01-02 18:12:57,321 basehttp 17628 14636 "GET /api/notification/notifications/ HTTP/1.1" 200 13137
+INFO 2025-01-03 00:20:51,378 basehttp 11440 9308 "GET /api/analytics/trending/?type=day HTTP/1.1" 200 637
+INFO 2025-01-03 00:20:51,378 basehttp 11440 9436 "GET /api/analytics/trending/?type=day HTTP/1.1" 200 637
+INFO 2025-01-03 00:20:51,420 basehttp 11440 740 "GET /media/books/YfyJVFIhJ-M_DblDUMQ.jpg HTTP/1.1" 200 67914
+ERROR 2025-01-03 00:20:53,522 log 11440 9436 Internal Server Error: /api/analytics/trending/
+Traceback (most recent call last):
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Website\Fan-vers(React.Django)\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Website\Fan-vers(React.Django)\backend\apps\analytics_books\api\views.py", line 55, in get
+    timezone.now().date() - F('created_at').date(),
+                            ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'F' object has no attribute 'date'
+ERROR 2025-01-03 00:20:53,530 basehttp 11440 9436 "GET /api/analytics/trending/?type=all_time HTTP/1.1" 500 108214
+WARNING 2025-01-03 00:20:57,261 log 11440 13744 Not Found: /api/notification/notifications/
+WARNING 2025-01-03 00:20:57,262 basehttp 11440 13744 "GET /api/notification/notifications/ HTTP/1.1" 404 5234
+INFO 2025-01-03 00:21:29,677 autoreload 11440 9288 D:\Website\Fan-vers(React.Django)\backend\apps\analytics_books\api\views.py changed, reloading.
+INFO 2025-01-03 00:21:30,639 autoreload 18544 3464 D:\Website\Fan-vers(React.Django)\backend\apps\analytics_books\api\views.py changed, reloading.
+INFO 2025-01-03 00:21:31,185 autoreload 15228 13224 Watching for file changes with StatReloader
+INFO 2025-01-03 00:21:32,054 autoreload 17632 16936 Watching for file changes with StatReloader
+WARNING 2025-01-03 00:21:57,580 log 15228 16344 Not Found: /api/notification/notifications/
+WARNING 2025-01-03 00:21:57,580 basehttp 15228 16344 "GET /api/notification/notifications/ HTTP/1.1" 404 5234
+INFO 2025-01-03 00:22:02,948 autoreload 15228 13224 D:\Website\Fan-vers(React.Django)\backend\apps\analytics_books\api\views.py changed, reloading.
+INFO 2025-01-03 00:22:03,437 autoreload 17632 16936 D:\Website\Fan-vers(React.Django)\backend\apps\analytics_books\api\views.py changed, reloading.
+INFO 2025-01-03 00:22:04,348 autoreload 14172 15836 Watching for file changes with StatReloader
+INFO 2025-01-03 00:22:04,832 autoreload 6584 11404 Watching for file changes with StatReloader
+INFO 2025-01-03 00:22:26,369 basehttp 14172 4724 "GET /api/analytics/trending/?type=day HTTP/1.1" 200 637
+INFO 2025-01-03 00:22:26,369 basehttp 14172 21260 "GET /api/analytics/trending/?type=day HTTP/1.1" 200 637
+INFO 2025-01-03 00:22:26,707 basehttp 14172 17720 "GET /media/books/YfyJVFIhJ-M_DblDUMQ.jpg HTTP/1.1" 200 67914
+INFO 2025-01-03 00:22:28,043 basehttp 14172 21260 "GET /api/analytics/trending/?type=all_time HTTP/1.1" 200 637
+INFO 2025-01-03 00:22:28,051 basehttp 14172 17720 "GET /media/books/YfyJVFIhJ-M_DblDUMQ.jpg HTTP/1.1" 200 67914
+INFO 2025-01-03 00:22:29,366 basehttp 14172 21260 "GET /api/analytics/trending/?type=month HTTP/1.1" 200 637
+INFO 2025-01-03 00:22:29,374 basehttp 14172 17720 "GET /media/books/YfyJVFIhJ-M_DblDUMQ.jpg HTTP/1.1" 200 67914
+INFO 2025-01-03 00:22:30,437 basehttp 14172 21260 "GET /api/analytics/trending/?type=all_time HTTP/1.1" 200 637
+INFO 2025-01-03 00:22:30,453 basehttp 14172 17720 "GET /media/books/YfyJVFIhJ-M_DblDUMQ.jpg HTTP/1.1" 200 67914
+WARNING 2025-01-03 00:22:57,562 log 14172 14152 Not Found: /api/notification/notifications/
+WARNING 2025-01-03 00:22:57,562 basehttp 14172 14152 "GET /api/notification/notifications/ HTTP/1.1" 404 5234
+WARNING 2025-01-03 00:23:57,266 log 14172 14152 Not Found: /api/notification/notifications/
+WARNING 2025-01-03 00:23:57,266 basehttp 14172 14152 "GET /api/notification/notifications/ HTTP/1.1" 404 5234
+WARNING 2025-01-03 00:24:57,264 log 14172 14152 Not Found: /api/notification/notifications/
+WARNING 2025-01-03 00:24:57,264 basehttp 14172 14152 "GET /api/notification/notifications/ HTTP/1.1" 404 5234
+WARNING 2025-01-03 00:25:57,256 log 14172 14152 Not Found: /api/notification/notifications/
+WARNING 2025-01-03 00:25:57,264 basehttp 14172 14152 "GET /api/notification/notifications/ HTTP/1.1" 404 5234
+WARNING 2025-01-03 00:26:57,273 log 14172 14152 Not Found: /api/notification/notifications/
+WARNING 2025-01-03 00:26:57,273 basehttp 14172 14152 "GET /api/notification/notifications/ HTTP/1.1" 404 5234
+WARNING 2025-01-03 00:27:57,263 log 14172 14152 Not Found: /api/notification/notifications/
+WARNING 2025-01-03 00:27:57,263 basehttp 14172 14152 "GET /api/notification/notifications/ HTTP/1.1" 404 5234
+WARNING 2025-01-03 00:28:57,264 log 14172 14152 Not Found: /api/notification/notifications/
+WARNING 2025-01-03 00:28:57,264 basehttp 14172 14152 "GET /api/notification/notifications/ HTTP/1.1" 404 5234
+INFO 2025-01-03 00:29:07,395 autoreload 14172 15836 D:\Website\Fan-vers(React.Django)\backend\apps\api\urls.py changed, reloading.
+INFO 2025-01-03 00:29:07,585 autoreload 6584 11404 D:\Website\Fan-vers(React.Django)\backend\apps\api\urls.py changed, reloading.
+INFO 2025-01-03 00:29:09,018 autoreload 4684 13528 Watching for file changes with StatReloader
+INFO 2025-01-03 00:29:09,177 autoreload 11360 13068 Watching for file changes with StatReloader
+INFO 2025-01-03 00:29:10,582 basehttp 4684 19436 "GET /api/analytics/trending/?type=day HTTP/1.1" 200 637
+INFO 2025-01-03 00:29:10,582 basehttp 4684 12016 "GET /api/analytics/trending/?type=day HTTP/1.1" 200 637
+INFO 2025-01-03 00:29:10,915 basehttp 4684 2312 "GET /media/books/YfyJVFIhJ-M_DblDUMQ.jpg HTTP/1.1" 200 67914
+INFO 2025-01-03 00:29:16,020 basehttp 4684 12016 "GET /api/analytics/trending/?type=all_time HTTP/1.1" 200 637
+INFO 2025-01-03 00:29:16,028 basehttp 4684 2312 "GET /media/books/YfyJVFIhJ-M_DblDUMQ.jpg HTTP/1.1" 200 67914
+INFO 2025-01-03 00:29:16,614 basehttp 4684 12016 "GET /api/analytics/trending/?type=month HTTP/1.1" 200 637
+INFO 2025-01-03 00:29:16,622 basehttp 4684 2312 "GET /media/books/YfyJVFIhJ-M_DblDUMQ.jpg HTTP/1.1" 200 67914
+INFO 2025-01-03 00:29:17,203 basehttp 4684 12016 "GET /api/analytics/trending/?type=week HTTP/1.1" 200 637
+INFO 2025-01-03 00:29:17,211 basehttp 4684 2312 "GET /media/books/YfyJVFIhJ-M_DblDUMQ.jpg HTTP/1.1" 200 67914
