@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-from apps.catalog.models import Book
+from apps.catalog.models import Book, Chapter
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 User = get_user_model()
 
@@ -24,3 +25,32 @@ class Bookmark(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.book.title} ({self.status})"
+
+class ChapterPagination:
+    @staticmethod
+    def get_chapters_per_page(total_chapters):
+        """Определяет количество глав на странице в зависимости от общего количества"""
+        if total_chapters <= 50:
+            return total_chapters
+        return 50
+
+    @staticmethod
+    def get_page_ranges(total_chapters):
+        """Возвращает список диапазонов страниц для выпадающего списка"""
+        if total_chapters <= 50:
+            return []
+
+        chapters_per_page = ChapterPagination.get_chapters_per_page(total_chapters)
+        ranges = []
+        start = 1
+
+        while start <= total_chapters:
+            end = min(start + chapters_per_page - 1, total_chapters)
+            ranges.append({
+                'start': start,
+                'end': end,
+                'label': f'{start}-{end}'
+            })
+            start += chapters_per_page
+
+        return ranges

@@ -28,7 +28,7 @@ const AdvertisementSettings = () => {
         refetchOnWindowFocus: true
     });
 
-    const totalCost = mainPageOrdered ? mainPageCost : 0 + catalogOrdered ? catalogCost : 0;
+    const totalCost = (mainPageOrdered ? mainPageCost : 0) + (catalogOrdered ? catalogCost : 0);
 
     useEffect(() => {
         const fetchBookData = async () => {

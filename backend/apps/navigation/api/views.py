@@ -6,8 +6,9 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404
 from django.core.cache import cache
 from apps.catalog.models import Book, Chapter
+from apps.catalog.api.serializers import ChapterSerializer
 from .serializers import BookmarkSerializer
-from ..models import Bookmark
+from ..models import Bookmark, ChapterPagination
 import logging
 from rest_framework.permissions import IsAuthenticated
 
@@ -142,3 +143,58 @@ def get_bookmark_status(request, book_id):
             'id': None,
             'status': None
         })
+
+
+class ChapterViewSet(viewsets.ModelViewSet):
+    serializer_class = ChapterSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def get_queryset(self):
+        return Chapter.objects.all()
+
+    @action(detail=False, methods=['get'])
+    def paginated_chapters(self, request):
+        book_id = request.query_params.get('book_id')
+        start_chapter = int(request.query_params.get('start_chapter', 1))
+
+        if not book_id:
+            return Response(
+                {'error': 'book_id is required'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            book = Book.objects.get(id=book_id)
+            total_chapters = Chapter.objects.filter(book_id=book_id).count()
+            chapters_per_page = ChapterPagination.get_chapters_per_page(total_chapters)
+            
+            end_chapter = min(start_chapter + chapters_per_page - 1, total_chapters)
+            
+            # Получаем только главы в указанном диапазоне
+            chapters = Chapter.objects.filter(
+                book_id=book_id
+            ).order_by('_position')[start_chapter-1:end_chapter]
+            
+            serializer = self.get_serializer(chapters, many=True)
+            
+            return Response({
+                'chapters': serializer.data,
+                'total_chapters': total_chapters,
+                'current_range': {
+                    'start': start_chapter,
+                    'end': end_chapter
+                },
+                'page_ranges': ChapterPagination.get_page_ranges(total_chapters)
+            })
+            
+        except Book.DoesNotExist:
+            return Response(
+                {'error': 'Book not found'}, 
+                status=status.HTTP_404_NOT_FOUND
+            )
+        except Exception as e:
+            logger.error(f"Error in paginated_chapters: {str(e)}")
+            return Response(
+                {'error': str(e)}, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )

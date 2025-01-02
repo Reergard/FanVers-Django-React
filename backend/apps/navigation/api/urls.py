@@ -7,6 +7,7 @@ from .views import ( ChapterNavigationView, BookmarkViewSet, get_bookmark_status
 router = DefaultRouter()
 
 router.register(r'bookmarks', BookmarkViewSet, basename='bookmark')
+router.register(r'chapters', views.ChapterViewSet, basename='chapter')
 
 app_name = 'navigation'
 
@@ -15,4 +16,5 @@ urlpatterns = [
     # api/navigation/..
     path('books/<slug:book_slug>/chapters/<slug:chapter_slug>/navigation/', ChapterNavigationView.as_view(), name='chapter-navigation'),
     path('bookmarks/status/<int:book_id>/', get_bookmark_status, name='bookmark-status'),
+    path('chapters/paginated/', views.ChapterViewSet.as_view({'get': 'paginated_chapters'}), name='paginated-chapters'),
 ] + router.urls

@@ -12,6 +12,20 @@ const getChapterNavigation = async (bookSlug, chapterSlug) => {
     }
 };
 
+const getPaginatedChapters = async (bookId, startChapter = 1) => {
+    try {
+        const { data } = await api.get('/navigation/chapters/paginated/', {
+            params: {
+                book_id: bookId,
+                start_chapter: startChapter
+            }
+        });
+        return data;
+    } catch (error) {
+        throw error;
+    }
+};
+
 const getBookmarksByStatus = async (status) => {
     try {
         const { data } = await api.get(`/navigation/bookmarks/status/${status}/`);
@@ -58,6 +72,7 @@ const getBookmarkStatus = async (bookId) => {
 
 export const navigationAPI = {
     getChapterNavigation,
+    getPaginatedChapters,
     getBookmarksByStatus,
     addBookmark,
     updateBookmark,
@@ -66,6 +81,7 @@ export const navigationAPI = {
 
 export {
     getChapterNavigation,
+    getPaginatedChapters,
     getBookmarksByStatus,
     addBookmark,
     updateBookmark,

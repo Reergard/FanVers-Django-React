@@ -85,7 +85,7 @@ export const UserMenu = ({ name, socialIcons, unreadNotifications }) => {
         { text: 'Власні переклади', href: '/User-translations', icon: '📚' },
         { text: 'Створити переклад', href: '/create-translation', icon: '✏️' },
         { text: 'Закладки', href: '/bookmarks', icon: '🔖' },
-        { text: 'Пошта', href: '/chat', icon: '🔖' },
+        { text: 'ChatVerse', href: '/chat', icon: '🔖' },
         { text: 'Повідомлення', href: '/notification ', icon: '🔖' },
         { text: 'Профіль', href: '/profile', icon: '👤' },
         { text: 'Вийти', href: '/logout', icon: '🚪', onClick: handleLogout },

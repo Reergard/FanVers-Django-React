@@ -8,10 +8,10 @@ export const useAuth = () => {
         useSelector((state) => state.auth);
 
     useEffect(() => {
-        if (isAuthenticated && !isLoading && !isError) {
+        if (isAuthenticated && !isLoading && !isError && !userInfo) {
             dispatch(getProfile());
         }
-    }, [dispatch, isAuthenticated, isLoading, isError]);
+    }, [dispatch, isAuthenticated, isLoading, isError, userInfo]);
 
     return { 
         user, 

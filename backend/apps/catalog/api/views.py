@@ -27,6 +27,7 @@ from rest_framework import generics
 from rest_framework import serializers
 from django.utils.text import slugify
 import uuid
+from apps.core.throttling import BaseUserRateThrottle, BaseAnonRateThrottle, StrictUserRateThrottle, StrictAnonRateThrottle
 
 
 @api_view(['GET'])
@@ -428,6 +429,7 @@ class BookInfoView(generics.RetrieveAPIView):
     queryset = Book.objects.all()
     lookup_field = 'slug'
     permission_classes = [AllowAny]
+    throttle_classes = [StrictUserRateThrottle, StrictAnonRateThrottle]
     
     def get_serializer_class(self):
         class BookInfoSerializer(serializers.ModelSerializer):
