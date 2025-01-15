@@ -36,6 +36,18 @@ def update_chapter(request, chapter_id):
             
         if 'is_paid' in request.data:
             chapter.is_paid = request.data.get('is_paid') == 'true'
+            if chapter.is_paid and 'price' in request.data:
+                try:
+                    price = float(request.data['price'])
+                    if price > 0 and price <= 1000:
+                        chapter.price = price
+                except (ValueError, TypeError):
+                    return Response(
+                        {'error': 'Некоректна ціна'},
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+            elif not chapter.is_paid:
+                chapter.price = 1.00
             
         if 'volume' in request.data:
             volume_id = request.data.get('volume')

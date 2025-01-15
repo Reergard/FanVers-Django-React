@@ -14,22 +14,29 @@ const EditChapter = () => {
     const [error, setError] = useState('');
     const [originalData, setOriginalData] = useState(null);
     const [isFileChanged, setIsFileChanged] = useState(false);
+    const [isPaid, setIsPaid] = useState(false);
+    const [price, setPrice] = useState('1.00');
 
     useEffect(() => {
         const fetchChapterData = async () => {
             try {
                 const data = await editorsAPI.getChapterForEdit(chapterId);
+                console.log('Fetched chapter data:', data);
                 setTitle(data.title);
                 setSelectedVolume(data.volume || '');
+                setIsPaid(data.is_paid);
+                if (data.is_paid) {
+                    setPrice(data.price ? data.price.toString() : '1.00');
+                }
                 setOriginalData(data);
 
-                // Завантажуємо список томів для книги
                 const bookSlug = data.book_slug;
                 const volumesResponse = await axios.get(
                     `http://localhost:8000/api/catalog/books/${bookSlug}/volumes/`
                 );
                 setVolumes(volumesResponse.data);
             } catch (error) {
+                console.error('Error fetching chapter data:', error);
                 setError('Помилка при завантаженні даних розділу');
             }
         };
@@ -47,16 +54,43 @@ const EditChapter = () => {
         setIsFileChanged(true);
     };
 
+    const handleStatusChange = (e) => {
+        const newIsPaid = e.target.checked;
+        setIsPaid(newIsPaid);
+        if (!newIsPaid) {
+            setPrice('1.00');
+        }
+    };
+
+    const handlePriceChange = (e) => {
+        const value = e.target.value;
+        if (value === '' || (parseFloat(value) > 0 && parseFloat(value) <= 1000)) {
+            setPrice(value);
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
 
         try {
+            if (isPaid) {
+                const priceValue = parseFloat(price);
+                if (!price || priceValue <= 0 || isNaN(priceValue)) {
+                    setError('Вкажіть коректну вартість глави');
+                    return;
+                }
+                if (priceValue > 1000) {
+                    setError('Максимальна вартість глави - 1000 грн');
+                    return;
+                }
+            }
+
             const formData = new FormData();
             
-            if (title !== originalData.title) {
-                formData.append('title', title);
-            }
+            formData.append('title', title);
+            formData.append('is_paid', isPaid);
+            formData.append('price', isPaid ? price : '1.00');
             
             if (selectedVolume !== originalData.volume) {
                 formData.append('volume', selectedVolume || '');
@@ -66,17 +100,20 @@ const EditChapter = () => {
                 formData.append('file', file);
             }
 
-            if (formData.entries().next().done) {
-                setError('Немає змін для збереження');
-                return;
-            }
+            console.log('Sending form data:', {
+                title,
+                is_paid: isPaid,
+                price: isPaid ? price : '1.00',
+                volume: selectedVolume
+            });
 
-            await editorsAPI.updateChapter(chapterId, formData);
-            
-            // Повертаємося на сторінку книги
+            const response = await editorsAPI.updateChapter(chapterId, formData);
+            console.log('Update response:', response);
+
             navigate(`/books/${originalData.book_slug}`);
             
         } catch (error) {
+            console.error('Error updating chapter:', error);
             setError(error.message || 'Помилка при оновленні розділу');
         }
     };
@@ -129,6 +166,35 @@ const EditChapter = () => {
                                             </option>
                                         ))}
                                     </select>
+                                </div>
+                            )}
+
+                            <div className="chapter-status-settings">
+                                <label className="chapter-status-toggle">
+                                    <input
+                                        type="checkbox"
+                                        checked={isPaid}
+                                        onChange={handleStatusChange}
+                                    />
+                                    Закритий доступ
+                                </label>
+                            </div>
+
+                            {isPaid && (
+                                <div className="form-group">
+                                    <label htmlFor="price">Вартість глави:</label>
+                                    <input
+                                        type="number"
+                                        id="price"
+                                        className="form-control"
+                                        min="0.01"
+                                        max="1000"
+                                        step="0.01"
+                                        value={price}
+                                        onChange={handlePriceChange}
+                                        required
+                                        placeholder="Введіть вартість"
+                                    />
                                 </div>
                             )}
 

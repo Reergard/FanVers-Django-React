@@ -36,7 +36,6 @@ const BookDetailOwner = ({ book }) => {
   const [volumeError, setVolumeError] = useState('');
   const [isEditingOrder, setIsEditingOrder] = useState(false);
   const [chapterPositions, setChapterPositions] = useState({});
-  const [chapterStatuses, setChapterStatuses] = useState({});
   const dispatch = useDispatch();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [chapterToDelete, setChapterToDelete] = useState(null);
@@ -382,21 +381,6 @@ const BookDetailOwner = ({ book }) => {
     }
   };
 
-  const handleChapterStatusChange = async (chapterId, isPaid) => {
-    try {
-        await catalogAPI.updateChapterStatus(chapterId, isPaid);
-        // Оновлюємо локальний стан
-        setChapterStatuses(prev => ({
-            ...prev,
-            [chapterId]: isPaid
-        }));
-        // Оновлюємо список розділів
-        queryClient.invalidateQueries(['chapters', slug]);
-    } catch (error) {
-        alert('Помилка при зміні статусу розділу');
-    }
-  };
-
   const handleUpdateOrder = async () => {
     try {
         await editorsAPI.updateChapterOrder(volumeId, chapterOrders);
@@ -650,14 +634,6 @@ const BookDetailOwner = ({ book }) => {
                                     Видалити
                                 </button>
                               )}
-                              <label className="chapter-status-toggle">
-                                <input
-                                  type="checkbox"
-                                  checked={chapterStatuses[chapter.id] ?? chapter.is_paid}
-                                  onChange={(e) => handleChapterStatusChange(chapter.id, e.target.checked)}
-                                />
-                                Закритий доступ
-                              </label>
                             </div>
                           </div>
                         </div>
@@ -738,14 +714,6 @@ const BookDetailOwner = ({ book }) => {
                                     Видалити
                                 </button>
                               )}
-                              <label className="chapter-status-toggle">
-                                <input
-                                  type="checkbox"
-                                  checked={chapterStatuses[chapter.id] ?? chapter.is_paid}
-                                  onChange={(e) => handleChapterStatusChange(chapter.id, e.target.checked)}
-                                />
-                                Закритий доступ
-                              </label>
                             </div>
                           </div>
                         </div>
