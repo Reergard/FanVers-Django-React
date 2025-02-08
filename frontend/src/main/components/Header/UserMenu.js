@@ -70,7 +70,7 @@ export const UserMenu = ({ name, socialIcons, unreadNotifications }) => {
               ? currentUser.image
               : ghost,
           className: `profile-image profile-image--third ${currentUser?.image && 'custom'}`,
-          divClassName: "profile-image--third profile-image--third__div",
+          // divClassName: "profile-image--third profile-image--third__div",
           alt: "Profile",
           badge: null
         },
@@ -133,19 +133,16 @@ export const UserMenu = ({ name, socialIcons, unreadNotifications }) => {
   
     return (
       <section className="user-profile">
-        {/*<div className="header_icon_group d-flex justify-content-between">*/}
-            {profileData.images.map((image, index) =>
-                image.bg ? (
-                    <div style={{position: 'relative'}} className={image.className ? `${image.className}__parent`: ''}>
-                        <ProfileImage key={index} {...image} />
-                        <span className="badge_value" style={{backgroundColor: image.bg}}>14</span>
-                    </div>
-                ) : (
+        {profileData.images.map((image, index) =>
+            image.bg ? (
+                <div style={{position: 'relative'}} className={image.className ? `${image.className}__parent`: ''}>
                     <ProfileImage key={index} {...image} />
-                )
-            )}
-        {/*</div>*/}
-        {/*<span className="user-profile__name">Дмитро Поліщук</span>*/}
+                    <span className="badge_value" style={{backgroundColor: image.bg}}>14</span>
+                </div>
+            ) : (
+                <ProfileImage key={index} {...image} />
+            )
+        )}
         <div>
           {currentUser && currentUser?.username && (
               // <span className="user-profile__name">Дмитро Поліщук</span>
