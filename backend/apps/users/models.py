@@ -1,3 +1,4 @@
+import os
 import uuid
 from django.db import models, transaction
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, Group
@@ -39,11 +40,22 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Profile(models.Model):
+    # def get_upload_to(self, instance, filename):
+    #     """Generate a dynamic path for profile images."""
+    #     ext = filename.split('.')[-1]  # Get file extension
+    #     filename = f"profile_{instance.user.id}.{ext}"  # Rename file
+    #     return os.path.join('users/profile_images/', filename)  # Return new path
+
+    def get_upload_to(self, instance):
+        basename = str(uuid.uuid4())
+        discard, ext = os.path.splitext(instance)
+        return f'users/profile_images/{"".join([basename, ext])}'
+
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     username = models.CharField(max_length=50, blank=True, null=True)
     email = models.EmailField(max_length=50, unique=True)
     about = models.TextField(blank=True, null=True)
-    image = models.ImageField(null=True, blank=True, default='users/profile_images/no_image.jpg', upload_to='users/profile_images/')
+    image = models.ImageField(null=True, blank=True, default='users/profile_images/no_image.jpg', upload_to=get_upload_to)
     created = models.DateTimeField(auto_now_add=True)
     token = models.CharField(max_length=255, default=generate_token)
     is_default = models.BooleanField(default=False)
@@ -254,7 +266,7 @@ def create_user_profile(sender, instance, created, **kwargs):
             username=instance.username,
             email=instance.email
         )
-        reader_group = Group.objects.get(name='Читач')
+        reader_group = Group.objects.get_or_create(name='Читач')
         instance.groups.add(reader_group)
 
 

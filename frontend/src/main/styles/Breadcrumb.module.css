@@ -1,0 +1,21 @@
+
+.breadcrumb__container {
+    margin: 0 auto;
+    padding: 0 4%;
+    max-width: 1454px;
+}
+
+.breadcrumb__block {
+    font-family: Inter, sans-serif;
+}
+
+.breadcrumb__block img {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+.breadcrumb__container h2 {
+    color: #F58807;
+    font-size: 48px;
+    font-family: Alleycat, sans-serif;
+}

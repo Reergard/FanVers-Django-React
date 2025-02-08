@@ -381,14 +381,14 @@ const BookDetailOwner = ({ book }) => {
     }
   };
 
-  const handleUpdateOrder = async () => {
-    try {
-        await editorsAPI.updateChapterOrder(volumeId, chapterOrders);
-        // ... остальной код ...
-    } catch (error) {
-        console.error('Error updating chapter order:', error);
-    }
-  };
+  // const handleUpdateOrder = async () => {
+  //   try {
+  //       await editorsAPI.updateChapterOrder(volumeId, chapterOrders);
+  //       // ... остальной код ...
+  //   } catch (error) {
+  //       console.error('Error updating chapter order:', error);
+  //   }
+  // };
 
   const handleDeleteClick = (chapterId) => {
     setChapterToDelete(chapterId);

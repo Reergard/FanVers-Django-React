@@ -41,6 +41,7 @@ import Contacts from './help/pages/Contacts';
 import BalanceHelp from './help/pages/BalanceHelp';
 import Support from './help/pages/Support';
 import Payment from './help/pages/Payment';
+import {BreadCrumb} from "./main/components/BreadCrumb";
 
 const queryClient = new QueryClient();
 
@@ -71,6 +72,11 @@ function App() {
         <Preloader load={load} />
         <div className="App" id="scroll">
           <Header />
+          <BreadCrumb items={[
+            { href: "/", label: "Головна" },
+            { href: "/own-translations", label: "Власні переклади" },
+            // { href: "/product", label: "Product" }
+          ]} />
           <ScrollToTop />
           <Routes>
             <Route path="/" element={<HomePage />} />

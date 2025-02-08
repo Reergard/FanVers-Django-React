@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container, Card, Row, Col } from 'react-bootstrap';
-import { usersAPI } from '../../api/users/usersAPI';;
+import { usersAPI } from '../../api';
 import "../styles/ProfilesUsers.css";
 
 const ProfilesUsers = () => {

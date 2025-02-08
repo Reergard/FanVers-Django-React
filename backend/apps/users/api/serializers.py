@@ -17,6 +17,28 @@ class CreateUserSerializer(UserCreateSerializer):
         extra_kwargs = {'password': {'write_only': True}}
 
 
+class CurrentUserSerializer(serializers.ModelSerializer):
+    username = serializers.SerializerMethodField()
+    image = serializers.SerializerMethodField()
+    balance = serializers.SerializerMethodField()
+
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'email', 'balance', 'image')
+    
+    def get_username(self, obj):
+        return obj.profile.username
+
+    def get_balance(self, obj):
+        return obj.profile.balance
+
+    def get_image(self, obj):
+        request = self.context.get('request')
+        if obj.profile.image:
+            return request.build_absolute_uri(obj.profile.image.url)
+        return None
+
+
 class BalanceLogSerializer(serializers.ModelSerializer):
     class Meta:
         model = BalanceLog

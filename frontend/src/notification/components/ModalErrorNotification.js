@@ -3,11 +3,11 @@ import Modal from 'react-modal';
 import '../styles/ModalErrorNotification.css';
 
 const ModalErrorNotification = ({ show, onHide, errorReport }) => {
-    if (!show || !errorReport) return null;
-
     const handleClose = useCallback(() => {
         if (onHide) onHide();
     }, [onHide]);
+
+    if (!show || !errorReport) return null;
 
     return (
         <Modal

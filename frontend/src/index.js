@@ -8,6 +8,7 @@ import './index.css';
 import Particle from "./main/components/Particle";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -33,5 +34,4 @@ root.render(
   </React.StrictMode>
 );
 
-import reportWebVitals from './reportWebVitals';
 reportWebVitals();

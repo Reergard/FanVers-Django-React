@@ -234,7 +234,7 @@ def become_translator(request):
         user = request.user
         profile = user.profile
         
-        translator_group = Group.objects.get(name='Перекладач')
+        translator_group = Group.objects.get_or_create(name='Перекладач')
         if translator_group in user.groups.all():
             return Response({
                 'error': 'Ви вже є перекладачем'

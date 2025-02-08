@@ -3,13 +3,14 @@ import { ProfileImage } from './ProfileImage';
 import NotificationBell from '../../../assets/images/icons/notification-bell.svg';
 import image_messages from '../../../assets/images/icons/profile-decoration-2.svg';
 import profile_menu from '../../../assets/images/icons/profile-menu.svg';
+import ghost from '../../../assets/images/icons/ghost.png';
 import { useNavigate, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../../auth/authSlice';
 import LoginModal from '../../../auth/components/LoginModal';
 import RegisterModal from '../../../auth/components/RegisterModal';
 import { toast } from 'react-toastify';
-import { authAPI } from '../../../api';
+// import { authAPI } from '../../../api';
 
 export const UserMenu = ({ name, socialIcons, unreadNotifications }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -19,6 +20,7 @@ export const UserMenu = ({ name, socialIcons, unreadNotifications }) => {
     const { isAuthenticated, userInfo } = useSelector(state => state.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const currentUser = JSON.parse(localStorage.getItem('user'));
 
     useEffect(() => {
         const listener = (event) => {
@@ -41,6 +43,7 @@ export const UserMenu = ({ name, socialIcons, unreadNotifications }) => {
       setIsMenuOpen(!isMenuOpen);
     };
 
+
     const profileData = {
       name: name,
       images: [
@@ -48,20 +51,29 @@ export const UserMenu = ({ name, socialIcons, unreadNotifications }) => {
             src: NotificationBell,
             className: "notification-bell",
             alt: "Notifications",
-            badge: unreadNotifications > 0 ? unreadNotifications : null
+            badge: unreadNotifications > 0 ? unreadNotifications : null,
+            bg: '#05B4C7',
+            style: {width: '43px', height: '38px'}
         },
         {
           src: image_messages,
           className: "image_messages",
           alt: "image-messages",
-          badge: null
+          badge: null,
+          bg: 'yellow',
+          style: {width: '43px', height: '38px'}
         },
         {
-          src: "https://cdn.builder.io/api/v1/image/assets/TEMP/cfd29db4f289462c4c4ffabab1fd7da0c05f5524b6440688180ef5f3c986968c",
-          className: "profile-image profile-image--third",
-          alt: "Profile decoration 3",
+          // src: "https://cdn.builder.io/api/v1/image/assets/TEMP/cfd29db4f289462c4c4ffabab1fd7da0c05f5524b6440688180ef5f3c986968c",
+          // src: "http://localhost:8000/media/users/profile_images/6d160430-b470-4cc1-b10b-62704e42d119.jpg",
+          src: currentUser?.image
+              ? currentUser.image
+              : ghost,
+          className: `profile-image profile-image--third ${currentUser?.image && 'custom'}`,
+          divClassName: "profile-image--third profile-image--third__div",
+          alt: "Profile",
           badge: null
-        },       
+        },
       ]
     };
   
@@ -121,12 +133,26 @@ export const UserMenu = ({ name, socialIcons, unreadNotifications }) => {
   
     return (
       <section className="user-profile">
-        {profileData.images.map((image, index) => (
-          <ProfileImage key={index} {...image} />
-        ))}
-        {userInfo && userInfo.username && (
-          <span className="user-profile__name">{userInfo.username}</span>
-        )}
+        {/*<div className="header_icon_group d-flex justify-content-between">*/}
+            {profileData.images.map((image, index) =>
+                image.bg ? (
+                    <div style={{position: 'relative'}} className={image.className ? `${image.className}__parent`: ''}>
+                        <ProfileImage key={index} {...image} />
+                        <span className="badge_value" style={{backgroundColor: image.bg}}>14</span>
+                    </div>
+                ) : (
+                    <ProfileImage key={index} {...image} />
+                )
+            )}
+        {/*</div>*/}
+        {/*<span className="user-profile__name">Дмитро Поліщук</span>*/}
+        <div>
+          {currentUser && currentUser?.username && (
+              // <span className="user-profile__name">Дмитро Поліщук</span>
+            <span className="user-profile__name">{currentUser.username}</span>
+          )}
+          <div className="user-profile__balance">FanCoins: <span>1959.5</span></div>
+        </div>
         <div className="user-profile__menu-container" ref={menuRef}>
           <button 
             className="user-profile__menu-button"
