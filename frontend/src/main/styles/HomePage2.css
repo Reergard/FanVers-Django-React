@@ -46,12 +46,14 @@
   height: 5.21vw;
   position: absolute;
   width: 5.21vw;
+  cursor: pointer;
 }
 
 .navigation5 {
   background-color: transparent;
   height: 5.26vw;
   left: 0.0vw;
+  cursor: pointer;
   position: absolute;
   width: 5.26vw;
 }
@@ -93,7 +95,7 @@
   left: 0.0vw;
   overflow: hidden;
   overflow-x: hidden;
-  padding: 2.08vw 9.17vw;
+  padding: 1.08vw 9.17vw;
   position: relative;
   top: 0.0vw;
 }
@@ -281,6 +283,14 @@
   top: 24.17vw;
   width: 5.52vw;
 }
+.read_button {
+  background-color: transparent;
+  height: 1.72vw;
+  left: 12.03vw;
+  position: absolute;
+  top: 24.17vw;
+  width: 14.52vw;
+}
 
 .homepage-pc .rectangle-6-dZjTXM {
   background-color: transparent;
@@ -345,6 +355,7 @@
   background-color: transparent;
   height: auto;
   letter-spacing: 0.0vw;
+  font-family: 'Alleycat';
   line-height: Truepx;
   position: absolute;
   text-align: left;

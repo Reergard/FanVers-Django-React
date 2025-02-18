@@ -1,94 +1,175 @@
 /* Стили для Home3 секции */
 .home3-section {
-    padding: 2rem;
-    margin-top: 2rem;
+  padding: 2rem;
+  margin-top: 2rem;
 }
 
 .section-title {
-    font-size: 1.5rem;
-    color: #333;
-    margin-bottom: 1.5rem;
-    text-align: center;
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+  text-align: center;
 }
 
 .novels-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-    padding: 1rem;
-    min-height: 200px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  padding: 1rem;
+  min-height: 200px;
 }
-
+.novel-title-homepage3 {
+  text-align: center;
+  font-size: 24px;
+  text-transform: uppercase;
+  color: #f58807;
+  line-height: 1;
+}
+.line-homepage-title3 {
+  background-color: rgba(5, 180, 199, 0.33);
+  height: 1px;
+  width: 60%;
+}
+.title-block-homepage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .no-novels {
-    text-align: center;
-    grid-column: 1 / -1;
-    padding: 2rem;
-    color: #666;
+  text-align: center;
+  grid-column: 1 / -1;
+  padding: 2rem;
+  color: #666;
 }
-
+.chapter-characteristic {
+  font-family: Sofia Sans Semi Condensed;
+}
+.chapter {
+  font-size: 16px;
+  font-weight: 600;
+}
+.number-chapter {
+  display: flex;
+}
+.number-chapter span {
+  color: #f58807;
+}
+.name-chapter {
+  color: #eef6f6;
+}
+.all-tags {
+  display: flex;
+  gap: 5px;
+  flex-direction: column;
+}
+.fandom,
+.tags,
+.genres {
+  display: flex;
+  /* justify-content: space-between; */
+  gap: 8px;
+}
+.fandom span,
+.tags span,
+.genres span {
+  color: #05b2c6;
+  font-size: 14px;
+}
+.name-fandom span,
+.name-tags span,
+.name-genres span {
+  font-size: 12px;
+  color: #05b2c6;
+  border-radius: 20px;
+  border: 2px solid #05b2c6;
+  padding: 5px;
+}
+.expand-btn {
+    color: #05b2c6;
+}
+.name-fandom, .name-tags, .name-genres {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 7px;
+}
 /* Альтернативный дизайн карточки */
 .novel-card-alternative {
-    display: flex;
-    flex-direction: column;
-    background: white;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
 }
 
 .novel-card-alternative:hover {
-    transform: translateY(-5px);
+  transform: translateY(-5px);
 }
 
 .novel-cover-alt {
-    height: 200px;
-    overflow: hidden;
+  height: 200px;
+  overflow: hidden;
 }
 
 .novel-image-alt {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .novel-content-alt {
-    padding: 1rem;
+  padding: 1rem;
 }
 
 .novel-title-alt {
-    font-size: 1.2rem;
-    color: #333;
-    margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 0.5rem;
 }
 
 .novel-description-alt {
-    font-size: 0.9rem;
-    color: #666;
-    margin-bottom: 1rem;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 1rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .read-button-alt {
-    background-color: #4a90e2;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .read-button-alt:hover {
-    background-color: #357abd;
+  background-color: #357abd;
 }
 
 .loading-spinner {
-    text-align: center;
-    grid-column: 1 / -1;
-    padding: 2rem;
-    color: #666;
+  text-align: center;
+  grid-column: 1 / -1;
+  padding: 2rem;
+  color: #666;
+}
+.line-homepage3 {
+  background-color: #05b4c7;
+  height: 1px;
+  width: 80%;
+}
+.advertisement-homepage3 {
+  font-size: 20px;
+  color: #05b4c7;
+}
+.header-container-homepage3 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }

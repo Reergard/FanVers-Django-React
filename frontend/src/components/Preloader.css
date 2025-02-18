@@ -20,3 +20,7 @@
   overflow: hidden; /* Прокрутку вимкнено */
   height: 100vh; /* Висота 100% від висоти екрана */
 }
+.translation-bg {
+  background: url('../main/pages/img/bg-create.svg') no-repeat ;
+  background-size: cover;
+}

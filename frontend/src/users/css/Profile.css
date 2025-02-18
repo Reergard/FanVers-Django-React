@@ -1,77 +1,388 @@
 .profile-stats {
-    margin: 2rem 0;
-    padding: 1rem;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
+  margin: 2rem 0;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
 }
 
 .stat-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.8rem 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .stat-item:last-child {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 .stat-label {
-    color: #05B4C7;
-    font-weight: 500;
+  color: #05b4c7;
+  font-weight: 500;
 }
 
 .stat-value {
-    color: #fff;
-    font-weight: 600;
+  color: #fff;
+  font-weight: 600;
 }
 
 .balance-history {
-    margin-top: 2rem;
+  margin-top: 2rem;
 }
 
 .operation-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
-    border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
 }
 
 .operation-type {
-    font-weight: bold;
-    min-width: 100px;
+  font-weight: bold;
+  min-width: 100px;
 }
 
 .operation-amount {
-    color: #666;
+  color: #666;
 }
 
 .operation-date {
-    color: #888;
+  color: #888;
 }
 
 .operation-status {
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
 }
 
 .operation-status.completed {
-    background-color: #d4edda;
-    color: #155724;
+  background-color: #d4edda;
+  color: #155724;
 }
 
 .operation-status.failed {
-    background-color: #f8d7da;
-    color: #721c24;
+  background-color: #f8d7da;
+  color: #721c24;
 }
 
 .adult-content-checkbox {
-    margin-top: 1rem;
+  margin-top: 1rem;
 }
 
 .info-item .form-check {
-    margin: 0;
-    padding-left: 1.5rem;
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.profile-header {
+  display: flex;
+  width: 80%;
+  align-items: flex-end;
+  gap: 20px;
+  margin: 0 auto;
+}
+.profile-header h2 {
+  font-size: 28px;
+  color: #f58807;
+  width: 100%;
+  border-bottom: 1px solid #5e626c;
+}
+.login-block-name span {
+  font-family: "Inter";
+  color: #f58807;
+  font-size: 20px;
+}
+.photo-profile {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 0.4;
+  background-image: url("../../main/pages/img/bg-photo.png");
+  background-repeat: no-repeat;
+
+  background-position: 50% 27%;
+  padding: 15px;
+}
+.about {
+  display: flex;
+  justify-content: space-between;
+  gap: 70px;
+  width: 90%;
+  margin: 0 auto;
+  padding-top: 20px;
+}
+.photo-profile img {
+  width: 249px;
+  position: absolute;
+  height: 347px;
+  top: 24%;
+  left: 22%;
+  border-radius: 140px;
+  object-fit: cover; /* Чтобы изображение не искажалось */
+}
+.all-info-profile {
+  flex: 1;
+}
+.all-info-profile {
+  font-family: "Inter";
+  font-size: 18px;
+  display: flex;
+  flex-direction: column;
+}
+.one-block-info {
+  display: flex;
+  padding: 5px 0;
+  gap: 20px;
+}
+.one-block-info:not(:last-child) {
+  border-bottom: 1px solid #5e626c;
+}
+.one-block-info span {
+  flex: 1.4;
+  text-align: right;
+}
+.text-info,
+.text-info-desc {
+  flex: 2;
+}
+.create-text {
+  cursor: pointer;
+  text-align: right;
+  color: #05b4c7;
+}
+.text-info,
+.text-info-desc {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.text-info-desc {
+  align-items: flex-end;
+  flex-direction: column;
+}
+.block-balance {
+  display: flex;
+  font-family: "Inter";
+  position: relative;
+  margin: 10px 0;
+  width: 95%;
+  gap: 40px;
+  align-items: flex-start;
+  padding: 15px 0;
+  /* border-bottom: 1px solid #5e626c; */
+}
+
+.block-balance::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 94.5%;
+  height: 1px;
+  background-color: #5e626c;
+}
+.left-buttons-balance {
+  font-size: 18px;
+  display: flex;
+  gap: 55px;
+}
+.left-buttons-balance button {
+  border: 1px solid rgba(245, 136, 7, 0.75);
+  border-radius: 5px;
+  padding: 6px;
+  color: #f58807;
+  cursor: pointer;
+}
+.commission .label,
+.balance .label {
+  font-size: 14px;
+  color: #f58807;
+}
+.commission .value {
+  font-size: 18px;
+  color: #05b4c7;
+}
+.balance .value {
+  font-size: 18px;
+  color: #0cb208;
+}
+.commission {
+  padding-bottom: 10px;
+
+  border-bottom: 1px solid #5e626c;
+}
+.commission,
+.balance {
+  display: flex;
+  gap: 25px;
+  align-items: center;
+}
+.replenish {
+  border: 1px solid rgba(12, 178, 8, 0.75);
+  border-radius: 5px;
+  padding: 6px;
+  font-size: 14px;
+  color: #0cb208;
+  cursor: pointer;
+}
+.withdraw {
+  border: 1px solid rgba(237, 100, 81, 0.75);
+  border-radius: 5px;
+  font-size: 14px;
+  padding: 6px;
+  color: rgba(237, 100, 81, 0.75);
+  cursor: pointer;
+}
+.balance-all {
+  padding-top: 10px;
+}
+.right-buttons-balance {
+  flex: 2;
+}
+.balance-all,
+.balance-buttons {
+  display: flex;
+  align-items: center;
+  gap: 45px;
+}
+.email-account, .pass {
+  font-family: "Inter";
+  margin: 0 auto;
+  padding: 20px 0;
+  gap: 10%;
+  width: 90%;
+  display: flex;
+  border-top: 1px #5e626c solid;
+}
+.pass {
+  background-image: url("../../main/pages/img/bg-profile.png");
+  background-repeat: no-repeat;
+  background-position: right bottom;
+}
+.block-email {
+  display: flex;
+  gap: 30px;
+  flex-direction: column;
+}
+.save-email, .save-pass {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  width: max-content;
+  gap: 10px;
+  margin-top: 20px;
+  border: 1px #5e626c solid;
+}
+.save-pass {
+  color: #0cb208;
+  border: 1px #0cb208 solid;
+}
+.new-email {
+  display: flex;
+  flex-direction: column;
+}
+
+.new-email input {
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 18px;
+}
+.new-email-input {
+  border: 1px white solid !important;
+}
+.title-email {
+  color: #f58807;
+  font-size: 18px;
+  width: max-content;
+  padding: 0 10px;
+  border-bottom: 1px solid #5e626c;
+}
+.new-email label,
+.save-email span {
+  font-size: 18px;
+}
+.all-settings {
+  font-size: 18px;
+}
+.adult-content-checkbox {
+  display: flex;
+  gap: 10px;
+}
+.adult-content-checkbox input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #5E626C; 
+  border-radius: 4px;
+  background: transparent;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+
+.adult-content-checkbox input[type="checkbox"]:checked {
+  background: #00EAFD;
+  border-color: #16C1CF;
+}
+.form-check-label {
+  flex: 1;
+}
+
+.adult-content-checkbox input[type="checkbox"]:checked::after {
+  content: "✔";
+  font-size: 16px;
+  color: #1A1E29; 
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+}
+.new-email {
+  gap: 8px;
+}
+.input-block {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.new-email-input {
+  width: 100%;
+  padding: 10px 40px 10px 10px; /* Отступ справа для иконки */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.toggle-password img {
+  width: 20px;
+  height: 20px;
+  transition: opacity 0.3s ease;
+}
+
+.toggle-password:hover img {
+  opacity: 1;
 }

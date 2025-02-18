@@ -16,7 +16,7 @@
 .chat-page {
     min-height: calc(100vh - 5vh);
     padding: 20px;
-    background-color: #f5f5f5;
+    /* background-color: #f5f5f5; */
     margin-top: 5vh;
     box-sizing: border-box;
 }
@@ -24,10 +24,11 @@
 .chat-container {
     display: flex;
     height: calc(100vh - 5vh - 40px);
-    background: white;
+    /* background: white; */
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     max-width: 1200px;
+    padding-top: 20px;
     margin: 0 auto;
 }

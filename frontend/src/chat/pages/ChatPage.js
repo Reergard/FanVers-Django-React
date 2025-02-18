@@ -7,6 +7,8 @@ import CreateChatModal from '../components/CreateChatModal';
 import chatApi from '../api';
 import '../css/ChatPage.css';
 import websocketService from '../services/websocketService';
+import { BreadCrumb } from '../../main/components/BreadCrumb';
+
 
 const ChatPage = () => {
     const navigate = useNavigate();
@@ -98,7 +100,6 @@ const ChatPage = () => {
                 alert('Користувач не знайдений');
             }
             else if (error.response?.status === 400) {
-                // Обработка случая существующего чата или других ошибок валидации
                 alert(error.response?.data?.error || 'Помилка при створенні чату');
             }
             else {
@@ -121,11 +122,17 @@ const ChatPage = () => {
     };
 
     if (loading && !chats.length) {
-        return <div className="chat-page loading">Загрузка чатов...</div>;
+        return <div className="chat-page loading">Загрузка чатiв...</div>;
     }
 
     return (
         <div className="chat-page">
+             <BreadCrumb
+                    items={[
+                      { href: "/", label: "Головна" },
+                      { href: "/chat", label: "ChatVerse" },
+                    ]}
+                  />
             {error && <div className="error-message">{error}</div>}
             <div className="chat-container">
                 <ChatList
@@ -135,12 +142,16 @@ const ChatPage = () => {
                     onCreateChat={handleOpenCreateModal}
                     loading={loading}
                 />
-                {selectedChat && (
+                 <ChatWindow
+                        chat={selectedChat}
+                        onDeleteChat={handleDeleteChat}
+                    />
+                {/* {selectedChat && (
                     <ChatWindow
                         chat={selectedChat}
                         onDeleteChat={handleDeleteChat}
                     />
-                )}
+                )} */}
             </div>
             {showCreateModal && (
                 <CreateChatModal

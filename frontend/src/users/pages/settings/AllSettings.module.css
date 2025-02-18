@@ -1,0 +1,323 @@
+.HeaderAllSettings {
+  width: 50%;
+  font-family: "Inter";
+  margin: 0 auto;
+  padding: 30px 0 20px;
+  gap: 40px;
+  /* font-size: 14px; */
+  border-bottom: 1px #fded01 solid;
+  /* text-transform: uppercase; */
+  display: flex;
+  position: relative;
+  justify-content: flex-start;
+}
+.HeaderAllSettings button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 14px;
+  text-transform: uppercase;
+  padding: 10px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.HeaderAllSettings button.active {
+  color: #f58807;
+}
+
+.permissionsTable {
+  width: 70%;
+  margin: 50px auto;
+}
+.permissionsTable thead tr th:nth-child(1) {
+  text-align: start;
+}
+/* .adult-content-checkbox {
+  justify-content: center;
+} */
+.permissionsTable tbody tr td {
+  padding: 20px 0;
+  color: #00eafd;
+  font-family: "Inter";
+  font-size: 25px;
+}
+.permissionsTable thead tr th {
+  font-size: 22px;
+  font-family: "Inter";
+}
+.adult-content-checkbox {
+  margin: 0;
+}
+.permissionsTable tbody tr {
+  border-bottom: 1px #5e626c solid;
+}
+.AccessRightsSave {
+  width: max-content;
+  margin: 0 auto;
+}
+.AccessRightsSave button {
+  font-family: "Inter";
+  gap: 12px;
+  font-size: 17px;
+  display: flex;
+  border: 1px #5e626c solid;
+  align-items: center;
+  padding: 12px 18px;
+  width: max-content;
+  border-radius: 6px;
+}
+.subscriptionContainer {
+  /* width: 50%; */
+  margin: 100px auto;
+}
+.subscription tbody tr td {
+  font-family: "Inter";
+  padding: 20px 0;
+  font-size: 16px;
+}
+.subscription tbody tr td:last-child {
+  padding-right: 30px;
+}
+.subscription tbody tr {
+  border-bottom: 1px #5e626c solid;
+}
+.subscription {
+  font-family: "Inter";
+  width: 50%;
+  margin: 0 auto;
+}
+.subscription tbody tr td input {
+  border: 1px solid;
+  padding: 10px;
+  border-radius: 5px;
+}
+.sub_input {
+  max-width: 65px;
+  /* margin: 0 30px; */
+  padding: 10px;
+  margin-right: 30px;
+}
+.sub_input:not(:first-child) {
+  margin-left: 30px;
+}
+.big_input {
+  margin-right: 30px;
+}
+.big_input input {
+  min-width: 100%;
+}
+.subscription tbody tr td:nth-child(2) {
+  text-align: left;
+}
+.HeaderAllSettings p {
+  font-size: 18px;
+  position: absolute;
+  font-family: "Sofia Sans Semi Condensed";
+  font-weight: 200;
+  left: 0;
+  bottom: 0;
+}
+.AdvertisingContainer {
+  margin: 0 auto;
+  width: 70%;
+}
+.nameAdvertising span {
+  font-family: "Sofia Sans Semi Condensed";
+  color: #f58807;
+  font-size: 20px;
+}
+.nameAdvertising p {
+  font-size: 16px;
+  font-family: "Sofia Sans Semi Condensed";
+  font-weight: 200;
+}
+.dateAdvertising input {
+  font-size: 20px;
+  color: #05b4c7;
+}
+.dateAdvertising input[type="date"] {
+  position: relative;
+  padding: 5px 10px;
+  font-size: 16px;
+  border: 1px solid #05b4c7;
+  border-radius: 10px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: none;
+}
+
+.dateAdvertising input[type="date"]::-webkit-calendar-picker-indicator {
+  background-image: url("./img/calendar.svg");
+  background-size: 20px;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  opacity: 1;
+  cursor: pointer;
+}
+
+.dateAdvertising input[type="date"]::-moz-calendar-picker-indicator {
+  background-image: url("./img/calendar.svg");
+  background-size: 20px;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  opacity: 1;
+  cursor: pointer;
+}
+.dateAdvertising {
+  gap: 15px;
+  display: flex;
+}
+.sumAdvertising {
+  display: flex;
+  font-size: 17px;
+  color: #f58807;
+  font-family: "Sofia Sans Semi Condensed";
+  gap: 10px;
+  align-items: center;
+}
+.inputBlockAdvertising {
+  display: flex;
+  align-items: center;
+  position: relative;
+  flex-direction: column;
+}
+.inputBlockAdvertising label {
+  position: absolute;
+  top: -23px;
+}
+.sumAdvertising span {
+  font-family: "Bad Script";
+  color: #fff;
+}
+#tentacles {
+  border: 1px #fff solid;
+  border-radius: 10px;
+  padding: 5px 10px;
+}
+.AdvertisingTable {
+  border-top: 1px solid rgba(245, 136, 7, 0.5);
+}
+.AdvertisingTable tr {
+  display: flex;
+  padding: 20px 0;
+  
+  border-bottom: 1px rgba(245, 136, 7, 0.5) dashed;
+
+}
+.AdvertisingTable tr td {
+  padding: 20px 30px;
+}
+.AdvertisingCheck input[type="checkbox"] {
+  border: 1px solid #f58807 !important;
+}
+.AdvertisingCheck {
+  margin: 0 !important;
+}
+.buttonAdvertising {
+  border-top: 4px double rgba(245, 136, 7, 0.5);
+  border-bottom: 4px double rgba(245, 136, 7, 0.5);
+  display: flex;
+  gap: 10px;
+  padding-right: 7px;
+  font-size: 20px;
+  font-family: "Sofia Sans Semi Condensed";
+  color: #f58807;
+}
+.inputBlockAdvertising input {
+  border-radius: 10px;
+  padding: 10px 10px;
+  width: 95px;
+  border: 1px solid #fff !important;
+}
+.inputBlockAdvertising span {
+  padding-top: 27px;
+}
+.select_block {
+  padding-top: 40px;
+  font-family: "Sofia Sans Semi Condensed";
+  display: flex;
+  font-size: 15px;
+  flex-direction: column;
+}
+.select_block select {
+  background-color: transparent;
+  border: 1px #ffffff63 solid;
+  border-radius: 10px;
+  padding: 5px 10px;
+  width: 100%;
+  cursor: pointer;
+}
+.select_block select option {
+  cursor: pointer;
+  background-color: #050d11;
+}
+.select_block span {
+  font-weight: 200;
+  padding-left: 20px;
+}
+
+.tableRow {
+  display: flex;
+  justify-content: space-between;  
+}
+
+
+.tableRow td {
+  display: flex;
+  align-items: flex-start; 
+}
+
+
+.centerAlign {
+  align-self: center;
+}
+.customSelectWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+
+.customSelect {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 30px; 
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  width: 200px;
+  font-size: 16px;
+}
+
+
+.customArrow {
+  position: absolute;
+  right: 10px;
+  width: 10px;
+  height: 10px;
+  background-image: url('./img/arrow-select.png'); 
+  background-size: contain;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+.paddingRow td:first-child, .paddingRow td:nth-child(2) {
+  padding: 0;
+}
+.paddingRow .centerAlign {
+  width: 90%;
+}
+.total {
+  font-size: 20px;
+  margin-left: 10%;
+  font-family: 'Sofia Sans Semi Condensed';
+  width: 100%;
+  color: #F58807;
+}
+.paddingRow {
+  border: none !important;
+}

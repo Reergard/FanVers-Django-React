@@ -1,0 +1,352 @@
+.BookCartContainer {
+  background-image: url("../pages/img/background.png");
+  background-repeat: no-repeat;
+  background-size: 106% 116%;
+  background-position: left -60px;
+  padding: 20px 131px 168px 100px;
+}
+
+.BookDetailContainer {
+  margin: 0 auto;
+  width: 75%;
+}
+.headerBookDetail {
+  display: flex;
+  justify-content: flex-start;
+}
+.footerBookCartAuthor {
+  display: flex;
+  gap: 30px;
+}
+.bookmarks {
+  background-color: #050d11;
+  padding: 0 30px;
+  border-radius: 50px;
+  font-size: 20px;
+  height: 40px;
+  color: #f58807;
+  box-shadow: 1px 3px 25px rgb(197 110 17 / 73%);
+}
+.settingBook img {
+  height: 24px;
+}
+.settingBook {
+  font-family: "Inter";
+  font-size: 16px;
+  display: flex;
+  padding: 10px 15px;
+  border-radius: 5px;
+  color: #f58807;
+  gap: 10px;
+  border: 1px solid #f58807;
+}
+.mainInfoBook {
+  display: flex;
+  gap: 10px;
+}
+.tableBook tbody tr td {
+  font-family: "Inter" !important;
+  padding: 10px;
+  font-size: 16px !important;
+  color: #05b4c7;
+}
+.headerTableInfoBook {
+  display: flex;
+  margin-top: -50px;
+  color: #a47b4c;
+  position: relative;
+  padding-bottom: 50px;
+}
+.headerTableInfoBook p {
+  position: absolute;
+  font-size: 59px;
+  left: -31px;
+  top: -29px;
+  font-family: "Inter";
+}
+.headerTableInfoBook span {
+  font-size: 39px;
+}
+.genres span,
+.tags span,
+.fandom span {
+  border-radius: 5px !important;
+}
+.expandBtn {
+  color: white !important;
+}
+.tableBook tbody tr:not(:last-child) {
+  border-bottom: 1px solid #5e626c;
+}
+.footerBookCartUser {
+  text-align: center;
+}
+.fanCoins {
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+  padding: 46px 42px 25px 42px;
+  line-height: 23px;
+  text-align: center;
+  color: #fded01;
+  background-image: url("../pages/img/thanks.svg");
+}
+.fanCoins span {
+  font-size: 44px;
+}
+.fanCoins p {
+  font-size: 16px;
+}
+.spanThanks {
+  text-align: center;
+  font-size: 16px;
+  color: #f58807;
+}
+.raiting {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 35px;
+  font-size: 16px;
+  text-transform: uppercase;
+  color: #f58807;
+}
+.stars {
+  display: flex;
+}
+.raitingBook {
+  text-align: center;
+}
+.rightInfoBook {
+  display: flex;
+  margin-top: -80px;
+  flex-direction: column;
+  gap: 100px;
+  align-items: center;
+}
+.translators {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 15px;
+  color: #f58807;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid;
+  font-family: "Inter";
+  margin-left: 40%;
+}
+.anotherInfoBook {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 50px;
+}
+/* DESC */
+.headerDescBook {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.headerDescBook span {
+  font-size: 18px;
+  font-weight: 600;
+  color: #f58807;
+  font-family: "Inter";
+  text-transform: uppercase;
+}
+.lineHeaderDesc {
+  width: 87%;
+  background-color: #5e626c;
+  height: 1px;
+}
+.lineHeaderDesc p {
+  line-height: 24px;
+  font-size: 16px;
+  font-family: "Inter";
+  color: #05b4c7;
+}
+
+.descBookDetail {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.anotherBooks {
+  background-image: url("../pages/img/anothers_books.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  padding: 30px 0 100px;
+  margin: 70px 70px 0;
+  background-position: center;
+}
+
+.headerAnotherBooks span {
+  color: rgba(245, 136, 7, 0.7);
+  font-size: 24px;
+  text-transform: uppercase;
+  font-family: "Inter";
+  font-weight: 700;
+}
+.headerAnotherBooks {
+  display: flex;
+  width: 90%;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 auto;
+}
+.lineAnotherBooks {
+  height: 1px;
+  width: 75%;
+  background-color: rgba(5, 180, 199, 0.5);
+}
+/* CHAPTERS */
+.headerChapters {
+  display: flex;
+  align-items: center;
+  padding-bottom: 30px;
+  justify-content: space-between;
+}
+.leftHeaderChapters {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+}
+.chaptertableAuthor thead tr th {
+  font-family: "Sofia Sans Semi Condensed";
+  font-size: 20px;
+  color: #f58807;
+}
+.chaptertableReader thead tr th {
+  font-family: "Inter";
+  text-align: start;
+  font-size: 14px;
+  color: #f58807;
+}
+.inputChapter {
+  border: 1px solid #fff !important;
+  border-radius: 5px;
+  max-width: 55px;
+  /* padding: 5px; */
+  font-size: 20px;
+  font-family: "Arizonia";
+}
+.chapterCheck {
+  border-color: #f58807;
+  margin-top: 0 !important;
+}
+.chapterCheck input[type="checkbox"]:checked {
+  background: transparent !important;
+  border-color: #f58807 !important;
+}
+.form-check-label {
+  flex: 1;
+}
+
+.nameChapter {
+  font-size: 20px;
+  font-family: "Alleycat";
+}
+.editChapter,
+.readChapter,
+.trashChapter {
+  display: flex;
+  font-size: 20px;
+  font-family: "Sofia Sans Semi Condensed";
+  color: #069403;
+  gap: 10px;
+  align-items: center;
+}
+.readChapter {
+  color: #fff;
+}
+.trashChapter {
+  color: #c90303;
+}
+.chapterCheck input[type="checkbox"]:checked::after {
+  content: "✔";
+  font-size: 16px;
+  color: #f58807 !important;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+}
+.numChapter {
+  font-size: 20px;
+}
+.chaptertableAuthor th,
+.chaptertableAuthor td {
+  text-align: center;
+  vertical-align: middle;
+  padding: 10px;
+}
+.chaptertableReader th,
+.chaptertableReader td {
+  padding: 10px;
+}
+.chaptertableAuthor,
+.chaptertableReader {
+  width: 100%;
+}
+.chaptertableAuthor tbody tr,
+.chaptertableReader tbody tr {
+  display: table-row;
+}
+.trashChapter span {
+  text-decoration: underline;
+}
+.chaptertableAuthor tbody tr {
+  border-bottom: 1px solid #fff;
+}
+.chaptertableReader tbody tr {
+  border-bottom: 1px solid #5e626c;
+}
+.container-button {
+  margin: 0 auto !important;
+}
+.chaptertableReader .numChapter {
+  font-family: "Inter";
+  font-size: 16px;
+}
+.chaptertableReader .readChapter {
+  background-color: #282d3b;
+  padding: 10px 15px;
+  border-radius: 5px;
+}
+.CommentsSection {
+  width: 75%;
+  margin: 0 auto;
+  position: relative;
+}
+.CommentsSection h2 {
+  text-transform: uppercase;
+  margin: 0 !important;
+  border-color: #f58807 !important;
+}
+.inputComment {
+  margin: 30px auto;
+  width: 80%;
+  color: #f58807;
+  font-family: "Bad Script";
+  border-radius: 40px;
+  display: flex;
+  padding: 10px 20px;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid;
+}
+.inputComment input::placeholder {
+  color: #f58807;
+}
+.LeftFooter {
+  position: absolute;
+    left: -9%;
+    bottom: -43%;
+}
+.RightFooter {
+  position: absolute;
+  right: -7%;
+  bottom: -25%;
+}

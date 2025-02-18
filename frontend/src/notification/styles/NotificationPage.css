@@ -1,0 +1,87 @@
+.headerNotification {
+  width: 60%;
+  margin: 0 auto;
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(245, 136, 7, 0.5);
+  font-size: 14px;
+  font-family: "Sofia Sans Semi Condensed";
+  color: #5e626c;
+  display: flex;
+  justify-content: center;
+}
+.nav-notifications {
+  width: 60%;
+  margin: 0 auto;
+  padding-top: 40px;
+}
+.header-nav-notifications {
+  font-family: "Sofia Sans Semi Condensed";
+  padding-bottom: 30px;
+  font-size: 24px;
+  text-transform: uppercase;
+}
+.content-nav-notifications {
+  font-size: 14px;
+  font-family: "Sofia Sans Semi Condensed";
+}
+.footer-nav-notifications,
+.save-email {
+  font-family: "Sofia Sans Semi Condensed";
+  margin-top: 80px;
+}
+.nav-notifications {
+  background-image: url("../../main/pages/img/border-notification.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  max-width: 370px;
+  padding: 60px 60px;
+}
+.all-content-notifications {
+  padding-top: 40px;
+  display: flex;
+  width: 60%;
+  margin: 0 auto;
+}
+.text-notifications {
+  background: rgba(5, 180, 199, 0.15);
+  /* margin-top: 9px; */
+  padding: 12px;
+  box-shadow: 0 0 44px 39px rgba(5, 180, 199, 0.15);
+}
+.one-notification {
+  font-family: "Sofia Sans Semi Condensed";
+}
+.header-one-notification {
+  font-size: 16px;
+  font-weight: 600;
+  width: max-content;
+  border-radius: 25px;
+  padding: 5px 20px;
+  border: 1px rgba(245, 136, 7, 0.5) solid;
+}
+.block-text-one-notification {
+  margin-left: 4px;
+  padding-left: 16px;
+  margin-top: -6px;
+  font-size: 14px;
+  padding-top: 21px;
+  border-bottom: 1px rgba(245, 136, 7, 0.5) solid;
+  padding-bottom: 10px;
+  border-radius: 0 0 0 26px;
+  border-left: 1px rgba(245, 136, 7, 0.5) solid;
+}
+.buttons-notification {
+  display: flex;
+  width: 95%;
+  margin: 0 auto;
+  padding-top: 30px;
+  justify-content: space-between;
+}
+.left-button-notification, .right-button-notification {
+  color: #088e1c;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.right-button-notification {
+    color: #DB0303;
+}

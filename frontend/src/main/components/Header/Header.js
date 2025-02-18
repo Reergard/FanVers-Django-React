@@ -38,7 +38,7 @@ const Header = () => {
     { text: "Чарівний Гід", to: "/magical-guide" },
     { text: "Автори", to: "/authors" },
     { text: "Перекладачі", to: "/translators" },
-    { text: "Покинуті переклади", to: "/abandoned" },
+    { text: "Покинуті переклади", to: "/catalog" },
     { text: "Пошук", to: "/search" },
     { text: "FAQ", to: "/faq" }
   ];

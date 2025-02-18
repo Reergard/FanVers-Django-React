@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from "../styles/Breadcrumb.module.css"
 import chevron_right from "../../assets/images/icons/chevron_right.svg"
-
+import BorderCreate from "../../main/pages/img/border-create.svg";
 
 export const BreadCrumb = ({ items }) => (
     <div className={styles.breadcrumb__container}>
@@ -11,6 +11,15 @@ export const BreadCrumb = ({ items }) => (
                 <a href={item.href} style={{color:  index > 0 ? '#05B4C7': '#00EAFD'}}>{item.label}</a>
             </span>
         ))}
-        <h2>{items[items.length - 1].label}</h2>
+
+        {items[items.length - 1].href === "/create-translation" ? (
+            <div>
+                <img src={BorderCreate} className="top-create-border" />
+                <h2>{items[items.length - 1].label}</h2>
+                <img src={BorderCreate} className="bottom-create-border" />
+            </div>
+        ) : (
+            <h2>{items[items.length - 1].label}</h2>
+        )}
     </div>
 );

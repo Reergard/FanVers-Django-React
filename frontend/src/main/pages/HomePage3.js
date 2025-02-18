@@ -1,85 +1,157 @@
-import React, { useEffect, useState } from 'react';
-import '../styles/HomePage3.css';
-import { catalogAPI } from '../../api';
-import bookImage from '../assets/book.png';
+import React, { useState, useEffect, useRef } from "react";
+import { useQuery } from "@tanstack/react-query";
+// import { websiteAdvertisingAPI } from "../../api/website_advertising/website_advertisingAPI";
+import { mainAPI } from "../../api/main/mainAPI";
+import "../styles/HomePage3.css";
+import Slider from "react-slick";
 
-const NovelCard = ({ title, description, imageUrl }) => {
-    return (
-        <div className="novel-card-alternative">      
-            <div className="novel-cover-alt">
-                <img src={imageUrl} alt={title} className="novel-image-alt" />
-            </div>
-            <div className="novel-content-alt">
-                <h3 className="novel-title-alt">{title}</h3>
-                <p className="novel-description-alt">{description}</p>
-                <button className="read-button-alt">Детальніше</button>
-            </div>
+const ExpandableTags = ({ title, className, items }) => {
+  const [expanded, setExpanded] = useState(false);
+
+  return (
+    <div className={className}>
+      <span>{title}:</span>
+      <div className={`name-${className.split(" ")[0]}`}>
+        {items.slice(0, 2).map((item, index) => (
+          <span key={index}>{item}</span>
+        ))}
+        {items.length > 2 && (
+          <button className="expand-btn" onClick={() => setExpanded(!expanded)}>
+            {expanded ? "▲" : "▼"}
+          </button>
+        )}
+        {expanded &&
+          items
+            .slice(2)
+            .map((item, index) => <span key={index + 2}>{item}</span>)}
+      </div>
+    </div>
+  );
+};
+
+const NovelCard = ({ title, description, image }) => {
+  return (
+    <div className="novel-card">
+      <div className="novel-cover">
+        <div className="image-container">
+          <div className="image-wrapper">
+            <img
+              src={image}
+              alt={title}
+              className="novel-image"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.style.display = "none";
+              }}
+            />
+            <div
+              className="divider"
+              role="separator"
+              aria-orientation="vertical"
+            />
+            <span className="novel-letter">a</span>
+          </div>
         </div>
-    );
+      </div>
+      <div className="title-block-homepage">
+        <span className="novel-title-homepage3">{title}</span>{" "}
+        <div className="line-homepage-title3"></div>
+      </div>
+      <div className="chapter-characteristic">
+        <div className="chapter">
+          <div className="number-chapter">
+            <span>Розділ 1595</span>
+            <p>:</p>
+          </div>
+          <div className="name-chapter">Вроджена Божественна Сила?</div>
+        </div>
+        <div className="all-tags">
+          <ExpandableTags
+            title="Фендом"
+            className="fandom"
+            items={["#гарри поттер"]}
+          />
+          <ExpandableTags
+            title="Теги"
+            className="tags"
+            items={["#магия", "#хогвартс", "#волшебство"]}
+          />
+          <ExpandableTags
+            title="Жанри"
+            className="genres"
+            items={["#фэнтези", "#приключения", "#магический реализм"]}
+          />
+        </div>
+      </div>
+
+      <div className="novel-button">
+        <span className="read-button">читати</span>
+      </div>
+    </div>
+  );
 };
 
-const Home3 = () => {
-    const [novels, setNovels] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+const HomePage3 = () => {
+  const { data: books } = useQuery({
+    queryKey: ["books-news"],
+    queryFn: () => mainAPI.getBooksNews(),
+  });
+  const sliderRef = useRef(null);
+  const settings = {
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    autoplay: false,
+    autoplaySpeed: 3000,
+    arrows: true,
+    dots: false,
+    responsive: [
+      {
+        breakpoint: 1366,
+        settings: {
+          slidesToShow: 3,
+        },
+      },
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
+  };
+  return (
+    <div className="main-container">
+      <div className="header-container-homepage3">
+        <span className="advertisement-homepage3">ОСТАННІ ОНОВЛЕННЯ</span>
+        <div className="line-homepage3" />
+      </div>
 
-    useEffect(() => {
-        const fetchNovels = async () => {
-            try {
-                setLoading(true);
-                setError(null);
-                
-                const booksData = await catalogAPI.getBooks();
-
-                if (!booksData) {
-                    setError('Немає даних від сервера');
-                    return;
-                }
-
-                if (!Array.isArray(booksData)) {
-                    setError('Неправильний формат даних');
-                    return;
-                }
-
-                const formattedNovels = booksData.map(book => ({
-                    id: book.id,
-                    title: book.title || 'Без назви',
-                    description: book.description || 'Опис відсутній',
-                    imageUrl: book.image || bookImage
-                }));
-
-                setNovels(formattedNovels);
-            } catch (error) {
-                setError('Помилка при завантаженні даних');
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchNovels();
-    }, []);
-
-    return (
-        <section className="home3-section">
-            <h2 className="section-title">Нові надходження</h2>
-            <div className="novels-grid">
-                {loading ? (
-                    <div className="loading-spinner">Завантаження...</div>
-                ) : error ? (
-                    <div className="error-message">{error}</div>
-                ) : novels.length > 0 ? (
-                    novels.map(novel => (
-                        <NovelCard 
-                            key={novel.id} 
-                            {...novel} 
-                        />
-                    ))
-                ) : (
-                    <div className="no-novels">Немає доступних новел</div>
-                )}
-            </div>
-        </section>
-    );
+      <div className="novels-slider-wrapper">
+        {books?.length > 0 ? (
+          <Slider ref={sliderRef} {...settings}>
+            {books.map((ad) => (
+              <NovelCard
+                key={ad.id}
+                title={ad.title}
+                description={ad.description}
+                image={ad.image}
+              />
+            ))}
+          </Slider>
+        ) : (
+          <div className="no-books-message">Немає доступних книг</div>
+        )}
+      </div>
+    </div>
+  );
 };
 
-export default Home3;
+export default HomePage3;

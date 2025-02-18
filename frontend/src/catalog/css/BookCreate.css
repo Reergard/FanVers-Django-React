@@ -1,68 +1,300 @@
 .book-create-container {
-    color: rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
 }
 .book-create-container {
-    max-width: 800px;
-    padding: 20px;
+  max-width: 800px;
+  padding: 20px;
 }
 
 .book-create-container h1 {
-    margin-bottom: 30px;
+  margin-bottom: 30px;
 }
 
 .form-select[multiple] {
-    height: 100px;
+  height: 100px;
 }
 
 .image-preview {
-    max-width: 200px;
-    margin-top: 10px;
-    border-radius: 5px;
+  max-width: 200px;
+  margin-top: 10px;
+  border-radius: 5px;
 }
 
 .invalid-feedback {
-    display: block;
+  display: block;
 }
 
 .genres-container,
 .tags-container,
 .countries-container,
 .fandoms-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
 }
 
 .genre-item,
 .tag-item,
 .country-item,
 .fandom-item {
-    padding: 8px 16px;
-    border-radius: 20px;
-    background-color: #f0f0f0;
-    cursor: pointer;
-    transition: all 0.3s ease;
+  padding: 8px 16px;
+  border-radius: 20px;
+  /* background-color: #f0f0f0; */
+  cursor: pointer;
+  border: 1px solid;
+  color: rgba(245, 136, 7, 0.5);
+  transition: all 0.3sease;
 }
-
+.genres-container {
+  height: 343px;
+  align-items: center;
+}
 .genre-item:hover,
 .tag-item:hover,
 .country-item:hover,
 .fandom-item:hover {
-    background-color: #e0e0e0;
+  color: #05b4c7;
+  border-color: rgba(245, 136, 7, 0.5);
 }
-
+.tags-all {
+  margin: 80px 0;
+}
+.sub-title-tags {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
+.sub-title-tags span {
+  font-family: "Alleycat";
+  font-style: normal;
+  color: #f58807;
+  font-size: 16px;
+}
+.sub-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+}
+.fandoms-container {
+  margin-top: 72px;
+  flex-wrap: wrap;
+  gap: 33px;
+  padding: 40px !important;
+  display: flex;
+  align-items: flex-start;
+}
+.container-button button {
+  display: flex;
+  margin: 0 auto;
+  align-items: center;
+  border-radius: 34px;
+  color: #f58807;
+  gap: 5px;
+  border: 1px solid #f58807;
+  padding: 5px 10px;
+}
+.tags-container {
+  gap: 100px;
+}
+.line-sub-title-tags {
+  height: 1px;
+  border-bottom: 1px dashed #f58807;
+  width: 91%;
+}
+.all-sub-ell {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+}
 .genre-item.selected,
 .tag-item.selected,
 .country-item.selected,
 .fandom-item.selected {
-    background-color: #007bff;
-    color: rgb(7, 7, 7);
+  background-color: #007bff;
+  color: rgb(7, 7, 7);
 }
 
 .genre-item.selected:hover,
 .tag-item.selected:hover,
 .country-item.selected:hover,
 .fandom-item.selected:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
+}
+.first-block-create-book {
+  width: 82%;
+  margin: 0 auto;
+  padding-top: 70px;
+}
+.name-book {
+  display: flex;
+  gap: 30px;
+}
+.block-name-book {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.name-book-label {
+  background-color: #050d11;
+  width: max-content;
+  padding: 5px 20px;
+  border-radius: 25px;
+  border: 1px solid;
+  font-size: 16px;
+  font-family: "Sofia Sans Semi Condensed";
+  color: #f58807;
+}
+.container-name-book {
+  display: flex;
+  flex-direction: column;
+}
+.container-name-book {
+  margin-left: 10px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid rgba(245, 136, 7, 0.3);
+  margin-top: 44px;
+  border-radius: 0 26px;
+  border-left: 1px solid rgba(245, 136, 7, 0.3);
+}
+.input-name-book {
+  /* border-bottom: 19px; */
+  min-height: 75px;
+  border-radius: 0 26px;
+  border: 1px solid rgba(245, 136, 7, 0.3) !important;
+  background-color: rgba(5, 13, 17, 0.5) !important;
+  margin-left: 5px;
+  margin-top: -22px;
+  margin-bottom: 5px;
+  padding: 40px 24px 0;
+  font-family: "Sofia Sans Semi Condensed";
+  font-size: 16px;
+  font-style: italic;
+  /* padding: 10px; */
+  /* border-radius: 26px; */
+}
+.block-name-book {
+  position: relative;
+}
+.name-book-label {
+  position: absolute;
+}
+.midle-first-block {
+  display: flex;
+  gap: 60px;
+}
+.last-block-first {
+  display: flex;
+  gap: 50px;
+  padding-top: 60px;
+  align-items: flex-start;
+}
+.all-content {
+  background-color: rgba(159, 1, 1, 0.15);
+  margin-top: -26px;
+  padding: 24px;
+  border-radius: 0 26px;
+  border: rgba(245, 136, 7, 0.2) 1px solid;
+}
+.check-content {
+  display: flex;
+  gap: 15px;
+  flex-direction: row-reverse;
+  color: #f58807;
+  font-family: "Sofia Sans Semi Condensed";
+  font-size: 16px;
+  padding: 0 5px;
+  align-items: center;
+  border-bottom: rgba(245, 136, 7, 0.3) 1px solid;
+}
+.header-book-genres {
+  margin-bottom: 80px;
+  margin-top: 150px;
+  display: flex;
+  border-bottom: 1px solid rgba(245, 136, 7, 1);
+  justify-content: center;
+}
+.img-book {
+  margin-top: 100px;
+}
+.input-img {
+  padding: 39px 46px;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(5, 180, 199, 0.15);
+}
+.hidden-input {
+  display: none;
+}
+.input-img span {
+  text-align: center;
+  font-size: 12px;
+  color: #f58807;
+}
+.custom-file-upload {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  cursor: pointer;
+  flex-direction: column;
+}
+
+.file-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  /* border: 1px solid; */
+  flex-direction: column;
+  border: 1px dashed #f58807;
+  border-radius: 0 26px 26px 0;
+  justify-content: center;
+}
+.circle_upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 81px;
+  padding: 22px 24px;
+  background-color: rgba(5, 13, 17, 0.5);
+  border: 1px solid #f58807;
+}
+.all-img {
+  display: flex;
+  gap: 50px;
+}
+.another-input-name-book {
+  height: 284px;
+  width: auto;
+  display: flex;
+  padding: 30px;
+  gap: 30px;
+}
+.save-book {
+  position: relative;
+  background-color: #050d11;
+  border-radius: 25px;
+  font-family: "Bad Script";
+  color: #f58807;
+  padding: 10px 30px;
+}
+.top-button {
+  position: absolute;
+  top: -21px;
+  left: 14px;
+}
+.bottom-button {
+  position: absolute;
+  left: 14px;
+  bottom: -20px;
+  transform: rotate(180deg);
+}
+.another_img {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  align-items: center;
 }
