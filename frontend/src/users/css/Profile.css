@@ -99,32 +99,31 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  flex: 0.4;
+  width: 45%;
   background-image: url("../../main/pages/img/bg-photo.png");
   background-repeat: no-repeat;
-
-  background-position: 50% 27%;
-  padding: 15px;
+  background-size: 600px;
+  background-position: center;
+  padding: 70px 1px 70px 26px;
 }
 .about {
   display: flex;
   justify-content: space-between;
   gap: 70px;
+  align-items: center;
   width: 90%;
   margin: 0 auto;
   padding-top: 20px;
 }
 .photo-profile img {
   width: 249px;
-  position: absolute;
   height: 347px;
-  top: 24%;
-  left: 22%;
+
   border-radius: 140px;
   object-fit: cover; /* Чтобы изображение не искажалось */
 }
 .all-info-profile {
-  flex: 1;
+  width: 51%;
 }
 .all-info-profile {
   font-family: "Inter";
@@ -248,7 +247,8 @@
   align-items: center;
   gap: 45px;
 }
-.email-account, .pass {
+.email-account,
+.pass {
   font-family: "Inter";
   margin: 0 auto;
   padding: 20px 0;
@@ -267,7 +267,8 @@
   gap: 30px;
   flex-direction: column;
 }
-.save-email, .save-pass {
+.save-email,
+.save-pass {
   display: flex;
   align-items: center;
   padding: 10px 15px;
@@ -319,7 +320,7 @@
   -moz-appearance: none;
   width: 20px;
   height: 20px;
-  border: 1px solid #5E626C; 
+  border: 1px solid #5e626c;
   border-radius: 4px;
   background: transparent;
   position: relative;
@@ -327,10 +328,9 @@
   transition: all 0.3s ease;
 }
 
-
 .adult-content-checkbox input[type="checkbox"]:checked {
-  background: #00EAFD;
-  border-color: #16C1CF;
+  background: #00eafd;
+  border-color: #16c1cf;
 }
 .form-check-label {
   flex: 1;
@@ -339,7 +339,7 @@
 .adult-content-checkbox input[type="checkbox"]:checked::after {
   content: "✔";
   font-size: 16px;
-  color: #1A1E29; 
+  color: #1a1e29;
   position: absolute;
   left: 50%;
   top: 50%;
@@ -382,7 +382,125 @@
   height: 20px;
   transition: opacity 0.3s ease;
 }
-
+.profile-container {
+  width: 80%;
+}
 .toggle-password:hover img {
   opacity: 1;
+}
+@media (max-width: 1480px) {
+  .profile-container {
+    width: 90%;
+  }
+  .profile-header,
+  .about {
+    width: 100%;
+  }
+}
+@media (max-width: 1110px) {
+  .profile-container {
+    width: 94%;
+  }
+}
+@media (max-width: 1110px) {
+  .photo-profile img {
+    width: 243px;
+    height: 263px;
+  }
+  .photo-profile {
+    width: 41%;
+    background-size: 455px;
+  }
+  .about {
+    gap: 10px;
+  }
+  .create-text {
+    font-size: 10px;
+  }
+}
+@media (max-width: 950px) {
+  .left-buttons-balance {
+    width: 94%;
+  }
+  .block-balance {
+    flex-direction: column;
+    width: 95%;
+    align-items: flex-end;
+  }
+  .right-buttons-balance {
+    flex: inherit;
+    width: 94%;
+  }
+  .block-account {
+    width: 50%;
+  }
+}
+
+@media (max-width: 930px) {
+  .text-info,
+  .text-info-desc {
+    flex: inherit;
+  }
+  .photo-profile {
+    width: 48%;
+  }
+  .text-info {
+    gap: 10px;
+  }
+  .general-text,
+  .one-block-info span {
+    font-size: 14px;
+  }
+}
+@media (max-width: 899px) {
+  .pass {
+    background-image: none;
+  }
+}
+@media (max-width: 687px) {
+  .about {
+    flex-direction: column;
+  }
+  .text-info,
+  .text-info-desc {
+    flex: 2 1;
+  }
+  .all-info-profile {
+    width: 98%;
+  }
+  .left-buttons-balance button {
+    font-size: 14px;
+  }
+  .photo-profile {
+    width: 100%;
+}
+}
+@media (max-width: 571px) {
+  .balance-all {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .balance-buttons {
+    flex-direction: row;
+  }
+  
+.email-account, .pass {
+  flex-direction: column;
+}
+.save-email, .save-pass { 
+  margin-top: 10px;
+  margin-bottom: 50px;
+}
+.block-account {
+  width: 100%;
+}
+.form-check-label {
+  font-size: 14px;
+}
+.text-info, .text-info-desc {
+  flex: 0.7;
+}
+.one-block-info span {
+  flex: 1;}
 }

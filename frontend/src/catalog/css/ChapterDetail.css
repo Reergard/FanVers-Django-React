@@ -65,15 +65,6 @@
   color: #ffffff;
 }
 
-/* Добавьте стили для hover эффектов */
-/* .error-report-button:hover {
-  background-color: #e0a800;
-} */
-
-/* Добавляем отступ для контента под фиксированными инструкциями */
-.chapter-detail {
-  padding-top: 60px; /* Высота инструкций + дополнительный отступ */
-}
 .header-chapter-detail {
   display: flex;
   width: 85%;
@@ -82,8 +73,11 @@
   justify-content: space-between;
   margin: 0 auto;
 }
-
+.comments-section h2 {
+  text-transform: uppercase;
+}
 .block-name-chapter {
+
   /* border-top: 4px double rgba(245, 136, 7, 0.5);
   border-bottom: 4px double rgba(245, 136, 7, 0.5); */
   /* display: flex
@@ -167,7 +161,6 @@
   font-size: 18px;
   padding-bottom: 15px;
   border-bottom: 1px solid #5e626c;
-  margin-bottom: 75px;
 }
 .user-img {
   width: 65px;
@@ -225,13 +218,99 @@
   align-items: center;
 }
 .right-button-comment {
-  color: #C90303;
+  color: #c90303;
   font-size: 14px;
   text-decoration: underline;
 }
 
 .left-button-comment button {
   color: #069403;
+  font-size: 14px;
+  font-style: italic;
+}
+
+@media (max-width: 1280px) {
+  .header-chapter-detail {
+    width: 97%;
+  }
+  .content-chapter {
+    width: 97%;
+  }
+}
+@media (max-width: 1024px) {
+  .chapter-container,
+  .chapter-container.container {
+    max-width: 97%;
+  }
+}
+@media (max-width: 721px) {
+  .back {
+    grid-area: back;
+  }
+
+  .block-name-chapter {
+    grid-area: center;
+  }
+
+  .forward {
+    grid-area: forward;
+  }
+  .header-chapter-detail,
+  .header-chapter-detail.footer-name-chapter {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "center center"
+      "back forward";
+    justify-content: space-between;
+    text-align: center;
+  }
+
+  .block-name-chapter {
+    grid-column: span 2; /* Занимает всю ширину */
+  }
+  .top-chapter,
+  .bot-chapter {
+    margin: 0 auto;
+  }
+}
+@media (max-width: 595px) {
+  .name-user-comment {
+    font-size: 11px;
+  }
+  .content-comment,
+  .last-seen {
+    font-size: 10px;
+  }
+  .user-img {
+    width: 45px;
+  }
+  .info-user-comment {
+    justify-content: space-between;
+  }
+  .left-button-comment button,
+  .right-button-comment {
+    font-size: 10px;
+  }
+  .right-button-comment img {
+    width: 16px;
+  }
+  .content-chapter {
+    font-size: 16px;
+  }
+  .container-block-error-chapter {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .comments-section h2 {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 430px) {
+  .back,
+  .forward, .error-report-button.btn.btn-warning {
     font-size: 14px;
-    font-style: italic;
+  }
 }

@@ -1,0 +1,35 @@
+.container {
+  width: max-content;
+  margin: 0 auto;
+  padding: 0 15%;
+}
+.nameFaq {
+  font-family: "Sofia Sans Semi Condensed";
+  /* font-family: 's'; */
+  font-size: 32px;
+  text-align: center;
+  padding-bottom: 25px;
+}
+.blockFaq {
+  display: flex;
+  flex-direction: column;
+  font-family: "Inter";
+  gap: 15px;
+  color: #05b4c7;
+  align-items: center;
+  text-decoration: underline;
+}
+@media (max-width: 500px) {
+  .container {
+    padding: 0 5%;
+  }
+  .nameFaq {
+    font-size: 24px;
+
+    padding-bottom: 5px;
+  }
+  .blockFaq {
+    gap: 10px;
+    font-size: 14px;
+  }
+}

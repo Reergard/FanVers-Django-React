@@ -31,7 +31,7 @@ const ExpandableTags = ({ title, className, items }) => {
 
 const NovelCard = ({ title, description, image }) => {
   return (
-    <div className="novel-card">
+    <div className="novel-card homepage">
       <div className="novel-cover">
         <div className="image-container">
           <div className="image-wrapper">
@@ -114,17 +114,11 @@ const HomePage3 = () => {
         },
       },
       {
-        breakpoint: 1024,
+        breakpoint: 768,
         settings: {
           slidesToShow: 2,
         },
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 1,
-        },
-      },
+      }
     ],
   };
   return (

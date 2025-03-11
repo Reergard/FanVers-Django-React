@@ -122,6 +122,10 @@
   margin: 0 auto;
   width: 70%;
 }
+.nameAdvertising {
+  display: flex;
+  flex-direction: column;
+}
 .nameAdvertising span {
   font-family: "Sofia Sans Semi Condensed";
   color: #f58807;
@@ -204,9 +208,8 @@
 .AdvertisingTable tr {
   display: flex;
   padding: 20px 0;
-  
-  border-bottom: 1px rgba(245, 136, 7, 0.5) dashed;
 
+  border-bottom: 1px rgba(245, 136, 7, 0.5) dashed;
 }
 .AdvertisingTable tr td {
   padding: 20px 30px;
@@ -215,14 +218,16 @@
   border: 1px solid #f58807 !important;
 }
 .AdvertisingCheck {
-  margin: 0 !important;
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
 .buttonAdvertising {
   border-top: 4px double rgba(245, 136, 7, 0.5);
   border-bottom: 4px double rgba(245, 136, 7, 0.5);
   display: flex;
   gap: 10px;
-  padding-right: 7px;
+  padding-right: 25px;
   font-size: 20px;
   font-family: "Sofia Sans Semi Condensed";
   color: #f58807;
@@ -262,18 +267,18 @@
 
 .tableRow {
   display: flex;
-  justify-content: space-between;  
+  justify-content: space-between;
 }
-
 
 .tableRow td {
   display: flex;
-  align-items: flex-start; 
+  align-items: flex-start;
 }
 
-
 .centerAlign {
-  align-self: center;
+  display: flex;
+  justify-content: center;
+  gap: 25px;
 }
 .customSelectWrapper {
   position: relative;
@@ -281,12 +286,11 @@
   align-items: center;
 }
 
-
 .customSelect {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  padding-right: 30px; 
+  padding-right: 30px;
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 10px;
@@ -294,30 +298,162 @@
   font-size: 16px;
 }
 
-
 .customArrow {
   position: absolute;
   right: 10px;
   width: 10px;
   height: 10px;
-  background-image: url('./img/arrow-select.png'); 
+  background-image: url("./img/arrow-select.png");
   background-size: contain;
   background-repeat: no-repeat;
   pointer-events: none;
 }
-.paddingRow td:first-child, .paddingRow td:nth-child(2) {
+.paddingRow td:first-child,
+.paddingRow td:nth-child(2) {
   padding: 0;
 }
-.paddingRow .centerAlign {
-  width: 90%;
-}
+
 .total {
   font-size: 20px;
   margin-left: 10%;
-  font-family: 'Sofia Sans Semi Condensed';
+  font-family: "Sofia Sans Semi Condensed";
   width: 100%;
-  color: #F58807;
+  color: #f58807;
 }
 .paddingRow {
   border: none !important;
+}
+
+@media (max-width: 1537px) {
+  .subscription {
+    width: 80%;
+    margin: 50px auto;
+  }
+  .HeaderAllSettings,
+  .AdvertisingContainer {
+    width: 80% !important;
+  }
+}
+@media (max-width: 1380px) {
+  .AdvertisingTable tr td {
+    padding: 10px;
+  }
+}
+@media (max-width: 1187px) {
+  .AdvertisingContainer {
+    width: 95% !important;
+  }
+}
+@media (max-width: 956px) {
+  .subscription {
+    width: 90%;
+    margin: 50px auto;
+  }
+  .HeaderAllSettings,
+  .permissionsTable {
+    width: 90% !important;
+  }
+  .AdvertisingTable {
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+  }
+  .AdvertisingTable tr {
+    flex-direction: column;
+    align-items: center;
+  }
+  .inputBlockAdvertising label {
+    position: unset;
+  }
+  .inputBlockAdvertising {
+    gap: 15px;
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+@media (max-width: 836px) {
+  .subscription tbody tr td input {
+    padding: 5px;
+  }
+  .subscription tbody tr td {
+    padding: 11px 0;
+    font-size: 13px;
+  }
+  .subscriptionContainer {
+    margin: 20px auto;
+  }
+  .HeaderAllSettings {
+    justify-content: space-between !important;
+  }
+  .HeaderAllSettings button {
+    font-size: 10px;
+  }
+  .permissionsTable thead tr th,
+  .permissionsTable tbody tr td {
+    font-size: 14px;
+  }
+.settingsHeader {
+    height: 26px !important;
+    display: flex;
+    width: auto;
+    align-items: center;
+    justify-content: center;
+  }
+  .TopChapter, .BotChapter {
+    height: 12px !important;
+    width: auto;
+  }
+.settingsHeader span {
+    text-align: center;
+    font-size: 10px !important;
+  }
+  .HeaderAllSettings p{
+    font-size: 13px;
+  }
+  .containerBlockNameChapter{
+    width: 50%;
+    display: flex
+;
+    justify-content: center;
+  }
+  .BlockNameChapter {
+    width: max-content;
+  }
+}
+@media (max-width: 737px) {
+  .container_input {
+    display: flex;
+    align-items: center;
+  }
+  .big_input {
+    text-align: center;
+    margin-right: 0;
+  }
+  .big_input input {
+    min-width: 50px;
+  }
+  .sub_input {
+    margin-right: 10px;
+  }
+  .HeaderAllSettings {
+    gap: 0;
+  }
+}
+@media (max-width: 617px) {
+  .subscription tbody tr {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .subscription tbody tr td {
+    padding: 5px 0;
+  }
+  .HeaderAllSettings {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .HeaderAllSettings button {
+    width: 50%;
+  }
 }

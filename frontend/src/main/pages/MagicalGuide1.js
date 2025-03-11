@@ -9,9 +9,9 @@ import Slider from "react-slick";
 const NovelCard = ({ title, description, image, slug }) => {
   return (
     <div className="novel-card-magical">
-      <div style={{marginTop: "20px"}} className="novel-cover">
-        <div className="image-container">
-          <div className="image-wrapper">
+      <div className="novel-cover magical">
+        <div className="image-container magical-img">
+          <div className="image-wrapper magical-img">
             <img
               src={image}
               alt={title}
@@ -35,8 +35,8 @@ const NovelCard = ({ title, description, image, slug }) => {
         <div className="line-homepage-title3"></div>
       </div>
       <span className="novel-description-homepage">
-        {description.length > 200
-          ? `${description.slice(0, 200)}...`
+        {description.length > 150
+          ? `${description.slice(0, 150)}...`
           : description}
       </span>
     </div>
@@ -92,19 +92,7 @@ const MagicalGuide1 = () => {
         settings: {
           slidesToShow: 3,
         },
-      },
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 2,
-        },
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 1,
-        },
-      },
+      }
     ],
   };
   return (

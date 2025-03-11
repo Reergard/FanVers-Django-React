@@ -145,14 +145,14 @@ const Profile = () => {
   };
   return (
     <section className="profile-section">
-      <Container>
+      <div className="container-profile-user">
         <BreadCrumb
           items={[
             { href: "/", label: "Головна" },
             { href: "/profile", label: "Профiль" },
           ]}
         />
-        <Container className="profile-container" style={{ margin: "0 auto" }}>
+        <div className="profile-container" style={{ margin: "0 auto" }}>
           {error && <Alert variant="danger">{error}</Alert>}
           {loading && !profile && <Spinner animation="border" />}
           {profile && (
@@ -452,8 +452,8 @@ const Profile = () => {
               </div>
             </div>
           )}
-        </Container>
-      </Container>
+        </div>
+      </div>
 
       <ModalDepositBalance
         show={showDepositModal}

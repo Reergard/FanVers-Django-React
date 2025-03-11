@@ -12,7 +12,12 @@ import rectangle6 from "./img/rectangle-6-1.svg";
 import navigation4 from "./img/navigation4-1.svg";
 import navigation5 from "./img/navigation5-1.svg";
 import line51 from "./img/line-51-1.svg";
-
+import LeftArrow from "./img/left-arrow.png";
+import RightArrow from "./img/right-arrow.png";
+import OrangeDot from "./img/orange-dot.png";
+import { Link } from "react-router-dom";
+import BlueDot from "./img/blue-dot.png";
+import BookImg from "./img/book-homepages.svg";
 // Импорты звезд рейтинга
 const starFills1 = [...Array(4)].map((_, i) =>
   require(`./img/star-fill-${8 + i}.svg`)
@@ -23,8 +28,6 @@ const starFills2 = [...Array(4)].map((_, i) =>
 );
 
 const HomePage2 = () => {
-
-
   // Получаем список новых книг
   const { data: books } = useQuery({
     queryKey: ["books-news"],
@@ -53,108 +56,146 @@ const HomePage2 = () => {
 
   return (
     <div className="homepage-pc screen">
-      <div className="frame-123-hp28Hm">
-        {currentBook?.image && (
-          <img
-            loading="lazy"
-            src={currentBook.image}
-            className="x1-sr-g-lcht4s-1-rUQU7Z"
-            alt={currentBook.title}
-            onError={(e) => {
-              console.log("Image load error:", currentBook.image);
-              e.target.onerror = null;
-              e.target.style.display = "none";
-            }}
-          />
-        )}
-        <img className="x3-1-rUQU7Z" src={backgroundImage} alt="3 1" />
-        <div className="rating-rUQU7Z">
-          <div className="rating2-kpIWzg">
-            <div className="rectangle-3957"></div>
-            <div className="group-50-aNiaBw">
-              <img className="star_light" src={starLight2} alt="Star_light" />
-              {[...Array(4)].map((_, index) => (
-                <img
-                  key={`star-fill-${index}`}
-                  className={`star_fill-${
-                    ["hle15p", "nlSlgt", "Glaod1", "BhyzBe"][index]
-                  } star_fill`}
-                  src={starFills1[index]}
-                  alt="Star_fill"
-                />
-              ))}
-            </div>
-            <div className="text_label-aNiaBw text_label a-alleycaticg-alen-rus-regular-normal-tangerine-20px">
-              якість перекладу
-            </div>
-          </div>
-          <div className="rating1-kpIWzg">
-            <div className="rectangle-3957"></div>
-            <div className="text_label-i2YPU0 text_label a-alleycaticg-alen-rus-regular-normal-tangerine-20px">
-              рейтинг твору
-            </div>
-            <div className="group-49-i2YPU0">
-              <img className="star_light" src={starLight3} alt="Star_light" />
-              {[...Array(4)].map((_, index) => (
-                <img
-                  key={`star-fill-2-${index}`}
-                  className={`star_fill-${
-                    ["aIXtUm", "MSv9cK", "9jjRNj", "Z6M2St"][index]
-                  } star_fill`}
-                  src={starFills2[index]}
-                  alt="Star_fill"
-                />
-              ))}
-            </div>
-          </div>
+       <div className="line-rUQU7Z">
+          <h2>
+            НОВИНКИ
+          </h2>
+          <div className="line-51-ZCydxi"></div>
         </div>
-        <div className="text-book-rUQU7Z">
-          <div className="text-S9xaSz">
-            <div className="rectangle-3956-Si3ny5"></div>
-            <p className="x-Si3ny5">
-              {currentBook?.description.length > 700
-                ? `${currentBook?.description.slice(0, 700)}...`
-                : currentBook?.description}
-            </p>
-          </div>
-          <h1 className="text_label-S9xaSz text_label">
+      <div className="frame-123-hp28Hm">
+        <div className="mobile-container-homepage">
+          <h1 className="text_label-S9xaSz text_label mobile">
             {currentBook?.title
               ? currentBook.title.toUpperCase()
               : "Назва відсутня"}
           </h1>
-          <div className="read_button">
-            <img
-              className="rectangle-6-dZjTXM"
-              src={rectangle6}
-              alt="Rectangle 6"
-            />
-            <div className="text_label-dZjTXM text_label a-alleycaticg-alen-rus-regular-normal-tangerine-20px">
-              читати
+          <div className="mobile-container-img">
+            {currentBook?.image && (
+              <img
+                loading="lazy"
+                src={currentBook.image}
+                className="x1-sr-g-lcht4s-1-rUQU7Z"
+                alt={currentBook.title}
+                onError={(e) => {
+                  console.log("Image load error:", currentBook.image);
+                  e.target.onerror = null;
+                  e.target.style.display = "none";
+                }}
+              />
+            )}
+            <img className="x3-1-rUQU7Z" src={backgroundImage} alt="3 1" />
+            <div className="container-home-page">
+              <div className="rating-rUQU7Z">
+                <div className="rating2-kpIWzg">
+                  {/* <div className="rectangle-3957"></div> */}
+                  <div className="group-50-aNiaBw">
+                    <img
+                      className="star_light"
+                      src={starLight2}
+                      alt="Star_light"
+                    />
+                    {[...Array(4)].map((_, index) => (
+                      <img
+                        key={`star-fill-${index}`}
+                        className={`star_fill-${
+                          ["hle15p", "nlSlgt", "Glaod1", "BhyzBe"][index]
+                        } star_fill`}
+                        src={starFills1[index]}
+                        alt="Star_fill"
+                      />
+                    ))}
+                  </div>
+                  <div className="text_label-aNiaBw text_label a-alleycaticg-alen-rus-regular-normal-tangerine-20px">
+                    якість перекладу
+                  </div>
+                </div>
+                <div className="rating1-kpIWzg">
+                  {/* <div className="rectangle-3957"></div> */}
+                  <div className="text_label-i2YPU0 text_label a-alleycaticg-alen-rus-regular-normal-tangerine-20px">
+                    рейтинг твору
+                  </div>
+                  <div className="group-49-i2YPU0">
+                    <img
+                      className="star_light"
+                      src={starLight3}
+                      alt="Star_light"
+                    />
+                    {[...Array(4)].map((_, index) => (
+                      <img
+                        key={`star-fill-2-${index}`}
+                        className={`star_fill-${
+                          ["aIXtUm", "MSv9cK", "9jjRNj", "Z6M2St"][index]
+                        } star_fill`}
+                        src={starFills2[index]}
+                        alt="Star_fill"
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <img src={BookImg} className="book-img" />
+              <div className="text-book-rUQU7Z">
+                <div className="text-S9xaSz">
+                  <h1 className="text_label-S9xaSz text_label pc">
+                    {currentBook?.title
+                      ? currentBook.title.toUpperCase()
+                      : "Назва відсутня"}
+                  </h1>
+                  <p className="x-Si3ny5 pc">
+                    {currentBook?.description.length > 500
+                      ? `${currentBook?.description.slice(0, 500)}...`
+                      : currentBook?.description}
+                  </p>
+                  <div className="read_button">
+                    <div className="text_label-dZjTXM text_label a-alleycaticg-alen-rus-regular-normal-tangerine-20px">
+                      читати
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
+          <p className="x-Si3ny5 mobile">
+            {currentBook?.description.length > 500
+              ? `${currentBook?.description.slice(0, 500)}...`
+              : currentBook?.description}
+          </p>
         </div>
-        <div className="navigation4-rUQU7Z navigation4">
-          <img
-            className="navigation4-5fei5n navigation4"
-            src={navigation4}
-            onClick={handlePrev}
-            alt="navigation4"
-          />
-        </div>
-        <div className="navigation5-rUQU7Z navigation5">
-          <img
-            className="navigation5-AiCfdu navigation5"
-            src={navigation5}
-            onClick={handleNext}
-            alt="navigation5"
-          />
-        </div>
-        <div className="line-rUQU7Z">
-          <div className="text_label-ZCydxi text_label a-alleycaticg-alen-rus-regular-normal-pacific-blue-31px">
-            НОВИНКИ
+        <div className="all-nav">
+          <div className="navigation4-rUQU7Z navigation4">
+            <img
+              className="navigation4-5fei5n navigation4"
+              src={window.innerWidth < 990 ? LeftArrow : navigation4}
+              onClick={handlePrev}
+              alt="navigation4"
+            />
+            {window.innerWidth < 990 && (
+              <img
+                className="navigation4-5fei5n navigation4"
+                src={window.innerWidth < 990 && BlueDot}
+                onClick={handlePrev}
+                alt="navigation4"
+              />
+            )}
           </div>
-          <img className="line-51-ZCydxi" src={line51} alt="Line 51" />
+          <div className="navigation5-rUQU7Z navigation5">
+            <img
+              className="navigation5-AiCfdu navigation5"
+              src={window.innerWidth < 990 ? RightArrow : navigation5}
+              onClick={handleNext}
+              alt="navigation5"
+            />
+            {window.innerWidth < 990 && (
+              <img
+                className="navigation5-AiCfdu navigation5"
+                src={OrangeDot}
+                onClick={handleNext}
+                alt="navigation5"
+              />
+            )}
+          </div>
         </div>
+       
       </div>
     </div>
   );

@@ -20,13 +20,13 @@ function Subscription() {
                     </tr>
                     <tr>
                         <td>Абонемент 1</td>
-                        <td><input className={styles.sub_input} type="number" />
+                        <td className={styles.container_input}><input className={styles.sub_input} type="number" />
                             <span>Розділів</span><input className={styles.sub_input} type="number" /><span>UAcoins</span></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>Абонемент 1</td>
-                        <td><input className={styles.sub_input} type="number" />
+                        <td className={styles.container_input}><input className={styles.sub_input} type="number" />
                             <span>Розділів</span><input className={styles.sub_input} type="number" /><span>UAcoins</span></td>
                         <td></td>
                     </tr>

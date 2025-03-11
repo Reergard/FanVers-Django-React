@@ -171,7 +171,7 @@ const CreateBook = () => {
   }, [formData.book_type]);
 
   return (
-    <Container>
+    <div className="BookCreateContainer">
       <BreadCrumb
         items={[
           { href: "/", label: "Головна" },
@@ -344,6 +344,26 @@ const CreateBook = () => {
               </Form.Control.Feedback>
             </div>
           </Form.Group>
+          <Form.Group className="mb-3 block-name-book mobile">
+            <Form.Check
+              type="checkbox"
+              id="adult_content"
+              className={`adult-content-checkbox check-content  ${styles.chapterCheck}`}
+              label="Присутній контент"
+              checked={formData.adult_content}
+              onChange={(e) => {
+                const isChecked = e.target.checked;
+                setFormData({
+                  ...formData,
+                  adult_content: isChecked,
+                  tags: isChecked
+                    ? [...new Set([...formData.tags, adultTagId])]
+                    : formData.tags.filter((id) => id !== adultTagId),
+                });
+              }}
+            />
+            <img src={Content} />
+          </Form.Group>
         </div>
         <div className="last-block-first">
           <Form.Group className="mb-3 block-name-book">
@@ -396,10 +416,10 @@ const CreateBook = () => {
       <div className="header-book-genres">
         <img src={BorderCreate} />
       </div>
-      <Form.Group className="mb-3  block-name-book">
+      <Form.Group className="mb-3" style={{ position: "relative" }}>
         <Form.Label
-          style={{ marginTop: "-37px", padding: "5px 50px" }}
-          className="name-book-label"
+          style={{ marginTop: "-18px", padding: "5px 50px" }}
+          className="name-book-label genres"
         >
           Жанри
         </Form.Label>
@@ -426,10 +446,10 @@ const CreateBook = () => {
         )}
       </Form.Group>
       <div className="tags-all">
-        <Form.Group className="mb-3  block-name-book">
+        <Form.Group className="mb-3" style={{ position: "relative" }}>
           <Form.Label
-            style={{ marginTop: "-37px", padding: "5px 50px" }}
-            className="name-book-label"
+            style={{ marginTop: "-18px", padding: "5px 50px" }}
+            className="name-book-label tags"
           >
             Теги
           </Form.Label>
@@ -536,9 +556,11 @@ const CreateBook = () => {
           <div className="text-danger mt-1">{errors.country}</div>
         )}
       </Form.Group> */}
-
-      <Form.Group className="mb-3 block-name-book">
-        <Form.Label style={{ top: "55px" }} className="name-book-label">
+      <div className="header-book-genres">
+        <img src={BorderCreate} />
+      </div>
+      <Form.Group className="mb-3" style={{ position: "relative" }}>
+        <Form.Label style={{ top: "-18px" }} className="name-book-label fandom">
           Фендом
         </Form.Label>
         <div
@@ -591,14 +613,14 @@ const CreateBook = () => {
       )} */}
       <div className="all-img">
         <div className="img-book">
-          <div className="general-img block-name-book">
+          <div className="general-img" style={{ position: "relative" }}>
             <Form.Group
               style={{ height: "390px", width: "288px", padding: "30px" }}
-              className="mb-3 input-name-book"
+              className="mb-3 input-name-book general-input-name-book"
             >
               <Form.Label
-                style={{ top: "-38px", left: "-4px" }}
-                className="name-book-label"
+                style={{ top: "-18px", left: "-4px" }}
+                className="name-book-label img_book"
               >
                 Основне зображення
               </Form.Label>
@@ -611,7 +633,10 @@ const CreateBook = () => {
                   id="fileInput"
                   className="hidden-input "
                 />
-                <label htmlFor="fileInput" className="file-label input-img">
+                <label
+                  htmlFor="fileInput"
+                  className="file-label input-img general"
+                >
                   <div className="circle_upload">
                     <img src={Upload} alt="Загрузить" className="upload-icon" />
                     <span>Вибрати зображення</span>
@@ -629,20 +654,20 @@ const CreateBook = () => {
           </div>
         </div>
         <div className="another_img">
-          <div className="img-book">
-            <div className="general-img block-name-book">
+          <div className="img-book any">
+            <div className="general-img" style={{ position: "relative" }}>
               <Form.Group
                 style={{ height: "284px", width: "auto", padding: "30px" }}
                 className="mb-3 input-name-book another-input-name-book"
               >
                 <Form.Label
-                  style={{ top: "-38px", left: "-4px" }}
-                  className="name-book-label"
+                  style={{ top: "-18px", left: "-4px" }}
+                  className="name-book-label img_book"
                 >
-               Додаткові зображення
+                  Додаткові зображення
                 </Form.Label>
 
-                <div className="custom-file-upload">
+                <div className="custom-file-upload any-img">
                   <input
                     type="file"
                     accept="image/*"
@@ -651,17 +676,10 @@ const CreateBook = () => {
                     className="hidden-input "
                   />
                   <label htmlFor="fileInput" className="file-label input-img">
-                  
-                      <img
-                        src={Upload}
-                        alt="Загрузить"
-                        className="upload-icon"
-                      />
-              
-          
+                    <img src={Upload} alt="Загрузить" className="upload-icon" />
                   </label>
                 </div>
-                <div className="custom-file-upload">
+                <div className="custom-file-upload any-img">
                   <input
                     type="file"
                     accept="image/*"
@@ -670,17 +688,10 @@ const CreateBook = () => {
                     className="hidden-input "
                   />
                   <label htmlFor="fileInput" className="file-label input-img">
-                  
-                      <img
-                        src={Upload}
-                        alt="Загрузить"
-                        className="upload-icon"
-                      />
-              
-          
+                    <img src={Upload} alt="Загрузить" className="upload-icon" />
                   </label>
                 </div>
-                <div className="custom-file-upload">
+                <div className="custom-file-upload any-img">
                   <input
                     type="file"
                     accept="image/*"
@@ -689,17 +700,10 @@ const CreateBook = () => {
                     className="hidden-input "
                   />
                   <label htmlFor="fileInput" className="file-label input-img">
-                  
-                      <img
-                        src={Upload}
-                        alt="Загрузить"
-                        className="upload-icon"
-                      />
-              
-          
+                    <img src={Upload} alt="Загрузить" className="upload-icon" />
                   </label>
                 </div>
-                <div className="custom-file-upload">
+                <div className="custom-file-upload any-img">
                   <input
                     type="file"
                     accept="image/*"
@@ -708,17 +712,10 @@ const CreateBook = () => {
                     className="hidden-input "
                   />
                   <label htmlFor="fileInput" className="file-label input-img">
-                  
-                      <img
-                        src={Upload}
-                        alt="Загрузить"
-                        className="upload-icon"
-                      />
-              
-          
+                    <img src={Upload} alt="Загрузить" className="upload-icon" />
                   </label>
                 </div>
-                <div className="custom-file-upload">
+                <div className="custom-file-upload any-img">
                   <input
                     type="file"
                     accept="image/*"
@@ -727,16 +724,10 @@ const CreateBook = () => {
                     className="hidden-input "
                   />
                   <label htmlFor="fileInput" className="file-label input-img">
-                  
-                      <img
-                        src={Upload}
-                        alt="Загрузить"
-                        className="upload-icon"
-                      />
-               
+                    <img src={Upload} alt="Загрузить" className="upload-icon" />
                   </label>
                 </div>
-                <div className="custom-file-upload">
+                <div className="custom-file-upload any-img">
                   <input
                     type="file"
                     accept="image/*"
@@ -745,16 +736,10 @@ const CreateBook = () => {
                     className="hidden-input "
                   />
                   <label htmlFor="fileInput" className="file-label input-img">
-                  
-                      <img
-                        src={Upload}
-                        alt="Загрузить"
-                        className="upload-icon"
-                      />
-                
+                    <img src={Upload} alt="Загрузить" className="upload-icon" />
                   </label>
                 </div>
-                <div className="custom-file-upload">
+                <div className="custom-file-upload any-img">
                   <input
                     type="file"
                     accept="image/*"
@@ -763,13 +748,7 @@ const CreateBook = () => {
                     className="hidden-input "
                   />
                   <label htmlFor="fileInput" className="file-label input-img">
-                 
-                      <img
-                        src={Upload}
-                        alt="Загрузить"
-                        className="upload-icon"
-                      />
-                   
+                    <img src={Upload} alt="Загрузить" className="upload-icon" />
                   </label>
                 </div>
                 {imagePreview && (
@@ -792,7 +771,7 @@ const CreateBook = () => {
           </div>
         </div>
       </div>
-    </Container>
+    </div>
   );
 };
 

@@ -56,7 +56,7 @@ const NovelCard = ({ title, description, image }) => {
           </div>
         </div>
       </div>
-      <span className="novel-title-homepage">{title}</span>
+      <span className={`novel-title-homepage ${styles.novelTitleHomepage}`}>{title}</span>
 
 
     </div>
@@ -67,7 +67,7 @@ const ExpandableTags = ({ title, className, items }) => {
 
   return (
     <div className={className}>
-      <span>{title}:</span>
+      <span>{title}</span>
       <div className={`name-${className.split(" ")[0]}`}>
         {items.slice(0, 2).map((item, index) => (
           <span key={index}>{item}</span>
@@ -142,23 +142,18 @@ const BookDetailRouter = () => {
     dots: false,
     responsive: [
       {
-        breakpoint: 1366,
+        breakpoint: 745,
         settings: {
           slidesToShow: 3,
         },
       },
       {
-        breakpoint: 1024,
+        breakpoint: 515,
         settings: {
           slidesToShow: 2,
         },
       },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 1,
-        },
-      },
+   
     ],
   };
   return (
@@ -170,10 +165,12 @@ const BookDetailRouter = () => {
       <div className={styles.BookDetailContainer}>
 
 
-
+        <div className={styles.headerTableInfoBook}>
+          <p>/</p> <span>Nazva knygy </span>
+        </div>
         <div className={styles.headerBookDetail}>
           <div className={styles.BookCartContainer}>
-            <div className="novel-image" style={{ maxWidth: "380px", maxHeight: "100%", height: "auto" }}>
+            <div className={`novel-image ${styles.CartBook}`}>
               <img src={BookCart} />
             </div>
             <div className={styles.footerBookCartUser}>
@@ -181,22 +178,51 @@ const BookDetailRouter = () => {
                 В закладки
               </button>
             </div>
-            {/* <div className={styles.footerBookCartAuthor}>
-              <button className={styles.bookmarks}>
-                В закладки
-              </button>
-              <button className={styles.settingBook}>
-                <img src={SettingsBook} />
-                <span>Налаштування перекладу</span>
-              </button>
-            </div> */}
+
+          </div>
+          <div className={styles.tableBookMobile}>
+            <div className={styles.leftMobile}>
+              <div className={styles.tableBookMobileBlock}>
+                <span>Автор:</span>
+                <p>Артур Конан Дойл</p>
+              </div>
+            </div>
+            <div className={styles.rightMobile}>
+              <div className={styles.tableBookMobileBlock}>
+                <span>Перекладач:</span>
+                <p>Перекладач</p>
+              </div>
+            </div>
+            <div className={styles.leftMobile}>
+              <div className={styles.tableBookMobileBlock}>
+                <span>Розділів:</span>
+                <p>16</p>
+              </div>
+            </div>
+            <div className={styles.rightMobile}>
+              <div className={styles.tableBookMobileBlock}>
+                <span>Статус перекладу:</span>
+                <p>Перекладається</p>
+              </div>
+            </div>
+            <div className={styles.leftMobile}>
+              <div className={styles.tableBookMobileBlock}>
+                <span>Країна:</span>
+                <p>Америка</p>
+              </div>
+            </div>
+            <div className={styles.rightMobile}>
+              <div className={styles.tableBookMobileBlock}>
+                <span>Статус випуску твору:</span>
+                <p>Виходить</p>
+              </div>
+            </div>
           </div>
           <div className={styles.anotherInfoBook}>
             <div className={styles.mainInfoBook}>
               <div className={styles.tableInfoBook}>
-                <div className={styles.headerTableInfoBook}>
-                  <p>/</p> <span>Nazva knygy </span>
-                </div>
+
+
                 <table className={styles.tableBook}>
                   <tbody>
                     <tr>
@@ -215,7 +241,7 @@ const BookDetailRouter = () => {
                       <td>Жанр:</td>
                       <td>
                         <ExpandableTags
-                          title="Жанри"
+                          // title="Жанри"
                           className={`genres ${styles.genres}`}
                           items={["#фэнтези", "#приключения", "#магический реализм"]}
                         />
@@ -225,7 +251,7 @@ const BookDetailRouter = () => {
                     <tr>
                       <td>Теги:</td>
                       <td><ExpandableTags
-                        title="Теги"
+                        // title="Теги"
                         className={`tags ${styles.tags}`}
                         items={["#магия", "#хогвартс", "#волшебство"]}
                       /></td>
@@ -233,7 +259,7 @@ const BookDetailRouter = () => {
                     <tr>
                       <td>Фендом:</td>
                       <td> <ExpandableTags
-                        title="Фендом"
+                        // title="Фендом"
                         className={`fandom ${styles.fandom}`}
                         items={["#гарри поттер", "#хогвартс", "#волшебство"]}
                       /></td>
@@ -311,6 +337,7 @@ const BookDetailRouter = () => {
           <div className={styles.contentAnotherBooks}>
             <div className="novels-slider-wrapper">
               {books?.length > 0 ? (<>
+
                 <Slider ref={sliderRef} {...settings}>
                   {books.map((ad) => (
                     <NovelCard
@@ -363,67 +390,127 @@ const BookDetailRouter = () => {
               </button>
             </div>
           </div>
-          <div className={styles.containerChapters}>
-            <table className={styles.chaptertableReader}>
-              {/* chaptertableReader */}
-              {/* chaptertableAuthor */}
-              <thead>
-                <tr>
-                  <th></th>
-                  {/*chaptertableAuthor */}
-                  {/* <th></th> */}
-                  {/*chaptertableAuthor */}
-                  <th>Назва</th>
-                  {/*chaptertableAuthor */}
-                  {/* <th></th> */}
-                  {/*chaptertableAuthor */}
-                  <th>Вартість</th>
-                  <th>Створено</th>
-                  <th></th>
-                  {/*chaptertableAuthor */}
-                  {/* <th></th> */}
-                  {/*chaptertableAuthor */}
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>  <Form.Check
+          {/* <div className={styles.containerChapters}> */}
+          <table className={styles.chaptertableAuthor}>
+            {/* chaptertableReader */}
+            {/* chaptertableAuthor */}
+            <thead>
+              <tr>
+                <th></th>
+                {/*chaptertableAuthor */}
+                <th></th>
+                {/*chaptertableAuthor */}
+                <th>Назва</th>
+                {/*chaptertableAuthor */}
+                <th></th>
+                {/*chaptertableAuthor */}
+                <th>Вартість</th>
+                <th>Створено</th>
+                <th></th>
+                {/*chaptertableAuthor */}
+                <th></th>
+                {/*chaptertableAuthor */}
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>  <Form.Check
+                  type="checkbox"
+                  id="hide-adult-content"
+                  className={`adult-content-checkbox ${styles.chapterCheck}`}
+                /></td>
+                {/*chaptertableAuthor */}
+                <td><input className={styles.inputChapter} type="number" /></td>
+                {/*chaptertableAuthor */}
+                <td ><span className={styles.nameChapter}>Розділ 1: Артур Конан Дойль, частина 1</span></td>
+                {/*chaptertableAuthor */}
+                <td>
+                  <button className={styles.editChapter}>
+                    <img src={Edit} />
+                    <span>Редагувати</span>
+                  </button>
+                </td>
+                {/*chaptertableAuthor */}
+                <td> <span className={styles.numChapter} >10$</span></td>
+                <td> <span className={styles.numChapter}>13.02.2023</span></td>
+                <td> <button className={styles.chaptertableAuthorRead}>  {/* chaptertableAuthorRead readChapter*/}
+
+                  <img src={Read} />
+                  <span>Читати</span>
+                </button>
+                </td>
+                {/*chaptertableAuthor */}
+                <td>
+
+                  <button className={styles.trashChapter}>
+                    <img src={Trash} />
+                    <span>Видалити</span>
+                  </button></td>
+                {/*chaptertableAuthor */}
+              </tr>
+            </tbody>
+          </table>
+
+          <table className={styles.chaptertableAuthorMobile}>
+            <tbody>
+              {/* Первая строка */}
+              <tr>
+                <td>
+                  <Form.Check
                     type="checkbox"
                     id="hide-adult-content"
                     className={`adult-content-checkbox ${styles.chapterCheck}`}
-                  /></td>
-                  {/*chaptertableAuthor */}
-                  {/* <td><input className={styles.inputChapter} type="number" /></td>  */}
-                  {/*chaptertableAuthor */}
-                  <td ><span className={styles.nameChapter}>Розділ 1: Артур Конан Дойль, частина 1</span></td>
-                  {/*chaptertableAuthor */}
-                  {/* <td>
-                    <button className={styles.editChapter}>
-                      <img src={Edit} />
-                      <span>Редагувати</span>
-                    </button>
-                  </td> */}
-                  {/*chaptertableAuthor */}
-                  <td> <span className={styles.numChapter} >10$</span></td>
-                  <td> <span className={styles.numChapter}>13.02.2023</span></td>
-                  <td> <button className={styles.readChapter}>
-                    <img src={Read} />
+                  />
+                </td>
+                <td className={styles.nameChapter}>
+                  Розділ 1: Артур Конан Дойль, частина 1
+                </td>
+                <td style={{position: "relative"}}>
+                  <button className={styles.chaptertableAuthorRead}>
+                    <img src={Read} alt="Read" />
                     <span>Читати</span>
                   </button>
-                  </td>
-                 {/*chaptertableAuthor */}
-                   {/*  <td>
-               
-                   <button className={styles.trashChapter}>
-                    <img src={Trash} />
+                </td>
+              </tr>
+
+              {/* Вторая строка */}
+              <tr className={styles.trBookDetail}>
+                <td className={styles.inputChapterBlock}>
+                  <input className={styles.inputChapter} type="number" />
+                </td>
+                <td className={styles.blockNumbersMobile} colSpan="2">
+                  <div className={styles.blockMobileTable}>
+                    <span className={styles.label}>Вартість<br/>(FanCoins)</span>
+                    <p className={styles.numChapter}>10$</p>
+                  </div>
+                  <div className={styles.blockMobileTable}>
+                    <span className={styles.label}>Створено</span>
+                    <p className={styles.numChapter}>13.02.2023</p>
+                  </div>
+                </td>
+                <td></td>
+              </tr>
+
+              {/* Третья строка */}
+              <tr>
+                <td></td>
+                <td className={styles.buttonChapter}>
+                  <button className={styles.editChapter}>
+                    <img src={Edit} alt="Edit" />
+                    <span>Редагувати</span>
+                  </button>
+                </td>
+                <td >
+                  <button className={styles.trashChapter}>
+                    <img src={Trash} alt="Trash" />
                     <span>Видалити</span>
-                  </button></td> */}
-                   {/*chaptertableAuthor */}
-                </tr>
-              </tbody>
-            </table>
-          </div>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+        {/* </div> */}
         {/* COMMENTS */}
       </div>
       {/* {chaptersData?.total_chapters > 0 && (
@@ -443,43 +530,43 @@ const BookDetailRouter = () => {
       ) : (
         <BookDetailReader {...commonProps} />
       )} */}
-       <div className={`comments-section ${styles.CommentsSection}`}>
-          <h2>Коментарі</h2>
-          <div className={styles.inputComment}>
-            <input placeholder='Прокоментуйте...' type='text'/>
-            <button type='submit'><img src={RightArrow}></img></button>
-          </div>
-          <div className="comment-block">
-            <img className="user-img" src={CommentImg} />
-            <div className="all-text-comment">
-              <div className="info-user-comment">
-                <div className="name-user-comment">Констянтин Петрович</div>
-                <div className="last-seen">5 годин тому</div>
-              </div>
-              <div className="content-comment">
-                Вітання. Добро пожалувати в систему перекладів «UA Translate».
-                Цей сайт призначений для професійних мов любительських
-                перекладів будь-яких новелів, фанфіків, ранобе з різних мов.
-                Ваші улюблені ранобе, новели та інше на українській мові!
-              </div>
-              <div className="button-comment">
-                <div className="left-button-comment">
-                  <div className="favorite">
-                    <img src={Favorite} />
-                    <span>5</span>
-                  </div>
-                  <button>Відповісти</button>
+      <div className={`comments-section ${styles.CommentsSection}`}>
+        <h2>Коментарі</h2>
+        <div className={styles.inputComment}>
+          <input placeholder='Прокоментуйте...' type='text' />
+          <button type='submit'><img src={RightArrow}></img></button>
+        </div>
+        <div className="comment-block">
+          <img className="user-img" src={CommentImg} />
+          <div className="all-text-comment">
+            <div className="info-user-comment">
+              <div className="name-user-comment">Констянтин Петрович</div>
+              <div className="last-seen">5 годин тому</div>
+            </div>
+            <div className="content-comment">
+              Вітання. Добро пожалувати в систему перекладів «UA Translate».
+              Цей сайт призначений для професійних мов любительських
+              перекладів будь-яких новелів, фанфіків, ранобе з різних мов.
+              Ваші улюблені ранобе, новели та інше на українській мові!
+            </div>
+            <div className="button-comment">
+              <div className="left-button-comment">
+                <div className="favorite">
+                  <img src={Favorite} />
+                  <span>5</span>
                 </div>
-                <div className="right-button-comment">
-                  <img src={Trash} />
-                  <button>Видалити коментар</button>
-                </div>
+                <button>Відповісти</button>
+              </div>
+              <div className="right-button-comment">
+                <img src={Trash} />
+                <button>Видалити коментар</button>
               </div>
             </div>
-            <img className={styles.LeftFooter} src={LeftFooter}/>
-            <img className={styles.RightFooter} src={RightFooter}/>
           </div>
-          {/* {isAuthenticated ? (
+          <img className={styles.LeftFooter} src={LeftFooter} />
+          <img className={styles.RightFooter} src={RightFooter} />
+        </div>
+        {/* {isAuthenticated ? (
             <CommentForm onSubmit={handleCommentSubmit} />
           ) : (
             <p>Увійдіть, щоб залишити коментар</p>
@@ -497,7 +584,7 @@ const BookDetailRouter = () => {
           ) : (
             <p>Коментарів поки ще немає.</p>
           )} */}
-        </div>
+      </div>
     </>
   );
 };

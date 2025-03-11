@@ -1,8 +1,7 @@
 .BookCartContainer {
   background-image: url("../pages/img/background.png");
   background-repeat: no-repeat;
-  background-size: 106% 116%;
-  background-position: left -60px;
+  background-size: contain;
   padding: 20px 131px 168px 100px;
 }
 
@@ -40,6 +39,12 @@
   gap: 10px;
   border: 1px solid #f58807;
 }
+.chaptertableAuthorRead {
+  font-size: 14px;
+  font-family: "Sofia Sans Semi Condensed";
+  display: flex;
+  align-items: center;
+}
 .mainInfoBook {
   display: flex;
   gap: 10px;
@@ -55,13 +60,12 @@
   margin-top: -50px;
   color: #a47b4c;
   position: relative;
+  justify-content: center;
   padding-bottom: 50px;
 }
 .headerTableInfoBook p {
-  position: absolute;
   font-size: 59px;
-  left: -31px;
-  top: -29px;
+  margin-top: -26px;
   font-family: "Inter";
 }
 .headerTableInfoBook span {
@@ -131,6 +135,7 @@
   padding: 5px 15px;
   color: #f58807;
   font-size: 16px;
+  margin-bottom: 30px;
   border-radius: 5px;
   border: 1px solid;
   font-family: "Inter";
@@ -148,7 +153,8 @@
   align-items: center;
   justify-content: space-between;
 }
-.headerDescBook span {
+.headerDescBook span,
+.headerAnotherBooks span {
   font-size: 18px;
   font-weight: 600;
   color: #f58807;
@@ -160,11 +166,12 @@
   background-color: #5e626c;
   height: 1px;
 }
-.lineHeaderDesc p {
+.lineHeaderDesc p,
+.descBookDetail p {
   line-height: 24px;
   font-size: 16px;
-  font-family: "Inter";
-  color: #05b4c7;
+  font-family: "Inter" !important;
+  color: #05b4c7 !important;
 }
 
 .descBookDetail {
@@ -177,7 +184,8 @@
   background-size: contain;
   background-repeat: no-repeat;
   padding: 30px 0 100px;
-  margin: 70px 70px 0;
+  margin: 70px auto;
+  width: 100%;
   background-position: center;
 }
 
@@ -211,6 +219,8 @@
   display: flex;
   align-items: center;
   gap: 50px;
+}
+.headerDescBook {
 }
 .chaptertableAuthor thead tr th {
   font-family: "Sofia Sans Semi Condensed";
@@ -342,11 +352,324 @@
 }
 .LeftFooter {
   position: absolute;
-    left: -9%;
-    bottom: -43%;
+  left: -9%;
+  bottom: -43%;
 }
 .RightFooter {
   position: absolute;
   right: -7%;
   bottom: -25%;
+}
+.CartBook {
+  max-width: 380px;
+  max-height: 100%;
+  height: auto;
+}
+.tableBookMobile {
+  display: none;
+}
+.chaptertableAuthorMobile {
+  display: none;
+}
+@media (max-width: 1427px) {
+  .headerBookDetail {
+    justify-content: center;
+  }
+  .BookDetailContainer {
+    width: 98%;
+  }
+}
+@media (max-width: 1081px) {
+  .chaptertableAuthor {
+    display: none;
+  }
+
+  /* ////////////////// */
+  .CartBook {
+    max-width: 228px;
+    max-height: auto;
+    height: auto !important;
+  }
+  .mainInfoBook {
+    flex-direction: column;
+  }
+  .rightInfoBook {
+    margin-top: 0;
+    flex-direction: row;
+    gap: 58px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .raiting {
+    flex-direction: column;
+  }
+  .BookCartContainer {
+    background-size: 114% auto;
+    padding: 20px 31px 168px 100px;
+  }
+  .headerDescBook span,
+  .headerAnotherBooks span {
+    font-size: 15px;
+  }
+  .chapterCheck {
+    justify-content: center;
+  }
+  .chaptertableAuthorMobile {
+    display: revert-layer;
+    width: 94%;
+    background-color: rgb(5 180 199 / 18%);
+    box-shadow: 4px -2px 47px 40px rgb(5 180 199 / 19%);
+    /* padding: 20px; */
+    margin: 23px auto;
+    border-radius: 50px;
+  }
+  .chaptertableAuthorRead {
+    background-color: #050d11;
+    border-radius: 15px;
+    padding: 10px 5px;
+    color: #f58807;
+    font-size: 20px;
+    display: flex;
+    font-family: "Alleycat";
+    flex-direction: column;
+  }
+  .nameChapter {
+    font-size: 18px !important;
+    font-family: "Alleycat" !important;
+  }
+  .label {
+    text-align: center;
+  }
+  .inputChapterBlock {
+    text-align: center;
+  }
+  .blockNumbersMobile {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #f58807;
+    font-size: 13px;
+    font-family: "Inter";
+  }
+  .chaptertableAuthorMobile {
+    /* width: 100%; */
+    border-collapse: collapse; /* Убираем пробелы между ячейками */
+  }
+
+  .chaptertableAuthorMobile td {
+    padding: 6px;
+    /* text-align: left; */
+  }
+  .blockMobileTable {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-left: 30px;
+  }
+  .inputChapterBlock {
+    text-align: center;
+  }
+  .trBookDetail {
+    background-color: rgb(5 180 199 / 14%);
+    box-shadow: 4px -2px 64px 70px rgb(5 180 199 / 14%);
+  }
+  .numChapter {
+    font-family: "Inter";
+    font-size: 14px;
+  }
+  .nameChapter {
+    text-align: center;
+  }
+  .inputChapterBlock {
+    position: relative;
+    width: 55px;
+  }
+  .inputChapter {
+    position: absolute;
+    left: 0;
+    top: 25%;
+  }
+  .buttonChapter {
+    display: flex;
+    justify-content: center;
+  }
+  .chaptertableAuthorRead {
+    position: absolute;
+  }
+  .headerChapters {
+    padding-bottom: 74px;
+  }
+}
+@media (max-width: 1003px) {
+  .LeftFooter,
+  .RightFooter {
+    display: none;
+  }
+}
+@media (max-width: 920px) {
+  .anotherBooks {
+    background-size: 100% 100%;
+  }
+}
+@media (max-width: 840px) {
+  .lineHeaderDesc {
+    width: 70%;
+  }
+  .anotherBooks {
+    margin: 70px 0 70px -8px;
+    width: 102%;
+    background-size: 166% 100%;
+  }
+}
+@media (max-width: 800px) {
+  .tableBookMobile {
+    display: flex;
+
+    flex-direction: column;
+    width: 35%;
+    gap: 5px;
+  }
+  .tableBookMobileBlock {
+    display: flex;
+    flex-direction: column;
+    border-radius: 43px;
+    font-family: "Sofia Sans Semi Condensed";
+    padding: 3px 25px;
+    width: max-content;
+    color: #05b4c7;
+    font-size: 14px;
+    border: 1px solid #05b4c7;
+    align-items: center;
+  }
+  .rightMobile {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .leftMobile {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+  }
+  .BookCartContainer {
+    background-size: 100% 100%;
+    padding: 20px 87px 164px 78px;
+  }
+  .headerBookDetail {
+    flex-wrap: wrap;
+  }
+  .tableBook tbody tr:nth-child(1),
+  .tableBook tbody tr:nth-child(2),
+  .tableBook tbody tr:nth-child(3),
+  .tableBook tbody tr:nth-child(7),
+  .tableBook tbody tr:nth-child(8),
+  .tableBook tbody tr:nth-child(9) {
+    display: none;
+  }
+  .tableBook {
+    width: 100%;
+    margin-top: -100px;
+  }
+  .rightInfoBook {
+    gap: 15px;
+  }
+  .lineAnotherBooks {
+    width: calc(70% - 20%);
+  }
+}
+@media (max-width: 751px) {
+  .headerTableInfoBook {
+    justify-content: flex-end;
+    padding-right: 2%;
+  }
+}
+@media (max-width: 708px) {
+  .bookmarks {
+    font-size: 14px;
+  }
+}
+@media (max-width: 620px) {
+  .BookCartContainer {
+    background-size: 100% 100%;
+    padding: 20px 17px 104px 8px;
+    width: 45%;
+    margin-bottom: 130px;
+  }
+  .CartBook {
+    max-width: 128px;
+    margin: 0 auto;
+  }
+  .tableBookMobile {
+    width: 50%;
+  }
+  .BookCartContainer {
+    background-size: 113% 100%;
+    padding: 20px 0px 104px 9px;
+  }
+  .headerTableInfoBook {
+    margin-top: -35px;
+    padding-bottom: 25px;
+  }
+  .headerTableInfoBook p {
+    font-size: 28px;
+    margin-top: -16px;
+  }
+  .headerTableInfoBook span {
+    font-size: 22px;
+  }
+}
+@media (max-width: 595px) {
+  .CommentsSection {
+    width: 95%;
+  }
+  .inputComment {
+    width: 99%;
+  }
+  .inputComment input {
+    font-size: 12px;
+  }
+}
+@media (max-width: 560px) {
+  .leftHeaderChapters {
+    gap: 10px;
+  }
+  .headerChapters {
+    gap: 27px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+@media (max-width: 520px) {
+  .trashChapter,
+  .editChapter {
+    gap: 0;
+    font-size: 14px;
+  }
+  .chaptertableAuthorMobile {
+    width: 86%;
+  }
+  .translators {
+    margin-left: 0;
+  }
+  .novelTitleHomepage {
+    font-size: 14px;
+}
+}
+@media (max-width: 480px) {
+  .anotherBooks {
+  width: 103%;
+  }
+}
+
+@media (max-width: 420px) {
+  .tableBookMobile {
+    width: 52%;
+  }
 }

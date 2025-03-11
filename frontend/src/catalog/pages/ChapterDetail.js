@@ -9,9 +9,11 @@ import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 import "../../navigation/css/BookmarkButton.css";
 import ModalErrorReport from "../../editors/components/ModalErrorReport";
 import "../css/ChapterDetail.css";
+import styles from "../css/BookDetailRouter.module.css";
 import { handleCatalogApiError } from "../utils/errorUtils";
 import { toast } from "react-toastify";
 import { debounce } from "lodash";
+import RightArrow from "../../main/pages/img/right-arrow.png";
 import { monitoringAPI } from "../../api/monitoring/monitoringAPI";
 import { getChapterNavigation } from "../../api/navigation/navigationAPI";
 import {
@@ -359,7 +361,7 @@ const ChapterDetail = () => {
 
   return (
     <section className="chapter-detail">
-      <Container>
+      <Container className="chapter-container">
         <BreadCrumb
           items={[
             { href: "/", label: "Головна" },
@@ -430,7 +432,7 @@ const ChapterDetail = () => {
         </div>
 
         <div className="footer-chapter">
-          <div className="header-chapter-detail">
+          <div className="header-chapter-detail footer-name-chapter">
             <div className="back">
               <img src={ArrowChapter} />
               <span>Попередній розділ</span>
@@ -449,8 +451,10 @@ const ChapterDetail = () => {
             </div>
           </div>
         </div>
+        <div className="container-block-error-chapter">
         <div className="error-report-container">
           {!isSelectionMode ? (
+        
             <div className="block-error-chapter">
               <Button
                 variant="warning"
@@ -460,6 +464,7 @@ const ChapterDetail = () => {
                 Повідомити про помилку
               </Button>
             </div>
+     
           ) : (
             <div className="selection-mode">
               {isSelectionMode && (
@@ -478,7 +483,7 @@ const ChapterDetail = () => {
             </div>
           )}
         </div>
-
+        </div>
         <ModalErrorReport
           show={showErrorModal}
           onHide={() => setShowErrorModal(false)}
@@ -513,6 +518,10 @@ const ChapterDetail = () => {
 
         <div className="comments-section">
           <h2>Коментарі</h2>
+          <div className={styles.inputComment}>
+            <input placeholder='Прокоментуйте...' type='text'/>
+            <button type='submit'><img src={RightArrow}></img></button>
+          </div>
           <div className="comment-block">
             <img className="user-img" src={CommentImg} />
             <div className="all-text-comment">

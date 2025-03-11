@@ -11,6 +11,8 @@ import { BreadCrumb } from '../../main/components/BreadCrumb';
 
 
 const ChatPage = () => {
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
+    const [showChatWindow, setShowChatWindow] = useState(false);
     const navigate = useNavigate();
     const { isAuthenticated } = useSelector((state) => state.auth);
     const [chats, setChats] = useState([]);
@@ -20,21 +22,21 @@ const ChatPage = () => {
     const [error, setError] = useState(null);
 
 
-    const loadChats = async () => {
-        try {
-            setLoading(true);
-            const chatList = await chatApi.getChatList();
-            setChats(chatList);
-        } catch (error) {
-            console.error('Error loading chats:', error);
-            setError('Помилка завантаження чатів');
-            if (error.response?.status === 401) {
-                navigate('/login');
-            }
-        } finally {
-            setLoading(false);
-        }
-    };
+    // const loadChats = async () => {
+    //     try {
+    //         setLoading(true);
+    //         const chatList = await chatApi.getChatList();
+    //         setChats(chatList);
+    //     } catch (error) {
+    //         console.error('Error loading chats:', error);
+    //         setError('Помилка завантаження чатів');
+    //         if (error.response?.status === 401) {
+    //             navigate('/login');
+    //         }
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
 
     useEffect(() => {
         if (!isAuthenticated) {
@@ -43,33 +45,42 @@ const ChatPage = () => {
         }
     }, [isAuthenticated, navigate]);
 
+    // useEffect(() => {
+    //     if (!isAuthenticated) {
+    //         navigate('/login');
+    //         return;
+    //     }
+
+    //     loadChats();
+
+    //     const intervalId = setInterval(() => {
+    //         if (websocketService.isConnected) {
+    //             loadChats();
+    //         }
+    //     }, 15000);
+
+    //     return () => clearInterval(intervalId);
+    // }, [isAuthenticated, navigate]);
     useEffect(() => {
-        if (!isAuthenticated) {
-            navigate('/login');
-            return;
-        }
-
-        loadChats();
-
-        const intervalId = setInterval(() => {
-            if (websocketService.isConnected) {
-                loadChats();
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 600);
+            if (window.innerWidth > 600) {
+                setShowChatWindow(false); // Если расширили экран, показываем оба компонента
             }
-        }, 15000);
-
-        return () => clearInterval(intervalId);
-    }, [isAuthenticated, navigate]);
-
-    const handleOpenCreateModal = useCallback(() => {
-        console.log('handleOpenCreateModal called');
-        if (!isAuthenticated) {
-            alert('Будь ласка, увійдіть у систему');
-            navigate('/login');
-            return;
-        }
-        console.log('Setting showCreateModal to true');
-        setShowCreateModal(true);
-    }, [isAuthenticated, navigate]);
+        };
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+    // const handleOpenCreateModal = useCallback(() => {
+    //     console.log('handleOpenCreateModal called');
+    //     if (!isAuthenticated) {
+    //         alert('Будь ласка, увійдіть у систему');
+    //         navigate('/login');
+    //         return;
+    //     }
+    //     console.log('Setting showCreateModal to true');
+    //     setShowCreateModal(true);
+    // }, [isAuthenticated, navigate]);
 
     const handleCreateChat = async (username, message) => {
         try {
@@ -86,7 +97,7 @@ const ChatPage = () => {
             console.log('Chat created:', newChat);
             
             setShowCreateModal(false);
-            await loadChats(); 
+            // await loadChats(); 
             setSelectedChat(newChat);
             
         } catch (error) {
@@ -121,9 +132,9 @@ const ChatPage = () => {
         setSelectedChat(null);
     };
 
-    if (loading && !chats.length) {
-        return <div className="chat-page loading">Загрузка чатiв...</div>;
-    }
+    // if (loading && !chats.length) {
+    //     return <div className="chat-page loading">Загрузка чатiв...</div>;
+    // }
 
     return (
         <div className="chat-page">
@@ -135,23 +146,10 @@ const ChatPage = () => {
                   />
             {error && <div className="error-message">{error}</div>}
             <div className="chat-container">
-                <ChatList
-                    chats={chats}
-                    selectedChat={selectedChat}
-                    onSelectChat={setSelectedChat}
-                    onCreateChat={handleOpenCreateModal}
-                    loading={loading}
-                />
-                 <ChatWindow
-                        chat={selectedChat}
-                        onDeleteChat={handleDeleteChat}
-                    />
-                {/* {selectedChat && (
-                    <ChatWindow
-                        chat={selectedChat}
-                        onDeleteChat={handleDeleteChat}
-                    />
-                )} */}
+            {!showChatWindow && (
+                    <ChatList onOpenChat={() => isMobile && setShowChatWindow(true)} />
+                )}
+                {(showChatWindow || !isMobile) && <ChatWindow onClose={() => setShowChatWindow(false)} />}
             </div>
             {showCreateModal && (
                 <CreateChatModal

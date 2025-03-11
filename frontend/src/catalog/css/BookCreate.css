@@ -125,9 +125,13 @@
   background-color: #0056b3;
 }
 .first-block-create-book {
-  width: 82%;
+  /* width: 82%; */
   margin: 0 auto;
   padding-top: 70px;
+}
+.BookCreateContainer {
+  width: 82%;
+  margin: 0 auto;
 }
 .name-book {
   display: flex;
@@ -219,9 +223,16 @@
 }
 .img-book {
   margin-top: 100px;
+  /* width: 100%; */
+}
+.img-book.any {
+  width: 100%;
+}
+.input-img.general {
+  padding: 39px 46px;
 }
 .input-img {
-  padding: 39px 46px;
+  /* padding: 39px 46px; */
   height: 100%;
   width: 100%;
   background-color: rgba(5, 180, 199, 0.15);
@@ -237,6 +248,7 @@
 .custom-file-upload {
   display: flex;
   height: 100%;
+  width: 100%;
   align-items: center;
   cursor: pointer;
   flex-direction: column;
@@ -286,6 +298,9 @@
   top: -21px;
   left: 14px;
 }
+.block-name-book.mobile {
+  display: none;
+}
 .bottom-button {
   position: absolute;
   left: 14px;
@@ -296,5 +311,261 @@
   display: flex;
   flex-direction: column;
   gap: 30px;
+  width: 100%;
   align-items: center;
+}
+.create-name {
+  width: max-content;
+}
+.create-name h2 {
+  text-align: center;
+}
+@media (max-width: 1483px) {
+  .BookCreateContainer {
+    width: 95%;
+  }
+}
+@media (max-width: 1340px) {
+  .midle-first-block {
+    display: flex;
+    gap: 5px;
+  }
+}
+@media (max-width: 1265px) {
+  .another-input-name-book {
+    height: auto !important;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .custom-file-upload.any-img {
+    height: 204px;
+    width: 22%;
+  }
+}
+@media (max-width: 1070px) {
+  .name-book-label.fandom {
+    top: 0 !important;
+  }
+  .fandoms-container.input-name-book {
+    padding: 70px 20px 40px 20px !important;
+  }
+  .input-name-book {
+    background-color: rgba(5, 13, 17, 0.8) !important;
+  }
+  .block-name-book {
+    min-height: 100px;
+    background-color: rgba(5, 13, 17, 0.8) !important;
+    border: 1px solid rgba(245, 136, 7, 0.3) !important;
+    border-radius: 26px;
+    justify-content: flex-end;
+  }
+  .name-book-label {
+    background-color: transparent;
+    width: max-content;
+    margin-left: 0;
+    border-radius: none;
+    margin-top: 5px;
+    border: none;
+    font-size: 20px;
+    padding-left: 20px;
+    position: absolute;
+    top: 6px;
+  }
+  .all-content {
+    display: none;
+  }
+  .name-book-label.img_book {
+    background-color: #050d11;
+    border: 1px solid;
+    top: -30px !important;
+  }
+  .all-img {
+    padding-bottom: 100px;
+  }
+  .block-name-book.mobile {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+  }
+  .block-name-book.mobile .adult-content-checkbox input[type="checkbox"] {
+    width: 50px;
+    height: 50px;
+  }
+  .block-name-book.mobile
+    .adult-content-checkbox
+    input[type="checkbox"]:checked::after {
+    font-size: 62px;
+  }
+  .block-name-book.mobile .form-check-label {
+    font-size: 30px;
+  }
+  .block-name-book.mobile img {
+    width: 40px;
+  }
+  .block-name-book.mobile .check-content {
+    border-bottom: none;
+    flex-direction: row;
+  }
+  .container-name-book {
+    display: flex;
+    flex-direction: column;
+    margin-left: 0;
+    margin-bottom: 12px;
+    border-bottom: none;
+    margin-top: 0;
+    padding: 0 20px;
+    border-radius: 26px;
+    border-left: none;
+  }
+  .last-block-first .block-name-book .input-name-book,
+  .midle-first-block .block-name-book .input-name-book,
+  .first-block-create-book .block-name-book .input-name-book {
+    padding-left: 0;
+    padding-top: 0;
+    margin: 0;
+    border-radius: 0 !important;
+    background-color: transparent !important;
+    border-bottom: 0;
+    padding: 0;
+    min-height: 0;
+    border-radius: 0 26px;
+    border: none !important;
+
+    margin-left: 5px;
+    margin-top: -22px;
+    margin-bottom: 5px;
+
+    font-family: "Sofia Sans Semi Condensed";
+    font-size: 19px;
+    border-bottom: 4px dotted #f58807 !important;
+    font-style: italic;
+  }
+  .last-block-first .block-name-book .name-book-label {
+    top: 0 !important;
+  }
+  .last-block-first .block-name-book .input-name-book {
+    border-bottom: none !important;
+    margin-top: 50px;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+  .input-name-book.form-select {
+    color: rgba(245, 136, 7, 0.5);
+  }
+  .header-book-genres {
+    display: none;
+  }
+  .sub-title-tags {
+    padding-top: 20px;
+  }
+  .line-sub-title-tags {
+    width: 81%;
+  }
+  .tags-container.input-name-book {
+    border-radius: 26px;
+  }
+  .name-book-label.tags {
+    margin-top: -7px !important;
+    padding: 5px 33px !important;
+    font-size: 27px;
+  }
+  .genres-container.input-name-book {
+    margin-top: 50px;
+    padding: 40px 24px;
+    gap: 5px;
+    border-radius: 26px;
+  }
+  .name-book-label.genres {
+    margin-top: -5px !important;
+    padding: 5px 38px !important;
+  }
+  .name-book {
+    gap: 0;
+    flex-direction: column;
+  }
+  .midle-first-block .block-name-book {
+    width: 49%;
+  }
+  .midle-first-block {
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+}
+@media (max-width: 896px) {
+  .custom-file-upload.any-img {
+    height: 204px;
+    width: 31%;
+  }
+  .block-name-book.mobile .form-check-label {
+    font-size: 22px;
+}
+}
+@media (max-width: 835px) {
+  .genres-container {
+    min-height: 543px;
+    height: auto;
+  }
+}
+@media (max-width: 735px) {
+  .custom-file-upload.any-img {
+    height: 204px;
+    width: 48%;
+  }
+  .custom-file-upload.any-img:nth-child(6),
+  .custom-file-upload.any-img:nth-child(5),
+  .custom-file-upload.any-img:last-child {
+    display: none;
+  }
+}
+@media (max-width: 699px) {
+  .custom-file-upload.any-img {
+    height: 100px;
+    width: 40%;
+  }
+  .input-img img {
+    width: 30px;
+  }
+  .general-img .general-input-name-book {
+    width: 220px !important;
+    height: 296px !important;
+  }
+  .file-label {
+    border-radius: 0 14px 14px 0;
+  }
+  .all-img {
+    display: flex;
+    gap: 10px;
+  }
+  .all-sub-ell, .fandoms-container {
+    gap: 5px;
+  }
+}
+@media (max-width: 517px) {
+  .name-book-label {
+    font-size: 16px;
+  }
+  .save-book {
+    font-size: 14px;
+  }
+  .all-img {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+  }
+  .img-book.any {
+    margin-top: 50px;
+  }
+}
+@media (max-width: 482px) {
+  .block-name-book.mobile .adult-content-checkbox input[type="checkbox"] {
+    width: 30px;
+    height: 30px;
+}
+.block-name-book.mobile .form-check-label {
+  font-size: 16px;
+}
+.block-name-book.mobile {
+  flex-direction: column;
+}
 }

@@ -407,9 +407,9 @@
 .novel-card {
   position: relative;
   width: 100%;
-  min-width: 288.9px;
-  max-width: 288.9px;
-  min-height: 493.17px;
+  min-width: 265px;
+  max-width: 265px;
+  height: 450px;
   background: url("../../main/assets/Rectangle.svg") no-repeat center;
   background-size: 100% 100%;
   padding: var(--card-padding);
@@ -430,6 +430,7 @@
   display: flex;
   padding-bottom: 30px;
   justify-content: flex-end;
+  margin: 0 10px;
   font-family: "SOFIA SANS SEMI CONDENSED";
   gap: 22px;
   align-items: center;
@@ -642,4 +643,38 @@
   max-width: 1366px;
   margin: 0 auto;
   padding: 0 20px;
+}
+@media (max-width: 1024px) {
+  .novel-card {
+    max-width: 265px;
+    max-height: 334px;
+    min-width: 203px;
+  }
+  .novel-card.mobal {
+    width: 48% !important;
+  }
+  .novel-cover {
+    height: 158px;
+    /* margin-top: 0; */
+  }
+}
+@media (max-width: 768px) {
+  .novel-card.mobal {
+    background-position: center top 4px;
+  }
+  .catalog-section {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+  .catalog-content {
+    padding: 0 !important;
+  }
+}
+@media (max-width: 462px) {
+  .novel-card.modal {
+    width: 41% !important;
+    background-position: center top -96px;
+    min-width: 100px !important;
+}
+
 }

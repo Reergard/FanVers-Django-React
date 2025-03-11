@@ -7,7 +7,7 @@ import Status from "../../main/pages/img/status.png";
 import ImgChat from "../../main/pages/img/hamster.webp";
 import RightArrow from "../../main/pages/img/right-arrow.png";
 
-const ChatWindow = ({ chat, onDeleteChat }) => {
+const ChatWindow = ({ chat, onDeleteChat, onClose }) => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const messagesEndRef = useRef(null);
@@ -116,7 +116,8 @@ const ChatWindow = ({ chat, onDeleteChat }) => {
   return (
     <div className="chat-window">
       <div className="chat-header">
-        <div className="info-chat">
+     
+        <div className="info-chat window">
           <div className="img-chat">
             <img src={ImgChat} />
           </div>
@@ -124,7 +125,11 @@ const ChatWindow = ({ chat, onDeleteChat }) => {
           <div className="status-chat-header">
             <img src={Status} />
           </div>
+          
         </div>
+        <button className="back-btn" onClick={onClose}>
+                    ←
+                </button>
         <div className="other-info-header">
           <span>Останній вхід:</span>
           <p>15.02.2023/Онлайн</p>

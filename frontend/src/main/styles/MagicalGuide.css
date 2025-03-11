@@ -74,6 +74,9 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
 }
+.novel-cover.magical {
+  margin-top: 20px;
+}
 
 .book-card:hover {
   transform: translateY(-5px);
@@ -136,8 +139,10 @@
 }
 .novel-card-magical {
   background: radial-gradient(circle, #110e21 0%, #06abc161 100%);
-  max-width: 288.9px;
+  max-width: 265px;
+  height: 450px;
   padding: 20px;
+  align-items: center;
   display: flex;
   flex-direction: column;
   border-radius: 40px;
@@ -149,6 +154,17 @@
   justify-content: center;
   gap: 43px;
 }
+@media (max-width: 1024px) {
+  .novel-card-magical {
+    max-width: 203px;
+    max-height: 334px;
+    min-width: 203px;
+  }
+  .novel-cover {
+    height: 158px;
+    /* margin-top: 0; */
+  }
+}
 .day,
 .week,
 .month,
@@ -157,23 +173,29 @@
   flex-direction: column;
   align-items: flex-end;
   cursor: pointer;
-  transition: all .3s ease-in-out;
-  color: #5E626C;
+  transition: all 0.3s ease-in-out;
+  color: #5e626c;
   font-weight: 600;
 }
 .day:hover,
 .week:hover,
 .month:hover,
 .general:hover {
-color: #ffff;
-
+  color: #ffff;
 }
 @media (max-width: 768px) {
+  .novel-card-magical {
+    max-width: 90%;
+    max-height: 334px;
+    min-width: 90%;
+  }
   .trending-books-grid {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 15px;
   }
-
+  .advertisement-Magical, .advertisement-homepage {
+    font-size: 20px;
+  }
   .book-info h3 {
     font-size: 14px;
   }
@@ -185,5 +207,73 @@ color: #ffff;
   .tab-button {
     padding: 8px 16px;
     font-size: 14px;
+  }
+}
+@media (max-width: 656px) {
+  .nav_recommendations {
+    gap: 13px;
+    padding: 20px 0;
+  }
+  .day,
+  .week,
+  .month,
+  .general {
+    font-size: 16px;
+  }
+}
+@media (max-width: 586px) {
+  .novel-description-homepage {
+    font-size: 6px;
+  }
+  .novel-card-magical {
+    border-radius: 20px;
+  }
+  .novel-title-homepage3 {
+    font-size: 11px;
+  }
+  .image-wrapper.magical-img,
+  .image-container.magical-img,
+  .novel-cover.magical {
+    max-width: 67px;
+    max-height: 99px;
+  }
+  .novel-cover.magical {
+    margin-top: 0;
+    /* max-width: 67px; */
+    max-width: 67px;
+    max-height: 99px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .novel-card-magical {
+    max-width: 128px;
+    max-height: 210px;
+    min-width: 128px;
+  }
+}
+@media (max-width: 443px) {
+  .novel-card-magical {
+    padding: 10px;
+  }
+  .novel-card-magical {
+    max-width: 115px;
+    max-height: 210px;
+    min-width: 113px;
+  }
+  .day,
+  .week,
+  .month,
+  .general {
+    font-size: 8px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .day img,
+  .week img,
+  .month img,
+  .general img {
+    width: 10px;
   }
 }

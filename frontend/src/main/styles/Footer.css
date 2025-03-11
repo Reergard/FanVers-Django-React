@@ -1,16 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Arizonia&family=Montserrat:wght@400;500;700&family=Playwrite+DK+Uloopet:wght@100..400&family=Sofia+Sans+Semi+Condensed:ital,wght@0,1..1000;1,1..1000&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Arizonia&family=Montserrat:wght@400;500;700&family=Playwrite+DK+Uloopet:wght@100..400&family=Sofia+Sans+Semi+Condensed:ital,wght@0,1..1000;1,1..1000&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap");
 
 .footer {
-  font-family: 'Sofia Sans Semi Condensed', sans-serif;
-  max-width: 1407px;
-  margin: 4rem auto 0 auto;
+  font-family: "Sofia Sans Semi Condensed", sans-serif;
+  /* max-width: 1407px; */
+  margin: 8rem auto 0 auto;
   padding-left: 5%;
   padding-right: 5%;
+  background-color: rgba(5, 13, 17, 1);
+  position: relative;
 }
-
+.container-laptop {
+  display: none;
+}
+.last-logo {
+  display: none;
+}
 .footer-content {
   gap: 2rem;
   font-size: 16px;
+  padding-top: 50px;
+  justify-content: center;
   /*flex: 1;*/
   display: flex;
   align-items: center;
@@ -22,11 +31,13 @@
 .footer-column {
   max-width: 280px;
 }
-.footer-column ul li, .footer-column h3 {
-  color: #B4B1B1;
+.footer-column ul li,
+.footer-column h3 {
+  color: #b4b1b1;
   margin-bottom: 20px;
 }
-.footer-column ul li:hover, .footer-column h3:hover {
+.footer-column ul li:hover,
+.footer-column h3:hover {
   text-decoration: underline;
 }
 .social-links {
@@ -35,15 +46,22 @@
   gap: 0.9rem;
   margin-bottom: 10px;
   padding-top: 50px;
+
+  align-items: center;
   /*font-size: 32px;*/
   /*width: 32px;*/
   /*height: 32px;*/
 }
 
-.brook, .footer_logo {
+.brook,
+.footer_logo {
   padding-top: 50px;
 }
-  
+.bottom {
+  max-width: 170px;
+  text-align: center;
+  /* margin: 0 auto; */
+}
 .links {
   display: flex;
   justify-content: center;
@@ -59,10 +77,109 @@
 .links a:hover {
   text-decoration: underline;
 }
-
-
+.line-footer {
+  display: none;
+}
 @media (max-width: 1200px) {
   .footer-content {
     gap: 1rem;
   }
 }
+@media (max-width: 1024px) {
+}
+@media (max-width: 1003px) {
+  .container-laptop {
+    display: block;
+    background-repeat: no-repeat;
+    /* width: 100%; */
+    /* margin: 0 auto; */
+    /* left: 10%; */
+    /* display: flex
+; */
+    position: absolute;
+    padding: 0 41px 0 13px;
+    height: 800px;
+    background-position: center;
+    background-image: url("../../catalog/pages/img/bg-dragons.png");
+    top: -27%;
+    /* height: auto; */
+    background-size: 100% 100%;
+    justify-content: center;
+    align-items: center;
+    left: calc(25% - 60px);
+  }
+  .container-laptop img {
+    width: 100%;
+  }
+  .footer_logo {
+    display: none;
+  }
+  .brook {
+    display: none;
+  }
+  .footer-content {
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .footer-column {
+    width: 45%;
+    max-width: 45%;
+  }
+  .right h3 {
+    text-align: end;
+  }
+  .line-footer {
+    width: 100%;
+    height: 1px;
+    background-color: #05b4c7;
+    display: block;
+  }
+  .right ul {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  .right ul li {
+    text-align: end;
+  }
+  .bottom {
+    max-width: 100%;
+    width: 100%;
+  }
+  .youtube-logo {
+    display: none;
+  }
+  .last-logo {
+    display: block;
+    width: 89px;
+  }
+}
+@media (max-width: 1003px) {
+  .container-laptop {
+    left: calc(25% - 94px);
+    top: -19%;
+  }
+  /* .footer-column.left-footer ul li:nth-child(4) {
+    border-top: 1px solid #05B4C7;
+    padding-top: 10px;
+  }
+  .footer-column.right ul li:nth-child(5) {
+    border-top: 1px solid #05B4C7;
+    padding-top: 10px;
+  } */
+}
+/* @media (max-width: 503px) {
+  .footer {
+    width: 102%;
+  }
+}
+@media (max-width: 463px) {
+  .container-laptop {
+    height: 130%;
+  }
+}
+@media (max-width: 463px) {
+  .footer {
+    width: 106%;
+  }
+} */

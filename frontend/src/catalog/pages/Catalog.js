@@ -13,7 +13,7 @@ import { BreadCrumb } from "../../main/components/BreadCrumb";
 import HomePage1 from "../../main/pages/HomePage1";
 const NovelCard = ({ title, description, image, slug }) => {
   return (
-    <div className="novel-card">
+    <div className="novel-card mobal">
       <div className="novel-cover">
         <div className="image-container">
           <div className="image-wrapper">

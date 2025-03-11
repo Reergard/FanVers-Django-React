@@ -28,19 +28,20 @@ function AllSettings() {
                 ]}
             />
 
-            <div className={styles.HeaderAllSettings} style={{ paddingBottom: activeTab === "advertising" ? "50px" : "20px", borderBottom: activeTab === "advertising" ? "none" : "#fded01 1px solid", justifyContent: activeTab === "advertising" ? "center" : "flex-start", width: activeTab === "advertising" ? "70%" : "50%",}}>
+            <div className={styles.HeaderAllSettings} style={{ paddingBottom: activeTab === "advertising" ? "50px" : "20px", borderBottom: activeTab === "advertising" ? "none" : "#fded01 1px solid", justifyContent: activeTab === "advertising" ? "center" : "flex-start", width: activeTab === "advertising" ? "70%" : "50%", }}>
                 {Object.entries(TABS).map(([key, { label }]) => (
                     key === "advertising" && activeTab === "advertising" ? (
                         // Если активна вкладка "Реклама" - заменяем кнопку на кастомный блок
-                        <> <div className="block-name-chapter" key={key}>
-                            <img src={BgChapter} className="top-chapter" />
-                            <div className="chapter-name">
+                        <div className={styles.containerBlockNameChapter}> 
+                        <div  className={`block-name-chapter ${styles.BlockNameChapter}`}  key={key}>
+                            <img src={BgChapter} className={`top-chapter ${styles.TopChapter}`} />
+                            <div className={`chapter-name ${styles.settingsHeader}`}>
                                 <span>Реклама</span>
                             </div>
-                            <img src={BgChapter} className="bot-chapter" />
+                            <img src={BgChapter} className={`bot-chapter ${styles.BotChapter}`} />
                         </div>
                             <p>* Увага, після натискання на кнопку "Опублікувати" вартість реклами автоматично списується з вашого балансу.</p>
-                        </>
+                        </div>
                     ) : (
                         // Обычные кнопки
                         <button

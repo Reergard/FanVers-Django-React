@@ -12,7 +12,9 @@ import BlueDot from "./img/blue-dot.png";
 
 const NovelCard = ({ title, description, image }) => {
   return (
-    <div className="novel-card">
+    <div
+      className="novel-card advertising-mobal"
+    >
       <div className="novel-cover">
         <div className="image-container">
           <div className="image-wrapper">
@@ -36,8 +38,8 @@ const NovelCard = ({ title, description, image }) => {
       </div>
       <span className="novel-title-homepage">{title}</span>
       <span className="novel-description-homepage">
-        {description.length > 200
-          ? `${description.slice(0, 200)}...`
+        {description.length > 150
+          ? `${description.slice(0, 150)}...`
           : description}
       </span>
       <div className="novel-button">
@@ -70,15 +72,9 @@ const HomePage1 = () => {
         },
       },
       {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 2,
-        },
-      },
-      {
         breakpoint: 768,
         settings: {
-          slidesToShow: 1,
+          slidesToShow: 2,
         },
       },
     ],
@@ -111,16 +107,15 @@ const HomePage1 = () => {
           className="slider-btn left"
           onClick={() => sliderRef.current.slickPrev()}
         >
-        
-         <img src={LeftArrow}/>
-         <img src={BlueDot}/>
+          <img src={LeftArrow} />
+          <img src={BlueDot} />
         </button>
         <button
           className="slider-btn right"
           onClick={() => sliderRef.current.slickNext()}
         >
-          <img src={OrangeDot}/>
-          <img src={RightArrow}/>
+          <img src={OrangeDot} />
+          <img src={RightArrow} />
         </button>
       </div>
     </div>

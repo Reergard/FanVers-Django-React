@@ -2,8 +2,15 @@ import React from "react";
 import "../css/ChatList.css";
 import Status from "../../main/pages/img/status.png";
 import ImgChat from "../../main/pages/img/hamster.webp";
+import Message from "../../main/pages/img/message.svg";
 
-const ChatList = ({ chats, selectedChat, onSelectChat, onCreateChat }) => {
+const ChatList = ({
+  chats,
+  selectedChat,
+  onSelectChat,
+  onCreateChat,
+  onOpenChat,
+}) => {
   const handleCreateClick = (e) => {
     e.preventDefault();
     console.log("Create chat button clicked");
@@ -16,29 +23,42 @@ const ChatList = ({ chats, selectedChat, onSelectChat, onCreateChat }) => {
 
   return (
     <div className="chat-list">
+      <div className="block-create-chat">
+        <div className="line-create"></div>
       <button className="create-chat-btn" onClick={handleCreateClick}>
-        Створити чат
+        <img src={Message}/>
+        <span>Створити чат</span>
       </button>
-
+      </div>
       <div className="chats-container">
         <div className="existing-chats">
-          <div className="one-chat">
+          <div className="one-chat" onClick={onOpenChat}>
             <div className="info-chat">
               <div className="img-chat">
                 <img src={ImgChat} />
               </div>
-              <div className="name-chat">Привид</div>
+              <div className="name-chat-block">
+                <div className="name-chat">Привид</div>
+                <div className="message-list-chat">
+                  Доброго дня. Чи не хотілиб ви перекласти...
+                </div>
+              </div>
             </div>
             <div className="status-chat">
               <img src={Status} />
             </div>
           </div>
-          <div className="one-chat">
+          <div className="one-chat" onClick={onOpenChat}>
             <div className="info-chat">
               <div className="img-chat">
                 <img src={ImgChat} />
               </div>
-              <div className="name-chat">Привид</div>
+              <div className="name-chat-block">
+                <div className="name-chat">Привид</div>
+                <div className="message-list-chat">
+                  Доброго дня. Чи не хотілиб ви перекласти...
+                </div>
+              </div>
             </div>
             <div className="status-chat">
               <img src={Status} />

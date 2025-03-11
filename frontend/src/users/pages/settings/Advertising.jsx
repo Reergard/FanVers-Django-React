@@ -10,12 +10,13 @@ function Advertising() {
             <table className={styles.AdvertisingTable}>
                 <tbody>
                     <tr>
-                        <td className={styles.centerAlign}> <Form.Check
-                            type="checkbox"
-                            id="hide-adult-content"
-                            className={`adult-content-checkbox ${styles.AdvertisingCheck}`}
-                        /></td>
+                        {/* <td className={styles.centerAlign}></td> */}
                         <td className={styles.centerAlign}>
+                            <Form.Check
+                                type="checkbox"
+                                id="hide-adult-content"
+                                className={`adult-content-checkbox ${styles.AdvertisingCheck}`}
+                            />
                             <div className={styles.nameAdvertising}>
                                 <span>Реклама на головній (30 FanCoins/день)</span>
                                 <p>в каруселі «Реклама» на головній сторінці, максимум 1 книга на день</p>
@@ -45,12 +46,13 @@ function Advertising() {
                         </td>
                     </tr>
                     <tr>
-                        <td className={styles.centerAlign}> <Form.Check
-                            type="checkbox"
-                            id="hide-adult-content"
-                            className={`adult-content-checkbox ${styles.AdvertisingCheck}`}
-                        /></td>
+                        {/* <td className={styles.centerAlign}> </td> */}
                         <td className={styles.centerAlign}>
+                            <Form.Check
+                                type="checkbox"
+                                id="hide-adult-content"
+                                className={`adult-content-checkbox ${styles.AdvertisingCheck}`}
+                            />
                             <div className={styles.nameAdvertising}>
                                 <span>Реклама на сторінці Каталог
                                     (15 FanCoins/день)</span>
@@ -81,14 +83,15 @@ function Advertising() {
                         </td>
                     </tr>
                     <tr className={styles.tableRow}>
+                        {/* <td className={styles.centerAlign}>
+                         
+                        </td> */}
                         <td className={styles.centerAlign}>
                             <Form.Check
                                 type="checkbox"
                                 id="hide-adult-content"
                                 className={`adult-content-checkbox ${styles.AdvertisingCheck}`}
                             />
-                        </td>
-                        <td className={styles.centerAlign}>
                             <div className={styles.nameAdvertising}>
                                 <span>Реклама у пошуку за жанрами (15 FanCoins/день)</span>
                                 <p>в каруселі «Реклама» на головній сторінці, максимум 1 книга на день</p>
@@ -130,14 +133,15 @@ function Advertising() {
                         </td>
                     </tr>
                     <tr className={styles.tableRow}>
+                        {/* <td className={styles.centerAlign}>
+                           
+                        </td> */}
                         <td className={styles.centerAlign}>
                             <Form.Check
                                 type="checkbox"
                                 id="hide-adult-content"
                                 className={`adult-content-checkbox ${styles.AdvertisingCheck}`}
                             />
-                        </td>
-                        <td className={styles.centerAlign}>
                             <div className={styles.nameAdvertising}>
                                 <span>Реклама у пошуку за тегами (15 FanCoins/день)</span>
                                 <p>в каруселі «Реклама» на головній сторінці, максимум 1 книга на день</p>
@@ -179,14 +183,15 @@ function Advertising() {
                         </td>
                     </tr>
                     <tr className={styles.tableRow}>
+                        {/* <td className={styles.centerAlign}>
+                           
+                        </td> */}
                         <td className={styles.centerAlign}>
                             <Form.Check
                                 type="checkbox"
                                 id="hide-adult-content"
                                 className={`adult-content-checkbox ${styles.AdvertisingCheck}`}
                             />
-                        </td>
-                        <td className={styles.centerAlign}>
                             <div className={styles.nameAdvertising}>
                                 <span>Реклама у пошуку за фендом (15 FanCoins/день)</span>
                                 <p>в каруселі «Реклама» на головній сторінці, максимум 1 книга на день</p>
@@ -232,13 +237,13 @@ function Advertising() {
                            
                         </td> */}
                         <td className={styles.centerAlign}>
-                          <div className={styles.total}>
-                            <p>Загальна вартість: 1950 FanCoins</p>
-                            <p>Ваш баланс: 5950 FanCoins</p>
-                          </div>
+                            <div className={styles.total}>
+                                <p>Загальна вартість: 1950 FanCoins</p>
+                                <p>Ваш баланс: 5950 FanCoins</p>
+                            </div>
                         </td>
-                       
-                        <td style={{marginRight: "30px"}}>
+
+                        <td style={{ marginRight: "30px" }}>
                             <button className={styles.buttonAdvertising}>
                                 <img src={buttonAdvertisingImg} />
                                 Опублікувати

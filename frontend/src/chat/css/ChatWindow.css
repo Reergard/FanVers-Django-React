@@ -52,9 +52,9 @@
   border-radius: 1rem;
 }
 .message-input-form input {
-  font-family: 'Bad Script';
+  font-family: "Bad Script";
   font-size: 20px;
-  color: #F58807;
+  color: #f58807;
 }
 .img-chat {
   width: max-content;
@@ -164,4 +164,31 @@
 }
 .message.other_user span {
   color: #05b4c7;
+}
+@media (max-width: 945px) {
+  .messages-container {
+    margin: 1rem 1rem;
+  }
+  .message {
+    gap: 10px;
+    max-width: 95%;
+  }
+  .message.other_user {
+    margin-left: 5%;
+  }
+  .message.other_user span {
+    color: #05b4c7;
+    text-align: end;
+  }
+  .messages-container {
+    margin: 1rem 2.9rem 1rem 1rem;
+  }
+  .message span {
+    line-height: 26px;
+  }
+}
+@media (max-width: 600px) {
+  .chat-header {
+    border: none;
+  }
 }

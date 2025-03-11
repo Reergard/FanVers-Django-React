@@ -2,21 +2,25 @@ import React, { useState, useEffect } from "react";
 import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 import PrivateRoute from "./auth/components/PrivateRoute";
 import Catalog from "./catalog/pages/Catalog";
+import AbandonedTranslations from "./catalog/pages/AbandonedTranslations";
 import MagicalGuide from "./main/pages/MagicalGuide";
 import BookDetailRouter from "./catalog/pages/BookDetailRouter";
 import ChapterDetail from "./catalog/pages/ChapterDetail";
 import AddChapter from "./catalog/pages/AddChapter";
-import SearchPage from "./search/pages/SearchPage";
+
 import Profile from "./users/pages/Profile";
 import TranslatorsList from "./users/pages/TranslatorsList";
+import Authors from "./users/pages/Authors";
 import ProfilesUsers from "./users/pages/ProfilesUsers";
-import BookmarksPage from "./navigation/pages/BookmarksPage";
+// import BookmarksPage from "./users/pages/BookmarksPage";
 import ChatPage from "./chat/pages/ChatPage";
 import EditChapter from "./editors/pages/EditChapter";
 import Header from "./main/components/Header/Header";
 import Footer from "./main/components/Footer";
 import HomePage from "./main/pages/HomePage";
 import CreateTranslation from "./catalog/pages/BookCreate";
+import SearchPage from "./users/pages/SearchPage";
+import BookmarksPage from "./users/pages/BookmarksPage";
 import UserTranslations from "./users/pages/UserTranslations";
 import NotificationPage from "./notification/pages/NotificationPage";
 import Preloader from "./components/Preloader";
@@ -43,6 +47,7 @@ import BalanceHelp from "./help/pages/BalanceHelp";
 import Support from "./help/pages/Support";
 import Payment from "./help/pages/Payment";
 import { BreadCrumb } from "./main/components/BreadCrumb";
+import Faq from './catalog/pages/Faq';
 
 const queryClient = new QueryClient();
 
@@ -95,6 +100,10 @@ function App() {
             <Route path="/create-translation" element={<CreateTranslation />} />
             <Route path="/search" element={<SearchPage />} />
             <Route path="/translators" element={<TranslatorsList />} />
+            <Route path="/authors" element={<Authors />} />
+            <Route path="/faq" element={<Faq />} />
+            
+            <Route path="/abandoned-translations" element={<AbandonedTranslations />} />
             <Route path="/profile/:userId" element={<ProfilesUsers />} />
             <Route
               path="/profile"

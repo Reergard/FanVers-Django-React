@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 
 const NovelCard = ({ title, description, image, slug }) => {
   return (
-    <div className="novel-card">
+    <div className="novel-card UserTranslations">
       <div className="novel-cover">
         <div className="image-container">
           <div className="image-wrapper">
@@ -120,8 +120,7 @@ const UserTranslations = () => {
             <div className="user-selector-block">
               <div style={{ paddingTop: "0" }} className="all-ell-catalog">
                 <div
-                  className="novels-container-catalog"
-                  style={{ gap: "70px", justifyContent: "flex-start" }}
+                  className="novels-container-catalog translator"
                 >
                   {filteredBooks.slice(0, visibleCount).map((book) => (
                     <NovelCard

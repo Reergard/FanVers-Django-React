@@ -1,225 +1,251 @@
 .advertisements-container {
-    max-width: 1200px;
-    margin: 2rem auto;
-    padding: 0 1rem;
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
 }
 
 .advertisements-container h2 {
-    color: #333;
-    margin-bottom: 2rem;
-    text-align: center;
+  color: #333;
+  margin-bottom: 2rem;
+  text-align: center;
 }
 
 .no-ads {
-    text-align: center;
-    color: #666;
-    font-size: 1.1rem;
-    padding: 2rem;
-    background: #f8f9fa;
-    border-radius: 8px;
+  text-align: center;
+  color: #666;
+  font-size: 1.1rem;
+  padding: 2rem;
+  background: #f8f9fa;
+  border-radius: 8px;
 }
 
 .advertisements-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
 }
 
 .advertisement-card {
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 1.5rem;
-    transition: transform 0.2s ease;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  transition: transform 0.2s ease;
 }
 
 .advertisement-card:hover {
-    transform: translateY(-2px);
+  transform: translateY(-2px);
 }
 
 .ad-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 1rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
 }
 
 .ad-header h3 {
-    margin: 0;
-    color: #2c3e50;
-    font-size: 1.2rem;
+  margin: 0;
+  color: #2c3e50;
+  font-size: 1.2rem;
 }
 
 .ad-status {
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: 500;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 
 .ad-status:empty::before {
-    content: "Активно";
-    background-color: #4CAF50;
-    color: white;
+  content: "Активно";
+  background-color: #4caf50;
+  color: white;
 }
 
 .ad-status:empty::after {
-    content: "Завершено";
-    background-color: #666;
-    color: white;
+  content: "Завершено";
+  background-color: #666;
+  color: white;
 }
 
 .ad-details {
-    color: #666;
+  color: #666;
 }
 
 .ad-details p {
-    margin: 0.5rem 0;
+  margin: 0.5rem 0;
 }
 
 .ad-details strong {
-    color: #333;
+  color: #333;
 }
 
 .loading {
-    text-align: center;
-    padding: 2rem;
-    color: #666;
-    font-size: 1.2rem;
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+  font-size: 1.2rem;
 }
 
 .main-container {
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    gap: 20px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 20px;
 }
 
 .header-container {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .advertisement {
-    color: rgb(55, 65, 81);
-    font-weight: 600;
-    font-size: 1.25rem;
+  color: rgb(55, 65, 81);
+  font-weight: 600;
+  font-size: 1.25rem;
 }
 
 .line {
-    height: 1px;
-    background-color: rgb(229, 231, 235);
+  height: 1px;
+  background-color: rgb(229, 231, 235);
 }
 
 .novels-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
-    padding: 20px 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px 0;
 }
 
 .novel-card {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    padding: 26px 16px;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 26px 16px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
 }
-
+@media (max-width: 1024px) {
+  .novel-card {
+    max-height: max-content;
+  }
+  .main-container {
+    width: 100%;
+  }
+  .novel-cover {
+    height: 158px;
+  }
+  .novels-container-catalog .novel-card {
+    width: 30%;
+  }
+}
 .novel-card:hover {
-    transform: translateY(-4px);
+  transform: translateY(-4px);
 }
 
 .novel-cover {
-    position: relative;
-    width: 100%;
+  position: relative;
+  width: 100%;
 }
 
 .image-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .image-wrapper {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    border-radius: 4px;
-    overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  overflow: hidden;
 }
 
 .novel-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .novel-letter {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 2rem;
-    color: #888;
-    display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  color: #888;
+  display: none;
 }
 
 .novel-image:not([src]) + .divider + .novel-letter {
-    display: block;
+  display: block;
 }
 
 .novel-title {
-    font-weight: 600;
-    font-size: 1.1rem;
-    color: rgb(17, 24, 39);
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: rgb(17, 24, 39);
 }
 
 .novel-divider {
-    height: 1px;
-    background-color: rgb(229, 231, 235);
+  height: 1px;
+  background-color: rgb(229, 231, 235);
 }
 
 .novel-info {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    font-size: 0.9rem;
-    color: rgb(107, 114, 128);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.9rem;
+  color: rgb(107, 114, 128);
 }
 
 .novel-description {
-    font-size: 0.9rem;
-    color: rgb(75, 85, 99);
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+  font-size: 0.9rem;
+  color: rgb(75, 85, 99);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .loading {
-    text-align: center;
-    padding: 20px;
-    font-size: 1.1rem;
-    color: rgb(107, 114, 128);
+  text-align: center;
+  padding: 20px;
+  font-size: 1.1rem;
+  color: rgb(107, 114, 128);
 }
 
 .no-ads {
-    text-align: center;
-    padding: 40px;
-    font-size: 1.1rem;
-    color: rgb(107, 114, 128);
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  padding: 40px;
+  font-size: 1.1rem;
+  color: rgb(107, 114, 128);
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .tabi {
-    height: 20px;
-} 
+  height: 20px;
+}
+
+@media (max-width: 500px) {
+  .novels-container-catalog .novel-card {
+    width: 70%;
+    margin: 0 auto;
+  }
+  .novel-card.mobal {
+    background-position: center top -92px;
+    width: 43% !important;
+    min-width: 100px !important;
+}
+  
+}

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { usersAPI } from "../../api/users/usersAPI";
 import "../styles/TranslatorsList.css";
 import Border from "../../main/pages/img/border.png";
+import ArrowMobile from "../../main/images/arrow-mobile.svg";
 import { BreadCrumb } from "../../main/components/BreadCrumb";
 const TranslatorsList = () => {
   const [visibleCount, setVisibleCount] = useState(4);
@@ -88,27 +89,21 @@ const TranslatorsList = () => {
     },
   ];
   return (
-    <Container className="mt-4">
+    <div className="container-profile-user">
       <BreadCrumb
         items={[
           { href: "/", label: "Головна" },
           { href: "/translators", label: "Перекладачі" },
         ]}
       />
-      <Row
-        xs={1}
-        md={2}
-        lg={3}
-        className="g-4"
-        style={{ width: "85%", margin: "0 auto" }}
-      >
+      <Row xs={1} md={2} lg={3} className="g-4" style={{ margin: "0 auto" }}>
         <div className="header-translators">
           <div className="left-header-translators">
             <span>Показано 6 робіт</span>
           </div>
           <div className="sort-translators">
             <span>Сортувати за:</span>{" "}
-            <div className="params-sort-all">
+            <div className="params-sort-all params-sort-all-mobile">
               <div className="sort-books">Кількість книг</div>
               <div className="sort-arrow">▼</div>
             </div>
@@ -121,7 +116,40 @@ const TranslatorsList = () => {
                 <th>Місце в рейтингу</th>
                 <th>Никнейм</th>
                 <th className="books-header">К-сть книг</th>
-                <th>К-сть коментарів</th>
+                <th>
+                  {" "}
+                  <div className="mobile-translator-table">
+                    <div className="arrow-mobile-left">
+                      <svg
+                        width="9"
+                        height="10"
+                        viewBox="0 0 9 10"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M1.44643 8.70096C1.11309 8.89341 0.696426 8.65285 0.696426 8.26795L0.696426 1.33975C0.696426 0.954848 1.11309 0.714284 1.44643 0.906734L7.44643 4.37083C7.77976 4.56329 7.77976 5.04441 7.44643 5.23686L1.44643 8.70096Z"
+                          stroke="#F58807"
+                        />
+                      </svg>
+                    </div>
+                    К-сть коментарів
+                    <div className="arrow-mobile-right">
+                      <svg
+                        width="9"
+                        height="10"
+                        viewBox="0 0 9 10"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M1.44643 8.70096C1.11309 8.89341 0.696426 8.65285 0.696426 8.26795L0.696426 1.33975C0.696426 0.954848 1.11309 0.714284 1.44643 0.906734L7.44643 4.37083C7.77976 4.56329 7.77976 5.04441 7.44643 5.23686L1.44643 8.70096Z"
+                          stroke="#F58807"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                </th>
                 <th>Останнє відвідування</th>
               </tr>
             </thead>
@@ -169,7 +197,7 @@ const TranslatorsList = () => {
           )}
         </div>
       </Row>
-    </Container>
+    </div>
   );
 };
 

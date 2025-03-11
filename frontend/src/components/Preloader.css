@@ -22,5 +22,18 @@
 }
 .translation-bg {
   background: url('../main/pages/img/bg-create.svg') no-repeat ;
-  background-size: cover;
+  background-size: auto;
+  background-position-x: center;
+}
+@media (max-width: 1070px) {
+  .translation-bg {
+    background: url('../main/pages/img/bg-create-modal.svg') no-repeat ;
+    /* background-size: 100%; */
+  }
+}
+@media (max-width: 807px) {
+  .translation-bg {
+    background: url('../main/pages/img/bg-create-modal.svg') no-repeat ;
+    background-size: auto;
+  }
 }

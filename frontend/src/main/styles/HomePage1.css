@@ -29,6 +29,7 @@
   position: relative;
   width: 100%;
   max-width: 1233px;
+
   margin: 0 auto;
   overflow: hidden;
 }
@@ -83,9 +84,9 @@
 .novel-card {
   position: relative;
   width: 100%;
-  min-width: 288.9px;
-  max-width: 288.9px;
-  min-height: 493.17px;
+  min-width: 265px;
+  max-width: 265px;
+  height: 450px;
   background-image: url("../../../public/homepage.png") no-repeat center;
   background-size: 100% 100%;
   padding: var(--card-padding);
@@ -294,7 +295,37 @@ img.novel-image {
   height: 100%;
   z-index: -1;
 }
+@media (max-width: 1024px) {
+  .novel-card {
+    max-width: 265px;
+    min-width: 203px;
+    max-height: 334px;
+    background-position: center top -28px;
+  }
+  .novel-cover {
+    height: 158px;
+    /* margin-top: 0; */
+  }
+  img.novel-image {
+    max-width: 107px;
+    max-height: 158px;
+  }
+  .novel-description-homepage {
+    font-size: 9px;
+  }
+}
 
+@media (max-width: 1020px) {
+  .novel-card {
+    max-width: 265px;
+    min-width: 203px;
+    max-height: 334px;
+    background-position: center top;
+  }
+  .novel-title-homepage {
+    font-size: 21px;
+  }
+}
 @media (max-width: 768px) {
   .novels-container {
     grid-template-columns: 1fr;
@@ -311,6 +342,23 @@ img.novel-image {
     width: 259px;
     height: 129px;
   }
+}
+
+@media (max-width: 455px) {
+  .novel-title-homepage {
+    font-size: 17px;
+  }
+  .novel-card.advertising-mobal {
+    min-width: 156px;
+    max-width: 156px;
+    /* background-position: center top -57px; */
+  }
+  .novel-title-homepage {
+    font-size: 21px;
+  }
+  .novel-card.advertising-mobal {
+    background-position: center top -70px;
+}
 }
 
 .advertisement {
