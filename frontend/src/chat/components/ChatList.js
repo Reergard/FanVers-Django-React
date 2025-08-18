@@ -1,7 +1,8 @@
 import React from "react";
 import "../css/ChatList.css";
 import Status from "../../main/pages/img/status.png";
-import ImgChat from "../../main/pages/img/hamster.webp";
+import { ProfileImage } from "../../main/components/Header/ProfileImage";
+import { FALLBACK_IMAGES, IMAGE_SIZES } from "../../constants/fallbackImages";
 import Message from "../../main/pages/img/message.svg";
 
 const ChatList = ({
@@ -26,7 +27,7 @@ const ChatList = ({
       <div className="block-create-chat">
         <div className="line-create"></div>
       <button className="create-chat-btn" onClick={handleCreateClick}>
-        <img src={Message}/>
+        <img src={Message} alt="Створити чат" />
         <span>Створити чат</span>
       </button>
       </div>
@@ -35,7 +36,14 @@ const ChatList = ({
           <div className="one-chat" onClick={onOpenChat}>
             <div className="info-chat">
               <div className="img-chat">
-                <img src={ImgChat} />
+                <ProfileImage
+                  src={null} // Нет изображения, используем fallback
+                  alt="Аватар чату"
+                  className="chat-avatar"
+                  size={IMAGE_SIZES.USER_LIST}
+                  fallbackSmall={FALLBACK_IMAGES.SMALL}
+                  fallbackLarge={FALLBACK_IMAGES.LARGE}
+                />
               </div>
               <div className="name-chat-block">
                 <div className="name-chat">Привид</div>
@@ -45,13 +53,20 @@ const ChatList = ({
               </div>
             </div>
             <div className="status-chat">
-              <img src={Status} />
+              <img src={Status} alt="Статус чату" />
             </div>
           </div>
           <div className="one-chat" onClick={onOpenChat}>
             <div className="info-chat">
               <div className="img-chat">
-                <img src={ImgChat} />
+                <ProfileImage
+                  src={null} // Нет изображения, используем fallback
+                  alt="Аватар чату"
+                  className="chat-avatar"
+                  size={IMAGE_SIZES.USER_LIST}
+                  fallbackSmall={FALLBACK_IMAGES.SMALL}
+                  fallbackLarge={FALLBACK_IMAGES.LARGE}
+                />
               </div>
               <div className="name-chat-block">
                 <div className="name-chat">Привид</div>
@@ -61,7 +76,7 @@ const ChatList = ({
               </div>
             </div>
             <div className="status-chat">
-              <img src={Status} />
+              <img src={Status} alt="Статус чату" />
             </div>
           </div>
         </div>

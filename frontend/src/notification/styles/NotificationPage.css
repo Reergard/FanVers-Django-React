@@ -106,7 +106,32 @@
 }
 .right-button-notification {
   color: #db0303;
+  cursor: pointer;
+  transition: color 0.3s ease;
 }
+.right-button-notification:hover {
+  color: #b30000;
+  text-decoration: none;
+}
+
+/* Стили для состояний загрузки и ошибок */
+.notifications-loading,
+.notifications-error {
+  text-align: center;
+  padding: 50px 20px;
+  font-family: "Sofia Sans Semi Condensed";
+  font-size: 18px;
+  color: #ffffff;
+}
+
+.notifications-loading {
+  color: #05B4C7;
+}
+
+.notifications-error {
+  color: #db0303;
+}
+
 @media (max-width: 1365px) {
   .all-content-notifications,
   .headerNotification {

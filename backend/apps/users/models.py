@@ -12,6 +12,7 @@ from django.dispatch import receiver
 from django.db.models import Sum
 from django.core.cache import cache
 from django.db.models import Count, Q, F
+from django.contrib.staticfiles.storage import staticfiles_storage
 
 
 def generate_token():
@@ -20,7 +21,7 @@ def generate_token():
 
 class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(_("Логін"), max_length=20, unique=True)
-    email = models.EmailField(_("Email"), max_length=254)
+    email = models.EmailField(_("Email"), max_length=254, unique=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
@@ -55,7 +56,7 @@ class Profile(models.Model):
     username = models.CharField(max_length=50, blank=True, null=True)
     email = models.EmailField(max_length=50, unique=True)
     about = models.TextField(blank=True, null=True)
-    image = models.ImageField(null=True, blank=True, default='users/profile_images/no_image.jpg', upload_to=get_upload_to)
+    image = models.ImageField(upload_to=get_upload_to, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     token = models.CharField(max_length=255, default=generate_token)
     is_default = models.BooleanField(default=False)
@@ -82,6 +83,42 @@ class Profile(models.Model):
         default=15.00,
         verbose_name='Комісія (%)'
     )
+    
+    # Настройки сповіщений
+    notifications_enabled = models.BooleanField(
+        default=True,
+        verbose_name='Сповіщення увімкнені'
+    )
+    hide_adult_content = models.BooleanField(
+        default=False,
+        verbose_name='Прибрати 18+ контент'
+    )
+    private_messages_enabled = models.BooleanField(
+        default=True,
+        verbose_name='Приватні повідомлення'
+    )
+    age_confirmed = models.BooleanField(
+        default=False,
+        verbose_name='Підтверджено вік 18+'
+    )
+    
+    # Детальні налаштування сповіщений
+    comment_notifications = models.BooleanField(
+        default=True,
+        verbose_name='Сповіщення про коментарі'
+    )
+    translation_status_notifications = models.BooleanField(
+        default=True,
+        verbose_name='Сповіщення про статус перекладу'
+    )
+    chapter_subscription_notifications = models.BooleanField(
+        default=True,
+        verbose_name='Сповіщення про передплату розділів'
+    )
+    chapter_comment_notifications = models.BooleanField(
+        default=True,
+        verbose_name='Сповіщення про коментарі до розділів'
+    )
 
     class Meta:
         verbose_name = 'Профіль'
@@ -92,6 +129,23 @@ class Profile(models.Model):
             return f"Id:{self.id}, {self.user.username}, Image:{self.image.url}"
         else:
             return f"Id:{self.id}, {self.user.username}"
+
+    def get_profile_image(self, size='default'):
+        """Отримання зображення профілю з fallback на ghost зображення"""
+        if self.has_custom_image():
+            return self.image.url
+        
+        # Fallback на ghost зображення залежно від розміру
+        if size == 'small':
+            return staticfiles_storage.url('images/icons/ghost.png')
+        elif size == 'large':
+            return staticfiles_storage.url('images/icons/ghost_full.png')
+        else:
+            return staticfiles_storage.url('images/icons/ghost.png')
+    
+    def has_custom_image(self):
+        """Перевірка чи є кастомне зображення"""
+        return bool(self.image and getattr(self.image, "name", None))
 
     def update_balance(self, amount, operation_type):
         with transaction.atomic():
@@ -218,7 +272,7 @@ class Profile(models.Model):
         return stats
 
     def clear_reading_stats_cache(self):
-        """Очищення кешу статистики читання"""
+        """Очищення кешу статистики при оновленні прогресу читання"""
         cache_key = f'user_reading_stats_{self.user.id}'
         cache.delete(cache_key)
 
@@ -266,13 +320,41 @@ def create_user_profile(sender, instance, created, **kwargs):
             username=instance.username,
             email=instance.email
         )
-        reader_group = Group.objects.get_or_create(name='Читач')
+        reader_group, _ = Group.objects.get_or_create(name='Читач')
         instance.groups.add(reader_group)
 
 
+# УБИРАЕМ ЛИШНИЙ СИГНАЛ - он делает profile.save() на каждый user.save()
+# @receiver(post_save, sender=User)
+# def save_user_profile(sender, instance, **kwargs):
+#     instance.profile.save()
+
+
 @receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
+def sync_user_email_to_profile(sender, instance, **kwargs):
+    """Синхронизация email из User в Profile (односторонняя)"""
+    try:
+        if hasattr(instance, 'profile') and instance.profile:
+            # Проверяем, изменился ли email
+            if instance.profile.email != instance.email:
+                instance.profile.email = instance.email
+                instance.profile.save(update_fields=['email'])
+    except Exception as e:
+        # Логируем ошибку без эмодзи для продакшена
+        pass
+
+
+# УБИРАЕМ ПРОБЛЕМНЫЙ СИГНАЛ - он перезаписывает User.email из Profile.email!
+# @receiver(post_save, sender=Profile)
+# def sync_profile_email_to_user(sender, instance, **kwargs):
+#     """Синхронизация email между Profile и User"""
+#     try:
+#         if instance.user and instance.user.email != instance.email:
+#             instance.user.email = instance.email
+#             instance.user.save(update_fields=['email'])
+#             print(f"🔵 Синхронизация email: Profile.email={instance.email} -> User.email={instance.user.email}")
+#     except Exception as e:
+#         print(f"🔴 Ошибка синхронизации email: {e}")
 
 
 @receiver(post_save, sender='catalog.Chapter')
@@ -284,6 +366,6 @@ def update_user_commission(sender, instance, **kwargs):
 
 @receiver(post_save, sender='monitoring.UserChapterProgress')
 def clear_reading_stats_cache(sender, instance, **kwargs):
-    """Очищення кешу статисти��и при оновленні прогресу читання"""
+    """Очищення кешу статистики при оновленні прогресу читання"""
     if instance.user and hasattr(instance.user, 'profile'):
         instance.user.profile.clear_reading_stats_cache()

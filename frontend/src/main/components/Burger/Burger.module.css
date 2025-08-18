@@ -6,6 +6,11 @@
   /*z-index: 101;*/
 }
 
+.burger_menu.active {
+  /* Стили для активного состояния бургер-меню */
+  z-index: 10000;
+}
+
 .burger_menu_button {
   border: 1px solid #05b4c7;
   /*overflow-x: hidden;*/
@@ -21,6 +26,7 @@
   position: relative;
   /* z-index: 101; */
 }
+
 .burger_menu.active .burger_menu_button {
   position: fixed !important;
   top: 38px;

@@ -112,5 +112,64 @@ export const usersAPI = {
             console.error('Error checking balance:', error);
             throw error;
         }
+    },
+
+    // Нові методи для оновлення профілю
+    uploadProfileImage: async (imageFile) => {
+        try {
+            const formData = new FormData();
+            formData.append('image', imageFile);
+            
+            const response = await api.post('/users/profile/upload-image/', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                }
+            });
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    deleteProfileImage: async () => {
+        try {
+            const response = await api.delete('/users/profile/delete-image/');
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    updateEmail: async (newEmail) => {
+        try {
+            const response = await api.post('/users/profile/update-email/', {
+                new_email: newEmail
+            });
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    changePassword: async (oldPassword, newPassword, confirmPassword) => {
+        try {
+            const response = await api.post('/users/profile/change-password/', {
+                old_password: oldPassword,
+                new_password: newPassword,
+                confirm_password: confirmPassword
+            });
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    updateNotificationSettings: async (settings) => {
+        try {
+            const response = await api.put('/users/profile/notification-settings/', settings);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
     }
 };

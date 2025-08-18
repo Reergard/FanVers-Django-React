@@ -1,20 +1,13 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchNotifications,
-  markNotificationAsRead,
-} from "../notificationSlice";
+import { fetchNotifications, deleteNotification, markNotificationAsRead } from "../notificationSlice";
 import ModalAdultContent from "../../users/components/ModalAdultContent";
 import { setHideAdultContent } from "../../settings/userSettingsSlice";
 import { Form } from "react-bootstrap";
-import NotificationItem from "../components/NotificationItem";
 import "../styles/NotificationPage.css";
-import { debounce } from "lodash";
 import { toast } from "react-toastify";
 import { BreadCrumb } from "../../main/components/BreadCrumb";
-import Save from "../../main/pages/img/save.png";
 import BgModal from "../../main/pages/img/bg-modal.svg";
-
 
 const notificationsList = [
   "Помилка у тексті",
@@ -28,19 +21,22 @@ const notificationsList = [
   "Коментар до глави",
   "Коментар до книги",
 ];
+
 const NotificationPage = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 1005);
   const [showFilters, setShowFilters] = useState(false);
+  
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 1005);
       if (window.innerWidth > 1005) {
-        setShowFilters(false); // Если расширили экран, скрываем модальное окно
+        setShowFilters(false);
       }
     };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
   const hideAdultContent = useSelector(
     (state) => state.userSettings.hideAdultContent
   );
@@ -50,16 +46,33 @@ const NotificationPage = () => {
     (state) => state.notification
   );
 
-  const handleMarkAsRead = useCallback(
-    async (notificationId) => {
-      try {
-        await dispatch(markNotificationAsRead(notificationId)).unwrap();
-      } catch (error) {
-        toast.error("Помилка при позначенні повідомлення як прочитаного");
+  // Загружаем уведомления при монтировании компонента
+  useEffect(() => {
+    dispatch(fetchNotifications());
+  }, [dispatch]);
+
+  // Автоматически помечаем уведомления как прочитанные при загрузке страницы
+  useEffect(() => {
+    if (notifications.length > 0) {
+      const unreadNotifications = notifications.filter(notification => !notification.is_read);
+      if (unreadNotifications.length > 0) {
+        // Помечаем все непрочитанные уведомления как прочитанные
+        unreadNotifications.forEach(notification => {
+          dispatch(markNotificationAsRead(notification.id));
+        });
       }
-    },
-    [dispatch]
-  );
+    }
+  }, [notifications, dispatch]);
+
+  const handleDeleteNotification = async (notificationId) => {
+    try {
+      await dispatch(deleteNotification(notificationId)).unwrap();
+      toast.success("Повідомлення видалено");
+    } catch (error) {
+      toast.error("Помилка при видаленні повідомлення");
+    }
+  };
+
   const handleAdultContentChange = (e) => {
     if (e.target.checked) {
       setShowAdultContentModal(true);
@@ -73,29 +86,6 @@ const NotificationPage = () => {
     setShowAdultContentModal(false);
   };
 
-  //   const debouncedFetch = useCallback(
-  //     debounce(() => {
-  //       dispatch(fetchNotifications());
-  //     }, 300),
-  //     [dispatch]
-  //   );
-
-  //   useEffect(() => {
-  //     let intervalId;
-
-  //     const initFetch = () => {
-  //       debouncedFetch();
-  //       intervalId = setInterval(debouncedFetch, 30000);
-  //     };
-
-  //     initFetch();
-
-  //     return () => {
-  //       if (intervalId) clearInterval(intervalId);
-  //       debouncedFetch.cancel();
-  //     };
-  //   }, [debouncedFetch]);
-
   if (loading && notifications.length === 0) {
     return <div className="notifications-loading">Завантаження...</div>;
   }
@@ -103,6 +93,7 @@ const NotificationPage = () => {
   if (error) {
     return <div className="notifications-error">{error}</div>;
   }
+
   const renderCheckboxes = () =>
     notificationsList.map((label, index) => (
       <Form.Check
@@ -112,6 +103,44 @@ const NotificationPage = () => {
         className="adult-content-checkbox"
       />
     ));
+
+  const renderNotifications = () => {
+    if (notifications.length === 0) {
+      return (
+        <div className="one-notification">
+          <div className="header-one-notification">Немає повідомлень</div>
+          <div className="block-text-one-notification">
+            <div className="text-one-notification">
+              У вас поки немає повідомлень
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    return notifications.map((notification, index) => (
+      <div key={notification.id} className="one-notification">
+        <div className="header-one-notification">
+          Повідомлення {index + 1}
+        </div>
+        <div className="block-text-one-notification">
+          <div className="text-one-notification">
+            {notification.message}
+          </div>
+          <div className="buttons-notification">
+            <div 
+              className="right-button-notification"
+              onClick={() => handleDeleteNotification(notification.id)}
+              style={{ cursor: 'pointer' }}
+            >
+              Видалити
+            </div>
+          </div>
+        </div>
+      </div>
+    ));
+  };
+
   return (
     <>
       <BreadCrumb
@@ -122,7 +151,7 @@ const NotificationPage = () => {
       />
       <div className="notifications-page">
         <div className="headerNotification">
-          <span>Показано 4 сповіщення</span>
+          <span>Показано {notifications.length} сповіщення</span>
           {isMobile ? (
             <button onClick={() => setShowFilters(true)}>Фільтри</button>
           ) : null}
@@ -165,40 +194,7 @@ const NotificationPage = () => {
             </div>
           )}
           <div className="text-notifications">
-            <div className="one-notification">
-              <div className="header-one-notification">Повідомлення 1</div>
-              <div className="block-text-one-notification">
-                {" "}
-                <div className="text-one-notification">
-                  Вітання. Добро пожалувати в систему перекладів «UA Translate».
-                  Цей сайт призначений для професійних мов любительських
-                  перекладів будь-яких новелів, фанфіків, ранобе з різних мов.
-                </div>
-                <div className="buttons-notification">
-                  <div className="left-button-notification">
-                    Позначити як прочитане
-                  </div>
-                  <div className="right-button-notification">Видалити</div>
-                </div>
-              </div>
-            </div>
-            <div className="one-notification">
-              <div className="header-one-notification">Повідомлення 1</div>
-              <div className="block-text-one-notification">
-                {" "}
-                <div className="text-one-notification">
-                  Вітання. Добро пожалувати в систему перекладів «UA Translate».
-                  Цей сайт призначений для професійних мов любительських
-                  перекладів будь-яких новелів, фанфіків, ранобе з різних мов.
-                </div>
-                <div className="buttons-notification">
-                  <div className="left-button-notification">
-                    Позначити як прочитане
-                  </div>
-                  <div className="right-button-notification">Видалити</div>
-                </div>
-              </div>
-            </div>
+            {renderNotifications()}
           </div>
         </div>
 
@@ -213,6 +209,3 @@ const NotificationPage = () => {
 };
 
 export default NotificationPage;
-
-// checked={hideAdultContent}
-// onChange={handleAdultContentChange}

@@ -7,20 +7,16 @@ import logoImage from "../../../assets/images/logo/logo2.0.png";
 import searchIcon from "../../../assets/images/icons/Search_light.svg";
 import hoverFrame from "../../../assets/images/icons/frame.svg";
 import { useAuth } from "../../../auth/hooks/useAuth";
-import { useSelector } from "react-redux";
-import { Navigation } from "./Navigation";
-import { BreadCrumb } from "../BreadCrumb";
 import StarHeader from "../../images/star-header.svg";
 import HoverMenu from "../../images/hoverMenu.svg";
 import BgHomepage from "../../images/bg-homepage.svg";
 import BurgerMenu from "../Burger/Burger";
+import ghost from "../../../assets/images/icons/ghost.png";
 
 const Header = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 1024);
   const navigate = useNavigate();
   const { username, isAuthenticated } = useAuth();
-  const user = useSelector((state) => state.auth.user);
-  const authState = useSelector((state) => state.auth);
 
   useEffect(() => {
     const handleResize = () => {
@@ -30,12 +26,6 @@ const Header = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const socialIcons = [
-    {
-      src: require("../../../assets/images/icons/profile-icon.png"),
-      alt: "Profile",
-    },
-  ];
   const isHomePage = window.location.pathname === "/";
   const navigationLinks = [
     { text: "Каталог", to: "/catalog" },
@@ -53,12 +43,6 @@ const Header = () => {
   return (
     <header className="header">
       <div className="headerContent">
-        {/* <div className="burger_menu">
-          {" "}
-          <div className="burger"></div>
-          <div className="burger"></div>
-          <div className="burger"></div>
-        </div> */}
         <BurgerMenu />
 
        
@@ -81,7 +65,6 @@ const Header = () => {
         <UserMenu
           name={username}
           isAuthenticated={isAuthenticated}
-          socialIcons={socialIcons}
           unreadNotifications={0}
         />
       </div>

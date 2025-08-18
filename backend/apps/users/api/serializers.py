@@ -1,13 +1,18 @@
 from rest_framework import serializers
 from djoser.serializers import UserCreateSerializer
-from apps.users.models import User, Profile, BalanceLog
+from django.contrib.auth import get_user_model
+from apps.users.models import Profile, BalanceLog
 from apps.catalog.models import Chapter, Book
 from django.db import models
 import logging
 from django.conf import settings
 from decimal import Decimal
+from django.contrib.auth.password_validation import validate_password
 
 logger = logging.getLogger(__name__)
+
+# Получаем модель User через get_user_model()
+User = get_user_model()
 
 
 class CreateUserSerializer(UserCreateSerializer):
@@ -34,15 +39,85 @@ class CurrentUserSerializer(serializers.ModelSerializer):
 
     def get_image(self, obj):
         request = self.context.get('request')
-        if obj.profile.image:
-            return request.build_absolute_uri(obj.profile.image.url)
-        return None
+        url = obj.profile.get_profile_image('small')
+        return request.build_absolute_uri(url) if request else url
 
 
 class BalanceLogSerializer(serializers.ModelSerializer):
     class Meta:
         model = BalanceLog
         fields = ['amount', 'operation_type', 'created_at', 'status']
+
+
+class ProfileImageUploadSerializer(serializers.Serializer):
+    """Сериализатор для загрузки изображения профиля"""
+    image = serializers.ImageField(required=True)
+    
+    def validate_image(self, value):
+        # Проверяем размер файла (максимум 5MB)
+        if value.size > 5 * 1024 * 1024:
+            raise serializers.ValidationError("Розмір файлу не може перевищувати 5MB")
+        
+        # Проверяем формат файла
+        allowed_formats = ['image/jpeg', 'image/png', 'image/webp']
+        if value.content_type not in allowed_formats:
+            raise serializers.ValidationError("Підтримуються тільки формати: JPEG, PNG, WebP")
+        
+        return value
+
+
+class EmailUpdateSerializer(serializers.Serializer):
+    """Сериализатор для обновления email"""
+    new_email = serializers.EmailField(required=True)
+    
+    def validate_new_email(self, value):
+        user = self.context['request'].user
+        # 1) уникальность среди пользователей
+        if User.objects.filter(email=value).exclude(id=user.id).exists():
+            raise serializers.ValidationError("Цей email вже використовується іншим користувачем")
+        # 2) уникальность среди профилей
+        if Profile.objects.filter(email=value).exclude(user_id=user.id).exists():
+            raise serializers.ValidationError("Цей email вже використовується іншим користувачем (профіль)")
+        return value
+
+
+class PasswordChangeSerializer(serializers.Serializer):
+    """Сериализатор для смены пароля"""
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+    confirm_password = serializers.CharField(required=True)
+    
+    def validate_old_password(self, value):
+        user = self.context['request'].user
+        if not user.check_password(value):
+            raise serializers.ValidationError("Невірний поточний пароль")
+        return value
+    
+    def validate_new_password(self, value):
+        # Валидация нового пароля
+        validate_password(value, self.context['request'].user)
+        return value
+    
+    def validate(self, data):
+        if data['new_password'] != data['confirm_password']:
+            raise serializers.ValidationError("Новий пароль та підтвердження не співпадають")
+        return data
+
+
+class NotificationSettingsSerializer(serializers.ModelSerializer):
+    """Сериализатор для настроек сповіщений"""
+    class Meta:
+        model = Profile
+        fields = [
+            'notifications_enabled',
+            'hide_adult_content', 
+            'private_messages_enabled',
+            'age_confirmed',
+            'comment_notifications',
+            'translation_status_notifications',
+            'chapter_subscription_notifications',
+            'chapter_comment_notifications'
+        ]
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -58,13 +133,20 @@ class ProfileSerializer(serializers.ModelSerializer):
     read_chapters = serializers.SerializerMethodField()
     purchased_chapters = serializers.SerializerMethodField()
     completed_books = serializers.SerializerMethodField()
+    profile_image_small = serializers.SerializerMethodField()
+    profile_image_large = serializers.SerializerMethodField()
+    has_custom_image = serializers.SerializerMethodField()
 
     class Meta:
         model = Profile
         fields = ['id', 'username', 'about', 'image', 'role',
                  'total_characters', 'total_chapters', 'free_chapters', 
                  'total_author', 'total_translations', 'is_owner', 'balance_history', 'commission',
-                 'read_chapters', 'purchased_chapters', 'completed_books']
+                 'read_chapters', 'purchased_chapters', 'completed_books',
+                 'profile_image_small', 'profile_image_large', 'has_custom_image',
+                 'notifications_enabled', 'hide_adult_content', 'private_messages_enabled', 'age_confirmed',
+                 'comment_notifications', 'translation_status_notifications', 
+                 'chapter_subscription_notifications', 'chapter_comment_notifications']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -90,6 +172,24 @@ class ProfileSerializer(serializers.ModelSerializer):
                 many=True
             ).data
         return None
+
+    def get_profile_image_small(self, obj):
+        """Отримання маленького зображення профілю з fallback"""
+        request = self.context.get('request')
+        if request:
+            return request.build_absolute_uri(obj.get_profile_image('small'))
+        return obj.get_profile_image('small')
+    
+    def get_profile_image_large(self, obj):
+        """Отримання великого зображення профілю з fallback"""
+        request = self.context.get('request')
+        if request:
+            return request.build_absolute_uri(obj.get_profile_image('large'))
+        return obj.get_profile_image('large')
+    
+    def get_has_custom_image(self, obj):
+        """Перевірка чи є кастомне зображення"""
+        return obj.has_custom_image()
 
     def get_total_characters(self, obj):
         return Chapter.objects.filter(book__owner=obj.user).aggregate(

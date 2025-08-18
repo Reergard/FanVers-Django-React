@@ -2,8 +2,17 @@ from pathlib import Path
 import os
 from datetime import timedelta
 import environ
+import logging
 
-
+# Настройка логирования
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.StreamHandler(),
+        logging.FileHandler('debug.log', encoding='utf-8')
+    ]
+)
 
 env = environ.Env(
     DEBUG=(bool, False)
@@ -11,9 +20,7 @@ env = environ.Env(
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 environ.Env.read_env(BASE_DIR / ".env")  # Читаємо .env файл
-
 
 SECRET_KEY = env("SECRET_KEY")
 
@@ -21,11 +28,7 @@ DEBUG = env("DEBUG")
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '10.0.2.2']
 
-
 LUSSIED_HOSTS = ['*']
-
-
-
 
 INSTALLED_APPS = [
     'django.contrib.admin',

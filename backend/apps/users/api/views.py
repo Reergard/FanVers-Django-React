@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate
-from django.contrib.auth.models import User, Group
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group
 from rest_framework import status, generics, permissions
 from rest_framework.decorators import api_view, permission_classes, throttle_classes
 from rest_framework.response import Response
@@ -9,17 +10,27 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 import logging
 from django.db import transaction
+from django.contrib.auth import update_session_auth_hash
+from django.core.files.storage import default_storage
+import os
+
+logger = logging.getLogger(__name__)
 
 from apps.users.api.serializers import (
     ProfileSerializer, 
     TranslatorListSerializer, 
     UsersProfilesSerializer,
-    CreateUserSerializer
+    CreateUserSerializer,
+    ProfileImageUploadSerializer,
+    EmailUpdateSerializer,
+    PasswordChangeSerializer,
+    NotificationSettingsSerializer
 )
 from apps.users.models import Profile
 from .throttling import ProfileThrottle
 
-logger = logging.getLogger(__name__)
+# Получаем модель User через get_user_model()
+User = get_user_model()
 
 
 @api_view(['POST'])
@@ -171,6 +182,164 @@ def update_profile_view(request):
         )
 
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def upload_profile_image(request):
+    """Завантаження зображення профілю"""
+    try:
+        serializer = ProfileImageUploadSerializer(data=request.data)
+        if serializer.is_valid():
+            profile = request.user.profile
+            
+            # Видаляємо старе зображення, якщо воно є
+            if profile.image:
+                if default_storage.exists(profile.image.name):
+                    default_storage.delete(profile.image.name)
+            
+            # Зберігаємо нове зображення
+            profile.image = serializer.validated_data['image']
+            profile.save()
+            
+            return Response({
+                'message': 'Зображення профілю успішно оновлено',
+                'image_url': request.build_absolute_uri(profile.image.url)
+            })
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+    except Exception as e:
+        logger.error(f"Помилка завантаження зображення: {str(e)}", exc_info=True)
+        return Response(
+            {'error': 'Помилка при завантаженні зображення'}, 
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def delete_profile_image(request):
+    """Видалення зображення профілю"""
+    try:
+        profile = request.user.profile
+        
+        if profile.image:
+            if default_storage.exists(profile.image.name):
+                default_storage.delete(profile.image.name)
+            
+            # Просто очищаем поле image
+            profile.image = None
+            profile.save()
+            
+            return Response({'message': 'Зображення профілю успішно видалено'})
+        
+        return Response(
+            {'error': 'Зображення профілю не знайдено'}, 
+            status=status.HTTP_404_NOT_FOUND
+        )
+        
+    except Exception as e:
+        logger.error(f"Помилка видалення зображення: {str(e)}", exc_info=True)
+        return Response(
+            {'error': 'Помилка при видаленні зображення'}, 
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+
+class UpdateEmailView(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+    http_method_names = ['post', 'options']
+    # throttle_classes = [ProfileThrottle]  # Розкоментувати на продакшені
+
+    def post(self, request):
+        try:
+            serializer = EmailUpdateSerializer(data=request.data, context={'request': request})
+            
+            if serializer.is_valid():
+                user = request.user
+                new_email = serializer.validated_data['new_email']
+                
+                # Оновлюємо email в User - Profile.email оновиться автоматично через сигнал
+                old_email = user.email
+                user.email = new_email
+                
+                # Сохраняем с указанием конкретного поля для избежания конфликтов
+                user.save(update_fields=['email'])
+                
+                response_data = {
+                    'message': 'Email успішно оновлено',
+                    'new_email': new_email
+                }
+                return Response(response_data)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+        except Exception as e:
+            logger.error(f"Error in update_email: {str(e)}", exc_info=True)
+            return Response(
+                {'error': 'Помилка при оновленні email'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def change_password(request):
+    """Зміна пароля користувача"""
+    try:
+        serializer = PasswordChangeSerializer(data=request.data, context={'request': request})
+        if serializer.is_valid():
+            user = request.user
+            new_password = serializer.validated_data['new_password']
+            
+            # Змінюємо пароль
+            user.set_password(new_password)
+            user.save()
+            
+            # Оновлюємо сесію
+            update_session_auth_hash(request, user)
+            
+            return Response({'message': 'Пароль успішно змінено'})
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+    except Exception as e:
+        logger.error(f"Помилка зміни пароля: {str(e)}", exc_info=True)
+        return Response(
+            {'error': 'Помилка при зміні пароля'}, 
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def update_notification_settings(request):
+    """Оновлення налаштувань сповіщений"""
+    try:
+        profile = request.user.profile
+        serializer = NotificationSettingsSerializer(
+            profile, 
+            data=request.data, 
+            partial=True
+        )
+        
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                'message': 'Налаштування сповіщений успішно оновлено',
+                'settings': serializer.data
+            })
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+    except Exception as e:
+        logger.error(f"Помилка оновлення налаштувань: {str(e)}", exc_info=True)
+        return Response(
+            {'error': 'Помилка при оновленні налаштувань'}, 
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+
 @api_view(['GET'])
 def get_translators_list(request):
     try:
@@ -234,8 +403,8 @@ def become_translator(request):
         user = request.user
         profile = user.profile
         
-        translator_group = Group.objects.get_or_create(name='Перекладач')
-        if translator_group in user.groups.all():
+        translator_group, _ = Group.objects.get_or_create(name='Перекладач')
+        if user.groups.filter(name='Перекладач').exists():
             return Response({
                 'error': 'Ви вже є перекладачем'
             }, status=status.HTTP_400_BAD_REQUEST)

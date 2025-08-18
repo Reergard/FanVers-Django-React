@@ -4,7 +4,8 @@ import "../css/ChatList.css";
 import "../css/ChatWindow.css";
 import webSocketService from "../services/websocketService";
 import Status from "../../main/pages/img/status.png";
-import ImgChat from "../../main/pages/img/hamster.webp";
+import { ProfileImage } from "../../main/components/Header/ProfileImage";
+import { FALLBACK_IMAGES, IMAGE_SIZES } from "../../constants/fallbackImages";
 import RightArrow from "../../main/pages/img/right-arrow.png";
 
 const ChatWindow = ({ chat, onDeleteChat, onClose }) => {
@@ -119,11 +120,18 @@ const ChatWindow = ({ chat, onDeleteChat, onClose }) => {
      
         <div className="info-chat window">
           <div className="img-chat">
-            <img src={ImgChat} />
+            <ProfileImage
+              src={null} // Нет изображения, используем fallback
+              alt="Аватар чату"
+              className="chat-avatar"
+              size={IMAGE_SIZES.USER_LIST}
+              fallbackSmall={FALLBACK_IMAGES.SMALL}
+              fallbackLarge={FALLBACK_IMAGES.LARGE}
+            />
           </div>
           <div className="name-chat">Привид</div>
           <div className="status-chat-header">
-            <img src={Status} />
+            <img src={Status} alt="Статус чату" />
           </div>
           
         </div>
@@ -153,7 +161,14 @@ const ChatWindow = ({ chat, onDeleteChat, onClose }) => {
       <div className="messages-container">
         <div className="message">
           <div className="img-chat">
-            <img src={ImgChat} />
+            <ProfileImage
+              src={null} // Нет изображения, используем fallback
+              alt="Аватар чату"
+              className="chat-avatar"
+              size={IMAGE_SIZES.USER_LIST}
+              fallbackSmall={FALLBACK_IMAGES.SMALL}
+              fallbackLarge={FALLBACK_IMAGES.LARGE}
+            />
           </div>
           <span>
             Доброго дня. Чи не хотілиб ви перекласти мій авторський твір?
@@ -162,7 +177,14 @@ const ChatWindow = ({ chat, onDeleteChat, onClose }) => {
         </div>
         <div className="message other_user">
           <div className="img-chat">
-            <img src={ImgChat} />
+            <ProfileImage
+              src={null} // Нет изображения, используем fallback
+              alt="Аватар чату"
+              className="chat-avatar"
+              size={IMAGE_SIZES.USER_LIST}
+              fallbackSmall={FALLBACK_IMAGES.SMALL}
+              fallbackLarge={FALLBACK_IMAGES.LARGE}
+            />
           </div>
           <span>
             Доброго дня. Чи не хотілиб ви перекласти мій авторський твір?

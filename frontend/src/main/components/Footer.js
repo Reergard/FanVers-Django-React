@@ -1,46 +1,18 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/Footer.css";
-import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa";
-import { SearchBar } from "./Header/SearchBar";
 import facebook from "../../assets/images/icons/facebook.png";
 import youtube from "../../assets/images/icons/youtube.png";
 import instagram from "../../assets/images/icons/instagram.png";
-import searchIcon from "../../assets/images/icons/Search_light.svg";
 import logoImage from "../../assets/images/logo/logo2.0_250.png";
 import brook from "../../main/assets/brook.png";
 import vectorHorizontal from "../../main/assets/VectorHorizontal.png";
-import { UserMenu } from "./Header/UserMenu";
 import BgLaptop from "../../catalog/pages/img/dragons.svg";
 
 const Footer = () => {
   const navigate = useNavigate();
 
   return (
-    /*<div className="headerContent">
-            <div className="searchContainer">
-                <SearchBar
-                    label="Пошук по сайту"
-                    iconSrc={searchIcon}
-                />
-            </div>
-
-            <img
-                src={logoImage}
-                alt="Logo"
-                className="logo"
-                onClick={() => navigate('/')}
-                style={{ cursor: 'pointer' }}
-            />
-
-            <UserMenu
-                name={username}
-                isAuthenticated={isAuthenticated}
-                socialIcons={socialIcons}
-                unreadNotifications={0}
-            />
-        </div>*/
-
     <footer className="footer">
       <div className="container-laptop">
         {" "}
@@ -97,7 +69,7 @@ const Footer = () => {
               </Link>
             </li>
             <li>
-              <Link to="/say-thanks">Сказати «дякую!»</Link>
+              <Link to="/say-thanks">Сказати «Дякую!»</Link>
             </li>
             <li>
               <Link to="/contacts">Контакти</Link>
@@ -127,7 +99,6 @@ const Footer = () => {
               rel="noopener noreferrer"
             >
               <img src={facebook} alt="facebook" />
-              {/*<FaFacebook className="social-icon" />*/}
             </a>
             <a
               className="youtube-logo"
@@ -136,7 +107,6 @@ const Footer = () => {
               rel="noopener noreferrer"
             >
               <img src={youtube} alt="youtube" />
-              {/*<FaYoutube className="social-icon" />*/}
             </a>
             <img
               src={logoImage}
@@ -151,7 +121,6 @@ const Footer = () => {
               rel="noopener noreferrer"
             >
               <img src={instagram} alt="instagram" />
-              {/*<FaInstagram className="social-icon" />*/}
             </a>
           </div>
           <h3>

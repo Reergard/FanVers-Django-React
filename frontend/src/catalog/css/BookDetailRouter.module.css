@@ -13,10 +13,7 @@
   display: flex;
   justify-content: flex-start;
 }
-.footerBookCartAuthor {
-  display: flex;
-  gap: 30px;
-}
+
 .bookmarks {
   background-color: #050d11;
   padding: 0 30px;
@@ -26,19 +23,7 @@
   color: #f58807;
   box-shadow: 1px 3px 25px rgb(197 110 17 / 73%);
 }
-.settingBook img {
-  height: 24px;
-}
-.settingBook {
-  font-family: "Inter";
-  font-size: 16px;
-  display: flex;
-  padding: 10px 15px;
-  border-radius: 5px;
-  color: #f58807;
-  gap: 10px;
-  border: 1px solid #f58807;
-}
+
 .chaptertableAuthorRead {
   font-size: 14px;
   font-family: "Sofia Sans Semi Condensed";
@@ -227,12 +212,7 @@
   font-size: 20px;
   color: #f58807;
 }
-.chaptertableReader thead tr th {
-  font-family: "Inter";
-  text-align: start;
-  font-size: 14px;
-  color: #f58807;
-}
+
 .inputChapter {
   border: 1px solid #fff !important;
   border-radius: 5px;
@@ -249,9 +229,7 @@
   background: transparent !important;
   border-color: #f58807 !important;
 }
-.form-check-label {
-  flex: 1;
-}
+
 
 .nameChapter {
   font-size: 20px;
@@ -267,9 +245,7 @@
   gap: 10px;
   align-items: center;
 }
-.readChapter {
-  color: #fff;
-}
+
 .trashChapter {
   color: #c90303;
 }
@@ -313,18 +289,9 @@
 .chaptertableReader tbody tr {
   border-bottom: 1px solid #5e626c;
 }
-.container-button {
-  margin: 0 auto !important;
-}
-.chaptertableReader .numChapter {
-  font-family: "Inter";
-  font-size: 16px;
-}
-.chaptertableReader .readChapter {
-  background-color: #282d3b;
-  padding: 10px 15px;
-  border-radius: 5px;
-}
+
+
+
 .CommentsSection {
   width: 75%;
   margin: 0 auto;

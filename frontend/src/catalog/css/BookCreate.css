@@ -110,20 +110,7 @@
   align-items: center;
   gap: 20px;
 }
-.genre-item.selected,
-.tag-item.selected,
-.country-item.selected,
-.fandom-item.selected {
-  background-color: #007bff;
-  color: rgb(7, 7, 7);
-}
 
-.genre-item.selected:hover,
-.tag-item.selected:hover,
-.country-item.selected:hover,
-.fandom-item.selected:hover {
-  background-color: #0056b3;
-}
 .first-block-create-book {
   /* width: 82%; */
   margin: 0 auto;
@@ -292,6 +279,10 @@
   font-family: "Bad Script";
   color: #f58807;
   padding: 10px 30px;
+}
+
+.bottom-create-border {
+  transform: rotate(180deg);
 }
 .top-button {
   position: absolute;

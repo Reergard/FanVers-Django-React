@@ -11,19 +11,6 @@
   --transition-speed: 0.3s;
   --spacing-unit: clamp(5px, 1vw, 10px);
 }
-
-.line {
-  flex: 1;
-  height: 1px;
-  background: var(--primary-color);
-  margin: 0;
-}
-.header-container {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 0px 0;
-}
 /* ОБЁРТКА ДЛЯ СЛАЙДЕРА */
 .novels-slider-wrapper {
   position: relative;
@@ -34,18 +21,7 @@
   overflow: hidden;
 }
 
-/* КОНТЕЙНЕР ДЛЯ ПРОКРУТКИ */
-.novels-scroll-container {
-  overflow: hidden;
-  width: 100%;
-}
 
-/* ГЛАВНЫЙ КОНТЕЙНЕР С КНИГАМИ */
-.novels-container-homepage {
-  display: flex;
-  gap: 20px;
-  transition: transform 0.5s ease-in-out;
-}
 
 /* КАСТОМНЫЕ СТРЕЛКИ */
 .slider-btn {
@@ -62,25 +38,7 @@
   right: 10px;
 }
 
-/* ТОЧКИ (dots) */
-.dots-container {
-  display: flex;
-  justify-content: center;
-  margin-top: 10px;
-}
 
-.dot {
-  width: 10px;
-  height: 10px;
-  margin: 0 5px;
-  background: gray;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-.dot.active {
-  background: black;
-}
 .novel-card {
   position: relative;
   width: 100%;
@@ -194,31 +152,7 @@ img.novel-image {
   pointer-events: none;
 }
 
-.novel-title {
-  width: 100%;
-  max-width: 259px;
-  margin-top: 5px auto;
-  color: var(--secondary-color);
-  text-align: center;
-  word-wrap: break-word;
 
-  font-size: clamp(14px, 2vw, 24px);
-  line-height: 1.2;
-
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
-
-  flex-shrink: 0;
-}
-
-/* Для очень длинных названий */
-@media (max-width: 259px) {
-  .novel-title {
-    font-size: 14px; /* Минимальный размер шрифта */
-  }
-}
 .header-container-homepage {
   display: flex;
   align-items: center;
@@ -233,12 +167,7 @@ img.novel-image {
   height: 1px;
   width: 100%;
 }
-.novel-divider {
-  width: 75%;
-  height: 1px;
-  background: var(--primary-color);
-  margin: 7px auto;
-}
+
 .novel-title-homepage {
   text-align: center;
   font-size: 24px;
@@ -251,50 +180,9 @@ img.novel-image {
   font-family: "Sofia Sans Semi Condensed";
   text-align: center;
 }
-.novel-description {
-  display: block;
-  width: 259px;
-  height: 129px;
-  min-height: 129px;
-  max-height: 129px;
-  overflow: hidden;
-  position: relative;
 
-  /* Базовые стили */
-  color: var(--text-color);
-  font-size: 14px;
-  line-height: 1.5;
-  text-align: center;
-  padding: 0 15px;
-  margin: 0 auto;
-  box-sizing: border-box;
-  flex-shrink: 0;
-}
 
-.novel-description::after {
-  content: "...";
-  position: absolute;
-  bottom: 0;
-  right: 15px;
-  padding-left: 4px;
-}
 
-.tabi {
-  width: 150px;
-  height: 25px;
-  margin: 40px auto;
-  background-size: cover;
-  background-position: center;
-}
-
-.particle-section {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-}
 @media (max-width: 1024px) {
   .novel-card {
     max-width: 265px;
@@ -304,7 +192,6 @@ img.novel-image {
   }
   .novel-cover {
     height: 158px;
-    /* margin-top: 0; */
   }
   img.novel-image {
     max-width: 107px;
@@ -327,20 +214,8 @@ img.novel-image {
   }
 }
 @media (max-width: 768px) {
-  .novels-container {
-    grid-template-columns: 1fr;
-    padding: var(--spacing-unit);
-  }
-
   .novel-card {
     max-width: 100%;
-  }
-
-  .novel-description {
-    font-size: 16px;
-    line-height: 1.6;
-    width: 259px;
-    height: 129px;
   }
 }
 
@@ -351,50 +226,8 @@ img.novel-image {
   .novel-card.advertising-mobal {
     min-width: 156px;
     max-width: 156px;
-    /* background-position: center top -57px; */
-  }
-  .novel-title-homepage {
-    font-size: 21px;
-  }
-  .novel-card.advertising-mobal {
     background-position: center top -70px;
-}
-}
-
-.advertisement {
-  color: var(--text-color);
-  white-space: nowrap;
-  padding: 0 10px;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .novel-card,
-  .read-button,
-  .novel-image {
-    transition: none;
   }
 }
 
-.novel-card {
-  will-change: transform;
-  transform: translateZ(0);
-}
 
-@media print {
-  .novel-card {
-    break-inside: avoid;
-    page-break-inside: avoid;
-  }
-
-  .read-button {
-    display: none;
-  }
-}
-
-/* Контейнер для правильного позиционирования */
-.main-container {
-  width: 100%;
-  max-width: 1366px;
-  margin: 0 auto;
-  padding: 0 20px;
-}

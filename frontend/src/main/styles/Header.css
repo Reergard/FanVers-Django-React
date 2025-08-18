@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Arizonia&family=Montserrat:wght@400;500;700&family=Playwrite+DK+Uloopet:wght@100..400&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Arizonia&family=Montserrat:wght@400;500;700&family=Playwrite+DK+Uloopet:wght@100..400&family=Sofia+Sans+Semi+Condensed:ital,wght@0,1..1000;1,1..1000&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -12,15 +12,12 @@
 }
 
 .header {
-  /*overflow-x: hidden;*/
   max-width: 1600px;
   margin: 0 auto;
-  /*overflow-y: inherit;*/
   color: #05b4c7;
   font-family: "Alleycat", sans-serif;
   font-size: 18px;
   padding: 2rem 0 0.9rem 0;
-  /*padding-bottom: 0rem;*/
 }
 
 .headerContent {
@@ -35,7 +32,6 @@
 
 .searchContainer {
   font-size: 22px;
-  /*flex: 1;*/
   display: flex;
   align-items: center;
   border-bottom: 1px solid #05b4c7;
@@ -51,22 +47,16 @@
   left: 80%;
   color: black;
   transform: translate3d(-50%, -50%, 0);
-  /*background-color: red;*/
-  /*color: white;*/
   padding: 0 6px;
   border-radius: 45%;
   font-size: 15px;
-  /*border: 2px solid red;*/
 }
 
 .logo {
   height: 230px;
-  /*width: 14%;*/
-  /*height: 250%;*/
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  /*margin: 0 auto;*/
   margin-top: 3.5rem;
   padding-right: 26px;
 }
@@ -76,6 +66,37 @@
   display: flex;
   align-items: center;
   gap: 1rem;
+}
+
+.user-profile__clickable-area {
+  cursor: pointer;
+  /* Не влияем на расположение элементов */
+  display: contents;
+}
+
+/* Стили для кликабельных контейнеров изображений */
+.user-profile__clickable-area > div,
+.user-profile .profile-image__parent,
+.user-profile .notification-bell__parent,
+.user-profile .image_messages__parent {
+  cursor: pointer;
+}
+
+/* Стили для компактных кликабельных обёрток */
+.user-profile div[style*="display: contents"] {
+  cursor: pointer;
+}
+
+/* Иконки — всегда поверх плашки баланса и прочего */
+.user-profile .notification-bell__parent,
+.user-profile .image_messages__parent {
+  position: relative;
+  z-index: 3;
+}
+
+/* Плашка баланса под иконками */
+.user-profile__balance {
+  z-index: 1;
 }
 
 .user-profile__name {
@@ -96,58 +117,22 @@
   border-radius: 50%;
 }
 
-/*.user-profile__balance {*/
-/*  overflow: visible;*/
-/*  position: absolute;*/
-/*  top: 8%;*/
-/*  left: 20%;*/
-/*  font-size: 28px;*/
-/*  width: 330px;*/
-/*  !*overflow: hidden;*!*/
-/*  !*height: 40px;*!*/
-/*  font-family: "Bad Script", sans-serif;*/
-/*  padding: 70px 60px 70px 70px;*/
-/*  background: url("../../assets/images/bg/Rectangle 4049.png") 20px no-repeat;*/
-/*  !*background-size: cover;*!*/
-/*  background-size: 340px 150px;*/
-/*}*/
 .user-profile__balance {
   overflow: visible;
   position: absolute;
-  /*top: -30%;*/
-  top: 5%;
+  top: 15%;
   left: 3%;
   font-size: 28px;
   width: 324px;
-  /* overflow: hidden; */
-  /* height: 40px; */
   font-family: "Bad Script", sans-serif;
   padding: 70px 60px 70px 70px;
   background: url("../../assets/images/bg/Rectangle 4049.png") -5px no-repeat;
-  /* background-size: cover; */
   background-size: 340px 150px;
 }
 .user-profile__balance span {
   font-family: "Arizonia", sans-serif;
 }
 
-/*.profile-image--third {*/
-/*  aspect-ratio: 0.96;*/
-/*  min-height: 56px;*/
-/*  width: 54px;*/
-/*}*/
-/*.profile-image--third:not(.custom) {*/
-/*  margin-left: -7px!important;*/
-/*}*/
-
-.profile-image.profile-image--first.notification-bell {
-  width: 35px !important;
-  height: 35px !important;
-  box-sizing: border-box !important;
-  padding: 0 !important;
-  margin: 10 !important;
-  position: relative;
-}
 .extra-div {
   display: none;
 }
@@ -173,7 +158,6 @@
   text-align: center;
 }
 
-/* Блок меню */
 .user-profile__menu-container {
   position: relative;
 }
@@ -248,7 +232,6 @@
   line-height: 1.4;
 }
 
-/* Добавляем треугольник сверху меню */
 .user-profile__dropdown-menu::before {
   content: "";
   position: absolute;
@@ -261,7 +244,6 @@
   border-bottom: 8px solid #1e2235;
 }
 
-/* Анимация появления меню */
 .user-profile__dropdown-menu {
   animation: menuAppear 0.2s ease;
 }
@@ -294,15 +276,13 @@
 
 .navigation {
   text-align: center;
-  /*margin-top: 2.5rem;*/
 }
 
 .navigation__container {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  /*gap: 1.25rem;*/
-  gap: 2%;
+  gap: 0.5%; /* Уменьшил с 1% на 0.5% */
 }
 
 .navigation-link-wrapper {
@@ -311,11 +291,30 @@
   margin-top: 0px;
 }
 
+/* Стили для звездочек в навигации */
+.stars-header {
+  display: block;
+  position: relative;
+  width: 38px;
+  height: 34px;
+  margin-top: 12px; /* Увеличил с 8px на 12px для спуска звездочек ниже */
+}
+
+.stars-header img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+/* Скрываем последнюю звездочку после FAQ в компьютерной и лэптопной версиях */
+.navigation__container .stars-header:last-child {
+  display: none;
+}
+
 .navigation-link {
   position: relative;
   display: inline-block;
   padding: 8px 16px;
-  /* z-index: 10; */
 }
 
 .navigation-link__frame {
@@ -329,51 +328,11 @@
 
 .navigation-link__text {
   position: relative;
-  /* z-index: 10; */
   font-size: 24px;
 }
 
-.auth-button {
-  padding: 8px 16px;
-  margin: 0 8px;
-  border-radius: 4px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.login-button {
-  background-color: transparent;
-  border: 1px solid #05b4c7;
-  color: #05b4c7;
-}
-
-.login-button:hover {
-  background-color: #048c9a;
-  color: white;
-}
-
-.register-button {
-  background-color: #05b4c7;
-  border: 1px solid #05b4c7;
-  color: white;
-}
-
-.register-button:hover {
-  background-color: #048c9a;
-  border-color: #048c9a;
-}
-
-.burger_menu {
-  display: none;
-}
-.stars-header {
-  display: none;
-}
-/* MEDIA AREA */
 @media (max-width: 1440px) {
   .user-profile__balance {
-    /*top: -10%;*/
   }
 }
 @media (max-width: 1024px) {
@@ -399,42 +358,24 @@
     width: 38px;
     height: 34px;
   }
-  /* .navigation-link { 
-    padding: 0;
-  } */
   .navigation__container {
     gap: 0;
     margin: 0 auto;
-    /* margin-right: 10px; */
     width: 96%;
   }
   .stars-header img {
     position: absolute;
-    /* padding-top: 32px; */
-    /* top: 26%; */
   }
   .aspect-square {
     margin-left: -20px;
   }
-  .profile-image--third__div {
-    width: 110px;
-    /*height: 140px;*/
-    height: 85px;
-    position: relative;
-    margin: 0 auto;
-  }
+
   .profile-image--third {
     order: 3;
   }
   .profile-image--third {
     width: 145px;
   }
-  /*.profile-image--third:not(.custom) {*/
-  /*  position: absolute;*/
-  /*  top: 50%;*/
-  /*  left: 50%;*/
-  /*  transform: translate3d(-50%, -50%, 0);*/
-  /*}*/
   .profile-image--third.custom {
     width: 100px;
     margin-top: 1rem;
@@ -479,23 +420,14 @@
   .logo {
     padding-right: 0;
     margin-top: 1.5rem;
-    /*margin-top: 0;*/
   }
   .user-profile__balance {
-    /*top: 20%;*/
-    /*left: 1%;*/
     top: 25%;
     left: 10%;
   }
-  .notification-bell__parent {
-    order: 2;
-  }
-  .image_messages__parent {
-    order: 1;
-  }
+
   #siteSearch {
     width: 65px;
-    /*font-size: 14px;*/
   }
   .searchContainer form {
     padding: 0 7px !important;
@@ -599,7 +531,6 @@
   }
   .stars-header img {
     position: absolute;
-    /* padding-top: 32px; */
     top: -34%;
     height: 20px;
   }

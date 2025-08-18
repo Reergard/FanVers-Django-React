@@ -19,25 +19,35 @@ export const notificationAPI = {
                 return null;
             }
 
+            // Проверяем, что response.data существует и содержит notifications
+            if (!response.data || !response.data.notifications) {
+                console.warn('Invalid response format:', response.data);
+                return {
+                    data: [],
+                    version: version || '0',
+                    changed: false,
+                    requestId
+                };
+            }
+
             const uniqueNotifications = [...new Map(
                 response.data.notifications.map(item => [item.id, item])
             ).values()];
 
             return {
                 data: uniqueNotifications,
-                version: response.data.version,
+                version: response.data.version || version || '0',
                 changed: true,
                 requestId
             };
         } catch (error) {
+            console.error('Error fetching notifications:', error);
             throw error;
         }
     },
     
     markAsRead(notificationId) {
-        return api.patch(`/notification/notifications/${notificationId}/`, {
-            is_read: true
-        });
+        return api.patch(`/notification/notifications/${notificationId}/mark_as_read/`);
     },
     
     deleteNotification(notificationId) {

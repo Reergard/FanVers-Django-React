@@ -101,7 +101,3 @@ input:-webkit-autofill:focus {
   -webkit-text-fill-color: #ffffff;
   transition: background-color 5000s ease-in-out 0s;
 }
-
-.bottom-create-border {
-  transform: rotate(180deg);
-}
