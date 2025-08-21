@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../../styles/Header.css";
 import { SearchBar } from "./SearchBar";
@@ -72,8 +72,8 @@ const Header = () => {
       <nav className="navigation">
         <div className="navigation__container">
           {navigationLinks.map((link, index) => (
-            <>
-              <div key={index} className="navigation-link-wrapper">
+            <Fragment key={index}>
+              <div className="navigation-link-wrapper">
                 <Link
                   to={link.to}
                   className="navigation-link"
@@ -94,7 +94,7 @@ const Header = () => {
               <div className="stars-header">
                 <img src={StarHeader} />
               </div>
-            </>
+            </Fragment>
           ))}
         </div>
       </nav>

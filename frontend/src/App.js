@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Route, Routes, Navigate, useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { forceLogout } from "./auth/authSlice";
 import PrivateRoute from "./auth/components/PrivateRoute";
 import Catalog from "./catalog/pages/Catalog";
 import AbandonedTranslations from "./catalog/pages/AbandonedTranslations";
@@ -55,6 +57,24 @@ function App() {
   const [load, updateLoad] = useState(true);
   const [error, setError] = useState(null);
   const location = useLocation();
+  const dispatch = useDispatch();
+
+  // Обробка події forceLogout від instance.js
+  useEffect(() => {
+    const handleForceLogout = () => {
+      console.log('🚪 App: Отримано подію forceLogout, очищаємо Redux state');
+      dispatch(forceLogout());
+    };
+
+    // Додаємо слухач події
+    window.addEventListener('forceLogout', handleForceLogout);
+
+    // Очищаємо слухач при розмонтуванні
+    return () => {
+      window.removeEventListener('forceLogout', handleForceLogout);
+    };
+  }, [dispatch]);
+
   useEffect(() => {
     if (location.pathname === "/create-translation") {
       document.body.classList.add("translation-bg");
@@ -62,6 +82,7 @@ function App() {
       document.body.classList.remove("translation-bg");
     }
   }, [location.pathname]);
+
   useEffect(() => {
     try {
       const timer = setTimeout(() => {

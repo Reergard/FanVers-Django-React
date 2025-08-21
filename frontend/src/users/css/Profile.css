@@ -549,3 +549,54 @@
     flex: 1;
   }
 }
+
+/* Стилі для завантаження аватара */
+.avatar-upload-section {
+  margin-bottom: 15px;
+}
+
+.avatar-preview {
+  margin-top: 15px;
+  text-align: center;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.avatar-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.avatar-actions button {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.avatar-actions button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.avatar-actions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Адаптивність для мобільних пристроїв */
+@media (max-width: 571px) {
+  .avatar-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .avatar-actions button {
+    width: 100%;
+    max-width: 200px;
+  }
+}

@@ -3,7 +3,7 @@ import { FALLBACK_IMAGES } from "../../../constants/fallbackImages";
 
 export const ProfileImage = ({ 
   src, 
-  className, 
+  className = '', 
   alt, 
   style, 
   size = 'default',
@@ -37,11 +37,20 @@ export const ProfileImage = ({
   // Якщо src пустий, одразу використовуємо fallback
   const finalSrc = src || getFallbackImage();
   
+  // Базові розміри для стабільної верстки (CLS), якщо не задано через style
+  const baseWidth = style?.width ? undefined : 160;
+  const baseHeight = style?.height ? undefined : 160;
+  
   return (
     <img
       loading="lazy"
+      decoding="async"
+      draggable={false}
+      referrerPolicy="no-referrer"
       src={imageSrc || finalSrc}
-      alt={alt}
+      alt={alt || 'Фото профілю'}
+      width={baseWidth}
+      height={baseHeight}
       style={style}
       className={`object-contain shrink-0 self-stretch my-auto ${className}`}
       onError={handleImageError}

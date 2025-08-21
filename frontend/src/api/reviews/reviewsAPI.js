@@ -76,7 +76,7 @@ const updateOwnerLike = async (commentId, commentType) => {
 
     try {
         const response = await api.post(
-            `/reviews/${commentType}/${commentId}/owner_like/`,
+            `/reviews/${commentType}-comment/${commentId}/owner_like/`,
             {},
             {
                 headers: {

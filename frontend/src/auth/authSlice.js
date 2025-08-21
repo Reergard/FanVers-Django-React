@@ -91,8 +91,6 @@ export const resetPasswordConfirm = createAsyncThunk(
     }
 );
 
-
-
 // Get Profile
 export const getProfile = createAsyncThunk(
     "auth/getProfile",
@@ -103,6 +101,13 @@ export const getProfile = createAsyncThunk(
             const message = (error.response && error.response.data
                 && error.response.data.message) || error.message || error.toString();
             return thunkAPI.rejectWithValue(message);
+        }
+    },
+    {
+        condition: (_, { getState }) => {
+            const { auth } = getState();
+            // не звати, якщо вже завантажуємо або профіль є
+            return !auth.isLoading && (!auth.userInfo || Object.keys(auth.userInfo).length === 0);
         }
     }
 );
@@ -133,6 +138,21 @@ export const authSlice = createSlice({
         },
         setIsAuthenticated: (state, action) => {
             state.isAuthenticated = action.payload;
+        },
+        // Новий reducer для force logout
+        forceLogout: (state) => {
+            state.user = null;
+            state.userInfo = {};
+            state.isAuthenticated = false;
+            state.isError = false;
+            state.isSuccess = false;
+            state.isLoading = false;
+            state.message = "";
+        },
+        // Очищення помилок
+        clearErrors: (state) => {
+            state.isError = false;
+            state.message = "";
         }
     },
     extraReducers: (builder) => {
@@ -154,15 +174,17 @@ export const authSlice = createSlice({
             })
             .addCase(login.pending, (state) => {
                 state.isLoading = true;
+                state.isError = false;
+                state.message = "";
             })
             .addCase(login.fulfilled, (state, action) => {
-                console.log('Login payload:', action.payload);
                 state.isLoading = false;
                 state.isSuccess = true;
                 state.isAuthenticated = true;
                 state.user = {
                     token: action.payload.access
                 };
+                // НЕ встановлюємо userInfo тут - він буде завантажений через getProfile
                 localStorage.setItem("token", action.payload.access);
                 localStorage.setItem("refresh", action.payload.refresh);
                 localStorage.setItem("user", JSON.stringify({
@@ -175,10 +197,16 @@ export const authSlice = createSlice({
                 state.isError = true;
                 state.message = action.payload;
                 state.user = null;
+                state.isAuthenticated = false;
             })
             .addCase(logout.fulfilled, (state) => {
                 state.user = null;
+                state.userInfo = {};
                 state.isAuthenticated = false;
+                state.isError = false;
+                state.isSuccess = false;
+                state.isLoading = false;
+                state.message = "";
             })
             .addCase(activate.pending, (state) => {
                 state.isLoading = true;
@@ -223,16 +251,32 @@ export const authSlice = createSlice({
                 state.message = action.payload;
                 state.user = null;
             })
+            .addCase(getProfile.pending, (state) => {
+                state.isLoading = true;
+                state.isError = false;
+                state.message = "";
+            })
             .addCase(getProfile.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = true;
+                state.isError = false;
                 state.userInfo = action.payload;
                 state.user = {
                     token: state.user?.token,
                     ...action.payload
                 };
+                // Встановлюємо isAuthenticated тільки після успішного завантаження профілю
+                state.isAuthenticated = true;
                 localStorage.setItem('user', JSON.stringify({
                     token: state.user?.token,
                     ...action.payload
                 }));
+            })
+            .addCase(getProfile.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload;
+                // НЕ скидаємо isAuthenticated тут - можливо це тимчасова помилка
             })
             .addCase(updateProfile.fulfilled, (state, action) => {
                 state.userInfo = action.payload;
@@ -240,6 +284,6 @@ export const authSlice = createSlice({
     }
 });
 
-export const { reset, setIsAuthenticated } = authSlice.actions;
+export const { reset, setIsAuthenticated, forceLogout, clearErrors } = authSlice.actions;
 
 export default authSlice.reducer;

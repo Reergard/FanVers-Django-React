@@ -46,6 +46,23 @@ const fetchBooks = async () => {
     }
 };
 
+const getBookInfo = async (slug) => {
+    const token = localStorage.getItem('token');
+    const config = token ? {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    } : {};
+
+    try {
+        const response = await api.get(`/catalog/books/info/${slug}/`, config);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching book info:', error);
+        throw new Error('Помилка при завантаженні інформації про книгу');
+    }
+};
+
 const fetchBook = async (slug) => {
     const token = localStorage.getItem('token');
     const currentUser = JSON.parse(localStorage.getItem('user'));
@@ -63,7 +80,19 @@ const fetchBook = async (slug) => {
             ? `/catalog/books/owner/${slug}/`
             : `/catalog/books/reader/${slug}/`;
 
+        console.log('Fetching book from endpoint:', endpoint);
         const response = await api.get(endpoint, config);
+        
+        console.log('Book API response:', {
+            slug,
+            endpoint,
+            data: response.data,
+            genres: response.data.genres,
+            tags: response.data.tags,
+            fandoms: response.data.fandoms,
+            country: response.data.country
+        });
+
         return {
             ...response.data,
             translation_status_display: response.data.translation_status_display || 'Невідомо',
@@ -361,6 +390,7 @@ export const catalogAPI = {
     fetchFandoms,
     fetchBooks,
     fetchBook,
+    getBookInfo,
     getChapterList,
     getChapterDetail,
     uploadChapter,
@@ -380,6 +410,7 @@ export {
     fetchFandoms,
     fetchBooks,
     fetchBook,
+    getBookInfo,
     getChapterList,
     getChapterDetail,
     uploadChapter,

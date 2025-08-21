@@ -5,11 +5,23 @@ let lastPurchaseTime = 0;
 const PURCHASE_COOLDOWN = 5000; // 5 секунд между попытками
 
 export const usersAPI = {
+    // ⚠️ ВАЖЛИВО: Авторизація автоматично додається через instance.js interceptor
+    // Всі API виклики автоматично отримують JWT токен
+    // НЕ додавайте заголовок Authorization вручну!
+    
     getProfile: async () => {
         try {
             const response = await api.get('/users/profile/');
             return response.data;
         } catch (error) {
+            console.error('usersAPI.getProfile error:', error);
+            
+            // Додаткова обробка помилок з'єднання
+            if (error.code === 'ERR_NETWORK' || error.message === 'Network Error') {
+                console.error('🌐 Помилка з\'єднання з сервером в getProfile');
+                throw new Error('Помилка з\'єднання з сервером');
+            }
+            
             throw error;
         }
     },
@@ -49,11 +61,7 @@ export const usersAPI = {
             purchaseInProgress = true;
             lastPurchaseTime = now;
 
-            const response = await api.post(`/users/purchase-chapter/${chapterId}/`, null, {
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                }
-            });
+            const response = await api.post(`/users/purchase-chapter/${chapterId}/`, null);
 
             return response.data;
         } catch (error) {
@@ -83,14 +91,7 @@ export const usersAPI = {
     },
     
     withdrawBalance: async (amount) => {
-        const response = await api.post('/users/withdraw-balance/', 
-            { amount },
-            {
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-                }
-            }
-        );
+        const response = await api.post('/users/withdraw-balance/', { amount });
         return response.data;
     },
     
@@ -118,15 +119,19 @@ export const usersAPI = {
     uploadProfileImage: async (imageFile) => {
         try {
             const formData = new FormData();
+            // Важно: поле 'image' відповідає ProfileImageUploadSerializer
             formData.append('image', imageFile);
             
-            const response = await api.post('/users/profile/upload-image/', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                }
-            });
+            const response = await api.post('/users/profile/upload-image/', formData);
             return response.data;
         } catch (error) {
+            console.error('usersAPI.uploadProfileImage error:', error);
+            
+            // Спеціальна обробка помилки 429
+            if (error.response?.status === 429) {
+                throw new Error('Занадто багато спроб завантаження. Спробуйте через годину.');
+            }
+            
             throw error;
         }
     },
@@ -169,6 +174,21 @@ export const usersAPI = {
             const response = await api.put('/users/profile/notification-settings/', settings);
             return response.data;
         } catch (error) {
+            throw error;
+        }
+    },
+
+    // Метод для отримання закладок користувача
+    getUserBookmarks: async (status = null) => {
+        try {
+            let url = '/navigation/bookmarks/';
+            if (status && status !== 'all') {
+                url += `?status=${status}`;
+            }
+            const response = await api.get(url);
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching user bookmarks:', error);
             throw error;
         }
     }

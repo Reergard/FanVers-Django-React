@@ -1,22 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux'; 
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import React, { useState, useEffect, useRef, Fragment } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useQuery } from '@tanstack/react-query';
 import { catalogAPI } from '../../api/catalog/catalogAPI';
-import { editorsAPI } from '../../api/editors/editorsAPI';
-import "../css/Catalog.css";
-import { Container } from 'react-bootstrap';
-import RatingBar from '../../rating/RatingBar';
-import BookComments from '../../reviews/components/BookComments'; 
-import BookmarkButton from '../../navigation/components/BookmarkButton'; 
+import { navigationAPI } from '../../api/navigation/navigationAPI';
 import axios from 'axios';
-import { toast } from 'react-toastify';
-import { useDispatch } from 'react-redux';
-import { setNotification } from '../../notification/notificationSlice';
-import { usersAPI } from '../../api/users/usersAPI';
-import { notificationAPI } from '../../api/notification/notificationAPI';
-import ConfirmationModal from '../../components/ConfirmationModal';
+import BookDetailReader from './BookDetailReader';
+import ChapterRangeSelector from '../../navigation/components/ChapterRangeSelector';
+import { BreadCrumb } from '../../main/components/BreadCrumb';
+import styles from "../css/BookDetailRouter.module.css";
+import BookCart from "./img/image__book-cart.png";
+import { Button } from 'react-bootstrap';
+import SettingsBook from './img/Setting.svg';
+import { Form } from 'react-bootstrap';
+import Star from "./img/Star_fill.svg";
+import AuthorBook from "./img/author.svg";
+import bookMini from "./img/book-mini.svg";
+import LeftArrow from "../../main/pages/img/left-arrow.png";
+import RightArrow from "../../main/pages/img/right-arrow.png";
+import OrangeDot from "../../main/pages/img/orange-dot.png";
+import BlueDot from "../../main/pages/img//blue-dot.png";
+import Slider from "react-slick";
+// import { websiteAdvertisingAPI } from "../../api/website_advertising/website_advertisingAPI";
+import { mainAPI } from "../../api/main/mainAPI";
+import { reviewsAPI } from '../../api/reviews/reviewsAPI';
+import Edit from "./img/edit.svg";
+import Read from "./img/read.png";
+import Trash from "./img/Trash.svg";
+import CommentImg from "../../main/pages/img/comment.jpg";
+import Favorite from "../../main/pages/img/Favorite.png";
+import LeftFooter from "./img/left-footer.svg";
+import RightFooter from "./img/right-footer.svg";
+import BookmarkButton from '../../navigation/components/BookmarkButton';
 import AdultIcon from '../../assets/images/icons/18+.png';
+import ghostFull from '../../assets/images/icons/ghost_full.png';
+import ghost from '../../assets/images/icons/ghost.png';
 
 // Імпортуємо функції з bookUtils
 import { 
@@ -25,765 +43,900 @@ import {
     getBookTypeLabel 
 } from '../utils/bookUtils';
 
-const BookDetailOwner = ({ book }) => {
-  const { slug } = useParams();
-  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
-  const currentUser = useSelector(state => state.auth.user);
-  const token = localStorage.getItem('token');
-  const queryClient = useQueryClient();
-  const [showVolumeForm, setShowVolumeForm] = useState(false);
-  const [volumeTitle, setVolumeTitle] = useState('');
-  const [volumeError, setVolumeError] = useState('');
-  const [isEditingOrder, setIsEditingOrder] = useState(false);
-  const [chapterPositions, setChapterPositions] = useState({});
-  const dispatch = useDispatch();
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [chapterToDelete, setChapterToDelete] = useState(null);
-  const navigate = useNavigate();
 
-  const { data: profile } = useQuery({
-    queryKey: ['profile'],
-    queryFn: async () => {
-      const response = await axios.get('http://localhost:8000/api/users/profile/', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      return response.data;
-    },
-    enabled: !!isAuthenticated && !!token
+
+const NovelCard = ({ title, description, image }) => {
+  const imageUrl = image ? (image.startsWith('http') ? image : `http://localhost:8000${image}`) : '';
+  
+  return (
+    <div className="novel-card" style={{ background: "none", minHeight: "auto", height: "min-content" }}>
+      <div className="novel-cover">
+        <div className="image-container">
+          <div className="image-wrapper">
+            <img
+              src={imageUrl}
+              alt={title}
+              className="novel-image"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.style.display = "none";
+              }}
+            />
+            <div
+              className="divider"
+              role="separator"
+              aria-orientation="vertical"
+            />
+            <span className="novel-letter">a</span>
+          </div>
+        </div>
+      </div>
+      <span className={`novel-title-homepage ${styles.novelTitleHomepage}`}>{title}</span>
+    </div>
+  );
+};
+const ExpandableTags = ({ title, className, items }) => {
+  const [expanded, setExpanded] = useState(false);
+
+  // Handle both string arrays and object arrays from API
+  const processedItems = items?.map(item => {
+    if (typeof item === 'string') return item;
+    return item?.name || item?.title || item?.label || item?.slug || '';
+  }).filter(Boolean) || [];
+
+  if (!processedItems || processedItems.length === 0) {
+    return (
+      <div className={className}>
+        {title && <span>{title}:</span>}
+        <div className={`name-${className.split(" ")[0]}`}>
+          <span>—</span>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className={className}>
+      {title && <span>{title}:</span>}
+      <div className={`name-${className.split(" ")[0]}`}>
+        {processedItems.slice(0, 2).map((item, index) => (
+          <span key={index}>{item}</span>
+        ))}
+        {processedItems.length > 2 && (
+          <button className={`expand-btn ${styles.expandBtn}`} onClick={() => setExpanded(!expanded)}>
+            {expanded ? "▲" : "▼"}
+          </button>
+        )}
+        {expanded &&
+          processedItems
+            .slice(2)
+            .map((item, index) => <span key={index + 2}>{item}</span>)}
+      </div>
+    </div>
+  );
+};
+
+const CommentComponent = ({ comment, onReply, onReaction, onOwnerLike, isOwner, currentUser, getUserImage, formatDate, showReplyForm, setShowReplyForm, replyText, setReplyText, handleReplySubmit }) => {
+  const [localShowReplyForm, setLocalShowReplyForm] = useState(false);
+
+  const handleReplyClick = () => {
+    setLocalShowReplyForm(!localShowReplyForm);
+    setShowReplyForm(comment.id);
+  };
+
+  const handleLocalReplySubmit = (e) => {
+    handleReplySubmit(e, comment);
+  };
+
+  // Определяем, является ли это ответом на комментарий
+  const isReply = comment.parent !== null;
+
+  return (
+    <>
+      <div className={isReply ? styles.commentBlockReply : styles.commentBlock}>
+        <img className={styles.userImg} src={getUserImage(comment.user)} alt="User" />
+        <div className={styles.allTextComment}>
+          <div className={styles.infoUserComment}>
+            <div className={styles.nameUserComment}>{comment.user?.username || 'Невідомий користувач'}</div>
+            <div className={styles.lastSeen}>{formatDate(comment.created_at)}</div>
+          </div>
+          <div className={styles.contentComment}>{comment.text}</div>
+          <div className={styles.buttonComment}>
+            <div className={styles.leftButtonComment}>
+              <button onClick={() => onReaction(comment.id, 'like')}>
+                {comment.user_reaction === 'like' ? '❤️' : '🤍'} Лайк
+              </button>
+              <span>{comment.likes_count || 0}</span>
+              <button onClick={() => onReaction(comment.id, 'dislike')}>
+                {comment.user_reaction === 'dislike' ? '💔' : '🖤'} Дизлайк
+              </button>
+              <span>{comment.dislikes_count || 0}</span>
+              <button onClick={handleReplyClick}>Відповісти</button>
+            </div>
+            <div className={styles.rightButtonComment}>
+              {isOwner && (
+                <button onClick={() => onOwnerLike(comment.id)}>
+                  {comment.has_owner_like ? '✅' : '⭐'} {comment.owner_like_type || 'Автора'}
+                </button>
+              )}
+              {currentUser?.id === comment.user?.id && (
+                <>
+                  <img src={Trash} alt="Delete" />
+                  <button>Видалити коментар</button>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+        <img className={styles.LeftFooter} src={LeftFooter} alt="Left footer" />
+        <img className={styles.RightFooter} src={RightFooter} alt="Right footer" />
+      </div>
+      
+      {/* Форма ответа */}
+      {localShowReplyForm && (
+        <div className={styles.replyForm}>
+          <input
+            placeholder="Відповісти на коментар..."
+            type="text"
+            value={replyText}
+            onChange={(e) => setReplyText(e.target.value)}
+          />
+          <button onClick={handleLocalReplySubmit}>
+            <img src={RightArrow} alt="Submit" />
+          </button>
+        </div>
+      )}
+      
+      {/* Рекурсивно отображаем ответы */}
+      {comment.replies && comment.replies.length > 0 && (
+        <div className={styles.repliesContainer}>
+          {comment.replies.map((reply) => (
+            <CommentComponent
+              key={reply.id}
+              comment={reply}
+              onReply={onReply}
+              onReaction={onReaction}
+              onOwnerLike={onOwnerLike}
+              isOwner={isOwner}
+              currentUser={currentUser}
+              getUserImage={getUserImage}
+              formatDate={formatDate}
+              showReplyForm={showReplyForm}
+              setShowReplyForm={setShowReplyForm}
+              replyText={replyText}
+              setReplyText={setReplyText}
+              handleReplySubmit={handleReplySubmit}
+            />
+          ))}
+        </div>
+      )}
+    </>
+  );
+};
+
+const BookDetailOwner = () => {
+
+  const { slug } = useParams();
+  const currentUser = useSelector(state => state.auth.user);
+  const [currentStartChapter, setCurrentStartChapter] = useState(1);
+  const sliderRef = useRef(null);
+  
+  // Состояние для комментариев
+  const [commentText, setCommentText] = useState('');
+  const [replyText, setReplyText] = useState('');
+  const [replyingTo, setReplyingTo] = useState(null);
+  const [showReplyForm, setShowReplyForm] = useState(null);
+
+  // Load book data
+  const { data: book, isLoading: bookLoading, error: bookError } = useQuery({
+    queryKey: ['book', slug],
+    queryFn: () => catalogAPI.fetchBook(slug),
+    enabled: !!slug,
   });
 
-  const { data: chapters = [], isLoading: chaptersLoading, error: chaptersError } = useQuery({
+  // Debug logging for book data
+  useEffect(() => {
+    if (book) {
+      console.log('BookDetailOwner: Book data loaded:', {
+        id: book.id,
+        title: book.title,
+        genres: book.genres,
+        tags: book.tags,
+        fandoms: book.fandoms,
+        country: book.country
+      });
+    }
+  }, [book]);
+
+  // Load chapters data - exactly like in working code
+  const { data: chaptersData, isLoading: chaptersLoading } = useQuery({
+    queryKey: ['paginatedChapters', book?.id, currentStartChapter],
+    queryFn: () => navigationAPI.getPaginatedChapters(book.id, currentStartChapter),
+    enabled: !!book?.id,
+  });
+
+  // Load chapters list for owner table - exactly like in working code
+  const { data: chapterList = [] } = useQuery({
     queryKey: ['chapters', slug],
     queryFn: async () => {
       try {
         const response = await catalogAPI.getChapterList(slug);
+        console.log('Chapters loaded for owner:', response.data);
         return response.data;
       } catch (error) {
-        throw error;
+        console.error('Error loading chapters:', error);
+        return [];
       }
     },
     enabled: !!slug,
-    retry: false
   });
 
+  // Load volumes - exactly like in working code
   const { data: volumes = [] } = useQuery({
     queryKey: ['volumes', slug],
     queryFn: async () => {
-      const response = await axios.get(`http://localhost:8000/api/catalog/books/${slug}/volumes/`);
-      return response.data;
+      try {
+        const response = await axios.get(`http://localhost:8000/api/catalog/books/${slug}/volumes/`);
+        console.log('Volumes loaded:', response.data);
+        return response.data;
+      } catch (error) {
+        console.error('Error loading volumes:', error);
+        return [];
+      }
     },
     enabled: !!slug,
   });
 
-  const groupChaptersByVolume = (chapters, volumes) => {
-    const grouped = new Map();
-    
-    // Створюємо групу для розділів без тому
-    grouped.set(null, []);
-    
-    // Ініціалізуємо групи для кожного тому
-    volumes.forEach(volume => {
-      grouped.set(volume.id, []);
-    });
-    
-    // Розподіляємо розділи по томах
-    chapters.forEach(chapter => {
-      const volumeId = chapter.volume;
-      
-      if (volumeId && volumes.some(v => v.id === volumeId)) {
-        grouped.get(volumeId).push(chapter);
-      } else {
-        grouped.get(null).push(chapter);
+  // Load other books for slider - exactly like in working code
+  const { data: books } = useQuery({
+    queryKey: ["books-news"],
+    queryFn: async () => {
+      try {
+        const booksData = await mainAPI.getBooksNews();
+        console.log('Other books loaded:', booksData);
+        return booksData;
+      } catch (error) {
+        console.error('Error loading books news:', error);
+        return [];
       }
-    });
-    
-    // Видаляємо порожні групи
-    for (const [key, value] of grouped.entries()) {
-      if (value.length === 0) {
-        grouped.delete(key);
+    },
+  });
+
+  // Load comments for the book
+  const { data: comments = [], refetch: refetchComments } = useQuery({
+    queryKey: ['book-comments', slug],
+    queryFn: async () => {
+      try {
+        const commentsData = await reviewsAPI.fetchBookComments(slug);
+        console.log('Comments loaded:', commentsData);
+        return commentsData;
+      } catch (error) {
+        console.error('Error loading comments:', error);
+        return [];
       }
-    }
-    
-    return grouped;
-  };
-
-  const handlePurchaseChapter = async (chapterId) => {
-    try {
-        const chapter = chapters.find(ch => ch.id === chapterId);
-        if (!chapter) {
-            console.error('Chapter not found:', chapterId);
-            throw new Error('Розділ не знайдена');
-        }
-
-        const response = await usersAPI.purchaseChapter(chapterId);
-        
-        queryClient.invalidateQueries(['chapters', slug]);
-        queryClient.invalidateQueries(['profile']);
-        
-        try {
-            // Відправляємо тільки ті поля, які очікує сервер
-            const notificationData = {
-                message: `Ви успішно придбали розділ "${chapter.title}" книги "${book?.title}"`,
-                book: book.id,
-                is_read: false,
-                user: currentUser.id,
-                // Видаляємо поля type і title, які викликають помилку
-            };
-            
-            console.log('Attempting to create notification with data:', notificationData);
-            
-            const notificationResponse = await notificationAPI.createNotification(notificationData);
-            console.log('Notification creation response:', notificationResponse);
-            
-        } catch (notificationError) {
-            console.error('Error creating notification:', notificationError);
-            console.error('Error response data:', notificationError.response?.data);
-            // Продолжаем выполнение даже если уведомление не создалось
-        }
-        
-        toast.success('Розділ успішно придбана');
-        
-    } catch (error) {
-        console.error('Purchase error:', error);
-        let errorMessage = 'Помилка при купівлі розділу';
-        
-        if (error.response?.status === 400) {
-            if (error.response.data.error === 'Недостатньо коштів') {
-                errorMessage = 'Недостатньо коштів для купівлі розділу';
-            } else {
-                errorMessage = error.response.data.error;
-            }
-        }
-        
-        toast.error(errorMessage);
-    }
-  };
-
-  const handleCreateVolume = async (e) => {
-    e.preventDefault();
-    setVolumeError('');
-
-    try {
-      if (!isBookOwner) {
-        setVolumeError('У вас немає прав для створення томів у цій книзі');
-        return;
-      }
-
-      const response = await axios.post(
-        `http://localhost:8000/api/catalog/books/${slug}/create-volume/`,
-        { title: volumeTitle },
-        {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        }
-      );
-
-      // Очищаем форму и скрываем её
-      setVolumeTitle('');
-      setShowVolumeForm(false);
-      
-      // Обновляем список томов
-      queryClient.invalidateQueries(['volumes', slug]);
-      
-      toast.success('Том успішно створено');
-    } catch (error) {
-      console.error('Error creating volume:', error);
-      console.error('Error response:', error.response?.data);  // Добавляем вывод данных ошибки
-      const errorMessage = error.response?.data?.error || 'Помилка при створенні тому';
-      setVolumeError(errorMessage);
-      toast.error(errorMessage);
-    }
-  };
-
-  // Загальна функція для оновлення позицій
-  const updateChapterPositions = async (updates) => {
-    try {
-      const newPositions = { ...chapterPositions };
-      updates.forEach(update => {
-        newPositions[update.chapter_id] = update.position;
-      });
-      setChapterPositions(newPositions);
-      
-      await editorsAPI.updateChapterOrder('no-volume', updates);
-      await queryClient.invalidateQueries(['chapters', slug]);
-    } catch (error) {
-      alert('Помилка при оноленні позицій розділів');
-      throw error;
-    }
-  };
-
-  // Функція для переміщення розділу
-  const moveChapter = async (volumeId, chapterId, direction) => {
-    try {
-      const currentChapter = chapters.find(ch => ch.id === chapterId);
-      const volumeChapters = chapters.filter(ch => ch.volume === volumeId)
-        .sort((a, b) => a.position - b.position);
-      const currentIndex = volumeChapters.findIndex(ch => ch.id === chapterId);
-      const sortedVolumes = volumes.sort((a, b) => a.id - b.id);
-      const currentVolumeIndex = sortedVolumes.findIndex(v => v.id === volumeId);
-      
-      let orderData = null;
-
-      if (direction === 'down') {
-        if (currentIndex < volumeChapters.length - 1) {
-          // Переміщення вниз всередині тому
-          // Перераховуємо позиції для всіх розділів у томі
-          const updatedChapters = volumeChapters.map((chapter, index) => {
-            if (index === currentIndex) {
-              return {
-                chapter_id: chapter.id,
-                position: (currentIndex + 2), // Нова позиція поточного розділу
-                volume_id: volumeId
-              };
-            } else if (index === currentIndex + 1) {
-              return {
-                chapter_id: chapter.id,
-                position: (currentIndex + 1), // Позиція розділу, з якою міняємося
-                volume_id: volumeId
-              };
-            } else {
-              return {
-                chapter_id: chapter.id,
-                position: index + 1, // Зберігаємо існуючий порядок для інших
-                volume_id: volumeId
-              };
-            }
-          });
-          
-          orderData = updatedChapters;
-        } else if (currentVolumeIndex < sortedVolumes.length - 1) {
-          // Переміщення в наступний том
-          const nextVolume = sortedVolumes[currentVolumeIndex + 1];
-          const nextVolumeChapters = chapters.filter(ch => ch.volume === nextVolume.id)
-            .sort((a, b) => a.position - b.position);
-          
-          // Встановлюємо позицію 1 для розділу, що переміщується
-          orderData = [{
-            chapter_id: chapterId,
-            position: 1,
-            volume_id: nextVolume.id
-          }];
-          
-          // Зсуваємо всі існуючі розділи наступного тому на одну позицію вперед
-          if (nextVolumeChapters.length > 0) {
-            const shiftedChapters = nextVolumeChapters.map(chapter => ({
-              chapter_id: chapter.id,
-              position: chapter.position + 1,
-              volume_id: nextVolume.id
-            }));
-            
-            // Додаємо оновлені позиції всіх розділів в orderData
-            orderData = [...orderData, ...shiftedChapters];
-          }
-        }
-      } else if (direction === 'up') {
-        if (currentIndex > 0) {
-          // Переміщення вгору всередині тому
-          const updatedChapters = volumeChapters.map((chapter, index) => {
-            if (index === currentIndex) {
-              return {
-                chapter_id: chapter.id,
-                position: currentIndex, // Нова позиція поточного розділу
-                volume_id: volumeId
-              };
-            } else if (index === currentIndex - 1) {
-              return {
-                chapter_id: chapter.id,
-                position: currentIndex + 1, // Позиція розділу, з якою міняємося
-                volume_id: volumeId
-              };
-            } else {
-              return {
-                chapter_id: chapter.id,
-                position: index + 1, // Зберігаємо існуючий порядок для інших
-                volume_id: volumeId
-              };
-            }
-          });
-          
-          orderData = updatedChapters;
-        } else if (currentVolumeIndex > 0) {
-          // Переміщення в попередній том
-          const prevVolume = sortedVolumes[currentVolumeIndex - 1];
-          const prevVolumeChapters = chapters.filter(ch => ch.volume === prevVolume.id)
-            .sort((a, b) => a.position - b.position);
-          
-          const newPosition = prevVolumeChapters.length > 0 
-            ? prevVolumeChapters[prevVolumeChapters.length - 1].position + 1
-            : 1;
-          
-          orderData = [{
-            chapter_id: chapterId,
-            position: newPosition,
-            volume_id: prevVolume.id
-          }];
-        }
-      }
-
-      if (orderData) {
-        await updateChapterPositions(orderData);
-      }
-    } catch (error) {
-      alert('Помилка при зміні порядку розділів');
-    }
-  };
-
-  // Обробник зміни позиції через input
-  const handlePositionChange = async (chapterId, newPosition, volumeId) => {
-    try {
-      // Отримуємо всі розділи поточного тому
-      const volumeChapters = chapters
-        .filter(ch => ch.volume === volumeId)
-        .sort((a, b) => a.position - b.position);
-      
-      const currentChapter = volumeChapters.find(ch => ch.id === chapterId);
-      const targetPosition = Number(newPosition);
-      const currentPosition = currentChapter.position;
-      
-      // Формуємо масив оновлень для всіх зачеплених розділів
-      let updates = [];
-      
-      if (targetPosition > currentPosition) {
-        // Переміщення вниз: зсуваємо розділи між поточною і цільовою позицією вгору
-        updates = volumeChapters
-          .filter(ch => ch.position > currentPosition && ch.position <= targetPosition)
-          .map(ch => ({
-            chapter_id: ch.id,
-            position: ch.position - 1,
-            volume_id: volumeId
-          }));
-      } else if (targetPosition < currentPosition) {
-        // Переміщення вгору: зсуваємо розділи між цільовою і поточною позицією вниз
-        updates = volumeChapters
-          .filter(ch => ch.position >= targetPosition && ch.position < currentPosition)
-          .map(ch => ({
-            chapter_id: ch.id,
-            position: ch.position + 1,
-            volume_id: volumeId
-          }));
-      }
-
-      // Додаємо оновлення для розділу, що переміщується
-      updates.push({
-        chapter_id: chapterId,
-        position: targetPosition,
-        volume_id: volumeId
-      });
-
-      await updateChapterPositions(updates);
-      
-    } catch (error) {
-      alert('Помилка при зміні позиції розділу');
-    }
-  };
-
-  // const handleUpdateOrder = async () => {
-  //   try {
-  //       await editorsAPI.updateChapterOrder(volumeId, chapterOrders);
-  //       // ... остальной код ...
-  //   } catch (error) {
-  //       console.error('Error updating chapter order:', error);
-  //   }
-  // };
-
-  const handleDeleteClick = (chapterId) => {
-    setChapterToDelete(chapterId);
-    setIsDeleteModalOpen(true);
-  };
-
-  const handleDeleteChapter = async () => {
-    try {
-      if (!isBookOwner) {
-        throw new Error('Недостатньо прав');
-      }
-      if (!chapterToDelete) return;
-      
-      await catalogAPI.deleteChapter(slug, chapterToDelete);
-      queryClient.invalidateQueries(['chapters', slug]);
-      toast.success('Розділ успішно видалено');
-    } catch (error) { 
-      toast.error(error.message || 'Помилка при видаленні розділу');
-    } finally {
-      setChapterToDelete(null);
-    }
-  };
-
-  // Перевіряємо, чи є поточний користувач власником книги
-  const isBookOwner = currentUser && book && book.owner === currentUser.id;
+    },
+    enabled: !!slug,
+  });
 
   useEffect(() => {
-    if (!isBookOwner) {
-      toast.error('У вас немає прав для редагування цієї книги');
-      navigate(-1);
+    if (slug) {
+      // Временно отключаем trackView, так как endpoint не существует
+      // trackView(slug);
+      console.log('Track view for slug:', slug);
     }
-  }, [isBookOwner]);
+  }, [slug]);
 
-  const handleReadClick = (e, chapter) => {
-    e.preventDefault();
-    if (!chapter.slug) {
-      console.error('Missing chapter slug:', chapter);
-      toast.error('Помилка: відсутній ідентифікатор розділу');
-      return;
-    }
-    navigate(`/books/${slug}/chapters/${chapter.slug}`);
+  const handleRangeSelect = (startChapter) => {
+    setCurrentStartChapter(startChapter);
   };
 
-  if (chaptersLoading) return <div>Завантаження...</div>;
-  if (chaptersError) {
-    return (
-      <section className="book-detail">
-        <Container>
-          <div className="error-message">
-            {chaptersError.message}
-          </div>
-        </Container>
-      </section>
-    );
-  }
+  // Функции для работы с комментариями
+  const handleCommentSubmit = async (e) => {
+    e.preventDefault();
+    if (!commentText.trim() || !currentUser) return;
+
+    try {
+      await reviewsAPI.postBookComment(slug, commentText);
+      setCommentText('');
+      refetchComments();
+    } catch (error) {
+      console.error('Error posting comment:', error);
+    }
+  };
+
+  const handleReplySubmit = async (e, parentComment) => {
+    e.preventDefault();
+    if (!replyText.trim() || !currentUser) return;
+
+    try {
+      await reviewsAPI.postBookComment(slug, replyText, parentComment.id);
+      setReplyText('');
+      setReplyingTo(null);
+      setShowReplyForm(null);
+      refetchComments();
+    } catch (error) {
+      console.error('Error posting reply:', error);
+    }
+  };
+
+  const handleReaction = async (commentId, action) => {
+    if (!currentUser) return;
+
+    try {
+      await reviewsAPI.updateReaction(commentId, 'book', action);
+      refetchComments();
+    } catch (error) {
+      console.error('Error updating reaction:', error);
+    }
+  };
+
+  const handleOwnerLike = async (commentId) => {
+    if (!currentUser || !isOwner) return;
+
+    try {
+      await reviewsAPI.updateOwnerLike(commentId, 'book');
+      refetchComments();
+    } catch (error) {
+      console.error('Error updating owner like:', error);
+    }
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffInHours = Math.floor((now - date) / (1000 * 60 * 60));
+    
+    if (diffInHours < 1) return 'менше години тому';
+    if (diffInHours === 1) return '1 годину тому';
+    if (diffInHours < 24) return `${diffInHours} годин тому`;
+    
+    const diffInDays = Math.floor(diffInHours / 24);
+    if (diffInDays === 1) return '1 день тому';
+    if (diffInDays < 7) return `${diffInDays} днів тому`;
+    
+    return date.toLocaleDateString('uk-UA');
+  };
+
+  const getUserImage = (user) => {
+    if (user?.profile_image) {
+      return user.profile_image.startsWith('http') 
+        ? user.profile_image 
+        : `http://localhost:8000${user.profile_image}`;
+    }
+    return ghostFull;
+  };
+
+  if (bookLoading || chaptersLoading) return <div>Завантаження...</div>;
+  if (bookError) return <div>Помилка: {bookError.message}</div>;
   if (!book) return <div>Книгу не знайдено</div>;
 
+  const isOwner = currentUser && book.owner === currentUser.id;
+
+  // Check if user is owner like in working code
+  if (!isOwner) {
+    return <div>У вас немає прав для перегляду цієї сторінки</div>;
+  }
+
+  // Prepare dynamic data - exactly like in working code
+  const title = book.title || '—';
+  const imageUrl = book.image ? (book.image.startsWith('http') ? book.image : `http://localhost:8000${book.image}`) : BookCart;
+  
+  // Author - exactly like in working code
+  const authorName = book.author?.name || book.author_username || book.creator_username || book.owner_username || '—';
+  
+  // Translator - exactly like in working code  
+  const translatorName = book.translator?.name || book.translator_username || book.creator_username || '—';
+  
+  // Chapters count - properly calculated from available data
+  const chaptersCount = book.chapters_count || chapterList?.length || 0;
+  
+  // Genres, tags, fandoms - properly extracted from API response
+  const genres = book.genres || [];
+  const tags = book.tags || [];
+  const fandoms = book.fandoms || [];
+  
+  // Country - properly extracted from API response
+  const country = book.country?.name || '—';
+  
+  // Status fields - properly extracted from API response
+  const translationStatus = book.book_type === 'TRANSLATION' ? 
+                           (book.translation_status_display || getTranslationStatusLabel(book.translation_status)) : 
+                           '—';
+  
+  const originalStatus = book.original_status_display || getOriginalStatusLabel(book.original_status);
+  
+  const bookTypeLabel = getBookTypeLabel(book.book_type);
+  const adult = !!book.adult_content;
+
+  const settings = {
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    autoplay: false,
+    autoplaySpeed: 3000,
+    arrows: true,
+    dots: false,
+    responsive: [
+      {
+        breakpoint: 745,
+        settings: {
+          slidesToShow: 3,
+        },
+      },
+      {
+        breakpoint: 515,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+   
+    ],
+  };
   return (
-    <section className="book-detail">
-      <Container fluid className="catalog-section" id="catalog">
-        <Container className="catalog-content">
-          <div className="book-header">
-            <div className="book-image-container">
-              <img 
-                src={`http://localhost:8000${book.image}`} 
-                alt={book.title} 
-                className="book-image" 
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.style.display = 'none';
-                }}
-              />
-              {book.adult_content && (
-                <img 
-                  src={AdultIcon} 
-                  alt="18+" 
-                  className="adult-icon"
-                />
-              )}
-              {book.book_type === 'AUTHOR' && (
-                <div className="author-badge">A</div>
-              )}
-            </div>
-            <div className="book-info">
-              <h1>{book.title}</h1>
-              <p className="book-type">
-                Тип твору: {getBookTypeLabel(book.book_type)}
-              </p>
-              <p>{book.description}</p>
-            </div>
-          </div>
-          <BookmarkButton bookId={book.id} />
+    <>
+      <BreadCrumb items={[
+        { href: "/", label: "Головна" },
+        { href: `/books/${slug}`, label: title || "Назва книги" },
+      ]} />
+      <div className={styles.BookDetailContainer}>
 
-          {/* Добавляем блок статусов после заголовка */}
-          <div className="book-statuses">
-            {book.book_type === 'TRANSLATION' && (
-              <div className="status-block">
-                <span className="status-label">Статус перекладу:</span>
-                <span className="status-value translation-status">
-                  {getTranslationStatusLabel(book.translation_status)}
-                </span>
+
+        <div className={styles.headerTableInfoBook}>
+          <p>/</p> <span>{title}</span>
+        </div>
+        <div className={styles.headerBookDetail}>
+          <div className={styles.BookCartContainer}>
+            <div className={`novel-image ${styles.CartBook}`}>
+              <img src={imageUrl} alt={title} />
+              {adult && <img src={AdultIcon} alt="18+" className={styles.adultIcon} />}
+            </div>
+            <div className={styles.footerBookCartUser}>
+              <BookmarkButton bookId={book.id} />
+            </div>
+
+          </div>
+          <div className={styles.tableBookMobile}>
+            <div className={styles.leftMobile}>
+              <div className={styles.tableBookMobileBlock}>
+                <span>Автор:</span>
+                <p>{authorName}</p>
               </div>
-            )}
-            <div className="status-block">
-              <span className="status-label">Статус оригіналу:</span>
-              <span className="status-value original-status">
-                {getOriginalStatusLabel(book.original_status)}
-              </span>
+            </div>
+            <div className={styles.rightMobile}>
+              <div className={styles.tableBookMobileBlock}>
+                <span>Перекладач:</span>
+                <p>{translatorName}</p>
+              </div>
+            </div>
+            <div className={styles.leftMobile}>
+              <div className={styles.tableBookMobileBlock}>
+                <span>Розділів:</span>
+                <p>{chaptersCount}</p>
+              </div>
+            </div>
+            <div className={styles.rightMobile}>
+              <div className={styles.tableBookMobileBlock}>
+                <span>Статус перекладу:</span>
+                <p>{translationStatus}</p>
+              </div>
+            </div>
+            <div className={styles.leftMobile}>
+              <div className={styles.tableBookMobileBlock}>
+                <span>Країна:</span>
+                <p>{country}</p>
+              </div>
+            </div>
+            <div className={styles.rightMobile}>
+              <div className={styles.tableBookMobileBlock}>
+                <span>Статус випуску твору:</span>
+                <p>{originalStatus}</p>
+              </div>
+            </div>
+            <div className={styles.leftMobile}>
+              <div className={styles.tableBookMobileBlock}>
+                <span>Жанри:</span>
+                <p>
+                  {genres && genres.length > 0 
+                    ? genres.slice(0, 2).map(g => g.name || g).join(', ')
+                    : '—'
+                  }
+                </p>
+              </div>
+            </div>
+            <div className={styles.rightMobile}>
+              <div className={styles.tableBookMobileBlock}>
+                <span>Теги:</span>
+                <p>
+                  {tags && tags.length > 0 
+                    ? tags.slice(0, 2).map(t => t.name || t).join(', ')
+                    : '—'
+                  }
+                </p>
+              </div>
             </div>
           </div>
+          <div className={styles.anotherInfoBook}>
+            <div className={styles.mainInfoBook}>
+              <div className={styles.tableInfoBook}>
 
-          {/* Показуємо кнопки управління тільки власнику книги */}
-          {isAuthenticated && isBookOwner && (
-            <div className="book-management-buttons">
-              <button 
-                onClick={() => setShowVolumeForm(!showVolumeForm)}
-                className="management-btn"
-              >
-                {showVolumeForm ? 'Скасувати' : 'Створити том'}
-              </button>
 
-              <Link 
-                to={`/books/${slug}/add-chapter`}
-                className="management-btn"
-              >
+                <table className={styles.tableBook}>
+                  <tbody>
+                    <tr>
+                      <td>Автор:</td>
+                      <td>{authorName}</td>
+                    </tr>
+                    <tr>
+                      <td>Перекладач:</td>
+                      <td>{translatorName}</td>
+                    </tr>
+                    <tr>
+                      <td>Розділів:</td>
+                      <td>{chaptersCount}</td>
+                    </tr>
+                    <tr>
+                      <td>Жанри:</td>
+                      <td>
+                        <ExpandableTags
+                          title=""
+                          className={`genres ${styles.genres}`}
+                          items={genres}
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Теги:</td>
+                      <td>
+                        <ExpandableTags
+                          title=""
+                          className={`tags ${styles.tags}`}
+                          items={tags}
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Фендом:</td>
+                      <td>
+                        <ExpandableTags
+                          title=""
+                          className={`fandom ${styles.fandom}`}
+                          items={fandoms}
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Країна:</td>
+                      <td>{country}</td>
+                    </tr>
+                    <tr>
+                      <td>Статус перекладу:</td>
+                      <td>{translationStatus}</td>
+                    </tr>
+                    <tr>
+                      <td>Статус випуску твору:</td>
+                      <td>{originalStatus}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div className={styles.rightInfoBook}>
+                <div className={styles.thanks}>
+                  <div className={styles.fanCoins}>
+                    <span>10</span>
+                    <p>FanCoins</p>
+                  </div>
+                  <div className={styles.spanThanks}>
+                    подякувати автору
+                  </div>
+                </div>
+                <div className={styles.raiting}>
+                  <div className={styles.raitingBook}>
+                    <span>Рейтинг твору:</span>
+                    <div className={styles.stars}>
+                      <img src={Star} alt="Star" />
+                      <img src={Star} alt="Star" />
+                      <img src={Star} alt="Star" />
+                      <img src={Star} alt="Star" />
+                      <img src={Star} alt="Star" />
+                    </div>
+                  </div>
+                  <div className={styles.raitingTranslator}>
+                    <span>Якість перекладу:</span>
+                    <div className={styles.stars}>
+                      <img src={Star} alt="Star" />
+                      <img src={Star} alt="Star" />
+                      <img src={Star} alt="Star" />
+                      <img src={Star} alt="Star" />
+                      <img src={Star} alt="Star" />
+                    </div>
+                  </div>
+                </div>
+                <img src={AuthorBook} alt="Author book" />
+              </div>
+            </div>
+            <button className={styles.translators}>
+              <img src={bookMini} alt="Book mini" />
+              <span>Стати новим перекладачем</span>
+            </button>
+          </div>
+
+        </div>
+        <div className={styles.descBookDetail}>
+          <div className={styles.headerDescBook}>
+            <span>Опис книги:</span>
+            <div className={styles.lineHeaderDesc}></div>
+          </div>
+          <p>{book.description || 'Опис книги відсутній'}</p>
+        </div>
+        <div className={styles.anotherBooks}>
+          <div className={styles.headerAnotherBooks}>
+            <span>Інші роботи автора</span>
+            <div className={styles.lineAnotherBooks}></div>
+          </div>
+          <div className={styles.contentAnotherBooks}>
+            <div className="novels-slider-wrapper">
+              {books?.length > 0 ? (<>
+
+                <Slider ref={sliderRef} {...settings}>
+                  {books.map((ad) => (
+                    <NovelCard
+                      key={ad.id}
+                      title={ad.title}
+                      description={ad.description}
+                      image={ad.image}
+                    />
+                  ))}
+                </Slider>
+                <div className="slider-controls" style={{ padding: "0" }}>
+                  <button
+                    className="slider-btn left"
+                    onClick={() => sliderRef.current.slickPrev()}
+                  >
+                    <img src={LeftArrow} alt="Left arrow" />
+                    <img src={BlueDot} alt="Blue dot" />
+                  </button>
+                  <button
+                    className="slider-btn right"
+                    onClick={() => sliderRef.current.slickNext()}
+                  >
+                    <img src={OrangeDot} alt="Orange dot" />
+                    <img src={RightArrow} alt="Right arrow" />
+                  </button>
+                </div>
+              </>
+              ) : (
+                <div className="no-books-message">Немає доступних книг</div>
+              )}
+
+            </div>
+
+          </div>
+        </div>
+        <div className={styles.chaptersBooks}>
+          <div className={styles.headerChapters}>
+            <div className={styles.leftHeaderChapters}>
+              <Link to={`/books/${slug}/add-chapter`} className={styles.bookmarks}>
                 Додати розділ
               </Link>
-
-              <button 
-                onClick={() => setIsEditingOrder(!isEditingOrder)}
-                className="management-btn"
-              >
-                {isEditingOrder ? 'Завершити редагування' : 'Редагувати порядок розділів'}
-              </button>
-
-              <Link 
-                to={`/books/${slug}/advertisement`}
-                className="management-btn"
-              >
-                Налаштувати рекламу
+              <Link to={`/books/${slug}/create-volume`} className={styles.bookmarks}>
+                Створити том
               </Link>
             </div>
-          )}
-
-          {/* Форма створення тому доступна тільки власнику */}
-          {isBookOwner && showVolumeForm && (
-            <form onSubmit={handleCreateVolume} className="volume-form">
-              {volumeError && <p className="error">{volumeError}</p>}
-              <div>
-                <label htmlFor="volumeTitle">Назва тому:</label>
-                <input
-                  type="text"
-                  id="volumeTitle"
-                  value={volumeTitle}
-                  onChange={(e) => setVolumeTitle(e.target.value)}
-                  required
-                />
-              </div>
-              <button type="submit">Зберегти</button>
-            </form>
-          )}
-
-          {/* Керування розділами доступно тільки власнику */}
-          {isBookOwner && (
-            <div className="chapter-management">
-              {/* ... код керування розділами ... */}
+            <div className={styles.rightHeaderChapters}>
+              <Link to={`/books/${slug}/reorder`} className={styles.bookmarks}>
+                Змінити порядок розділів
+              </Link>
             </div>
-          )}
-            <p>{book.description}</p>
-            
-          <h2>Розділи:</h2>
-          {chapters.length > 0 ? (
-            <div className="chapters-list">
-              {/* Спочатку відображаємо томи з розділами, якщо вони є */}
-              {volumes.length > 0 && volumes.map((volume) => (
-                <div key={volume.id} className="volume-chapters">
-                  <h3 className="volume-title">{volume.title}</h3>
-                  <div className="chapters-list">
-                    {chapters
-                      .filter(ch => ch.volume === volume.id)
-                      .sort((a, b) => a.position - b.position)
-                      .map((chapter) => (
-                        <div key={chapter.id} className="chapter-item">
-                          {isEditingOrder ? (
-                            <>
-                              <input
-                                type="number"
-                                value={chapterPositions[chapter.id] || chapter.position}
-                                onChange={(e) => {
-                                  const newPositions = {
-                                    ...chapterPositions,
-                                    [chapter.id]: Number(e.target.value)
-                                  };
-                                  setChapterPositions(newPositions);
-                                }}
-                                onBlur={(e) => handlePositionChange(chapter.id, e.target.value, chapter.volume)}
-                                style={{ width: '60px', marginRight: '10px' }}
-                              />
-                              <button onClick={() => moveChapter(chapter.volume, chapter.id, 'up')}>↑</button>
-                              <button onClick={() => moveChapter(chapter.volume, chapter.id, 'down')}>↓</button>
-                            </>
-                          ) : (
-                            <span className="chapter-position">{chapter.position}.</span>
-                          )}
-                          {chapter.title}
-                          <div className="chapter-actions">
-                            {chapter.is_paid && !chapter.is_purchased ? (
-                              isAuthenticated ? (
-                                <button 
-                                  onClick={() => handlePurchaseChapter(chapter.id)}
-                                  disabled={profile?.balance < Number(chapter.price)}
-                                  className="purchase-btn"
-                                >
-                                  Купити ({Number(chapter.price).toFixed(2)} грн)
-                                </button>
-                              ) : (
-                                <Link to="/login" className="login-btn">
-                                  Увійти для читання
-                                </Link>
-                              )
-                            ) : (
-                              <Link 
-                                to={`/books/${slug}/chapters/${chapter.slug}`}
-                                className="read-btn"
-                                onClick={(e) => handleReadClick(e, chapter)}
-                              >
-                                Читати
-                              </Link>
-                            )}
-                            
-                            <div className="chapter-edit-controls">
-                              <Link 
-                                to={`/chapters/${chapter.id}/edit`} 
-                                className="edit-chapter-btn"
-                              >
-                                Редагувати
-                              </Link>
-                              {isBookOwner && (
-                                <button
-                                    onClick={() => handleDeleteClick(chapter.id)}
-                                    className="delete-chapter-btn"
-                                >
-                                    Видалити
-                                </button>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                  </div>
-                </div>
-              ))}
-
-              {/* Окремий блок для розділів без тому - завжди відображається при наявності таких розділів */}
-              {chapters.filter(ch => !ch.volume).length > 0 && (
-                <div className="volume-chapters">
-                  <h3 className="volume-title">Розділи без тому</h3>
-                  <div className="chapters-list">
-                    {chapters
-                      .filter(ch => !ch.volume)
-                      .sort((a, b) => a.position - b.position)
-                      .map((chapter) => (
-                        <div key={chapter.id} className="chapter-item">
-                          {isEditingOrder ? (
-                            <>
-                              <input
-                                type="number"
-                                value={chapterPositions[chapter.id] || chapter.position}
-                                onChange={(e) => {
-                                  const newPositions = {
-                                    ...chapterPositions,
-                                    [chapter.id]: Number(e.target.value)
-                                  };
-                                  setChapterPositions(newPositions);
-                                }}
-                                onBlur={(e) => handlePositionChange(chapter.id, e.target.value, chapter.volume)}
-                                style={{ width: '60px', marginRight: '10px' }}
-                              />
-                              <button onClick={() => moveChapter(chapter.volume, chapter.id, 'up')}>↑</button>
-                              <button onClick={() => moveChapter(chapter.volume, chapter.id, 'down')}>↓</button>
-                            </>
-                          ) : (
-                            <span className="chapter-position">{chapter.position}.</span>
-                          )}
-                          {chapter.title}
-                          <div className="chapter-actions">
-                            {chapter.is_paid && !chapter.is_purchased ? (
-                              isAuthenticated ? (
-                                <button 
-                                  onClick={() => handlePurchaseChapter(chapter.id)}
-                                  disabled={profile?.balance < Number(chapter.price)}
-                                  className="purchase-btn"
-                                >
-                                  Купити ({Number(chapter.price).toFixed(2)} грн)
-                                </button>
-                              ) : (
-                                <Link to="/login" className="login-btn">
-                                  Увійти для читання
-                                </Link>
-                              )
-                            ) : (
-                              <Link 
-                                to={`/books/${slug}/chapters/${chapter.slug}`}
-                                className="read-btn"
-                                onClick={(e) => handleReadClick(e, chapter)}
-                              >
-                                Читати
-                              </Link>
-                            )}
-                            
-                            <div className="chapter-edit-controls">
-                              <Link 
-                                to={`/chapters/${chapter.id}/edit`} 
-                                className="edit-chapter-btn"
-                              >
-                                Редагувати
-                              </Link>
-                              {isBookOwner && (
-                                <button
-                                    onClick={() => handleDeleteClick(chapter.id)}
-                                    className="delete-chapter-btn"
-                                >
-                                    Видалити
-                                </button>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          ) : (
-            <p>Немає доступних розділів</p>
-          )}
-          
-
-          <div className="volume-section">
-            <button onClick={() => setShowVolumeForm(!showVolumeForm)}>
-              {showVolumeForm ? 'Скасувати' : 'Створити том'}
-            </button>
-
-            {showVolumeForm && (
-              <form onSubmit={handleCreateVolume} className="volume-form">
-                {volumeError && <p className="error">{volumeError}</p>}
-                <div>
-                  <label htmlFor="volumeTitle">Назва тому:</label>
-                  <input
-                    type="text"
-                    id="volumeTitle"
-                    value={volumeTitle}
-                    onChange={(e) => setVolumeTitle(e.target.value)}
-                    required
-                  />
-                </div>
-                <button type="submit">Зберегти</button>
-              </form>
-            )}
           </div>
+          {/* <div className={styles.containerChapters}> */}
+          <table className={styles.chaptertableAuthor}>
+            <thead>
+              <tr>
+                <th></th>
+                <th></th>
+                <th>Назва</th>
+                <th></th>
+                <th>Вартість</th>
+                <th>Створено</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {chapterList && chapterList.length > 0 ? (
+                chapterList
+                  .slice()
+                  .sort((a, b) => (a.volume === b.volume ? a.position - b.position : (a.volume || 0) - (b.volume || 0)))
+                  .map((chapter) => (
+                    <tr key={chapter.id}>
+                      <td>
+                        <Form.Check
+                          type="checkbox"
+                          id={`chapter-${chapter.id}`}
+                          className={`adult-content-checkbox ${styles.chapterCheck}`}
+                        />
+                      </td>
+                      <td>
+                        <input className={styles.inputChapter} type="number" defaultValue={chapter.position} readOnly />
+                      </td>
+                      <td>
+                        <span className={styles.nameChapter}>{chapter.title}</span>
+                      </td>
+                      <td>
+                        <Link to={`/chapters/${chapter.id}/edit`} className={styles.editChapter}>
+                          <img src={Edit} alt="Edit" />
+                          <span>Редагувати</span>
+                        </Link>
+                      </td>
+                      <td>
+                        <span className={styles.numChapter}>
+                          {chapter.is_paid ? `${Number(chapter.price || 0).toFixed(2)} ₴` : 'Безкоштовно'}
+                        </span>
+                      </td>
+                      <td>
+                        <span className={styles.numChapter}>
+                          {new Date(chapter.created_at).toLocaleDateString()}
+                        </span>
+                      </td>
+                      <td>
+                        <Link to={`/books/${slug}/chapters/${chapter.slug}`} className={styles.chaptertableAuthorRead}>
+                          <img src={Read} alt="Read" />
+                          <span>Читати</span>
+                        </Link>
+                      </td>
+                      <td>
+                        <button className={styles.trashChapter}>
+                          <img src={Trash} alt="Delete" />
+                          <span>Видалити</span>
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+              ) : (
+                <tr>
+                  <td colSpan="8" style={{textAlign: 'center'}}>Немає доступних розділів</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
 
-          <Link to={`/books/${book.slug}/add-chapter`}>
-            <button>Додати розділ</button>
-          </Link>
+          <table className={styles.chaptertableAuthorMobile}>
+            <tbody>
+              {chapterList && chapterList.length > 0 ? (
+                chapterList.map((chapter) => (
+                   <Fragment key={`m-${chapter.id}`}>
+                    {/* Первая строка */}
+                    <tr>
+                      <td>
+                        <Form.Check
+                          type="checkbox"
+                          id={`mobile-chapter-${chapter.id}`}
+                          className={`adult-content-checkbox ${styles.chapterCheck}`}
+                        />
+                      </td>
+                      <td className={styles.nameChapter}>
+                        {chapter.title}
+                      </td>
+                      <td style={{position: "relative"}}>
+                        <Link to={`/books/${slug}/chapters/${chapter.slug}`} className={styles.chaptertableAuthorRead}>
+                          <img src={Read} alt="Read" />
+                          <span>Читати</span>
+                        </Link>
+                      </td>
+                    </tr>
 
+                    {/* Вторая строка */}
+                    <tr className={styles.trBookDetail}>
+                      <td className={styles.inputChapterBlock}>
+                        <input className={styles.inputChapter} type="number" defaultValue={chapter.position} readOnly />
+                      </td>
+                                            <td className={styles.blockNumbersMobile} colSpan="2">
+                        <div className={styles.blockMobileTable}>
+                          <span className={styles.label}>Вартість<br/>(₴)</span>
+                          <p className={styles.numChapter}>
+                            {chapter.is_paid ? `${Number(chapter.price || 0).toFixed(2)}` : '0.00'}
+                          </p>
+                        </div>
+                        <div className={styles.blockMobileTable}>
+                          <span className={styles.label}>Створено</span>
+                          <p className={styles.numChapter}>
+                            {new Date(chapter.created_at).toLocaleDateString()}
+                          </p>
+                        </div>
+                      </td>
+                      <td></td>
+                    </tr>
 
-
-
-              {/* Компонент рейтингу */}
-              <RatingBar bookSlug={slug} />
-
-               {/* Компонент коментарів */}
-               {book && (
-                  <BookComments 
-                    bookSlug={book.slug} 
-                    book={book}
-                    isBookOwner={true}
-                    isAuthenticated={isAuthenticated} 
-                  />
-                )}
-
+                    {/* Третья строка */}
+                    <tr>
+                      <td></td>
+                      <td className={styles.buttonChapter}>
+                        <Link to={`/chapters/${chapter.id}/edit`} className={styles.editChapter}>
+                          <img src={Edit} alt="Edit" />
+                          <span>Редагувати</span>
+                        </Link>
+                      </td>
+                      <td>
+                        <button className={styles.trashChapter}>
+                          <img src={Trash} alt="Delete" />
+                          <span>Видалити</span>
+                        </button>
+                      </td>
+                    </tr>
+                  </Fragment>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="3" style={{textAlign: 'center'}}>Немає доступних розділів</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+        {/* </div> */}
+        {/* COMMENTS */}
+      </div>
+      {chaptersData?.total_chapters > 0 && (
+        <div className="total-chapters">
+          Всього розділів: {chaptersData.total_chapters}
+        </div>
+      )}
+      {chaptersData?.page_ranges && chaptersData.page_ranges.length > 0 && (
+        <ChapterRangeSelector
+          pageRanges={chaptersData.page_ranges}
+          currentRange={chaptersData.current_range}
+          onRangeSelect={handleRangeSelect}
+        />
+      )}
+      {/* {isOwner ? (
+        <BookDetailOwner {...commonProps} />
+      ) : (
+        <BookDetailReader {...commonProps} />
+      )} */}
+      <div className={`comments-section ${styles.CommentsSection}`}>
+        <h2>Коментарі</h2>
+        {currentUser ? (
+          <form onSubmit={handleCommentSubmit} className={styles.inputComment}>
+            <input 
+              placeholder='Прокоментуйте...' 
+              type='text' 
+              value={commentText}
+              onChange={(e) => setCommentText(e.target.value)}
+            />
+            <button type='submit'><img src={RightArrow} alt="Submit" /></button>
+          </form>
+        ) : (
+          <p>Увійдіть, щоб залишити коментар</p>
+        )}
         
-        </Container>
-      </Container>
-      <ConfirmationModal
-        isOpen={isDeleteModalOpen}
-        onRequestClose={() => {
-          setIsDeleteModalOpen(false);
-          setChapterToDelete(null);
-        }}
-        onConfirm={handleDeleteChapter}
-        message="Ви впевнені що хочете видалити даний розділ? Після видалення його не можна буде повернути"
-      />
-    </section>
+        {comments.length > 0 ? (
+          <div className={styles.commentsList}>
+            {comments.map((comment) => (
+              <CommentComponent
+                key={comment.id}
+                comment={comment}
+                onReply={handleReplySubmit}
+                onReaction={handleReaction}
+                onOwnerLike={handleOwnerLike}
+                isOwner={isOwner}
+                currentUser={currentUser}
+                getUserImage={getUserImage}
+                formatDate={formatDate}
+                showReplyForm={showReplyForm}
+                setShowReplyForm={setShowReplyForm}
+                replyText={replyText}
+                setReplyText={setReplyText}
+                handleReplySubmit={handleReplySubmit}
+              />
+            ))}
+          </div>
+        ) : (
+          <p>Коментарів поки ще немає.</p>
+        )}
+      </div>
+    </>
   );
 };
 
-export default BookDetailOwner;
+export default BookDetailOwner; 

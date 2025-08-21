@@ -14,15 +14,45 @@ const getChapterNavigation = async (bookSlug, chapterSlug) => {
 
 const getPaginatedChapters = async (bookId, startChapter = 1) => {
     try {
+        if (!bookId) {
+            console.warn('getPaginatedChapters: bookId is required');
+            return { chapters: [], total_chapters: 0, page_ranges: [] };
+        }
+        
+        console.log('Fetching paginated chapters for book:', bookId, 'starting from:', startChapter);
+        
         const { data } = await api.get('/navigation/chapters/paginated/', {
             params: {
                 book_id: bookId,
                 start_chapter: startChapter
             }
         });
+        
+        console.log('Paginated chapters response:', data);
         return data;
     } catch (error) {
-        throw error;
+        console.error('Error in getPaginatedChapters:', {
+            bookId,
+            startChapter,
+            status: error.response?.status,
+            data: error.response?.data,
+            message: error.message
+        });
+        
+        // Handle specific error cases
+        if (error.response?.status === 404) {
+            console.warn('Book not found for paginated chapters, returning empty data');
+            return { chapters: [], total_chapters: 0, page_ranges: [] };
+        }
+        
+        if (error.response?.status === 400) {
+            console.warn('Bad request for paginated chapters, returning empty data');
+            return { chapters: [], total_chapters: 0, page_ranges: [] };
+        }
+        
+        // For other errors, still return empty data to prevent crashes
+        console.error('Unexpected error in getPaginatedChapters, returning empty data');
+        return { chapters: [], total_chapters: 0, page_ranges: [] };
     }
 };
 

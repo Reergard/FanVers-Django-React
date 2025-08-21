@@ -27,8 +27,8 @@ const useBookAnalytics = () => {
         console.log('Отправляемые данные:', payload);
 
         try {
-            console.log('Отправка запроса на:', '/api/analytics/update/');
-            const response = await axiosInstance.post('/api/analytics/update/', payload);
+            console.log('Отправка запроса на:', '/api/analytics_books/update/');
+            const response = await axiosInstance.post('/api/analytics_books/update/', payload);
             console.log('Ответ сервера:', response.data);
             return response.data;
         } catch (error) {

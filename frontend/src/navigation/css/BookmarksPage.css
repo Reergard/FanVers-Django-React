@@ -103,3 +103,303 @@
     background-color: #e3f2fd;
     color: #007bff;
 }
+
+/* Нові стилі для оновленої сторінки закладок */
+
+/* Повідомлення про необхідність авторизації */
+.auth-required-message {
+    text-align: center;
+    padding: 60px 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+.auth-required-message h2 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.auth-required-message p {
+    color: #666;
+    margin-bottom: 30px;
+    font-size: 16px;
+}
+
+.login-btn {
+    display: inline-block;
+    padding: 12px 30px;
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+.login-btn:hover {
+    background: #0056b3;
+    color: white;
+    text-decoration: none;
+}
+
+/* Повідомлення про відсутність закладок */
+.no-bookmarks-message {
+    text-align: center;
+    padding: 60px 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+.no-bookmarks-message h3 {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+.no-bookmarks-message p {
+    color: #666;
+    margin-bottom: 25px;
+    font-size: 16px;
+}
+
+.browse-catalog-btn {
+    display: inline-block;
+    padding: 12px 30px;
+    background: #28a745;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+.browse-catalog-btn:hover {
+    background: #1e7e34;
+    color: white;
+    text-decoration: none;
+}
+
+/* Статус фільтрів */
+.all-filters.bookmarks .one-filter-param {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.all-filters.bookmarks .one-filter-param:hover {
+    background-color: #f0f0f0;
+    transform: translateY(-2px);
+}
+
+.all-filters.bookmarks .one-filter-param.active {
+    background-color: #007bff;
+    color: white;
+}
+
+.all-filters.bookmarks .one-filter-param.active span,
+.all-filters.bookmarks .one-filter-param.active p {
+    color: white;
+}
+
+/* Лічильник закладок */
+.bookmarks-count {
+    text-align: center;
+    padding: 15px;
+    background: #e9ecef;
+    border-radius: 5px;
+    margin-top: 20px;
+    font-weight: 500;
+    color: #495057;
+}
+
+/* Картки книг */
+.novel-card.UserTranslations {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.novel-card.UserTranslations:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.error-card {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+}
+
+.error-content {
+    text-align: center;
+    padding: 20px;
+    color: #721c24;
+}
+
+.error-content p {
+    margin: 0;
+    font-size: 14px;
+}
+
+/* Стилі для клікабельних карток книг */
+.book-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.book-card-link:hover {
+    text-decoration: none;
+    color: inherit;
+}
+
+.novel-card.UserTranslations.clickable {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.novel-card.UserTranslations.clickable:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.novel-card.UserTranslations.clickable:hover::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(0,123,255,0.1), rgba(0,123,255,0.05));
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.novel-card.UserTranslations.clickable:active {
+    transform: translateY(-2px);
+    transition: transform 0.1s ease;
+}
+
+.novel-card.UserTranslations.no-link-card {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.click-hint {
+    color: #007bff;
+    font-size: 14px;
+    font-style: italic;
+}
+
+.read-book-link {
+    display: inline-block;
+    padding: 8px 16px;
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.read-book-link:hover {
+    background: #0056b3;
+    color: white;
+    text-decoration: none;
+}
+
+.no-link {
+    color: #6c757d;
+    font-style: italic;
+    font-size: 14px;
+}
+
+/* Повідомлення про завантаження та помилки */
+.loading-message {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+    font-size: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #007bff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.error-message {
+    text-align: center;
+    padding: 20px;
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    margin: 20px 0;
+}
+
+.error-message p {
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.retry-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.retry-btn:hover:not(:disabled) {
+    background: #c82333;
+}
+
+.retry-btn:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+}
+
+/* Адаптивність для мобільних пристроїв */
+@media (max-width: 768px) {
+    .auth-required-message,
+    .no-bookmarks-message {
+        padding: 40px 15px;
+    }
+    
+    .auth-required-message h2 {
+        font-size: 20px;
+    }
+    
+    .no-bookmarks-message h3 {
+        font-size: 18px;
+    }
+    
+    .login-btn,
+    .browse-catalog-btn {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+    
+    .bookmarks-count {
+        font-size: 14px;
+        padding: 12px;
+    }
+}

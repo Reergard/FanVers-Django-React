@@ -28,6 +28,27 @@
   display: flex;
   align-items: center;
   flex-direction: row;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: all var(--transition-speed) ease;
+  
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: scale(1.1);
+  }
+  
+  &:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  &:active {
+    transform: scale(0.95);
+  }
 }
 
 .left {
@@ -56,9 +77,18 @@
   display: flex;
   background-position: center top -40px;
   flex-direction: column;
+  cursor: pointer;
 
   @media (prefers-color-scheme: dark) {
     background-color: rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Стили для фокуса с клавиатуры */
+  &:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   }
 }
 .slider-controls {
@@ -84,16 +114,25 @@
   border: 1px solid var(--text-color);
   border-radius: 40px;
   cursor: pointer;
+  background: none;
   transition: all var(--transition-speed) ease;
+  font-family: inherit;
+  
   &:focus-visible {
     outline: 2px solid var(--primary-color);
     outline-offset: 2px;
   }
+  
   @media (hover: hover) {
     &:hover {
       background-color: var(--primary-color);
       border-color: var(--primary-color);
+      transform: scale(1.05);
     }
+  }
+  
+  &:active {
+    transform: scale(0.95);
   }
 }
 
@@ -228,6 +267,103 @@ img.novel-image {
     max-width: 156px;
     background-position: center top -70px;
   }
+  
+  .read-button {
+    font-size: 14px;
+    padding: 4px 16px;
+  }
+}
+
+/* Добавляем стили для touch устройств */
+@media (hover: none) and (pointer: coarse) {
+  .novel-card:active {
+    transform: scale(0.98);
+  }
+  
+  .read-button:active {
+    transform: scale(0.95);
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+}
+
+/* Стили для сообщений о загрузке и ошибках */
+.loading-message,
+.error-message,
+.no-books-message {
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 18px;
+  color: var(--text-color);
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: var(--card-border-radius);
+  margin: 20px auto;
+  max-width: 400px;
+}
+
+.loading-message {
+  color: var(--primary-color);
+}
+
+.error-message {
+  color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.1);
+  border: 1px solid rgba(255, 107, 107, 0.3);
+}
+
+.no-books-message {
+  color: var(--secondary-color);
+  background: rgba(245, 136, 7, 0.1);
+  border: 1px solid rgba(245, 136, 7, 0.3);
+}
+
+/* Стили для карточки с ошибкой */
+.error-card {
+  background: rgba(255, 107, 107, 0.1) !important;
+  border: 1px solid rgba(255, 107, 107, 0.3);
+  cursor: not-allowed;
+}
+
+.error-card:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.error-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  padding: 20px;
+}
+
+.error-title {
+  color: #ff6b6b;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.error-description {
+  color: #ff6b6b;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+/* Анимация для загрузки */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.loading-message {
+  animation: pulse 1.5s ease-in-out infinite;
 }
 
 

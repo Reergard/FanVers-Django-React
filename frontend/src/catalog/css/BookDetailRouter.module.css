@@ -640,3 +640,179 @@
     width: 52%;
   }
 }
+
+/* Стили для комментариев */
+.commentBlock {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  font-family: "Inter";
+  padding-bottom: 20px;
+  border-bottom: 1px #5e626c solid;
+  margin-bottom: 20px;
+}
+
+.commentBlockReply {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  font-family: "Inter";
+  padding-bottom: 20px;
+  border-bottom: 1px #5e626c solid;
+  margin-bottom: 20px;
+  margin-left: 5%;
+  margin-top: 20px;
+  border-left: 3px solid #f58807;
+  padding-left: 20px;
+}
+
+.userImg {
+  width: 65px;
+  border-radius: 50px;
+  flex-shrink: 0;
+}
+
+.allTextComment {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1;
+}
+
+.infoUserComment {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.nameUserComment {
+  font-weight: 600;
+  font-size: 16px;
+  color: #05b4c7;
+}
+
+.lastSeen {
+  font-size: 14px;
+  font-style: italic;
+  color: #5e626c;
+}
+
+.contentComment {
+  font-size: 14px;
+  color: #05b4c7;
+  line-height: 1.5;
+}
+
+.buttonComment {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.leftButtonComment {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.leftButtonComment button {
+  color: #069403;
+  font-size: 14px;
+  font-style: italic;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: background-color 0.2s;
+}
+
+.leftButtonComment button:hover {
+  background-color: rgba(6, 148, 3, 0.1);
+}
+
+.leftButtonComment span {
+  color: #5e626c;
+  font-size: 14px;
+  font-weight: 500;
+  min-width: 20px;
+  text-align: center;
+}
+
+.rightButtonComment {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.rightButtonComment button {
+  color: #c90303;
+  font-size: 14px;
+  text-decoration: underline;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px 10px;
+}
+
+.replyForm {
+  margin-top: 15px;
+  margin-left: 20px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.replyForm input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #5e626c;
+  border-radius: 5px;
+  font-size: 14px;
+  color: #05b4c7;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.replyForm input::placeholder {
+  color: #5e626c;
+}
+
+.replyForm button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 5px;
+  transition: background-color 0.2s;
+}
+
+.replyForm button:hover {
+  background-color: rgba(245, 136, 7, 0.1);
+}
+
+.repliesContainer {
+  margin-top: 20px;
+  margin-left: 5%;
+  border-left: 3px solid #f58807;
+  padding-left: 20px;
+}
+
+.replyCommentBlock {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  font-family: "Inter";
+  padding-bottom: 20px;
+  border-bottom: 1px #5e626c solid;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.commentsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}

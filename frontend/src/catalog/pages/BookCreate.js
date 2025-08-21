@@ -1,26 +1,31 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  useQuery,
-  useMutation,
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
-import { Container, Form, Button, Alert } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { Form } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { catalogAPI } from "../../api/catalog/catalogAPI";
+import TranslatorAccessGuard from "../components/TranslatorAccessGuard";
 import "../css/BookCreate.css";
 import ArrowCreate from "./img/arrowCreate.png";
 import { BreadCrumb } from "../../main/components/BreadCrumb";
 import Content from "./img/18.svg";
 import styles from "../../catalog/css/BookDetailRouter.module.css";
-// import BorderCreate "../../"
 import Upload from "./img/img_upload.png";
 import BorderCreate from "../../main/pages/img/border-create.svg";
-const queryClient = new QueryClient();
 
 const CreateBook = () => {
   const navigate = useNavigate();
+  const currentUser = useSelector(state => state.auth.user);
+  const userInfo = useSelector(state => state.auth.userInfo);
+  
+  // Логування для діагностики
+  console.log('BookCreate Debug:', {
+    currentUser,
+    userInfo,
+    userRole: userInfo?.role
+  });
+  
   const [formData, setFormData] = useState({
     title: "",
     title_en: "",
@@ -38,6 +43,7 @@ const CreateBook = () => {
   });
   const [imagePreview, setImagePreview] = useState(null);
   const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Получаем списки для селектов
   const bookTypes = [
@@ -71,7 +77,8 @@ const CreateBook = () => {
       navigate("/catalog");
     },
     onError: (error) => {
-      toast.error(error.message);
+      toast.error(error.message || "Помилка при створенні книги");
+      setIsSubmitting(false);
     },
   });
 
@@ -91,11 +98,11 @@ const CreateBook = () => {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.title) {
+    if (!formData.title?.trim()) {
       newErrors.title = "Назва книги обов'язкова";
     }
 
-    if (!formData.author) {
+    if (!formData.author?.trim()) {
       newErrors.author = "Ім'я автора обов'язкове";
     }
 
@@ -113,6 +120,10 @@ const CreateBook = () => {
 
     if (!formData.original_status) {
       newErrors.original_status = "Оберіть статус випуску оригіналу";
+    }
+
+    if (formData.book_type === "TRANSLATION" && !formData.translation_status) {
+      newErrors.translation_status = "Оберіть статус перекладу";
     }
 
     setErrors(newErrors);
@@ -147,19 +158,25 @@ const CreateBook = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (isSubmitting) return;
+    
+    if (!validateForm()) {
+      return;
+    }
 
-    const submitData = {
-      ...formData,
-      translation_status:
-        formData.book_type === "AUTHOR" ? null : formData.translation_status,
-    };
+    setIsSubmitting(true);
 
     try {
+      const submitData = {
+        ...formData,
+        translation_status:
+          formData.book_type === "AUTHOR" ? null : formData.translation_status,
+      };
+
       await createBookMutation.mutateAsync(submitData);
-      toast.success("Книга успішно створена!");
-      navigate("/catalog");
     } catch (error) {
-      toast.error(error.message || "Помилка при створенні книги");
+      console.error('Error creating book:', error);
     }
   };
 
@@ -171,17 +188,18 @@ const CreateBook = () => {
   }, [formData.book_type]);
 
   return (
-    <div className="BookCreateContainer">
-      <BreadCrumb
-        items={[
-          { href: "/", label: "Головна" },
-          {
-            href: "/create-translation",
-            label: "Створення",
-          },
-        ]}
-      />
-      <div className="first-block-create-book">
+    <TranslatorAccessGuard>
+      <div className="BookCreateContainer">
+        <BreadCrumb
+          items={[
+            { href: "/", label: "Головна" },
+            {
+              href: "/create-translation",
+              label: "Створення",
+            },
+          ]}
+        />
+        <div className="first-block-create-book">
         {/* <Form onSubmit={handleSubmit}> */}
         <div className="name-book">
           <Form.Group className="mb-3 block-name-book">
@@ -193,11 +211,13 @@ const CreateBook = () => {
               <Form.Control
                 className="input-name-book"
                 type="text"
+                placeholder="Введіть назву книги мовою оригіналу"
                 value={formData.title}
                 onChange={(e) =>
                   setFormData({ ...formData, title: e.target.value })
                 }
                 isInvalid={!!errors.title}
+                required
               />
               <Form.Control.Feedback type="invalid">
                 {errors.title}
@@ -214,14 +234,15 @@ const CreateBook = () => {
               <Form.Control
                 className="input-name-book"
                 type="text"
+                placeholder="Введіть назву книги мовою перекладу"
                 value={formData.title_en}
                 onChange={(e) =>
                   setFormData({ ...formData, title_en: e.target.value })
                 }
-                isInvalid={!!errors.title}
+                isInvalid={!!errors.title_en}
               />
               <Form.Control.Feedback type="invalid">
-                {errors.title}
+                {errors.title_en}
               </Form.Control.Feedback>
             </div>
           </Form.Group>
@@ -252,11 +273,13 @@ const CreateBook = () => {
               <Form.Control
                 className="input-name-book"
                 type="text"
+                placeholder="Введіть ім'я автора твору"
                 value={formData.author}
                 onChange={(e) =>
                   setFormData({ ...formData, author: e.target.value })
                 }
                 isInvalid={!!errors.author}
+                required
               />
               <Form.Control.Feedback type="invalid">
                 {errors.author}
@@ -290,57 +313,60 @@ const CreateBook = () => {
               </Form.Control.Feedback>
             </div>
           </Form.Group>
+          {formData.book_type === "TRANSLATION" && (
+            <Form.Group className="mb-3 block-name-book">
+              <Form.Label className="name-book-label">
+                Статус перекладу
+              </Form.Label>
+              <div className="container-name-book">
+                <Form.Select
+                  className="input-name-book"
+                  value={formData.translation_status}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      translation_status: e.target.value,
+                    })
+                  }
+                  isInvalid={!!errors.translation_status}
+                >
+                  <option value="">Оберіть статус</option>
+                  {translationStatuses.map((status) => (
+                    <option key={status.value} value={status.value}>
+                      {status.label}
+                    </option>
+                  ))}
+                </Form.Select>
+                <Form.Control.Feedback type="invalid">
+                  {errors.translation_status}
+                </Form.Control.Feedback>
+              </div>
+            </Form.Group>
+          )}
           <Form.Group className="mb-3 block-name-book">
-            <Form.Label className="name-book-label">
-              Статус перекладу
-            </Form.Label>
-            <div className="container-name-book">
-              <Form.Select
-                className="input-name-book"
-                value={formData.original_status}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    original_status: e.target.value,
-                  })
-                }
-                isInvalid={!!errors.original_status}
-              >
-                <option value="">Оберіть статус</option>
-                {originalStatuses.map((status) => (
-                  <option key={status.value} value={status.value}>
-                    {status.label}
-                  </option>
-                ))}
-              </Form.Select>
-              <Form.Control.Feedback type="invalid">
-                {errors.original_status}
-              </Form.Control.Feedback>
-            </div>
-          </Form.Group>
-          <Form.Group className="mb-3  block-name-book">
             <Form.Label className="name-book-label">Країна твору</Form.Label>
             <div className="container-name-book">
               <Form.Select
                 className="input-name-book"
-                value={formData.original_status}
+                value={formData.country}
                 onChange={(e) =>
                   setFormData({
                     ...formData,
-                    original_status: e.target.value,
+                    country: e.target.value,
                   })
                 }
-                isInvalid={!!errors.original_status}
+                isInvalid={!!errors.country}
+                required
               >
-                <option value="">Оберіть статус</option>
-                {originalStatuses.map((status) => (
-                  <option key={status.value} value={status.value}>
-                    {status.label}
+                <option value="">Оберіть країну</option>
+                {countries?.map((country) => (
+                  <option key={country.id} value={country.id}>
+                    {country.name}
                   </option>
                 ))}
               </Form.Select>
               <Form.Control.Feedback type="invalid">
-                {errors.original_status}
+                {errors.country}
               </Form.Control.Feedback>
             </div>
           </Form.Group>
@@ -375,6 +401,7 @@ const CreateBook = () => {
               style={{ minHeight: "390px" }}
               as="textarea"
               rows={3}
+              placeholder="Введіть опис або рецензію книги (максимум 250 слів)"
               value={formData.description}
               onChange={(e) =>
                 setFormData({ ...formData, description: e.target.value })
@@ -382,9 +409,9 @@ const CreateBook = () => {
               isInvalid={!!errors.description}
             />
             <Form.Text className="text-muted">
-              {/* {formData.description
+              {formData.description
                 ? `${formData.description.split(" ").length}/250 слів`
-                : "0/250 слів"} */}
+                : "0/250 слів"}
             </Form.Text>
             <Form.Control.Feedback type="invalid">
               {errors.description}
@@ -571,9 +598,14 @@ const CreateBook = () => {
             <div
               key={fandom.id}
               className={`fandom-item ${
-                formData.fandoms === fandom.id ? "selected" : ""
+                formData.fandoms.includes(fandom.id) ? "selected" : ""
               }`}
-              onClick={() => setFormData({ ...formData, fandoms: fandom.id })}
+              onClick={() => {
+                const newFandoms = formData.fandoms.includes(fandom.id)
+                  ? formData.fandoms.filter((id) => id !== fandom.id)
+                  : [...formData.fandoms, fandom.id];
+                setFormData({ ...formData, fandoms: newFandoms });
+              }}
             >
               {fandom.name}
             </div>
@@ -763,15 +795,21 @@ const CreateBook = () => {
           </div>
           <div className="all-sub-img">
             <div className="one-sub-img"></div>
-            <button className="save-book">
+            <button 
+              type="submit"
+              className="save-book"
+              onClick={handleSubmit}
+              disabled={isSubmitting}
+            >
               <img className="top-button" src={BorderCreate} />
-              <span>Опублікувати переклад</span>
+              <span>{isSubmitting ? 'Створення...' : 'Опублікувати переклад'}</span>
               <img className="bottom-button" src={BorderCreate} />
             </button>
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </TranslatorAccessGuard>
   );
 };
 

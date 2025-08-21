@@ -18,6 +18,9 @@ import ModalAdultContent from "../components/ModalAdultContent";
 import { monitoringAPI } from "../../api/monitoring/monitoringAPI";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { BreadCrumb } from "../../main/components/BreadCrumb";
+import { getProfile } from "../../auth/authSlice";
+import { withVersion } from "../../utils/withVersion";
+import { useRef } from "react";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -34,6 +37,17 @@ const Profile = () => {
   const [balanceHistory, setBalanceHistory] = useState([]);
   const [showTransactionHistory, setShowTransactionHistory] = useState(false);
   const [readingStats, setReadingStats] = useState(null);
+
+  // State для завантаження аватара
+  const [avatarFile, setAvatarFile] = useState(null);
+  const [avatarPreview, setAvatarPreview] = useState(null);
+  const [avatarLoading, setAvatarLoading] = useState(false);
+  const [avatarError, setAvatarError] = useState("");
+  const [avatarSuccess, setAvatarSuccess] = useState("");
+  const [avatarVersion, setAvatarVersion] = useState(0); // 0 = немає завантажень, >0 = версія для кеш-бастингу
+
+  // Ref для file input
+  const fileRef = useRef(null);
 
   // Нові state для email та пароля
   const [newEmail, setNewEmail] = useState("");
@@ -92,10 +106,26 @@ const Profile = () => {
         setBalanceHistory(data.balance_history || []);
       }
     } catch (error) {
-      const errorMessage =
-        error.response?.data?.error || "Помилка при завантаженні профілю";
-      setError(errorMessage);
-      toast.error(errorMessage);
+      console.error('Profile fetch error:', error);
+      
+      // Обробляємо різні типи помилок
+      if (error.code === 'ERR_NETWORK' || error.message === 'Network Error') {
+        const errorMessage = "Помилка з'єднання з сервером. Перевірте, чи запущений Django сервер.";
+        setError(errorMessage);
+        toast.error(errorMessage);
+      } else if (error.response?.status === 401) {
+        const errorMessage = "Необхідна авторизація. Перенаправляємо на сторінку входу...";
+        setError(errorMessage);
+        toast.error(errorMessage);
+        // Автоматично перенаправляємо на логін через 2 секунди
+        setTimeout(() => {
+          window.location.href = '/login';
+        }, 2000);
+      } else {
+        const errorMessage = error.response?.data?.error || "Помилка при завантаженні профілю";
+        setError(errorMessage);
+        toast.error(errorMessage);
+      }
     } finally {
       setLoading(false);
     }
@@ -364,6 +394,176 @@ const Profile = () => {
       [field]: !prev[field],
     }));
   };
+
+  // Функції для роботи з аватаром
+  const handleAvatarChange = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Очищаємо попередні помилки та успіхи
+    setAvatarError("");
+    setAvatarSuccess("");
+
+    // Валідація файлу
+    const validationError = validateAvatarFile(file);
+    if (validationError) {
+      setAvatarError(validationError);
+      return;
+    }
+
+    // Створюємо preview
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setAvatarPreview(e.target.result);
+    };
+    reader.readAsDataURL(file);
+
+    setAvatarFile(file);
+  };
+
+  const validateAvatarFile = (file) => {
+    // Перевірка розміру (максимум 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      return "Розмір файлу не може перевищувати 5MB";
+    }
+
+    // Перевірка типу файлу
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+    if (!allowedTypes.includes(file.type)) {
+      return "Підтримуються тільки формати: JPEG, PNG, WebP";
+    }
+
+    return null;
+  };
+
+  const validateMagicBytes = async (file) => {
+    try {
+      const buffer = await file.arrayBuffer();
+      const bytes = new Uint8Array(buffer);
+      
+      // JPEG: FF D8 FF
+      const isJpeg = bytes[0] === 0xFF && bytes[1] === 0xD8 && bytes[2] === 0xFF;
+      // PNG: 89 50 4E 47
+      const isPng = bytes[0] === 0x89 && String.fromCharCode(...bytes.slice(1, 4)) === 'PNG';
+      // WebP: RIFF....WEBP
+      const isWebp = String.fromCharCode(...bytes.slice(0, 4)) === 'RIFF' && 
+                    String.fromCharCode(...bytes.slice(8, 12)) === 'WEBP';
+      
+      return isJpeg || isPng || isWebp;
+    } catch (error) {
+      console.warn("Не вдалося прочитати файл для перевірки magic bytes:", error);
+      return true; // Якщо не вдалося прочитати, пропускаємо цю перевірку
+    }
+  };
+
+  const handleAvatarUpload = async () => {
+    if (!avatarFile) return;
+
+    try {
+      setAvatarLoading(true);
+      setAvatarError("");
+      setAvatarSuccess("");
+
+      // Додаткова перевірка magic bytes перед відправкою
+      const isValidMagicBytes = await validateMagicBytes(avatarFile);
+      if (!isValidMagicBytes) {
+        setAvatarError("Невірний формат файлу або файл пошкоджений");
+        setAvatarLoading(false);
+        return;
+      }
+
+      // Оптимістичне оновлення - показуємо нове зображення одразу
+      const tempImageUrl = avatarPreview;
+      setProfile(prev => ({
+        ...prev,
+        image: tempImageUrl,
+        profile_image_small: tempImageUrl,
+        profile_image_large: tempImageUrl,
+        has_custom_image: true
+      }));
+
+      const response = await usersAPI.uploadProfileImage(avatarFile);
+      
+      // Оновлюємо профіль з реальним URL з сервера
+      setProfile(prev => ({
+        ...prev,
+        image: response.image_url,
+        profile_image_small: response.image_url,
+        profile_image_large: response.image_url,
+        has_custom_image: true
+      }));
+      
+      // Встановлюємо версію для кеш-бастингу
+      setAvatarVersion(Date.now());
+      
+      // Очищаємо state
+      setAvatarFile(null);
+      setAvatarPreview(null);
+      
+      // Сбрасываем значение file input
+      if (fileRef.current) fileRef.current.value = '';
+      
+      setAvatarSuccess("Фото профілю успішно оновлено!");
+      
+      // Очищаємо повідомлення через 3 секунди
+      setTimeout(() => {
+        setAvatarSuccess("");
+      }, 3000);
+
+      // Оновлюємо Redux state для синхронізації з іншими компонентами
+      dispatch(getProfile());
+
+      // Додатково оновлюємо Redux state для синхронізації з Header
+      // Це забезпечить оновлення зображення профілю в усіх компонентах
+      setTimeout(() => {
+        dispatch(getProfile());
+      }, 100);
+
+    } catch (error) {
+      console.error('Avatar upload error:', error);
+      
+      // Відкатуємо оптимістичне оновлення при помилці
+      if (profile) {
+        setProfile(prev => ({
+          ...prev,
+          image: prev.image || null,
+          profile_image_small: prev.profile_image_small || null,
+          profile_image_large: prev.profile_image_large || null,
+          has_custom_image: prev.has_custom_image || false
+        }));
+      }
+      
+      let errorMessage = "Помилка при завантаженні фото";
+      
+      // Спеціальна обробка різних типів помилок
+      if (error.response?.status === 429) {
+        errorMessage = "Занадто багато спроб завантаження. Спробуйте через годину або зверніться до адміністратора.";
+        toast.error(errorMessage);
+      } else if (error.code === 'ERR_NETWORK' || error.message === 'Network Error') {
+        errorMessage = "Помилка з'єднання з сервером. Перевірте, чи запущений Django сервер.";
+        toast.error(errorMessage);
+      } else if (error.response?.data?.error) {
+        errorMessage = error.response.data.error;
+        toast.error(errorMessage);
+      } else {
+        toast.error(errorMessage);
+      }
+      
+      setAvatarError(errorMessage);
+    } finally {
+      setAvatarLoading(false);
+    }
+  };
+
+  const handleAvatarCancel = () => {
+    setAvatarFile(null);
+    setAvatarPreview(null);
+    setAvatarError("");
+    setAvatarSuccess("");
+    
+    // Сбрасываем значение file input
+    if (fileRef.current) fileRef.current.value = '';
+  };
   
   return (
     <section className="profile-section">
@@ -389,7 +589,13 @@ const Profile = () => {
               <div className="about">
                 <div className="photo-profile">
                   <ProfileImage
-                    src={profile.profile_image_large || profile.image}
+                    src={
+                      (profile.profile_image_large || profile.image)
+                        ? (avatarVersion
+                            ? withVersion(profile.profile_image_large || profile.image, avatarVersion)
+                            : (profile.profile_image_large || profile.image))
+                        : null
+                    }
                     alt={`Фото профілю ${profile.username}`}
                     className="profile-photo"
                     size={IMAGE_SIZES.PROFILE_PAGE}
@@ -462,7 +668,83 @@ const Profile = () => {
               </div>
               <div className="block-balance">
                 <div className="left-buttons-balance">
-                  <button>Змінити фото профілю</button>
+                  <div className="avatar-upload-section">
+                    <button 
+                      type="button"
+                      onClick={() => fileRef.current.click()}
+                      disabled={avatarLoading}
+                    >
+                      {avatarLoading ? "Завантаження..." : "Змінити фото профілю"}
+                    </button>
+                    
+                    {/* Прихований input для вибору файлу */}
+                    <input
+                      ref={fileRef}
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp"
+                      onChange={handleAvatarChange}
+                      style={{ display: 'none' }}
+                    />
+                    
+                    {/* Preview та кнопки управління */}
+                    {avatarPreview && (
+                      <div className="avatar-preview">
+                        <img 
+                          src={avatarPreview} 
+                          alt="Preview" 
+                          style={{ 
+                            width: '100px', 
+                            height: '100px', 
+                            objectFit: 'cover',
+                            borderRadius: '50%',
+                            margin: '10px 0'
+                          }} 
+                        />
+                        <div className="avatar-actions">
+                          <button 
+                            onClick={handleAvatarUpload}
+                            disabled={avatarLoading}
+                            style={{ 
+                              backgroundColor: '#28a745', 
+                              color: 'white',
+                              border: 'none',
+                              padding: '5px 15px',
+                              borderRadius: '4px',
+                              marginRight: '10px'
+                            }}
+                          >
+                            {avatarLoading ? "Завантаження..." : "Зберегти"}
+                          </button>
+                          <button 
+                            onClick={handleAvatarCancel}
+                            disabled={avatarLoading}
+                            style={{ 
+                              backgroundColor: '#6c757d', 
+                              color: 'white',
+                              border: 'none',
+                              padding: '5px 15px',
+                              borderRadius: '4px'
+                            }}
+                          >
+                            Скасувати
+                          </button>
+                        </div>
+                        
+                        {/* Повідомлення про помилки та успіх */}
+                        {avatarError && (
+                          <div style={{ color: 'red', fontSize: '14px', marginTop: '10px' }}>
+                            {avatarError}
+                          </div>
+                        )}
+                        {avatarSuccess && (
+                          <div style={{ color: 'green', fontSize: '14px', marginTop: '10px' }}>
+                            {avatarSuccess}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                  
                   <button onClick={() => setShowTransactionHistory(true)}>
                     Історія транзакцій
                   </button>
@@ -550,7 +832,7 @@ const Profile = () => {
                   <div className="all-settings">
                     <Form.Check
                       type="checkbox"
-                      id="notifications"
+                      id="notifications-account"
                       label="Сповіщення"
                       checked={notificationSettings.notifications_enabled}
                       onChange={(e) => handleNotificationSettingChange('notifications_enabled', e.target.checked)}
@@ -559,7 +841,7 @@ const Profile = () => {
                     />
                     <Form.Check
                       type="checkbox"
-                      id="private-messages"
+                      id="private-messages-account"
                       label="Отримувати приватні повідомлення"
                       checked={notificationSettings.private_messages_enabled}
                       onChange={(e) => handleNotificationSettingChange('private_messages_enabled', e.target.checked)}
@@ -568,7 +850,7 @@ const Profile = () => {
                     />
                     <Form.Check
                       type="checkbox"
-                      id="confirm-age"
+                      id="confirm-age-account"
                       label="Я підтверджую, що мені виповнилося 18 років, і я можу переглядати контент, призначений для дорослих."
                       checked={notificationSettings.age_confirmed}
                       onChange={(e) => handleNotificationSettingChange('age_confirmed', e.target.checked)}

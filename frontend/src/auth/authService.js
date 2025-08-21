@@ -37,8 +37,20 @@ const authService = {
     },
 
     getProfile: async () => {
-        const response = await api.get('/auth/users/me/');
-        return response.data;
+        try {
+            const response = await api.get('/users/profile/');
+            return response.data;
+        } catch (error) {
+            console.error('authService.getProfile error:', error);
+            
+            // Додаткова обробка помилок з'єднання
+            if (error.code === 'ERR_NETWORK' || error.message === 'Network Error') {
+                console.error('🌐 Помилка з\'єднання з сервером в authService.getProfile');
+                throw new Error('Помилка з\'єднання з сервером');
+            }
+            
+            throw error;
+        }
     },
 
     updateProfile: async (profileData) => {
