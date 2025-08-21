@@ -13,6 +13,7 @@ from django.db.models import Sum
 from django.core.cache import cache
 from django.db.models import Count, Q, F
 from django.contrib.staticfiles.storage import staticfiles_storage
+from datetime import datetime
 
 
 def generate_token():
@@ -48,9 +49,14 @@ class Profile(models.Model):
     #     return os.path.join('users/profile_images/', filename)  # Return new path
 
     def get_upload_to(self, instance):
+        """Генерує безпечний шлях для збереження аватара"""
         basename = str(uuid.uuid4())
         discard, ext = os.path.splitext(instance)
-        return f'users/profile_images/{"".join([basename, ext])}'
+        # Структура: avatars/{user_id}/{year}/{month}/{uuid}.webp
+        user_id = self.user.id if hasattr(self, 'user') else 'unknown'
+        year = datetime.now().year
+        month = datetime.now().month
+        return f'avatars/{user_id}/{year}/{month:02d}/{basename}.webp'
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     username = models.CharField(max_length=50, blank=True, null=True)

@@ -2,17 +2,19 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 from rest_framework import status, generics, permissions
-from rest_framework.decorators import api_view, permission_classes, throttle_classes
+from rest_framework.decorators import api_view, permission_classes, throttle_classes, parser_classes
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework_simplejwt.authentication import JWTAuthentication
 import logging
 from django.db import transaction
 from django.contrib.auth import update_session_auth_hash
 from django.core.files.storage import default_storage
 import os
+import time
 
 logger = logging.getLogger(__name__)
 
@@ -27,7 +29,7 @@ from apps.users.api.serializers import (
     NotificationSettingsSerializer
 )
 from apps.users.models import Profile
-from .throttling import ProfileThrottle
+from .throttling import ProfileThrottle, ProfileImageUploadThrottle
 
 # Получаем модель User через get_user_model()
 User = get_user_model()
@@ -184,25 +186,20 @@ def update_profile_view(request):
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
+@throttle_classes([ProfileImageUploadThrottle])
+@parser_classes([MultiPartParser, FormParser])
 def upload_profile_image(request):
-    """Завантаження зображення профілю"""
+    """Завантаження зображення профілю з покращеною безпекою"""
     try:
-        serializer = ProfileImageUploadSerializer(data=request.data)
+        serializer = ProfileImageUploadSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
-            profile = request.user.profile
-            
-            # Видаляємо старе зображення, якщо воно є
-            if profile.image:
-                if default_storage.exists(profile.image.name):
-                    default_storage.delete(profile.image.name)
-            
-            # Зберігаємо нове зображення
-            profile.image = serializer.validated_data['image']
-            profile.save()
+            # Використовуємо метод save з serializer'а
+            profile = serializer.save()
             
             return Response({
                 'message': 'Зображення профілю успішно оновлено',
-                'image_url': request.build_absolute_uri(profile.image.url)
+                'image_url': request.build_absolute_uri(profile.image.url) + f'?v={int(time.time())}',
+                'has_custom_image': True
             })
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -223,12 +220,14 @@ def delete_profile_image(request):
         profile = request.user.profile
         
         if profile.image:
-            if default_storage.exists(profile.image.name):
-                default_storage.delete(profile.image.name)
+            # Використовуємо storage з profile.image для кращої сумісності
+            storage = profile.image.storage
+            if storage.exists(profile.image.name):
+                storage.delete(profile.image.name)
             
             # Просто очищаем поле image
             profile.image = None
-            profile.save()
+            profile.save(update_fields=['image'])
             
             return Response({'message': 'Зображення профілю успішно видалено'})
         

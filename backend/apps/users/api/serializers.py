@@ -1,3 +1,8 @@
+import os
+import io
+from PIL import Image, ImageOps
+from django.core.files.base import ContentFile
+from django.db import transaction
 from rest_framework import serializers
 from djoser.serializers import UserCreateSerializer
 from django.contrib.auth import get_user_model
@@ -8,8 +13,12 @@ import logging
 from django.conf import settings
 from decimal import Decimal
 from django.contrib.auth.password_validation import validate_password
+import uuid
 
 logger = logging.getLogger(__name__)
+
+# Захист від декомпресійних бомб в Pillow
+Image.MAX_IMAGE_PIXELS = 50_000_000  # Максимум 50MP для безпеки
 
 # Получаем модель User через get_user_model()
 User = get_user_model()
@@ -50,20 +59,123 @@ class BalanceLogSerializer(serializers.ModelSerializer):
 
 
 class ProfileImageUploadSerializer(serializers.Serializer):
-    """Сериализатор для загрузки изображения профиля"""
+    """Сериализатор для загрузки изображения профиля с максимальной безопасностью"""
     image = serializers.ImageField(required=True)
     
     def validate_image(self, value):
-        # Проверяем размер файла (максимум 5MB)
+        # 1. Жесткая проверка размера файла (максимум 5MB)
         if value.size > 5 * 1024 * 1024:
             raise serializers.ValidationError("Розмір файлу не може перевищувати 5MB")
         
-        # Проверяем формат файла
+        # 2. Жесткая проверка формата файла
         allowed_formats = ['image/jpeg', 'image/png', 'image/webp']
         if value.content_type not in allowed_formats:
             raise serializers.ValidationError("Підтримуються тільки формати: JPEG, PNG, WebP")
         
-        return value
+        # 3. Проверяем magic bytes для дополнительной безопасности
+        try:
+            # Читаем первые 12 байт для проверки сигнатур
+            value.seek(0)
+            header = value.read(12)
+            value.seek(0)
+            
+            # Проверяем сигнатуры файлов
+            is_valid = False
+            
+            # JPEG: FF D8 FF
+            if header[:3] == b'\xff\xd8\xff':
+                is_valid = True
+            # PNG: 89 50 4E 47
+            elif header[:4] == b'\x89PNG':
+                is_valid = True
+            # WebP: RIFF....WEBP
+            elif header[:4] == b'RIFF' and header[8:12] == b'WEBP':
+                is_valid = True
+            
+            if not is_valid:
+                raise serializers.ValidationError("Невірний формат файлу або файл пошкоджений")
+                
+        except Exception as e:
+            logger.error(f"Ошибка при проверке magic bytes: {str(e)}")
+            raise serializers.ValidationError("Помилка при перевірці файлу")
+        
+        # 4. Обрабатываем изображение через Pillow для максимальной безопасности
+        try:
+            # Открываем изображение
+            img = Image.open(value)
+            
+            # Проверяем целостность
+            img.verify()
+            
+            # Повторно открываем для обработки
+            value.seek(0)
+            img = Image.open(value)
+            
+            # Убираем EXIF данные и метаданные
+            img = ImageOps.exif_transpose(img)
+            
+            # Ограничиваем максимальный размер (4096x4096)
+            if img.width > 4096 or img.height > 4096:
+                img.thumbnail((4096, 4096), Image.Resampling.LANCZOS)
+            
+            # Конвертируем в RGB если нужно
+            if img.mode not in ('RGB', 'RGBA'):
+                img = img.convert('RGB')
+            
+            # Сохраняем в безопасном формате (WebP для лучшего сжатия и безопасности)
+            # Создаем буфер для сохранения
+            buffer = io.BytesIO()
+            
+            # Сохраняем в WebP с максимальным качеством и безопасностью
+            img.save(buffer, format='WEBP', method=6, quality=85, lossless=False)
+            
+            buffer.seek(0)
+            
+            # Проверяем размер после обработки
+            processed_size = len(buffer.getvalue())
+            if processed_size > 5 * 1024 * 1024:
+                raise serializers.ValidationError("Файл після обробки все ще завеликий")
+            
+            # Создаем новое поле файла с безопасным путем
+            filename = f"profile_{uuid.uuid4()}.webp"
+            processed_file = ContentFile(buffer.getvalue(), name=filename)
+            
+            return processed_file
+            
+        except Image.DecompressionBombError:
+            logger.error(f"Обнаружена декомпресійна бомба в файлі: {value.name}")
+            raise serializers.ValidationError("Файл занадто великий або пошкоджений (декомпресійна бомба)")
+        except Exception as e:
+            logger.error(f"Ошибка при обработке изображения: {str(e)}")
+            raise serializers.ValidationError("Помилка при обробці зображення")
+    
+    def save(self, **kwargs):
+        user = self.context['request'].user
+        profile = user.profile
+        
+        # Atomic-збереження: спочатку зберігаємо нове, потім видаляємо старе
+        with transaction.atomic():
+            # Зберігаємо ім'я старого файлу
+            old_name = profile.image.name if profile.image else None
+            
+            # Сохраняем новое изображение
+            profile.image = self.validated_data['image']
+            profile.save(update_fields=['image'])
+            
+            # Тепер удаляем старое изображение через storage з поля моделі
+            if old_name:
+                try:
+                    # Беремо storage з поля моделі для надійності
+                    field_storage = Profile._meta.get_field('image').storage
+                    if field_storage.exists(old_name):
+                        field_storage.delete(old_name)
+                        logger.info(f"Старое изображение профиля удалено через storage: {old_name}")
+                except Exception as e:
+                    logger.warning(f"Не удалось удалить старое изображение через storage: {e}")
+            
+            logger.info(f"Новое изображение профиля сохранено для пользователя {user.id}")
+        
+        return profile
 
 
 class EmailUpdateSerializer(serializers.Serializer):

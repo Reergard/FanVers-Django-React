@@ -24,11 +24,11 @@ environ.Env.read_env(BASE_DIR / ".env")  # Читаємо .env файл
 
 SECRET_KEY = env("SECRET_KEY")
 
-DEBUG = env("DEBUG")
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '10.0.2.2']
-
-LUSSIED_HOSTS = ['*']
+# Hosts
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -99,8 +99,8 @@ CORS_ALLOW_HEADERS = [
     "user-agent",
     "x-csrftoken",
     "x-requested-with",
-    "x-request-id",  # Добавляем заголовок ля отслеживания запросов
-    "cache-control"  # Добавляем для no-cache
+    "x-request-id",  # Додаємо заголовок для відстеження запитів
+    "cache-control"  # Додаємо для no-cache
 ]
 
 CORS_ALLOW_METHODS = [
@@ -138,7 +138,6 @@ WSGI_APPLICATION = 'FanVers_project.wsgi.application'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ],
@@ -191,15 +190,32 @@ DOMAIN = env("DOMAIN")
 SITE_NAME = "FanVers"
 
 
+# Налаштування SimpleJWT
 SIMPLE_JWT = {
-    "AUTH_HEADER_TYPES": (
-        "Bearer",
-        "JWT"),
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=120),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=60),
-    "SIGNING_KEY": env("SIGNING_KEY"),
-    "AUTH-HEADER_NAME": "HTTP_AUTHORIZATION",
-    "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
+    'AUTH_HEADER_TYPES': ('JWT',),  # Підтримка JWT префіксу замість Bearer
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'UPDATE_LAST_LOGIN': False,
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,
+    'VERIFYING_KEY': None,
+    'AUDIENCE': None,
+    'ISSUER': None,
+    'JWK_URL': None,
+    'LEEWAY': 0,
+    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+    'USER_AUTHENTICATION_RULE': 'rest_framework_simplejwt.authentication.default_user_authentication_rule',
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    'TOKEN_TYPE_CLAIM': 'token_type',
+    'TOKEN_USER_CLASS': 'rest_framework_simplejwt.models.TokenUser',
+    'JTI_CLAIM': 'jti',
+    'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
+    'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 
 
@@ -300,19 +316,46 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+# Налаштування для статичних файлів
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
-MEDIA_URL = 'media/'
+# Налаштування безпеки для завантаження файлів
+SECURE_CONTENT_TYPE_NOSNIFF = True
+FILE_UPLOAD_MAX_MEMORY_SIZE = 5 * 1024 * 1024  # 5MB
+DATA_UPLOAD_MAX_MEMORY_SIZE = 5 * 1024 * 1024  # 5MB
+FILE_UPLOAD_TEMP_DIR = None  # Використовуємо тимчасову папку системи
+
+# Додаткові налаштування безпеки
+X_FRAME_OPTIONS = 'DENY'
+
+# HSTS та інші заголовки безпеки (тільки на проде)
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True            # Тільки на проде
+    SESSION_COOKIE_SECURE = True          # Якщо використовуєте сесії
+    CSRF_COOKIE_SECURE = True             # Якщо десь є CSRF
+    SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
+    
+    # HSTS (HTTP Strict Transport Security) - тільки на проде
+    SECURE_HSTS_SECONDS = 31536000  # 1 рік
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+else:
+    # Dev налаштування
+    SECURE_SSL_REDIRECT = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
+
+# Налаштування для медіа файлів
+MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
-
+# Дозволи для файлів
 FILE_UPLOAD_PERMISSIONS = 0o644
 FILE_UPLOAD_DIRECTORY_PERMISSIONS = 0o755
 
-
-ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/gif']
-
+# Дозволені типи зображень
+ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp']
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
