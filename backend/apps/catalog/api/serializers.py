@@ -2,6 +2,37 @@ from rest_framework import serializers
 from apps.catalog.models import Book, Chapter, Genres, Tag, Country, Fandom, Volume, ChapterOrder
 from apps.navigation.models import Bookmark 
 from django.conf import settings
+import logging
+
+logger = logging.getLogger(__name__)
+
+
+class GenresSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Genres
+        fields = '__all__'
+        depth = 1
+
+
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = '__all__'
+        depth = 1
+
+
+class CountrySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Country
+        fields = '__all__'
+        depth = 1
+
+
+class FandomSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Fandom
+        fields = '__all__'
+        depth = 1
 
 
 class ChapterSerializer(serializers.ModelSerializer):
@@ -100,6 +131,10 @@ class BookOwnerSerializer(serializers.ModelSerializer):
         required=False,
         allow_null=True
     )
+    genres = GenresSerializer(many=True, read_only=True)
+    tags = TagSerializer(many=True, read_only=True)
+    fandoms = FandomSerializer(many=True, read_only=True)
+    country = CountrySerializer(read_only=True)
 
     class Meta:
         model = Book
@@ -108,7 +143,8 @@ class BookOwnerSerializer(serializers.ModelSerializer):
             'translation_status', 'translation_status_display',
             'original_status', 'original_status_display',
             'country', 'slug', 'last_updated', 'owner', 'creator',
-            'adult_content', 'owner_username', 'creator_username', 'book_type'
+            'adult_content', 'owner_username', 'creator_username', 'book_type',
+            'genres', 'tags', 'fandoms'
         ]
         read_only_fields = ['slug', 'last_updated', 'owner', 'creator']
 
@@ -156,6 +192,10 @@ class BookReaderSerializer(serializers.ModelSerializer):
     translation_status = serializers.CharField(read_only=True)
     original_status = serializers.CharField(read_only=True)
     chapters_count = serializers.SerializerMethodField()
+    genres = GenresSerializer(many=True, read_only=True)
+    tags = TagSerializer(many=True, read_only=True)
+    fandoms = FandomSerializer(many=True, read_only=True)
+    country = CountrySerializer(read_only=True)
 
     class Meta:
         model = Book
@@ -165,7 +205,8 @@ class BookReaderSerializer(serializers.ModelSerializer):
             'original_status', 'original_status_display',
             'country', 'slug', 'last_updated', 'owner_username', 
             'creator_username', 'bookmark_status', 'bookmark_id', 
-            'adult_content', 'book_type', 'chapters_count'
+            'adult_content', 'book_type', 'chapters_count',
+            'genres', 'tags', 'fandoms'
         ]
         read_only_fields = fields
 
@@ -205,34 +246,6 @@ class BookReaderSerializer(serializers.ModelSerializer):
 
     def get_creator_username(self, obj):
         return obj.creator.username if obj.creator else None
-
-
-class GenresSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Genres
-        fields = '__all__'
-        depth = 1
-
-
-class TagSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Tag
-        fields = '__all__'
-        depth = 1
-
-
-class CountrySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Country
-        fields = '__all__'
-        depth = 1
-
-
-class FandomSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Fandom
-        fields = '__all__'
-        depth = 1
 
 
 class VolumeSerializer(serializers.ModelSerializer):
