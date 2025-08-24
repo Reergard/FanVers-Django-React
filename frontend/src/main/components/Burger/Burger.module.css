@@ -1,9 +1,8 @@
+/* было display:none; — теперь блок всегда есть в DOM */
 .burger_menu {
-  /*position: relative;*/
-  display: none;
+  display: block;
   overflow: hidden;
   margin: 0 -8px;
-  /*z-index: 101;*/
 }
 
 .burger_menu.active {
@@ -11,55 +10,75 @@
   z-index: 10000;
 }
 
+/* по умолчанию кнопку не показываем (десткоп) */
 .burger_menu_button {
-  border: 1px solid #05b4c7;
-  /*overflow-x: hidden;*/
-  border-radius: 20px;
-  padding: 0.5rem;
-  width: 90px;
-  padding-right: 20px;
-  padding-left: 7px;
-  /* position: fixed;
-    top: 38px;
-    right: 5px; */
-  transform: translateX(25px);
-  position: relative;
-  /* z-index: 101; */
+  display: none;  /* Скрываем всю кнопку на десктопе */
 }
 
+/* Активное состояние кнопки (только для мобильной версии) */
 .burger_menu.active .burger_menu_button {
-  position: fixed !important;
-  top: 38px;
-  right: 5px;
+  /* Стили применяются только через медиа-запрос */
 }
-.burger_menu_button span {
+
+/* Стили для полосок бургер-кнопки (применяются только на мобильных) */
+.burger_line {
+  display: block;
+  height: 3px;
+  width: 28px;
   background-color: #05b4c7;
-  border-radius: 3px;
-  height: 14px;
-  width: 80%;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  margin: 2px 0;
 }
-/*.create_book__block {*/
-/*    overflow-y: scroll;*/
-/*}*/
+
+.burger_line_1 {
+  transform: translateY(0);
+}
+
+.burger_line_2 {
+  opacity: 1;
+}
+
+.burger_line_3 {
+  transform: translateY(0);
+}
+
+/* Активные состояния полосок (крестик) */
+.burger_line_active_1 {
+  transform: rotate(45deg) translateY(5px);
+}
+
+.burger_line_active_2 {
+  opacity: 0;
+}
+
+.burger_line_active_3 {
+  transform: rotate(-45deg) translateY(-5px);
+}
 
 .burger_menu__content {
   font-family: "Bad Script", sans-serif;
-  font-size: 26px;
+  font-size: 30px;
   line-height: 1;
   background-color: #050d11;
   border: 1px solid #05b4c7;
   background-image: url("../../assets/burger_img_background.svg");
-  background-position: 10px 10px;
-  background-size: 90% 50%;
   background-repeat: no-repeat;
-  /*background-size: 60%;*/
-  padding: 50px 20vw;
-  padding-top: 50vh;
-  /*border-radius: 15% 0 0 15%;*/
-  border-radius: 150px 0 0 150px;
-  width: 100%;
-  height: 100%;
+  /* орнамент прижимаем к левому и верхнему краям */
+  background-position: left top;
+  background-size: 90% 90vh;         /* 90% ширины, 50% высоты viewport */
+  /* РАЗМЕР И ПОЗИЦИЯ ОКНА */
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  width: 329px !important;
+  height: 693px !important;
+  border-radius: 80px 0 0 80px !important;  /* слева 80, справа 0 */
+  /* ВНУТРЕННИЕ ОТСТУПЫ (без "vh/vw", чтобы не ломать размеры) */
+  padding: 160px 24px 24px 24px;  /* верхний — под аватар/декор; подкорректируй при желании */
+  color: #fff;
   z-index: 100;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -1px rgba(0,0,0,.06);
 }
 
 .ul_burger_menu {
@@ -67,58 +86,268 @@
   display: flex;
   flex-direction: column;
   margin: 0 auto;
+  margin-top: 0px;  /* уменьшаем отступ от кнопки "Створити книгу" */
   width: max-content;
+}
+
+/* Блок и кнопка "Створити книгу" */
+.create_book__block{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .create_book {
   font-size: 30px;
-  /*padding-left: 70px;*/
 }
 
-.burger_menu__content img {
+/* Центруємо аватар відносно орнаменту */
+.burger_menu__content .profile_avatar {
   position: absolute;
-  top: 25.5%;
-  left: 46.9%;
-  /*top: 26%;*/
-  /*left: 47.6%;*/
-  transform: translate3d(-50%, -50%, 0);
-  width: 130px;
-  /*min-width: 130px;*/
-  /*width: auto;*/
-  /*aspect-ratio: 1 / 1;*/
-  height: auto;
-  /*max-height: 19%;*/
-  /*min-width: 15%;*/
-  /*max-width: 22%;*/
-  max-width: 24%;
+  left: 25%;
+  top: 138px;                 /* вертикальний центр кола; підстрой 130–146 */
+  transform: translate(-50%, -50%);
+  width: 86px;                /* або твій попередній розмір */
+  height: 86px;
   border-radius: 50%;
-  /*background-position: 10px 10px;*/
-  /*background-size: 90% 50%;*/
-  z-index: 101; /* Выше фона */
+  z-index: 101;
+  object-fit: cover;
 }
+
 .create_book {
-  padding: 29px 40px;
-  text-align: center;
-  background-size: contain;
-  /* padding: 20px 30px; */
-  font-size: 22px;
-  /*padding: 20px 30px;*/
+  width: 395px;           /* ширина рамки */
+  height: 113px;          /* высота рамки */
+  display: flex;
+  align-items: center;     /* вертикально центр текста и иконки */
+  justify-content: center; /* горизонтально по центру */
+  gap: 10px;
   background-image: url("../../assets/Group 107.png");
-  /*background-size: 90%;*/
   background-repeat: no-repeat;
   background-position: center;
+  background-size: contain;
+  font-size: 30px;
+  margin: 0px auto 0px;  /* уменьшаем нижний отступ */
+  text-align: center;      /* на всякий случай */
 }
+
 .ul_burger_menu li a {
-  font-size: 22px;
+  font-size: 30px;
+  margin: 2px;
 }
-@media (max-width: 1024px) {
-  .burger_menu {
-    display: block;
+
+/* Мобильные телефоны */
+@media (max-width: 767px) {
+  /* сама кнопка — закреплена и нормализована для мобильных */
+  .burger_menu_button {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;         /* всегда в одном месте */
+    top: 20px;               /* подгони при желании */
+    right: 12px;             /* ближе к правому краю */
+    width: 56px !important;  /* аккуратная «капсула» */
+    height: 40px !important;
+    padding: 8px !important;
+
+    border: 2px solid #05b4c7 !important; /* обводка */
+    border-radius: 20px !important;
+    background: transparent !important;
+    transform: none !important;
+    box-shadow: none !important;
+    z-index: 10020;
   }
-  /*.searchContainer {*/
-  /*    display: none;*/
-  /*}*/
+
+  /* когда меню открыто — остаёмся на тех же координатах */
+  .burger_menu.active .burger_menu_button {
+    top: 20px !important;
+    right: 12px !important;
+  }
+
+
+
+
+
+  /* Мобильные размеры шрифтов */
+  .create_book {
+    font-size: 19px !important;  /* Оптимальный размер для мобильных */
+  }
+
+  .ul_burger_menu li a {
+    font-size: 19px !important;  /* Основной текст меню */
+  }
+
+  .ul_burger_menu li button {
+    font-size: 19px !important;  /* Кнопки в меню */
+  }
+
+  /* Мобильные стили для фонового изображения */
+  .burger_menu__content {
+    background-size: 60% 40vh !important;  /* Уменьшаем размер для мобильных */
+    background-position: left top !important;  /* Прижимаем к верхнему краю */
+  }
 }
+
+/* Планшеты */
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* сама кнопка — закреплена и нормализована для планшетов */
+  .burger_menu_button {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;         /* всегда в одном месте */
+    top: 20px;               /* подгони при желании */
+    right: 12px;             /* ближе к правому краю */
+    width: 56px !important;  /* аккуратная «капсула» */
+    height: 40px !important;
+    padding: 8px !important;
+
+    border: 2px solid #05b4c7 !important; /* обводка */
+    border-radius: 20px !important;
+    background: transparent !important;
+    transform: none !important;
+    box-shadow: none !important;
+    z-index: 10020;
+  }
+
+  /* когда меню открыто — остаёмся на тех же координатах */
+  .burger_menu.active .burger_menu_button {
+    top: 20px !important;
+    right: 12px !important;
+  }
+}
+
+/* Десктопы */
+@media (min-width: 1024px) {
+  .burger_menu__content {
+    top: 16px !important;
+    right: 16px !important;
+    width: 25vw !important;
+    height: 95vh !important;
+    border-radius: 80px 0 0 80px !important;
+    padding: 160px 24px 24px 24px !important;
+    background-position: left top !important;
+    background-size: 70% 50vh !important;  /* 90% ширины, 50% высоты viewport */
+    overflow: hidden !important;   /* если нужно — можно поставить auto */
+  }
+  
+  .burger_menu__content .profile_avatar {
+    width: 86px !important;
+    height: 86px !important;
+    left: 35% !important;
+    top: 159px !important;     /* той самий «якір», що й вище */
+  }
+  
+  .create_book {
+    width: 19vw !important;           /* ширина рамки */
+    height: 19vh !important;          /* высота рамки */
+    font-size: 22px !important; /* пропорционально уменьшено с 30px */
+    margin-top: 15vh !important; /* отступ от аватара для правильного позиционирования */
+    margin-left: auto !important; /* центрирование */
+    margin-right: auto !important; /* центрирование */
+  }
+  
+  .ul_burger_menu {
+    padding: 0 0px !important; /* пропорционально уменьшено с 0 30px */
+    margin-top: 0px !important; /* отступ от заголовка для правильного позиционирования */
+  }
+  
+  .ul_burger_menu li a {
+    font-size: 22px !important; /* пропорционально уменьшено с 22px */
+  }
+  
+  .ul_burger_menu li {
+    padding: 1px 0 !important; /* пропорционально уменьшено с 2px 0 */
+  }
+}
+
+/* Кнопка закрытия (крестик) в панели - только для десктопа */
+.close_button {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 25px;
+  height: 25px;
+  border: 1px solid #05b4c7;
+  border-radius: 50%;
+  background: transparent;
+  font-size: 30px;
+  line-height: 1;
+  cursor: pointer;
+  color: #05b4c7;
+}
+
+/* Скрываем десктопный крестик на мобильных устройствах */
+@media (max-width: 1023px) {
+  .close_button {
+    display: none !important;
+  }
+}
+
+/* Аватар пользователя */
+.profile_avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Пункты меню */
+.menu_item {
+  padding: 0.5rem 0;
+}
+
+.menu_button {
+  text-align: left;
+  width: 100%;
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  display: flex;            /* иконка + текст в ряд */
+  align-items: center;
+  gap: 15px;
+}
+
+.menu_link {
+  text-decoration: none;
+  color: inherit;
+  display: flex;            /* иконка + текст в ряд */
+  align-items: center;
+  gap: 15px;
+}
+
+/* Иконки в меню — базовый размер */
+.menu_icon {
+  width: 27px;
+  height: 27px;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+  position: static;         /* на всякий случай снимаем absolute */
+  flex-shrink: 0;
+}
+
+/* Точные размеры по ТЗ */
+.icon_exit{ width:25px; height:25px; }
+.icon_userTranslations{ width:29px; height:27px; }
+.icon_profile{ width:22px; height:25px; }
+.icon_notification{ width:23px; height:27px; }
+.icon_bookmarks{ width:33px; height:27px; }
+.icon_create{ width:29px; height:27px; }
+
+/* Иконка в заголовке "Створити книгу" */
+.create_book_icon {
+  width: 29px;
+  height: 27px;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+  position: static;
+  flex-shrink: 0;
+}
+
 @media (max-width: 453px) {
   .create_book {
     background-size: 85%;

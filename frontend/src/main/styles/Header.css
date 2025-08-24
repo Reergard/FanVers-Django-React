@@ -558,3 +558,13 @@
     left: 53%;
   }
 }
+
+@media (max-width: 1024px) {
+  .header { 
+    position: relative; 
+  }
+  
+  .headerContent { 
+    padding-right: 64px; /* резервируем место под фикс-кнопку */
+  }
+}
