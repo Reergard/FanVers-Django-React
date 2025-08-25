@@ -96,13 +96,15 @@ const BurgerMenu = forwardRef(function BurgerMenu(_, ref) {
           />
 
           <div className={styles.create_book__block}>
-            <div className={styles.create_book}>
-              <img
-                src={createBookIcon}
-                alt=""
-                className={`${styles.create_book_icon} ${styles.icon_create}`}
-                loading="lazy"
-              />
+            <div 
+              className={styles.create_book}
+              onClick={() => {
+                window.location.href = '/create-translation';
+                setIsOpen(false);
+              }}
+              style={{ cursor: 'pointer' }}
+            >
+              <img src={createBookIcon} alt="" className={`${styles.create_book_icon} ${styles.icon_create}`} loading="lazy" />
               Створити книгу
             </div>
             <ul className={styles.ul_burger_menu}>

@@ -2,7 +2,7 @@ import { api } from '../instance';
 
 const getChapterForEdit = async (chapterId) => {
     try {
-        const response = await api.get(`/api/editors/chapters/${chapterId}/`);
+        const response = await api.get(`/editors/chapters/${chapterId}/`);
         return response.data;
     } catch (error) {
         throw new Error('Помилка при завантаженні даних розділу');
@@ -12,7 +12,7 @@ const getChapterForEdit = async (chapterId) => {
 const updateChapter = async (chapterId, formData) => {
     try {
         const response = await api.put(
-            `/api/editors/chapters/${chapterId}/update/`,
+            `/editors/chapters/${chapterId}/update/`,
             formData,
             {
                 headers: {
@@ -28,8 +28,8 @@ const updateChapter = async (chapterId, formData) => {
 
 const updateChapterOrder = async (volumeId, chapterOrders) => {
     const url = volumeId === 'no-volume' 
-        ? `/api/editors/chapters/update-order/` 
-        : `/api/editors/volumes/${volumeId}/update-order/`;
+        ? `/editors/chapters/update-order/` 
+        : `/editors/volumes/${volumeId}/update-order/`;
     
     try {
         const response = await api.post(url, { chapter_orders: chapterOrders });
@@ -48,7 +48,7 @@ export const editorsAPI = {
             throw new Error('Отсутствуют обязательные поля');
         }
 
-        return api.post('/api/editors/error-reports/', {
+        return api.post('/editors/error-reports/', {
             book: parseInt(data.book),
             chapter: parseInt(data.chapter),
             error_text: data.error_text,
@@ -65,7 +65,7 @@ export const editorsAPI = {
     },
     
     getErrorReport(id) {
-        return api.get(`/api/editors/error-reports/${id}/`);
+        return api.get(`/editors/error-reports/${id}/`);
     }
 };
 

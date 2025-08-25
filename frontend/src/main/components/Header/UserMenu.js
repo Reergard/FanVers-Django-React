@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ProfileImage } from './ProfileImage';
 import NotificationBell from '../../../assets/images/icons/notification-bell.svg';
 import image_messages from '../../../assets/images/icons/profile-decoration-2.svg';
@@ -8,11 +8,32 @@ import LoginModal from '../../../auth/components/LoginModal';
 import RegisterModal from '../../../auth/components/RegisterModal';
 import { FALLBACK_IMAGES } from '../../../constants/fallbackImages';
 
+import { usersAPI } from '../../../api/users/usersAPI';
+
 export const UserMenu = ({ name, unreadNotifications, onOpenMenu }) => {
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
     const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+    const [userBalance, setUserBalance] = useState(0);
     const { isAuthenticated } = useSelector(state => state.auth);
     const currentUser = JSON.parse(localStorage.getItem('user'));
+    const profile = useSelector(state => state.auth.user);
+
+    // Загружаем баланс пользователя при авторизации
+    useEffect(() => {
+        if (isAuthenticated && currentUser) {
+            const fetchBalance = async () => {
+                try {
+                    const balanceData = await usersAPI.getUserBalance();
+                    setUserBalance(balanceData.balance || 0);
+                } catch (error) {
+                    console.error('Ошибка при загрузке баланса:', error);
+                    // Если не удалось загрузить баланс, используем значение из localStorage
+                    setUserBalance(currentUser.balance || 0);
+                }
+            };
+            fetchBalance();
+        }
+    }, [isAuthenticated, currentUser, profile]);
 
     const profileData = {
       name: name,
@@ -123,7 +144,7 @@ export const UserMenu = ({ name, unreadNotifications, onOpenMenu }) => {
                     <span className="user-profile__name">{currentUser.username}</span>
                 )}
                 <div className="user-profile__balance">
-                    FanCoins: <span>1959.5</span>
+                    FanCoins: <span>{userBalance > 0 ? userBalance.toFixed(2) : '0.00'}</span>
                 </div>
             </div>
         </div>
