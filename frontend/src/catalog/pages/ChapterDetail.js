@@ -1,33 +1,33 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { getChapterDetail } from "../../api/catalog/catalogAPI";
+import { getChapterDetail } from '../../api/catalog/catalogAPI';
 import { Container, Button } from "react-bootstrap";
-import ChapterNavigation from "../../navigation/components/ChapterNavigation";
-import CommentForm from "../../reviews/components/CommentForm";
+import ChapterNavigation from '../../navigation/components/ChapterNavigation';
+import CommentForm from '../../reviews/components/CommentForm';
 import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 import "../../navigation/css/BookmarkButton.css";
-import ModalErrorReport from "../../editors/components/ModalErrorReport";
+import ModalErrorReport from '../../editors/components/ModalErrorReport';
 import "../css/ChapterDetail.css";
 import styles from "../css/BookDetailRouter.module.css";
 import { handleCatalogApiError } from "../utils/errorUtils";
 import { toast } from "react-toastify";
 import { debounce } from "lodash";
-import RightArrow from "../../main/pages/img/right-arrow.png";
-import { monitoringAPI } from "../../api/monitoring/monitoringAPI";
-import { getChapterNavigation } from "../../api/navigation/navigationAPI";
+import RightArrow from '../../main/pages/img/right-arrow.png';
+import { monitoringAPI } from '../../api/monitoring/monitoringAPI';
+import { getChapterNavigation } from '../../api/navigation/navigationAPI';
 import {
   fetchChapterComments,
   postChapterComment,
   updateReaction,
-} from "../../api/reviews/reviewsAPI";
-import { BreadCrumb } from "../../main/components/BreadCrumb";
-import ArrowChapter from "../../main/pages/img/arrow-chapter.png";
-import BgChapter from "../../main/pages/img/bg-chapter.png";
-import ArrowNameChapter from "../../main/pages/img/arrow-name-chapter.png";
-import CommentImg from "../../main/pages/img/comment.jpg";
-import Favorite from "../../main/pages/img/Favorite.png";
-import Trash from "../../main/pages/img/Trash.png";
+} from '../../api/reviews/reviewsAPI';
+import { BreadCrumb } from '../../main/components/BreadCrumb';
+import ArrowChapter from '../../main/pages/img/arrow-chapter.png';
+import BgChapter from '../../main/pages/img/bg-chapter.png';
+import ArrowNameChapter from '../../main/pages/img/arrow-name-chapter.png';
+import CommentImg from '../../main/pages/img/comment.jpg';
+import Favorite from '../../main/pages/img/Favorite.png';
+import Trash from '../../main/pages/img/Trash.png';
 
 
 const Comment = ({

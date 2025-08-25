@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../css/CreateChatModal.css';
 
-const CreateChatModal = ({ onClose, onSubmit }) => {
+const CreateChatModal = ({ onClose, onCreateChat }) => {
     const [username, setUsername] = useState('');
     const [message, setMessage] = useState('');
 
@@ -14,7 +14,7 @@ const CreateChatModal = ({ onClose, onSubmit }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        onSubmit(username, message);
+        onCreateChat(username, message);
     };
 
     const handleOverlayClick = (e) => {
@@ -32,13 +32,13 @@ const CreateChatModal = ({ onClose, onSubmit }) => {
                 </div>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <label htmlFor="username">Ім'я користувача:</label>
+                        <label htmlFor="username">Ім\'я користувача:</label>
                         <input
                             id="username"
                             type="text"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
-                            placeholder="Введіть ім'я користувача"
+                            placeholder="Введіть ім\'я користувача"
                             required
                         />
                     </div>

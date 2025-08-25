@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProfile } from '../authSlice';
+import { getProfile, forceLogout } from '../authSlice';
 import { useLocation } from 'react-router-dom';
+import tokenService from '../tokenService';
 
 export const useAuth = () => {
   const dispatch = useDispatch();
@@ -104,6 +105,27 @@ export const useAuth = () => {
       console.log('🚫 useAuth: Умови не виконані, пропускаємо');
     }
   }, [dispatch, isAuthenticated, isLoading, isError, userInfo, isPublic, pathname]);
+
+  // Дополнительный эффект для мониторинга токенов
+  useEffect(() => {
+    if (!isPublic && isAuthenticated) {
+      // Проверяем токены каждые 2 минуты
+      const tokenCheckInterval = setInterval(async () => {
+        try {
+          const isValid = await tokenService.getValidToken();
+          if (!isValid) {
+            console.log('🔑 useAuth: Токени недійсні, виконуємо logout');
+            dispatch(forceLogout());
+          }
+        } catch (error) {
+          console.error('🔑 useAuth: Помилка перевірки токенів:', error);
+          dispatch(forceLogout());
+        }
+      }, 2 * 60 * 1000); // 2 минуты
+
+      return () => clearInterval(tokenCheckInterval);
+    }
+  }, [dispatch, isPublic, isAuthenticated]);
 
   return { user, isSuccess, isLoading, isError, userInfo, isAuthenticated };
 };

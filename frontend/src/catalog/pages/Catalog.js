@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { fetchBooks } from "../../api/catalog/catalogAPI";
-import { websiteAdvertisingAPI } from "../../api/website_advertising/website_advertisingAPI";
+import { fetchBooks } from '../../api/catalog/catalogAPI';
+import { websiteAdvertisingAPI } from '../../api/website_advertising/website_advertisingAPI';
 import { handleCatalogApiError } from "../utils/errorUtils";
 import { getBookTypeLabel } from "../utils/bookUtils";
 import { toast } from "react-toastify";
 import { useQuery } from "@tanstack/react-query";
 import "../css/Catalog.css";
 import { useSelector } from "react-redux";
-import { BreadCrumb } from "../../main/components/BreadCrumb";
-import HomePage1 from "../../main/pages/HomePage1";
+import { BreadCrumb } from '../../main/components/BreadCrumb';
+import HomePage1 from '../../main/pages/HomePage1';
 const NovelCard = ({ title, description, image, slug }) => {
   return (
     <div className="novel-card mobal">

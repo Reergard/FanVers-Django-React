@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Card, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { usersAPI } from "../../api/users/usersAPI";
+import { usersAPI } from '../../api/users/usersAPI';
 import "../styles/TranslatorsList.css";
-import Border from "../../main/pages/img/border.png";
-import ArrowMobile from "../../main/images/arrow-mobile.svg";
-import { BreadCrumb } from "../../main/components/BreadCrumb";
+import Border from '../../main/pages/img/border.png';
+import ArrowMobile from '../../main/images/arrow-mobile.svg';
+import { BreadCrumb } from '../../main/components/BreadCrumb';
 
 
 const Authors = () => {

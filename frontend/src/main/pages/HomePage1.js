@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
-// import { websiteAdvertisingAPI } from "../../api/website_advertising/website_advertisingAPI";
-import { mainAPI } from "../../api/main/mainAPI";
-import { catalogAPI } from "../../api/catalog/catalogAPI";
+// import { websiteAdvertisingAPI } from '../../api/website_advertising/website_advertisingAPI';
+import { mainAPI } from '../../api/main/mainAPI';
+import { catalogAPI } from '../../api/catalog/catalogAPI';
 import "../styles/HomePage1.css";
 import Slider from "react-slick";
 import LeftArrow from "./img/left-arrow.png";

@@ -83,7 +83,7 @@ const LoginModal = ({ isOpen, onRequestClose }) => {
             <input
               type="text"
               className="auth-modal__input"
-              placeholder="Ім'я користувача"
+              placeholder="Ім\'я користувача"
               name="username"
               onChange={handleChange}
               value={formData.username}

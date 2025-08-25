@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { usersAPI } from "../../api/users/usersAPI";
+import { usersAPI } from '../../api/users/usersAPI';
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { BreadCrumb } from "../../main/components/BreadCrumb";
-import { websiteAdvertisingAPI } from "../../api/website_advertising/website_advertisingAPI";
+import { BreadCrumb } from '../../main/components/BreadCrumb';
+import { websiteAdvertisingAPI } from '../../api/website_advertising/website_advertisingAPI';
 import { Link } from "react-router-dom";
 import "../../navigation/css/BookmarksPage.css";
 
-import searchIcon from "../../main/images/Search_light.svg";
+import searchIcon from '../../main/images/Search_light.svg';
 
 const NovelCard = ({ book, status }) => {
     // Перевіряємо, чи є книга та її основні дані

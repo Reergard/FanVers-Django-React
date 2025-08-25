@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { uploadChapter as apiUploadChapter } from "../../api/catalog/catalogAPI";
+import { uploadChapter as apiUploadChapter } from '../../api/catalog/catalogAPI';
 import "../css/Catalog.css";
 import { Container } from 'react-bootstrap';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { catalogAPI } from "../../api/catalog/catalogAPI";
+import { catalogAPI } from '../../api/catalog/catalogAPI';
 import { handleCatalogApiError } from '../utils/errorUtils';
 
 const AddChapter = () => {

@@ -4,18 +4,18 @@ import {
     QueryClient,
     QueryClientProvider,
 } from "@tanstack/react-query";
-import { fetchBooks } from "../../api/catalog/catalogAPI";
-import { handleCatalogApiError } from "../../catalog/utils/errorUtils";
-import { catalogAPI } from "../../api/catalog/catalogAPI";
+import { fetchBooks } from '../../api/catalog/catalogAPI';
+import { handleCatalogApiError } from '../../catalog/utils/errorUtils';
+import { catalogAPI } from '../../api/catalog/catalogAPI';
 import "../styles/TranslatorsList.css";
 import { Card, Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { BreadCrumb } from "../../main/components/BreadCrumb";
-import { websiteAdvertisingAPI } from "../../api/website_advertising/website_advertisingAPI";
+import { BreadCrumb } from '../../main/components/BreadCrumb';
+import { websiteAdvertisingAPI } from '../../api/website_advertising/website_advertisingAPI';
 import { useSelector } from "react-redux";
 
-import searchIcon from "../../main/images/Search_light.svg";
+import searchIcon from '../../main/images/Search_light.svg';
 const NovelCard = ({ title, description, image, slug }) => {
     return (
         <div className="novel-card UserTranslations">

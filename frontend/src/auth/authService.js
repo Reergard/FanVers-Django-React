@@ -1,4 +1,5 @@
 import { api } from '../api/instance';
+import tokenService from './tokenService';
 
 const authService = {
     register: async (userData) => {
@@ -16,9 +17,7 @@ const authService = {
     },
 
     logout: () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('refresh');
-        localStorage.removeItem('user');
+        tokenService.clearTokens();
     },
 
     activate: async (userData) => {
@@ -38,6 +37,8 @@ const authService = {
 
     getProfile: async () => {
         try {
+            // Получаем актуальный токен перед запросом
+            await tokenService.getValidToken();
             const response = await api.get('/users/profile/');
             return response.data;
         } catch (error) {
@@ -54,8 +55,21 @@ const authService = {
     },
 
     updateProfile: async (profileData) => {
+        // Получаем актуальный токен перед запросом
+        await tokenService.getValidToken();
         const response = await api.put('/auth/users/me/', profileData);
         return response.data;
+    },
+
+    // Новый метод для проверки токенов
+    checkTokens: async () => {
+        try {
+            await tokenService.getValidToken();
+            return true;
+        } catch (error) {
+            console.error('authService.checkTokens error:', error);
+            return false;
+        }
     }
 };
 

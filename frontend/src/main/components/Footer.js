@@ -5,9 +5,9 @@ import facebook from "../../assets/images/icons/facebook.png";
 import youtube from "../../assets/images/icons/youtube.png";
 import instagram from "../../assets/images/icons/instagram.png";
 import logoImage from "../../assets/images/logo/logo2.0_250.png";
-import brook from "../../main/assets/brook.png";
-import vectorHorizontal from "../../main/assets/VectorHorizontal.png";
-import BgLaptop from "../../catalog/pages/img/dragons.svg";
+import brook from '../../main/assets/brook.png';
+import vectorHorizontal from '../../main/assets/VectorHorizontal.png';
+import BgLaptop from '../../catalog/pages/img/dragons.svg';
 
 const Footer = () => {
   const navigate = useNavigate();

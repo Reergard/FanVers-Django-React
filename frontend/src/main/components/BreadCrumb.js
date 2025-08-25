@@ -2,7 +2,7 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import styles from "../styles/Breadcrumb.module.css";
 import chevron_right from "../../assets/images/icons/chevron_right.svg";
-import BorderCreate from "../../main/pages/img/border-create.svg";
+import BorderCreate from '../../main/pages/img/border-create.svg';
 
 export const BreadCrumb = ({ items }) => {
     const location = useLocation();

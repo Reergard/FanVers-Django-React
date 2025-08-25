@@ -3,21 +3,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { Container, Button, Spinner, Alert, Form } from "react-bootstrap";
 import "../css/Profile.css";
 import { usersAPI } from "../../api";
-import { ProfileImage } from "../../main/components/Header/ProfileImage";
+import { ProfileImage } from '../../main/components/Header/ProfileImage';
 import { FALLBACK_IMAGES, IMAGE_SIZES } from "../../constants/fallbackImages";
-import openEyeIcon from "../../main/pages/img/open-eye.png";
-import closedEyeIcon from "../../main/pages/img/closed-eye.png";
+import openEyeIcon from '../../main/pages/img/open-eye.png';
+import closedEyeIcon from '../../main/pages/img/closed-eye.png';
 import { toast } from "react-toastify";
-import LoginPhoto from "../../main/pages/img/login.png";
-import Save from "../../main/pages/img/save.png";
+import LoginPhoto from '../../main/pages/img/login.png';
+import Save from '../../main/pages/img/save.png';
 import ModalDepositBalance from "../components/ModalDepositBalance";
 import ModalWithdrawBalance from "../components/ModalWithdrawBalance";
 import ModalTransactionHistory from "../components/ModalTransactionHistory";
 import { setHideAdultContent } from "../../settings/userSettingsSlice";
 import ModalAdultContent from "../components/ModalAdultContent";
-import { monitoringAPI } from "../../api/monitoring/monitoringAPI";
+import { monitoringAPI } from '../../api/monitoring/monitoringAPI';
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { BreadCrumb } from "../../main/components/BreadCrumb";
+import { BreadCrumb } from '../../main/components/BreadCrumb';
 import { getProfile } from "../../auth/authSlice";
 import { withVersion } from "../../utils/withVersion";
 import { useRef } from "react";
@@ -110,7 +110,7 @@ const Profile = () => {
       
       // Обробляємо різні типи помилок
       if (error.code === 'ERR_NETWORK' || error.message === 'Network Error') {
-        const errorMessage = "Помилка з'єднання з сервером. Перевірте, чи запущений Django сервер.";
+        const errorMessage = "Помилка з\'єднання з сервером. Перевірте, чи запущений Django сервер.";
         setError(errorMessage);
         toast.error(errorMessage);
       } else if (error.response?.status === 401) {
@@ -540,7 +540,7 @@ const Profile = () => {
         errorMessage = "Занадто багато спроб завантаження. Спробуйте через годину або зверніться до адміністратора.";
         toast.error(errorMessage);
       } else if (error.code === 'ERR_NETWORK' || error.message === 'Network Error') {
-        errorMessage = "Помилка з'єднання з сервером. Перевірте, чи запущений Django сервер.";
+        errorMessage = "Помилка з\'єднання з сервером. Перевірте, чи запущений Django сервер.";
         toast.error(errorMessage);
       } else if (error.response?.data?.error) {
         errorMessage = error.response.data.error;

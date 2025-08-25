@@ -1,5 +1,5 @@
 import React from "react";
-import { BreadCrumb } from "../../main/components/BreadCrumb";
+import { BreadCrumb } from '../../main/components/BreadCrumb';
 import styles from "../css/Faq.module.css";
 
 

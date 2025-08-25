@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { mainAPI } from "../../api/main/mainAPI";
-import { analyticsBooksAPI } from "../../api/analytics_books/analytics_booksAPI";
+import { mainAPI } from '../../api/main/mainAPI';
+import { analyticsBooksAPI } from '../../api/analytics_books/analytics_booksAPI';
 import "../styles/MagicalGuide.css";
 import { useQuery } from "@tanstack/react-query";
 import Slider from "react-slick";

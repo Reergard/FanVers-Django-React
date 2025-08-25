@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { fetchBooks } from "../../api/catalog/catalogAPI";
-import { handleCatalogApiError } from "../../catalog/utils/errorUtils";
-import { catalogAPI } from "../../api/catalog/catalogAPI";
+import { fetchBooks } from '../../api/catalog/catalogAPI';
+import { handleCatalogApiError } from '../../catalog/utils/errorUtils';
+import { catalogAPI } from '../../api/catalog/catalogAPI';
 import "../styles/TranslatorsList.css";
 import { Card, Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { BreadCrumb } from "../../main/components/BreadCrumb";
-import { websiteAdvertisingAPI } from "../../api/website_advertising/website_advertisingAPI";
+import { BreadCrumb } from '../../main/components/BreadCrumb';
+import { websiteAdvertisingAPI } from '../../api/website_advertising/website_advertisingAPI';
 import { useSelector } from "react-redux";
 
 const NovelCard = ({ title, description, image, slug }) => {

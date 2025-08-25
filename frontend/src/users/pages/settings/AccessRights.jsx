@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./AllSettings.module.css";
 import { Form } from "react-bootstrap";
-import CheckSave from "../../../main/pages/img/CheckSave.png";
+import CheckSave from '../../../main/pages/img/CheckSave.png';
 
 
 function AccessRights() {

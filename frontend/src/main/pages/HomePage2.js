@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { mainAPI } from "../../api/main/mainAPI";
+import { mainAPI } from '../../api/main/mainAPI';
 import "../styles/HomePage2.css";
 
 // Импорты изображений

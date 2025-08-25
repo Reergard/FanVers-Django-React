@@ -4,15 +4,15 @@ import { useSelector } from "react-redux";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { Form } from "react-bootstrap";
 import { toast } from "react-toastify";
-import { catalogAPI } from "../../api/catalog/catalogAPI";
+import { catalogAPI } from '../../api/catalog/catalogAPI';
 import TranslatorAccessGuard from "../components/TranslatorAccessGuard";
 import "../css/BookCreate.css";
 import ArrowCreate from "./img/arrowCreate.png";
-import { BreadCrumb } from "../../main/components/BreadCrumb";
+import { BreadCrumb } from '../../main/components/BreadCrumb';
 import Content from "./img/18.svg";
-import styles from "../../catalog/css/BookDetailRouter.module.css";
+import styles from '../../catalog/css/BookDetailRouter.module.css';
 import Upload from "./img/img_upload.png";
-import BorderCreate from "../../main/pages/img/border-create.svg";
+import BorderCreate from '../../main/pages/img/border-create.svg';
 
 const CreateBook = () => {
   const navigate = useNavigate();
@@ -99,11 +99,11 @@ const CreateBook = () => {
     const newErrors = {};
 
     if (!formData.title?.trim()) {
-      newErrors.title = "Назва книги обов'язкова";
+      newErrors.title = "Назва книги обов\'язкова";
     }
 
     if (!formData.author?.trim()) {
-      newErrors.author = "Ім'я автора обов'язкове";
+      newErrors.author = "Ім\'я автора обов\'язкове";
     }
 
     if (formData.description && formData.description.split(" ").length > 250) {
@@ -139,7 +139,7 @@ const CreateBook = () => {
       }
       if (file.size > 5 * 1024 * 1024) {
         // 5MB
-        toast.error("Розмір файлу не повинен првищувати 5MB");
+        toast.error("Розмір файлу не повинен перевищувати 5MB");
         return;
       }
       setFormData({ ...formData, image: file });
@@ -273,7 +273,7 @@ const CreateBook = () => {
               <Form.Control
                 className="input-name-book"
                 type="text"
-                placeholder="Введіть ім'я автора твору"
+                placeholder="Введіть ім\'я автора твору"
                 value={formData.author}
                 onChange={(e) =>
                   setFormData({ ...formData, author: e.target.value })

@@ -87,6 +87,15 @@ CORS_ALLOWED_ORIGINS = [
     "http://10.0.2.2:5173",
     "http://127.0.0.1:3000",
     "http://localhost:3000",
+    "ws://127.0.0.1:3000",
+    "ws://localhost:3000",
+]
+
+# WebSocket CORS настройки
+CORS_ALLOW_WEBSOCKET = True
+CORS_ALLOW_WEBSOCKET_ORIGINS = [
+    "ws://127.0.0.1:3000",
+    "ws://localhost:3000",
 ]
 
 CORS_ALLOW_HEADERS = [
@@ -305,7 +314,14 @@ CHANNEL_LAYERS = {
             "hosts": [('127.0.0.1', 6379)],
             "symmetric_encryption_keys": [SECRET_KEY],
             "capacity": 1500,
-            "expiry": 10,
+            # Убираем таймер который закрывает WebSocket!
+            # "expiry": 10,
+            "group_expiry": 86400,
+            "channel_capacity": {
+                "http.request": 100,
+                "http.response!*": 100,
+                "websocket.send!*": 100,
+            },
         },
     },
 }
@@ -403,6 +419,16 @@ LOGGING = {
             'handlers': ['console', 'celery_file'],
             'level': 'INFO',
             'propagate': False,
+        },
+        'channels': {
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'apps.chat': {
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+            'propagate': True,
         },
     },
 }

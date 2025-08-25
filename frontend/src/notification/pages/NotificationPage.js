@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchNotifications, deleteNotification, markNotificationAsRead } from "../notificationSlice";
-import ModalAdultContent from "../../users/components/ModalAdultContent";
+import ModalAdultContent from '../../users/components/ModalAdultContent';
 import { setHideAdultContent } from "../../settings/userSettingsSlice";
 import { Form } from "react-bootstrap";
 import "../styles/NotificationPage.css";
 import { toast } from "react-toastify";
-import { BreadCrumb } from "../../main/components/BreadCrumb";
-import BgModal from "../../main/pages/img/bg-modal.svg";
+import { BreadCrumb } from '../../main/components/BreadCrumb';
+import BgModal from '../../main/pages/img/bg-modal.svg';
 
 const notificationsList = [
   "Помилка у тексті",

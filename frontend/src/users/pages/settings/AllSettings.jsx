@@ -5,7 +5,7 @@ import Advertising from "./Advertising";
 import GeneralSettings from "./GeneralSettings";
 import Subscription from "./Subscription";
 import BgChapter from "./img/bg-chapter.png";
-import { BreadCrumb } from "../../../main/components/BreadCrumb";
+import { BreadCrumb } from '../../../main/components/BreadCrumb';
 
 
 

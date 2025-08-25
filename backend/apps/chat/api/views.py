@@ -41,7 +41,6 @@ class ChatViewSet(viewsets.ModelViewSet):
             other_user = User.objects.get(username=username)
             print(f"Found other user: {other_user}")
             
-            # Проверяем существующий чат
             existing_chat = Chat.objects.filter(
                 participants=request.user
             ).filter(
@@ -54,11 +53,9 @@ class ChatViewSet(viewsets.ModelViewSet):
                     status=status.HTTP_400_BAD_REQUEST
                 )
             
-            # Создаем новый чат
             chat = Chat.objects.create()
             chat.participants.add(request.user, other_user)
             
-            # Создаем первое сообщение, если оно есть
             if message:
                 Message.objects.create(
                     chat=chat,
@@ -79,6 +76,36 @@ class ChatViewSet(viewsets.ModelViewSet):
             )
         except Exception as e:
             print(f"Error creating chat: {e}")
+            return Response(
+                {'error': str(e)},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+    @action(detail=True, methods=['post'])
+    def send_message(self, request, pk=None):
+        if not request.user.is_authenticated:
+            raise AuthenticationFailed('User not authenticated')
+            
+        chat = self.get_object()
+        content = request.data.get('content')
+        
+        if not content:
+            return Response(
+                {'error': 'Повідомлення не може бути порожнім'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        try:
+            message = Message.objects.create(
+                chat=chat,
+                sender=request.user,
+                content=content
+            )
+            
+            serializer = MessageSerializer(message)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        except Exception as e:
+            print(f"Error sending message: {e}")
             return Response(
                 {'error': str(e)},
                 status=status.HTTP_400_BAD_REQUEST
