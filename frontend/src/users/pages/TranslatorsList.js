@@ -6,22 +6,25 @@ import "../styles/TranslatorsList.css";
 import Border from '../../main/pages/img/border.png';
 import ArrowMobile from '../../main/images/arrow-mobile.svg';
 import { BreadCrumb } from '../../main/components/BreadCrumb';
+
 const TranslatorsList = () => {
   const [visibleCount, setVisibleCount] = useState(4);
+  const [translators, setTranslators] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const showMoreUsers = () => {
     setVisibleCount((prevCount) => prevCount + 4);
   };
-  const [translators, setTranslators] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchTranslators = async () => {
       try {
+        console.log("🔍 Завантажуємо список перекладачів...");
         const data = await usersAPI.getTranslatorsList();
+        console.log("📚 Отримано дані перекладачів:", data);
         setTranslators(data);
       } catch (error) {
-        console.error("Помилка при завантаженні списку перекладачів:", error);
+        console.error("❌ Помилка при завантаженні списку перекладачів:", error);
       } finally {
         setLoading(false);
       }
@@ -43,51 +46,23 @@ const TranslatorsList = () => {
     );
   }
 
-  // if (!translators.length) {
-  //     return (
-  //         <Container className="mt-4">
-  //             <h2 className="mb-4">Перекладачі та Літератори</h2>
-  //             <p className="text-center">На даний момент немає активних перекладачів</p>
-  //         </Container>
-  //     );
-  // }
-  const users = [
-    {
-      rank: 1,
-      nickname: "TheChief",
-      books: 25,
-      comments: 42,
-      lastVisit: "07.04.2020",
-    },
-    {
-      rank: 2,
-      nickname: "Shogun",
-      books: 25,
-      comments: 28,
-      lastVisit: "14.07.2020",
-    },
-    {
-      rank: 3,
-      nickname: "Smokin",
-      books: 25,
-      comments: 74,
-      lastVisit: "31.10.2019",
-    },
-    {
-      rank: 4,
-      nickname: "BigBaby",
-      books: 25,
-      comments: 41,
-      lastVisit: "04.11.2019",
-    },
-    {
-      rank: 5,
-      nickname: "Butterbean",
-      books: 25,
-      comments: 22,
-      lastVisit: "10.10.2019",
-    },
-  ];
+  if (!translators.length) {
+    return (
+      <div className="container-profile-user">
+        <BreadCrumb
+          items={[
+            { href: "/", label: "Головна" },
+            { href: "/translators", label: "Перекладачі" },
+          ]}
+        />
+        <Container className="mt-4">
+          <h2 className="mb-4">Перекладачі та Літератори</h2>
+          <p className="text-center">На даний момент немає активних перекладачів</p>
+        </Container>
+      </div>
+    );
+  }
+
   return (
     <div className="container-profile-user">
       <BreadCrumb
@@ -99,7 +74,7 @@ const TranslatorsList = () => {
       <Row xs={1} md={2} lg={3} className="g-4" style={{ margin: "0 auto" }}>
         <div className="header-translators">
           <div className="left-header-translators">
-            <span>Показано 6 робіт</span>
+            <span>Показано {Math.min(visibleCount, translators.length)} з {translators.length} перекладачів</span>
           </div>
           <div className="sort-translators">
             <span>Сортувати за:</span>{" "}
@@ -154,18 +129,18 @@ const TranslatorsList = () => {
               </tr>
             </thead>
             <tbody>
-              {users.slice(0, visibleCount).map((user, index) => (
-                <tr key={index}>
-                  <td>{user.rank}</td>
-                  <td>{user.nickname}</td>
-                  <td>{user.books}</td>
-                  <td>{user.comments}</td>
-                  <td>{user.lastVisit}</td>
+              {translators.slice(0, visibleCount).map((translator, index) => (
+                <tr key={translator.id || index}>
+                  <td>{index + 1}</td>
+                  <td>{translator.username || translator.nickname}</td>
+                  <td>{translator.books_count || 0}</td>
+                  <td>{translator.comments_count || 0}</td>
+                  <td>{translator.last_visit || 'Н/Д'}</td>
                 </tr>
               ))}
             </tbody>
           </table>
-          {visibleCount < users.length && (
+          {visibleCount < translators.length && (
             <button className="show-more-btn" onClick={showMoreUsers}>
               <svg
                 width="18"

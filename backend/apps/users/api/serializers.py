@@ -374,15 +374,50 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 class TranslatorListSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='user.username')
+    nickname = serializers.CharField(source='user.username')
     image = serializers.ImageField(required=False, allow_null=True)
-    translation_books_count = serializers.SerializerMethodField()
+    books_count = serializers.SerializerMethodField()
+    comments_count = serializers.SerializerMethodField()
+    last_visit = serializers.SerializerMethodField()
 
     class Meta:
         model = Profile
-        fields = ['id', 'username', 'role', 'image', 'translation_books_count']
+        fields = ['id', 'username', 'nickname', 'role', 'image', 'books_count', 'comments_count', 'last_visit']
 
-    def get_translation_books_count(self, obj):
+    def get_books_count(self, obj):
+        """Кількість книг перекладів користувача (тільки TRANSLATION)"""
         return obj.user.owned_books.filter(book_type='TRANSLATION').count()
+
+    def get_comments_count(self, obj):
+        """Кількість коментарів в книгах користувача"""
+        from apps.analytics_books.models import BookAnalytics
+        from django.db.models import Q
+        
+        # Отримуємо всі книги користувача (як автор або власник)
+        user_books = Book.objects.filter(
+            Q(creator=obj.user) | Q(owner=obj.user)
+        )
+        
+        # Підраховуємо загальну кількість коментарів через аналітику
+        total_comments = 0
+        for book in user_books:
+            try:
+                analytics = book.analytics
+                if analytics:
+                    total_comments += analytics.comments_count
+            except BookAnalytics.DoesNotExist:
+                # Якщо аналітика не існує, пропускаємо
+                continue
+        
+        return total_comments
+
+    def get_last_visit(self, obj):
+        """Дата останнього відвідування"""
+        # Використовуємо дату створення профілю як приблизну дату останнього відвідування
+        # В майбутньому можна додати поле last_login або last_activity
+        if obj.user.is_active:
+            return obj.created.strftime('%d.%m.%Y')
+        return 'Н/Д'
 
     def to_representation(self, instance):
         data = super().to_representation(instance)

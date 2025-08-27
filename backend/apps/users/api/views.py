@@ -342,22 +342,28 @@ def update_notification_settings(request):
 @api_view(['GET'])
 def get_translators_list(request):
     try:
-        # Отримуємо перекладачів за роллю
+        # Отримуємо ВСІХ перекладачів за роллю (навіть без книг)
         translators_by_role = Profile.objects.filter(
             role='Перекладач'
         ).select_related('user')
 
-        # Отримуємо літераторів, які мають книги з типом TRANSLATION
+        # Отримуємо ТІЛЬКИ літераторів, які мають книги з типом TRANSLATION
         literators_with_translations = Profile.objects.filter(
             role='Літератор',
             user__owned_books__book_type='TRANSLATION'
         ).select_related('user').distinct()
 
-        # Об'єднуємо результати без використання union
+        # Об'єднуємо результати
         all_translators = list(translators_by_role) + list(literators_with_translations)
         
-        # Видаляємо дублікати
+        # Видаляємо дублікати та сортуємо за кількістю книг
         unique_translators = list({translator.id: translator for translator in all_translators}.values())
+        
+        # Сортуємо за кількістю книг перекладів (спочатку ті, у кого більше книг)
+        unique_translators.sort(
+            key=lambda x: x.user.owned_books.filter(book_type='TRANSLATION').count(),
+            reverse=True
+        )
         
         serializer = TranslatorListSerializer(unique_translators, many=True)
         return Response(serializer.data)
