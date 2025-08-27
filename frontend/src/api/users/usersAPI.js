@@ -30,6 +30,17 @@ export const usersAPI = {
         return api.get('/users/translators/').then(response => response.data);
     },
     
+    getAuthorsList: () => {
+        console.log("🌐 API: Запит на отримання списку авторів");
+        return api.get('/users/authors/').then(response => {
+            console.log("✅ API: Отримано відповідь:", response.data);
+            return response.data;
+        }).catch(error => {
+            console.error("❌ API: Помилка при отриманні авторів:", error);
+            throw error;
+        });
+    },
+    
     getUserProfile: (username) => {
         return api.get(`/users/profile/${username}/`).then(response => response.data);
     },
@@ -85,6 +96,15 @@ export const usersAPI = {
         }
     },
     
+    becomeAuthor: async () => {
+        try {
+            const response = await api.post('/users/become-author/');
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    },
+    
     depositBalance: async (amount) => {
         const response = await api.post('/users/add-balance/', { amount });
         return response.data;
@@ -98,20 +118,25 @@ export const usersAPI = {
     getUserBalance: async () => {
         try {
             const response = await api.get('/users/profile/');
-            return { balance: response.data.balance };
+            // Проверяем, есть ли поле balance в ответе
+            const balance = response.data.balance !== undefined ? response.data.balance : 0;
+            return { balance: balance };
         } catch (error) {
             console.error('Error fetching user balance:', error);
-            throw error;
+            // Возвращаем fallback значение в случае ошибки
+            return { balance: 0 };
         }
     },
     
     checkBalanceForAd: async (total_cost) => {
         try {
             const response = await api.get('/users/profile/');
-            return response.data.balance >= total_cost;
+            const balance = response.data.balance !== undefined ? response.data.balance : 0;
+            return balance >= total_cost;
         } catch (error) {
             console.error('Error checking balance:', error);
-            throw error;
+            // В случае ошибки считаем, что баланса недостаточно
+            return false;
         }
     },
 

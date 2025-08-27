@@ -81,7 +81,10 @@ class Profile(models.Model):
             ('Літератор', 'Літератор')
         ],
         default='Читач',
-        verbose_name='Роль користувача'
+        verbose_name='Роль користувача',
+        help_text='Оберіть роль користувача. При зміні ролі групи користувача будуть автоматично синхронізовані.',
+        blank=False,
+        null=False
     )
     commission = models.DecimalField(
         max_digits=5,
@@ -196,6 +199,19 @@ class Profile(models.Model):
             logs = logs.filter(operation_type=operation_type)
         return logs
 
+    def clean(self):
+        """Валідація профілю перед збереженням"""
+        from django.core.exceptions import ValidationError
+        
+        # Перевіряємо, що роль є допустимою
+        valid_roles = ['Читач', 'Перекладач', 'Літератор']
+        if self.role and self.role not in valid_roles:
+            raise ValidationError({
+                'role': f'Невірна роль: {self.role}. Дозволені ролі: {", ".join(valid_roles)}'
+            })
+        
+        super().clean()
+
     def save(self, *args, **kwargs):
         # Якщо це новий профіль без ролі, встановлюємо роль з групи
         if not self.role:
@@ -204,8 +220,14 @@ class Profile(models.Model):
         
         # Якщо роль змінилася, оновлюємо групи
         if self.pk:  # Якщо об'єкт вже існує
-            old_profile = Profile.objects.get(pk=self.pk)
-            if old_profile.role != self.role:
+            try:
+                old_profile = Profile.objects.get(pk=self.pk)
+                if old_profile.role != self.role:
+                    self.user.groups.clear()
+                    group, _ = Group.objects.get_or_create(name=self.role)
+                    self.user.groups.add(group)
+            except Profile.DoesNotExist:
+                # Якщо профіль не існує, створюємо групу
                 self.user.groups.clear()
                 group, _ = Group.objects.get_or_create(name=self.role)
                 self.user.groups.add(group)

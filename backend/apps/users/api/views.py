@@ -21,6 +21,7 @@ logger = logging.getLogger(__name__)
 from apps.users.api.serializers import (
     ProfileSerializer, 
     TranslatorListSerializer, 
+    AuthorListSerializer,
     UsersProfilesSerializer,
     CreateUserSerializer,
     ProfileImageUploadSerializer,
@@ -371,6 +372,49 @@ def get_translators_list(request):
 
 
 @api_view(['GET'])
+def get_authors_list(request):
+    try:
+        # Додаємо діагностичне логування
+        total_profiles = Profile.objects.count()
+        total_literators = Profile.objects.filter(role='Літератор').count()
+        total_translators = Profile.objects.filter(role='Перекладач').count()
+        total_readers = Profile.objects.filter(role='Читач').count()
+        
+        logger.info(f"Діагностика ролей: Всього профілів: {total_profiles}, "
+                   f"Літераторів: {total_literators}, "
+                   f"Перекладачів: {total_translators}, "
+                   f"Читачів: {total_readers}")
+        
+        # Отримуємо тільки літераторів (перевіряємо обидва варіанти)
+        authors = Profile.objects.filter(
+            role__in=['Літератор', 'Литератор', 'Author']
+        ).select_related('user').prefetch_related(
+            'user__created_books',
+            'user__owned_books'
+        )
+        
+        logger.info(f"Знайдено літераторів: {authors.count()}")
+        
+        # Сортуємо за кількістю авторських книг (спочатку ті, у кого більше книг)
+        authors_list = list(authors)
+        authors_list.sort(
+            key=lambda x: x.user.created_books.filter(book_type='AUTHOR').count(),
+            reverse=True
+        )
+        
+        serializer = AuthorListSerializer(authors_list, many=True)
+        logger.info(f"Успішно серіалізовано {len(serializer.data)} авторів")
+        return Response(serializer.data)
+        
+    except Exception as e:
+        logger.error(f"Помилка в get_authors_list: {str(e)}", exc_info=True)
+        return Response(
+            {'error': 'Внутрішня помилка сервера'}, 
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+
+@api_view(['GET'])
 # @throttle_classes([ProfileThrottle])  # Розкоментувати на продакшені
 def get_user_profile(request, username):
     try:
@@ -421,6 +465,39 @@ def become_translator(request):
         })
     except Exception as e:
         logger.error(f"Помилка в become_translator: {str(e)}", exc_info=True)
+        return Response(
+            {'error': 'Помилка при зміні ролі'}, 
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+# @throttle_classes([ProfileThrottle])  # Розкоментувати на продакшені
+def become_author(request):
+    try:
+        user = request.user
+        profile = user.profile
+        
+        author_group, _ = Group.objects.get_or_create(name='Літератор')
+        if user.groups.filter(name='Літератор').exists():
+            return Response({
+                'error': 'Ви вже є літератором'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        with transaction.atomic():
+            user.groups.clear()  # Видаляємо всі поточні групи
+            user.groups.add(author_group)
+            
+            profile.role = 'Літератор'
+            profile.save()
+        
+        return Response({
+            'message': 'Ви успішно стали літератором',
+            'role': profile.role
+        })
+    except Exception as e:
+        logger.error(f"Помилка в become_author: {str(e)}", exc_info=True)
         return Response(
             {'error': 'Помилка при зміні ролі'}, 
             status=status.HTTP_500_INTERNAL_SERVER_ERROR

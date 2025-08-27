@@ -22,10 +22,12 @@ urlpatterns = [
     path('profile/notification-settings/', views.update_notification_settings, name='notification_settings'),
 
     path('translators/', views.get_translators_list, name='translators_list'),
+    path('authors/', views.get_authors_list, name='authors_list'),
     path('add-balance/', AddBalanceView.as_view(), name='add_balance'),
     path('purchase-chapter/<int:chapter_id>/', purchase_chapter, name='purchase_chapter'),
     path('update-balance/', update_balance, name='update-balance'),
     path('become-translator/', views.become_translator, name='become-translator'),
+    path('become-author/', views.become_author, name='become-author'),
     path('withdraw-balance/', withdraw_balance, name='withdraw-balance'),
 
     # ЭТОТ — В САМЫЙ НИЗ (динамический маршрут)

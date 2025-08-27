@@ -1,11 +1,9 @@
-import axios from 'axios';
-
-const API_BASE_URL = 'http://localhost:8000/api';
+import { api } from '../instance';
 
 const analyticsBooksAPI = {
     fetchTrendingBooks: async (type) => {
         try {
-            const response = await axios.get(`${API_BASE_URL}/analytics/trending/`, {
+            const response = await api.get('/analytics/trending/', {
                 params: { type }
             });
             return response.data;
@@ -17,7 +15,7 @@ const analyticsBooksAPI = {
 
     updateAnalytics: async (bookId, actionType) => {
         try {
-            const response = await axios.post(`${API_BASE_URL}/analytics/update/`, {
+            const response = await api.post('/analytics/update/', {
                 book_id: bookId,
                 action_type: actionType
             });

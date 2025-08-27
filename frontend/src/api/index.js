@@ -10,4 +10,5 @@ export { catalogAPI } from './catalog/catalogAPI';
 export { notificationAPI } from './notification/notificationAPI';
 export { websiteAdvertisingAPI } from './website_advertising/website_advertisingAPI';
 export { default as chatAPI } from './chat/api';
+export { analyticsBooksAPI } from './analytics_books/analytics_booksAPI';
 

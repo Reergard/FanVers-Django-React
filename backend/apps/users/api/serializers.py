@@ -320,10 +320,8 @@ class ProfileSerializer(serializers.ModelSerializer):
         ).count()
 
     def get_role(self, obj):
-        user_groups = obj.user.groups.all()
-        if user_groups.filter(name='Перекладач').exists():
-            return 'Перекладач'
-        return 'Читач'
+        # Використовуємо поле role з моделі Profile замість груп
+        return obj.role
 
     def get_total_translations(self, obj):
         return Book.objects.filter(
@@ -347,7 +345,6 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     def get_completed_books(self, obj):
         from django.db.models import Count, Q, F
-        from apps.catalog.models import Book
         
         books = Book.objects.annotate(
             total_chapters=Count('chapters'),
@@ -392,6 +389,53 @@ class TranslatorListSerializer(serializers.ModelSerializer):
         if instance.image:
             data['image'] = instance.image.url if instance.image else None
         return data
+
+
+class AuthorListSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='user.username')
+    nickname = serializers.CharField(source='user.username')
+    books_count = serializers.SerializerMethodField()
+    comments_count = serializers.SerializerMethodField()
+    last_visit = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Profile
+        fields = ['id', 'username', 'nickname', 'books_count', 'comments_count', 'last_visit']
+
+    def get_books_count(self, obj):
+        """Кількість авторських книг користувача"""
+        return obj.user.created_books.filter(book_type='AUTHOR').count()
+
+    def get_comments_count(self, obj):
+        """Кількість коментарів в книгах користувача"""
+        from apps.analytics_books.models import BookAnalytics
+        from django.db.models import Q
+        
+        # Отримуємо всі книги користувача (як автор або власник)
+        user_books = Book.objects.filter(
+            Q(creator=obj.user) | Q(owner=obj.user)
+        )
+        
+        # Підраховуємо загальну кількість коментарів через аналітику
+        total_comments = 0
+        for book in user_books:
+            try:
+                analytics = book.analytics
+                if analytics:
+                    total_comments += analytics.comments_count
+            except BookAnalytics.DoesNotExist:
+                # Якщо аналітика не існує, пропускаємо
+                continue
+        
+        return total_comments
+
+    def get_last_visit(self, obj):
+        """Дата останнього відвідування"""
+        # Використовуємо дату створення профілю як приблизну дату останнього відвідування
+        # В майбутньому можна додати поле last_login або last_activity
+        if obj.user.is_active:
+            return obj.created.strftime('%d.%m.%Y')
+        return 'Н/Д'
 
 
 class UsersProfilesSerializer(serializers.ModelSerializer):

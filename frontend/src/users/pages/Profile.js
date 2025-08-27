@@ -82,6 +82,7 @@ const Profile = () => {
     chapter_comment_notifications: true
   });
   const [settingsLoading, setSettingsLoading] = useState(false);
+  const [roleChanging, setRoleChanging] = useState(false);
 
   const queryClient = useQueryClient();
 
@@ -90,21 +91,114 @@ const Profile = () => {
     queryFn: () => monitoringAPI.getUserReadingStats(),
   });
 
+  // Отримуємо профіль з Redux store
+  const reduxProfile = useSelector((state) => state.auth.profile);
+
   useEffect(() => {
     if (readingStatsData) {
       setReadingStats(readingStatsData);
     }
   }, [readingStatsData]);
 
+  // Синхронізуємо локальний state з Redux store
+  useEffect(() => {
+    if (reduxProfile && reduxProfile.role && (!profile || profile.role !== reduxProfile.role)) {
+      console.log('🔄 Синхронізую роль з Redux:', reduxProfile.role, '->', profile?.role || 'Н/Д');
+      
+      if (!profile) {
+        // Якщо локальний профіль порожній, встановлюємо Redux профіль
+        console.log('🔄 Встановлюю новий профіль з Redux:', reduxProfile.role);
+        setProfile(reduxProfile);
+      } else {
+        // Інакше оновлюємо тільки роль
+        console.log('🔄 Оновлюю роль в існуючому профілі:', profile.role, '->', reduxProfile.role);
+        setProfile(prev => ({
+          ...prev,
+          role: reduxProfile.role
+        }));
+        
+        // Показуємо повідомлення про оновлення ролі
+        toast.info(`Роль оновлено: ${profile.role} → ${reduxProfile.role}`);
+      }
+    }
+  }, [reduxProfile, profile]);
+
+  // Оновлюємо профіль при фокусі на сторінці (наприклад, після повернення з адмінки)
+  useEffect(() => {
+    const handleFocus = () => {
+      console.log('🎯 Сторінка отримала фокус, оновлюю профіль...');
+      dispatch(getProfile());
+    };
+
+    window.addEventListener('focus', handleFocus);
+    return () => window.removeEventListener('focus', handleFocus);
+  }, [dispatch]);
+
+  // Автоматично оновлюємо профіль кожні 30 секунд для синхронізації з адмінкою
+  useEffect(() => {
+    const interval = setInterval(() => {
+      console.log('⏰ Автоматичне оновлення профілю...');
+      dispatch(getProfile());
+    }, 30000); // 30 секунд
+
+    return () => clearInterval(interval);
+  }, [dispatch]);
+
+  // Додаткова перевірка при зміні Redux профілю
+  useEffect(() => {
+    if (reduxProfile && reduxProfile.role && profile && profile.role !== reduxProfile.role) {
+      console.log('🔄 Redux профіль змінився, оновлюю локальний:', profile.role, '->', reduxProfile.role);
+      setProfile(prev => ({
+        ...prev,
+        role: reduxProfile.role
+      }));
+      
+      // Показуємо повідомлення про оновлення ролі
+      toast.info(`Роль оновлено: ${profile.role} → ${reduxProfile.role}`);
+    }
+  }, [reduxProfile?.role, profile?.role]);
+
+  // Примусове оновлення профілю при зміні ролі через адмінку
+  useEffect(() => {
+    if (reduxProfile && reduxProfile.role && profile && profile.role !== reduxProfile.role) {
+      console.log('🔄 Примусове оновлення ролі з адмінки:', profile.role, '->', reduxProfile.role);
+      
+      // Оновлюємо роль в локальному state
+      setProfile(prev => ({
+        ...prev,
+        role: reduxProfile.role
+      }));
+      
+      // Показуємо повідомлення
+      toast.info(`Роль оновлено з адмінки: ${profile.role} → ${reduxProfile.role}`);
+    }
+  }, [reduxProfile?.role]);
+
   const fetchProfile = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
       const data = await usersAPI.getProfile();
-      setProfile(data);
+      
+      // Якщо є Redux профіль з актуальною роллю, використовуємо його
+      if (reduxProfile && reduxProfile.role && reduxProfile.role !== data.role) {
+        console.log('🔄 Використовую роль з Redux:', reduxProfile.role, 'замість:', data.role);
+        setProfile({
+          ...data,
+          role: reduxProfile.role
+        });
+      } else {
+        console.log('🔍 Встановлюю профіль з API:', data.role);
+        setProfile(data);
+      }
+      
       if (data.is_owner) {
         setBalanceHistory(data.balance_history || []);
       }
+      
+      // Додатково перевіряємо актуальну роль користувача
+      console.log('🔍 Завантажено профіль, поточна роль:', data.role);
+      
     } catch (error) {
       console.error('Profile fetch error:', error);
       
@@ -132,8 +226,12 @@ const Profile = () => {
   }, []);
 
   useEffect(() => {
+    // Спочатку завантажуємо профіль через Redux
+    dispatch(getProfile());
+    
+    // Потім завантажуємо локально для додаткової інформації
     fetchProfile();
-  }, [fetchProfile]);
+  }, [dispatch, fetchProfile]);
 
   // Ініціалізація email з профілю
   useEffect(() => {
@@ -564,6 +662,57 @@ const Profile = () => {
     // Сбрасываем значение file input
     if (fileRef.current) fileRef.current.value = '';
   };
+
+
+
+  // Функції для зміни ролі
+  const handleBecomeTranslator = async () => {
+    try {
+      setRoleChanging(true);
+      const response = await usersAPI.becomeTranslator();
+      
+      // Оновлюємо профіль з новою роллю
+      setProfile(prev => ({
+        ...prev,
+        role: response.role
+      }));
+      
+      toast.success(response.message);
+      
+      // Оновлюємо Redux state
+      dispatch(getProfile());
+      
+    } catch (error) {
+      const errorMessage = error.response?.data?.error || "Помилка при зміні ролі";
+      toast.error(errorMessage);
+    } finally {
+      setRoleChanging(false);
+    }
+  };
+
+  const handleBecomeAuthor = async () => {
+    try {
+      setRoleChanging(true);
+      const response = await usersAPI.becomeAuthor();
+      
+      // Оновлюємо профіль з новою роллю
+      setProfile(prev => ({
+        ...prev,
+        role: response.role
+      }));
+      
+      toast.success(response.message);
+      
+      // Оновлюємо Redux state
+      dispatch(getProfile());
+      
+    } catch (error) {
+      const errorMessage = error.response?.data?.error || "Помилка при зміні ролі";
+      toast.error(errorMessage);
+    } finally {
+      setRoleChanging(false);
+    }
+  };
   
   return (
     <section className="profile-section">
@@ -614,8 +763,50 @@ const Profile = () => {
                   <div className="one-block-info">
                     <span>Тип профiлю:</span>
                     <div className="text-info">
-                      <div className="general-text">{profile.role}</div>
-                      <div className="create-text">Стати перекладачем </div>
+                                             <div className="general-text">
+                         {profile.role}
+                       </div>
+                      {profile.role === 'Читач' && (
+                        <button 
+                          className="create-text become-translator-btn"
+                          onClick={handleBecomeTranslator}
+                          disabled={roleChanging}
+                          style={{
+                            background: 'none',
+                            border: 'none',
+                            color: '#007bff',
+                            textDecoration: 'underline',
+                            cursor: 'pointer',
+                            padding: 0,
+                            fontSize: 'inherit'
+                          }}
+                        >
+                          {roleChanging ? "Зміна ролі..." : "Стати перекладачем"}
+                        </button>
+                      )}
+                      {profile.role === 'Перекладач' && (
+                        <button 
+                          className="create-text become-author-btn"
+                          onClick={handleBecomeAuthor}
+                          disabled={roleChanging}
+                          style={{
+                            background: 'none',
+                            border: 'none',
+                            color: '#28a745',
+                            textDecoration: 'underline',
+                            cursor: 'pointer',
+                            padding: 0,
+                            fontSize: 'inherit'
+                          }}
+                        >
+                          {roleChanging ? "Зміна ролі..." : "Стати літератором"}
+                        </button>
+                      )}
+                      {profile.role === 'Літератор' && (
+                        <span className="create-text" style={{ color: '#6c757d' }}>
+                          Літератор
+                        </span>
+                      )}
                     </div>
                   </div>
                   <div className="one-block-info">

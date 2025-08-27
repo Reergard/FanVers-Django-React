@@ -13,10 +13,30 @@ import { usersAPI } from '../../../api/users/usersAPI';
 export const UserMenu = ({ name, unreadNotifications, onOpenMenu }) => {
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
     const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
-    const [userBalance, setUserBalance] = useState(0);
     const { isAuthenticated } = useSelector(state => state.auth);
-    const currentUser = JSON.parse(localStorage.getItem('user'));
+    const currentUser = (() => {
+        try {
+            const userData = localStorage.getItem('user');
+            return userData ? JSON.parse(userData) : null;
+        } catch (error) {
+            console.error('Ошибка при парсинге данных пользователя из localStorage:', error);
+            return null;
+        }
+    })();
     const profile = useSelector(state => state.auth.user);
+    
+    const [userBalance, setUserBalance] = useState(() => {
+        // Инициализируем баланс из localStorage, если он есть
+        try {
+            if (currentUser && currentUser.balance !== undefined && currentUser.balance !== null) {
+                const balance = parseFloat(currentUser.balance);
+                return isNaN(balance) ? 0 : balance;
+            }
+        } catch (error) {
+            console.error('Ошибка при инициализации баланса:', error);
+        }
+        return 0;
+    });
 
     // Загружаем баланс пользователя при авторизации
     useEffect(() => {
@@ -24,16 +44,29 @@ export const UserMenu = ({ name, unreadNotifications, onOpenMenu }) => {
             const fetchBalance = async () => {
                 try {
                     const balanceData = await usersAPI.getUserBalance();
-                    setUserBalance(balanceData.balance || 0);
+                    // Убеждаемся, что balance является числом
+                    const balance = parseFloat(balanceData.balance) || 0;
+                    setUserBalance(balance);
                 } catch (error) {
                     console.error('Ошибка при загрузке баланса:', error);
                     // Если не удалось загрузить баланс, используем значение из localStorage
-                    setUserBalance(currentUser.balance || 0);
+                    const fallbackBalance = parseFloat(currentUser.balance) || 0;
+                    setUserBalance(fallbackBalance);
                 }
             };
             fetchBalance();
+        } else {
+            // Если пользователь не авторизован, сбрасываем баланс
+            setUserBalance(0);
         }
     }, [isAuthenticated, currentUser, profile]);
+
+    // Дополнительная защита: убеждаемся, что userBalance всегда является числом
+    useEffect(() => {
+        if (typeof userBalance !== 'number' || isNaN(userBalance)) {
+            setUserBalance(0);
+        }
+    }, [userBalance]);
 
     const profileData = {
       name: name,
@@ -144,7 +177,8 @@ export const UserMenu = ({ name, unreadNotifications, onOpenMenu }) => {
                     <span className="user-profile__name">{currentUser.username}</span>
                 )}
                 <div className="user-profile__balance">
-                    FanCoins: <span>{userBalance > 0 ? userBalance.toFixed(2) : '0.00'}</span>
+                    FanCoins: <span>{(typeof userBalance === 'number' && !isNaN(userBalance) && userBalance > 0) ? 
+                        (userBalance % 1 === 0 ? userBalance.toFixed(0) : userBalance.toFixed(2)) : '0'}</span>
                 </div>
             </div>
         </div>

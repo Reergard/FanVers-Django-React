@@ -123,11 +123,11 @@
   top: 15%;
   left: 3%;
   font-size: 28px;
-  width: 324px;
+  width: 380px;
   font-family: "Bad Script", sans-serif;
   padding: 70px 60px 70px 70px;
   background: url("../../assets/images/bg/Rectangle 4049.png") -5px no-repeat;
-  background-size: 340px 150px;
+  background-size: 396px 150px;
 }
 .user-profile__balance span {
   font-family: "Arizonia", sans-serif;
@@ -424,6 +424,7 @@
   .user-profile__balance {
     top: 25%;
     left: 10%;
+    width: 380px;
   }
 
   #siteSearch {
@@ -500,6 +501,7 @@
     font-size: 16px;
     top: -8%;
     left: -9%;
+    width: 280px;
   }
   .user-profile__balance {
     width: 239px;
@@ -537,6 +539,7 @@
   .user-profile__balance {
     font-size: 14px;
     top: -33%;
+    width: 260px;
   }
   .logo {
     height: 92px;
