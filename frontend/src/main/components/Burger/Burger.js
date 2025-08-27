@@ -48,7 +48,6 @@ const BurgerMenu = forwardRef(function BurgerMenu(_, ref) {
   
   const menuItems = [
     { key:'userTranslations', text: 'Власні переклади', href: '/User-translations', icon: userTranslationsIcon },
-    { key:'create',           text: 'Створити книгу',   href: '/create-translation', icon: createBookIcon },
     { key:'bookmarks',        text: 'Закладки',         href: '/bookmarks',          icon: bookmarksIcon },
     { key:'chatverse',        text: 'ChatVerse',        href: '/chat',               icon: chatVerseIcon },
     { key:'notification',     text: 'Сповіщення',       href: '/notification',       icon: notificationIcon },

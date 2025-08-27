@@ -24,15 +24,15 @@ const Footer = () => {
           <h3>Для правовласників</h3>
           <ul>
             <li>
-              <Link to="/user-agreement">Угода користувача</Link>
+              <Link to="/info/legal/user-agreement">Угода користувача</Link>
             </li>
             <li>
-              <Link to="/privacy-policy">
+              <Link to="/info/legal/privacy-policy">
                 Політика компанії щодо обробки персональних даних
               </Link>
             </li>
             <li>
-              <Link to="/content-rules">
+              <Link to="/info/legal/content-rules">
                 Правила розміщення авторського контенту
               </Link>
             </li>
@@ -40,10 +40,10 @@ const Footer = () => {
               <div className="line-footer"></div>
             </li>
             <li>
-              <Link to="/confidentiality">Угода конфіденційності</Link>
+              <Link to="/info/legal/confidentiality">Угода конфіденційності</Link>
             </li>
             <li>
-              <Link to="/author-agreement">Публічний договір з автором</Link>
+              <Link to="/info/legal/author-agreement">Публічний договір з автором</Link>
             </li>
           </ul>
         </div>
@@ -64,27 +64,27 @@ const Footer = () => {
           <h3>Довідка</h3>
           <ul>
             <li>
-              <Link to="/translator-agreement">
+              <Link to="/info/legal/translator-agreement">
                 Договір між автором та перекладачем
               </Link>
             </li>
             <li>
-              <Link to="/say-thanks">Сказати «Дякую!»</Link>
+              <Link to="/info/help/say-thanks">Сказати «Дякую!»</Link>
             </li>
             <li>
-              <Link to="/contacts">Контакти</Link>
+              <Link to="/info/help/contacts">Контакти</Link>
             </li>
             <li>
-              <Link to="/balance-help">Не поповнився баланс?</Link>
+              <Link to="/info/help/faq/balance-help">Не поповнився баланс?</Link>
             </li>
             <li style={{width: "100%"}}>
               <div className="line-footer"></div>
             </li>
             <li>
-              <Link to="/support">Написати у підтримку</Link>
+              <Link to="/info/help/support">Написати у підтримку</Link>
             </li>
             <li>
-              <Link to="/payment">Оплата</Link>
+              <Link to="/info/help/payment">Оплата</Link>
             </li>
           </ul>
         </div>

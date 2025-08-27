@@ -35,19 +35,21 @@ import AdvertisementsUsers from './users/pages/AdvertisementsUsers';
 import AllSettings from './users/pages/settings/AllSettings';
 
 // Legal pages
-import UserAgreement from "./legal/pages/UserAgreement";
-import PrivacyPolicy from "./legal/pages/PrivacyPolicy";
-import ContentRules from "./legal/pages/ContentRules";
-import Confidentiality from "./legal/pages/Confidentiality";
-import AuthorAgreement from "./legal/pages/AuthorAgreement";
+import UserAgreement from "./info/legal/user-agreement";
+import PrivacyPolicy from "./info/legal/privacy-policy";
+import ContentRules from "./info/legal/content-rules";
+import Confidentiality from "./info/legal/confidentiality";
+import AuthorAgreement from "./info/legal/author-agreement";
 
 // Help pages
-import TranslatorAgreement from "./help/pages/TranslatorAgreement";
-import SayThanks from "./help/pages/SayThanks";
-import Contacts from "./help/pages/Contacts";
-import BalanceHelp from "./help/pages/BalanceHelp";
-import Support from "./help/pages/Support";
-import Payment from "./help/pages/Payment";
+import TranslatorAgreement from "./info/legal/translator-agreement";
+import SayThanks from "./info/help/say-thanks";
+import Contacts from "./info/help/contacts";
+import BalanceHelp from "./info/help/faq/balance-help";
+import Support from "./info/help/support";
+import Payment from "./info/help/payment";
+import FAQ from "./info/help/faq";
+import PaymentsFAQ from "./info/help/faq/payments";
 import { BreadCrumb } from './main/components/BreadCrumb';
 import Faq from './catalog/pages/Faq';
 
@@ -203,20 +205,22 @@ function App() {
                 </PrivateRoute>
               }
             />
-            <Route path="/user-agreement" element={<UserAgreement />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="/content-rules" element={<ContentRules />} />
-            <Route path="/confidentiality" element={<Confidentiality />} />
-            <Route path="/author-agreement" element={<AuthorAgreement />} />
+            <Route path="/info/legal/user-agreement" element={<UserAgreement />} />
+            <Route path="/info/legal/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/info/legal/content-rules" element={<ContentRules />} />
+            <Route path="/info/legal/confidentiality" element={<Confidentiality />} />
+            <Route path="/info/legal/author-agreement" element={<AuthorAgreement />} />
             <Route
-              path="/translator-agreement"
+              path="/info/legal/translator-agreement"
               element={<TranslatorAgreement />}
             />
-            <Route path="/say-thanks" element={<SayThanks />} />
-            <Route path="/contacts" element={<Contacts />} />
-            <Route path="/balance-help" element={<BalanceHelp />} />
-            <Route path="/support" element={<Support />} />
-            <Route path="/payment" element={<Payment />} />
+            <Route path="/info/help/say-thanks" element={<SayThanks />} />
+            <Route path="/info/help/contacts" element={<Contacts />} />
+            <Route path="/info/help/faq" element={<FAQ />} />
+            <Route path="/info/help/faq/payments" element={<PaymentsFAQ />} />
+            <Route path="/info/help/faq/balance-help" element={<BalanceHelp />} />
+            <Route path="/info/help/support" element={<Support />} />
+            <Route path="/info/help/payment" element={<Payment />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
           <Footer />
