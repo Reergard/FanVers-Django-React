@@ -1,6 +1,5 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import Group
 from rest_framework import status, generics, permissions
 from rest_framework.decorators import api_view, permission_classes, throttle_classes, parser_classes
 from rest_framework.response import Response
@@ -446,16 +445,13 @@ def become_translator(request):
         user = request.user
         profile = user.profile
         
-        translator_group, _ = Group.objects.get_or_create(name='Перекладач')
-        if user.groups.filter(name='Перекладач').exists():
+        # Проверяем текущую роль
+        if profile.role == 'Перекладач':
             return Response({
                 'error': 'Ви вже є перекладачем'
             }, status=status.HTTP_400_BAD_REQUEST)
         
         with transaction.atomic():
-            user.groups.clear()  # Видаляємо всі поточні групи
-            user.groups.add(translator_group)
-            
             profile.role = 'Перекладач'
             profile.save()
         
@@ -479,16 +475,13 @@ def become_author(request):
         user = request.user
         profile = user.profile
         
-        author_group, _ = Group.objects.get_or_create(name='Літератор')
-        if user.groups.filter(name='Літератор').exists():
+        # Проверяем текущую роль
+        if profile.role == 'Літератор':
             return Response({
                 'error': 'Ви вже є літератором'
             }, status=status.HTTP_400_BAD_REQUEST)
         
         with transaction.atomic():
-            user.groups.clear()  # Видаляємо всі поточні групи
-            user.groups.add(author_group)
-            
             profile.role = 'Літератор'
             profile.save()
         

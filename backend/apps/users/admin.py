@@ -2,7 +2,6 @@
 Адміністративна панель для управління користувачами та їх профілями.
 
 ВАЖЛИВО: Ролі користувачів (Читач, Перекладач, Літератор) управляються ТІЛЬКИ через розділ "Профілі".
-Групи користувачів синхронізуються автоматично при зміні ролі в профілі.
 """
 
 from django.contrib import admin
@@ -10,8 +9,6 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import Profile, User
 from .forms import CustomUserChangeForm, CustomUserCreationForm
 from django.urls import reverse
-from django.contrib.auth.models import Group
-from django import forms
 import logging
 
 logger = logging.getLogger(__name__)
@@ -49,7 +46,7 @@ class UserAdmin(BaseUserAdmin):
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'user_permissions')}),
         ('Роль користувача', {
             'fields': (),
-            'description': '⚠️ Ролі користувачів (Читач, Перекладач, Літератор) управляються через розділ "Профілі". Групи користувачів синхронізуються автоматично.',
+            'description': '⚠️ Ролі користувачів (Читач, Перекладач, Літератор) управляються через розділ "Профілі".',
             'classes': ('collapse',)
         }),
     )
@@ -59,16 +56,15 @@ class UserAdmin(BaseUserAdmin):
             'classes': ('wide',),
             'fields': ('username', 'email', 'password1', 'password2'),
         }),
+        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'user_permissions')}),
     )
-
-    # Убираем filter_horizontal для groups, так как теперь роли управляются только через Profile
 
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
     """Адміністративна панель для управління профілями користувачів та їх ролями"""
     
-    list_display = ('username', 'email', 'created', 'image', 'get_owned_books_count', 'role', 'get_user_groups')
+    list_display = ('username', 'email', 'created', 'image', 'get_owned_books_count', 'role')
     search_fields = ('username', 'email')
     list_filter = ('role', 'created')
     
@@ -76,30 +72,19 @@ class ProfileAdmin(admin.ModelAdmin):
         return obj.user.owned_books.count()
     get_owned_books_count.short_description = 'Кількість книг'
 
-    def get_user_groups(self, obj):
-        """Показує групи користувача для діагностики"""
-        groups = obj.user.groups.all()
-        return ', '.join([group.name for group in groups]) if groups else 'Немає груп'
-    get_user_groups.short_description = 'Групи користувача'
-
     def get_owned_books_list(self, obj):
         books = obj.user.owned_books.all()
-        return '\n'.join([f"{book.title}" for book in books])
+        return '\n'.join([f"{book.title}" for book in books]) if books else "Немає"
     get_owned_books_list.short_description = 'Книги користувача'
 
-    readonly_fields = ('get_owned_books_list', 'created', 'get_user_groups')
-
+    readonly_fields = ('get_owned_books_list', 'created')
+    
     actions = ['make_reader', 'make_translator', 'make_author']
 
     def make_reader(self, request, queryset):
         try:
             updated = queryset.update(role='Читач')
-            # Синхронизируем группы для всех обновленных профилей
-            for profile in queryset:
-                profile.user.groups.clear()
-                reader_group, _ = Group.objects.get_or_create(name='Читач')
-                profile.user.groups.add(reader_group)
-            self.message_user(request, f'{updated} користувачів тепер мають роль "Читач". Групи користувачів синхронізовано автоматично.')
+            self.message_user(request, f'{updated} користувачів тепер мають роль "Читач".')
         except Exception as e:
             logger.error(f"Помилка при масовому зміненні ролей на 'Читач': {str(e)}")
             self.message_user(request, f'Помилка при зміненні ролей: {str(e)}', level='ERROR')
@@ -108,12 +93,7 @@ class ProfileAdmin(admin.ModelAdmin):
     def make_translator(self, request, queryset):
         try:
             updated = queryset.update(role='Перекладач')
-            # Синхронизируем группы для всех обновленных профилей
-            for profile in queryset:
-                profile.user.groups.clear()
-                translator_group, _ = Group.objects.get_or_create(name='Перекладач')
-                profile.user.groups.add(translator_group)
-            self.message_user(request, f'{updated} користувачів тепер мають роль "Перекладач". Групи користувачів синхронізовано автоматично.')
+            self.message_user(request, f'{updated} користувачів тепер мають роль "Перекладач".')
         except Exception as e:
             logger.error(f"Помилка при масовому зміненні ролей на 'Перекладач': {str(e)}")
             self.message_user(request, f'Помилка при зміненні ролей: {str(e)}', level='ERROR')
@@ -122,12 +102,7 @@ class ProfileAdmin(admin.ModelAdmin):
     def make_author(self, request, queryset):
         try:
             updated = queryset.update(role='Літератор')
-            # Синхронизируем группы для всех обновленных профилей
-            for profile in queryset:
-                profile.user.groups.clear()
-                author_group, _ = Group.objects.get_or_create(name='Літератор')
-                profile.user.groups.add(author_group)
-            self.message_user(request, f'{updated} користувачів тепер мають роль "Літератор". Групи користувачів синхронізовано автоматично.')
+            self.message_user(request, f'{updated} користувачів тепер мають роль "Літератор".')
         except Exception as e:
             logger.error(f"Помилка при масовому зміненні ролей на 'Літератор': {str(e)}")
             self.message_user(request, f'Помилка при зміненні ролей: {str(e)}', level='ERROR')
@@ -135,17 +110,21 @@ class ProfileAdmin(admin.ModelAdmin):
     
     fieldsets = (
         ('Основна інформація', {
-            'fields': ('user', 'username', 'email', 'about', 'image', 'balance')
+            'fields': ('user', 'username', 'email', 'about', 'image', 'balance', 'commission'),
+            'description': 'Основні дані профілю користувача'
         }),
         ('Роль користувача', {
-            'fields': ('role', 'get_user_groups'),
-            'description': ' Оберіть роль користувача. При зміні ролі групи користувача будуть автоматично синхронізовані. Доступні ролі: Читач, Перекладач, Літератор. Для масового змінення ролей використовуйте дії внизу сторінки.'
+            'fields': ('role',),
+            'description': '🎯 Оберіть роль користувача. Доступні ролі: Читач, Перекладач, Літератор. Для масового змінення ролей використовуйте дії внизу сторінки.'
         }),
         ('Книги користувача', {
             'fields': ('get_owned_books_list',),
+            'description': 'Список книг, які належать користувачеві',
+            'classes': ('collapse',)
         }),
         ('Системна інформація', {
             'fields': ('created', 'token', 'is_default'),
+            'description': 'Системні дані профілю',
             'classes': ('collapse',)
         }),
     )
@@ -162,20 +141,16 @@ class ProfileAdmin(admin.ModelAdmin):
                 return
             
             try:
-                # Синхронизируем группы пользователя с новой ролью
-                obj.user.groups.clear()
-                group, _ = Group.objects.get_or_create(name=new_role)
-                obj.user.groups.add(group)
-                logger.info(f"Роль користувача {obj.user.username} змінено на '{new_role}' та синхронізовано з групами")
+                logger.info(f"Роль користувача {obj.user.username} змінено на '{new_role}'")
                 
                 # Показуємо повідомлення про успіх
                 from django.contrib import messages
-                messages.success(request, f"Роль користувача {obj.user.username} успішно змінено на '{new_role}'. Групи користувача синхронізовано автоматично.")
+                messages.success(request, f"Роль користувача {obj.user.username} успішно змінено на '{new_role}'.")
                 
             except Exception as e:
-                logger.error(f"Помилка синхронізації груп для користувача {obj.user.username}: {str(e)}")
+                logger.error(f"Помилка зміни ролі для користувача {obj.user.username}: {str(e)}")
                 from django.contrib import messages
-                messages.error(request, f"Помилка синхронізації груп: {str(e)}")
+                messages.error(request, f"Помилка зміни ролі: {str(e)}")
                 return
             
         super().save_model(request, obj, form, change)

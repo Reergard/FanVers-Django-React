@@ -1,11 +1,11 @@
 import os
 import uuid
 from django.db import models, transaction
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, Group
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.utils.translation import gettext_lazy as _
-from .managers import CustomUserManager
 from django.core.exceptions import ValidationError
 from .middleware import get_current_request
+from .managers import CustomUserManager
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -14,6 +14,9 @@ from django.core.cache import cache
 from django.db.models import Count, Q, F
 from django.contrib.staticfiles.storage import staticfiles_storage
 from datetime import datetime
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def generate_token():
@@ -82,7 +85,7 @@ class Profile(models.Model):
         ],
         default='Читач',
         verbose_name='Роль користувача',
-        help_text='Оберіть роль користувача. При зміні ролі групи користувача будуть автоматично синхронізовані.',
+        help_text='Оберіть роль користувача. Роль визначає права доступу та можливості користувача.',
         blank=False,
         null=False
     )
@@ -199,7 +202,7 @@ class Profile(models.Model):
             logs = logs.filter(operation_type=operation_type)
         return logs
 
-    def clean(self):
+    def clean(self, *args, **kwargs):
         """Валідація профілю перед збереженням"""
         from django.core.exceptions import ValidationError
         
@@ -210,28 +213,9 @@ class Profile(models.Model):
                 'role': f'Невірна роль: {self.role}. Дозволені ролі: {", ".join(valid_roles)}'
             })
         
-        super().clean()
+        super().clean(*args, **kwargs)
 
     def save(self, *args, **kwargs):
-        # Якщо це новий профіль без ролі, встановлюємо роль з групи
-        if not self.role:
-            groups = self.user.groups.all()
-            self.role = 'Перекладач' if groups.filter(name='Перекладач').exists() else 'Читач'
-        
-        # Якщо роль змінилася, оновлюємо групи
-        if self.pk:  # Якщо об'єкт вже існує
-            try:
-                old_profile = Profile.objects.get(pk=self.pk)
-                if old_profile.role != self.role:
-                    self.user.groups.clear()
-                    group, _ = Group.objects.get_or_create(name=self.role)
-                    self.user.groups.add(group)
-            except Profile.DoesNotExist:
-                # Якщо профіль не існує, створюємо групу
-                self.user.groups.clear()
-                group, _ = Group.objects.get_or_create(name=self.role)
-                self.user.groups.add(group)
-        
         super().save(*args, **kwargs)
 
     def update_commission(self):
@@ -348,8 +332,6 @@ def create_user_profile(sender, instance, created, **kwargs):
             username=instance.username,
             email=instance.email
         )
-        reader_group, _ = Group.objects.get_or_create(name='Читач')
-        instance.groups.add(reader_group)
 
 
 # УБИРАЕМ ЛИШНИЙ СИГНАЛ - он делает profile.save() на каждый user.save()
