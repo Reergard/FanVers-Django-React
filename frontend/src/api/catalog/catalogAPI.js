@@ -383,6 +383,16 @@ const getVolumeList = async (bookSlug) => {
     }
 };
 
+const fetchAbandonedTranslations = async () => {
+    try {
+        const response = await api.get('/catalog/abandoned-translations/');
+        return response.data || [];
+    } catch (error) {
+        console.error('Error fetching abandoned translations:', error);
+        throw new Error('Помилка при завантаженні покинутих перекладів');
+    }
+};
+
 export const catalogAPI = {
     fetchGenres,
     fetchTags,
@@ -401,6 +411,7 @@ export const catalogAPI = {
     getBookTitle,
     deleteChapter,
     getVolumeList,
+    fetchAbandonedTranslations,
 };
 
 export {
@@ -421,4 +432,5 @@ export {
     getBookTitle,
     deleteChapter,
     getVolumeList,
+    fetchAbandonedTranslations,
 };

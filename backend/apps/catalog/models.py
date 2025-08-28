@@ -243,10 +243,23 @@ class Book(models.Model):
 
     def save(self, *args, **kwargs):
         """Збереження моделі"""
-        if self.book_type == 'AUTHOR':
-            self.translation_status = None
-        elif self.book_type == 'TRANSLATION':
-            self.translation_status = 'TRANSLATING'
+        # Проверяем, создается ли новая книга или редактируется существующая
+        is_new_book = self.pk is None
+        
+        if is_new_book:
+            # Для новых книг устанавливаем статус по умолчанию
+            if self.book_type == 'AUTHOR':
+                self.translation_status = None
+            elif self.book_type == 'TRANSLATION':
+                self.translation_status = 'TRANSLATING'
+        else:
+            # Для существующих книг проверяем валидность
+            if self.book_type == 'AUTHOR' and self.translation_status is not None:
+                # Авторские книги не могут иметь статус перевода
+                self.translation_status = None
+            elif self.book_type == 'TRANSLATION' and self.translation_status is None:
+                # Переводы должны иметь статус
+                self.translation_status = 'TRANSLATING'
             
         if not self.slug:
             self.slug = self.generate_unique_slug()

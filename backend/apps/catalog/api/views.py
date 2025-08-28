@@ -13,6 +13,7 @@ from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_500_IN
 from rest_framework import status
 import os
 import mammoth
+import logging
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny, IsAuthenticated
 from apps.navigation.models import Bookmark
@@ -28,6 +29,8 @@ from rest_framework import serializers
 from django.utils.text import slugify
 import uuid
 from apps.core.throttling import BaseUserRateThrottle, BaseAnonRateThrottle, StrictUserRateThrottle, StrictAnonRateThrottle
+
+logger = logging.getLogger(__name__)
 
 
 @api_view(['GET'])
@@ -470,3 +473,25 @@ class BookInfoView(generics.RetrieveAPIView):
                 return obj.creator.username if obj.creator else None
 
         return BookInfoSerializer
+
+
+@api_view(['GET'])
+def abandoned_translations(request):
+    """API для отримання списку покинутих перекладів"""
+    try:
+        # Отримуємо тільки книги зі статусом 'ABANDONED'
+        abandoned_books = Book.objects.filter(
+            translation_status='ABANDONED'
+        ).select_related('owner', 'creator').prefetch_related(
+            'genres', 'tags', 'fandoms', 'country'
+        )
+        
+        serializer = BookReaderSerializer(abandoned_books, many=True, context={'request': request})
+        return Response(serializer.data, status=HTTP_200_OK)
+        
+    except Exception as e:
+        logger.error(f"Помилка в abandoned_translations: {str(e)}", exc_info=True)
+        return Response(
+            {'error': 'Внутрішня помилка сервера'}, 
+            status=HTTP_500_INTERNAL_SERVER_ERROR
+        )

@@ -13,6 +13,53 @@ class BookAdmin(admin.ModelAdmin):
     list_filter = ['author', 'creator', 'owner', 'tags', 'fandoms', 'country', 'genres', 'translation_status', 'original_status', 'last_updated']
     search_fields = ['title', 'author', 'creator__username', 'owner__username']
 
+    def get_fieldsets(self, request, obj=None):
+        """Условное отображение полей в зависимости от типа книги"""
+        if obj and obj.book_type == 'AUTHOR':
+            # Для авторских книг скрываем поле translation_status
+            fieldsets = (
+                ('Основна інформація', {
+                    'fields': ('title', 'title_en', 'author', 'book_type', 'description', 'image')
+                }),
+                ('Класифікація', {
+                    'fields': ('tags', 'genres', 'fandoms', 'country', 'adult_content')
+                }),
+                ('Статус оригіналу', {
+                    'fields': ('original_status',)
+                }),
+                ('Системна інформація', {
+                    'fields': ('creator', 'owner', 'slug'),
+                    'classes': ('collapse',)
+                }),
+            )
+        else:
+            # Для переводов показываем все поля
+            fieldsets = (
+                ('Основна інформація', {
+                    'fields': ('title', 'title_en', 'author', 'book_type', 'description', 'image')
+                }),
+                ('Класифікація', {
+                    'fields': ('tags', 'genres', 'fandoms', 'country', 'adult_content')
+                }),
+                ('Статус перекладу', {
+                    'fields': ('translation_status',)
+                }),
+                ('Статус оригіналу', {
+                    'fields': ('original_status',)
+                }),
+                ('Системна інформація', {
+                    'fields': ('creator', 'owner', 'slug'),
+                    'classes': ('collapse',)
+                }),
+            )
+        return fieldsets
+
+    def get_readonly_fields(self, request, obj=None):
+        """Поля только для чтения"""
+        readonly_fields = ['slug', 'created_at', 'last_updated']
+        # translation_status не добавляем в readonly_fields, так как для авторских книг поле скрыто
+        return readonly_fields
+
     def get_creator(self, obj):
         return obj.creator.username if obj.creator else 'Не вказано'
     get_creator.short_description = 'Творець'
