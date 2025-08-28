@@ -200,7 +200,6 @@ const CreateBook = () => {
           ]}
         />
         <div className="first-block-create-book">
-        {/* <Form onSubmit={handleSubmit}> */}
         <div className="name-book">
           <Form.Group className="mb-3 block-name-book">
             <Form.Label className="name-book-label">
@@ -564,25 +563,6 @@ const CreateBook = () => {
           </div>
         </Form.Group>
       </div>
-      {/* <Form.Group className="mb-3">
-        <Form.Label>Країна *</Form.Label>
-        <div className="countries-container">
-          {countries?.map((country) => (
-            <div
-              key={country.id}
-              className={`country-item ${
-                formData.country === country.id ? "selected" : ""
-              }`}
-              onClick={() => setFormData({ ...formData, country: country.id })}
-            >
-              {country.name}
-            </div>
-          ))}
-        </div>
-        {errors.country && (
-          <div className="text-danger mt-1">{errors.country}</div>
-        )}
-      </Form.Group> */}
       <div className="header-book-genres">
         <img src={BorderCreate} />
       </div>
@@ -613,36 +593,6 @@ const CreateBook = () => {
         </div>
       </Form.Group>
 
-      {/* <Form.Group className="mb-3">
-        <Form.Check
-          type="checkbox"
-          id="adult_content"
-          label="Контент 18+"
-          checked={formData.adult_content}
-          onChange={(e) => {
-            const isChecked = e.target.checked;
-            setFormData({
-              ...formData,
-              adult_content: isChecked,
-              tags: isChecked
-                ? [...new Set([...formData.tags, adultTagId])]
-                : formData.tags.filter((id) => id !== adultTagId),
-            });
-          }}
-        />
-      </Form.Group> */}
-
-      {/* {formData.book_type === "TRANSLATION" && (
-        <Form.Group className="mb-3">
-          <Form.Label>Статус перекладу</Form.Label>
-          <Form.Control
-            plaintext
-            readOnly
-            value="Перекладається"
-            className="form-control-plaintext"
-          />
-        </Form.Group>
-      )} */}
       <div className="all-img">
         <div className="img-book">
           <div className="general-img" style={{ position: "relative" }}>
@@ -668,24 +618,42 @@ const CreateBook = () => {
                 <label
                   htmlFor="fileInput"
                   className="file-label input-img general"
+                  style={{
+                    ...(imagePreview && {
+                      width: '100%',
+                      height: '100%',
+                      padding: '0',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      overflow: 'hidden'
+                    })
+                  }}
                 >
-                  <div className="circle_upload">
-                    <img src={Upload} alt="Загрузить" className="upload-icon" />
-                    <span>Вибрати зображення</span>
-                  </div>
+                  {imagePreview ? (
+                    <img
+                      src={imagePreview}
+                      alt="Preview"
+                      className="img-fluid"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        borderRadius: 'inherit'
+                      }}
+                    />
+                  ) : (
+                    <div className="circle_upload">
+                      <img src={Upload} alt="Загрузить" className="upload-icon" />
+                      <span>Вибрати зображення</span>
+                    </div>
+                  )}
                 </label>
               </div>
-              {imagePreview && (
-                <img
-                  src={imagePreview}
-                  alt="Preview"
-                  className="img-fluid mt-2"
-                />
-              )}
             </Form.Group>
           </div>
         </div>
-        <div className="another_img">
+        {/* <div className="another_img">
           <div className="img-book any">
             <div className="general-img" style={{ position: "relative" }}>
               <Form.Group
@@ -792,21 +760,22 @@ const CreateBook = () => {
                 )}
               </Form.Group>
             </div>
-          </div>
-          <div className="all-sub-img">
-            <div className="one-sub-img"></div>
-            <button 
-              type="submit"
-              className="save-book"
-              onClick={handleSubmit}
-              disabled={isSubmitting}
-            >
-              <img className="top-button" src={BorderCreate} />
-              <span>{isSubmitting ? 'Створення...' : 'Опублікувати переклад'}</span>
-              <img className="bottom-button" src={BorderCreate} />
-            </button>
-          </div>
+          </div> */}
         </div>
+      
+      {/* Кнопка публикации - размещена после блока изображений */}
+      <div className="all-sub-img" style={{ marginTop: '20px', textAlign: 'center' }}>
+        <div className="one-sub-img"></div>
+        <button 
+          type="submit"
+          className="save-book"
+          onClick={handleSubmit}
+          disabled={isSubmitting}
+        >
+          <img className="top-button" src={BorderCreate} />
+          <span>{isSubmitting ? 'Створення...' : 'Опублікувати переклад'}</span>
+          <img className="bottom-button" src={BorderCreate} />
+        </button>
       </div>
       </div>
     </TranslatorAccessGuard>
