@@ -7,7 +7,7 @@ import { ProfileImage } from '../../main/components/Header/ProfileImage';
 import { FALLBACK_IMAGES, IMAGE_SIZES } from "../../constants/fallbackImages";
 import openEyeIcon from '../../main/pages/img/open-eye.png';
 import closedEyeIcon from '../../main/pages/img/closed-eye.png';
-import { toast } from "react-toastify";
+import { useToast } from '../../components/CustomToast/ToastContext';
 import LoginPhoto from '../../main/pages/img/login.png';
 import Save from '../../main/pages/img/save.png';
 import ModalDepositBalance from "../components/ModalDepositBalance";
@@ -24,6 +24,7 @@ import { useRef } from "react";
 
 const Profile = () => {
   const dispatch = useDispatch();
+  const toast = useToast();
   const hideAdultContent = useSelector(
     (state) => state.userSettings.hideAdultContent
   );

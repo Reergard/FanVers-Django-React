@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { Form } from "react-bootstrap";
-import { toast } from "react-toastify";
+import { useToast } from "../../components/CustomToast";
 import { catalogAPI } from '../../api/catalog/catalogAPI';
 import TranslatorAccessGuard from "../components/TranslatorAccessGuard";
 import "../css/BookCreate.css";
@@ -18,6 +18,7 @@ const CreateBook = () => {
   const navigate = useNavigate();
   const currentUser = useSelector(state => state.auth.user);
   const userInfo = useSelector(state => state.auth.userInfo);
+  const { success, error: showError } = useToast();
   
   // Логування для діагностики
   console.log('BookCreate Debug:', {
@@ -73,11 +74,11 @@ const CreateBook = () => {
   const createBookMutation = useMutation({
     mutationFn: catalogAPI.createBook,
     onSuccess: () => {
-      toast.success("Книга успішно створена!");
+      success("Книга успішно створена!");
       navigate("/catalog");
     },
     onError: (error) => {
-      toast.error(error.message || "Помилка при створенні книги");
+      showError(error.message || "Помилка при створенні книги");
       setIsSubmitting(false);
     },
   });
@@ -134,12 +135,12 @@ const CreateBook = () => {
     const file = e.target.files[0];
     if (file) {
       if (!file.type.startsWith("image/")) {
-        toast.error("Будь ласка, завантажте зображення");
+        showError("Будь ласка, завантажте зображення");
         return;
       }
       if (file.size > 5 * 1024 * 1024) {
         // 5MB
-        toast.error("Розмір файлу не повинен перевищувати 5MB");
+        showError("Розмір файлу не повинен перевищувати 5MB");
         return;
       }
       setFormData({ ...formData, image: file });

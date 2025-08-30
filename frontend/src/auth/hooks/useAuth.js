@@ -28,7 +28,7 @@ export const useAuth = () => {
     const timeSinceLastRequest = now - lastRequestTime.current;
 
     // Діагностичне логування
-    console.log('🔍 useAuth: Перевірка умов:', {
+    console.log('useAuth: Перевірка умов:', {
       isPublic,
       hasToken,
       requestedRef: requestedRef.current,
@@ -41,34 +41,34 @@ export const useAuth = () => {
 
     // Гейт №1: не грузим профиль на публичных роутов
     if (isPublic) {
-      console.log('🚫 useAuth: Публічна сторінка, пропускаємо');
+      console.log('useAuth: Публічна сторінка, пропускаємо');
       requestedRef.current = false;
       return;
     }
 
     // Гейт №2: без токена не дергаем API вообще
     if (!hasToken) {
-      console.log('🚫 useAuth: Немає токена, пропускаємо');
+      console.log('useAuth: Немає токена, пропускаємо');
       requestedRef.current = false;
       return;
     }
 
-    // Гейт №3: не спамим, якщо вже відправляли запит
+    // Гейт №3: не спамим, какщо вже відправляли запит
     if (requestedRef.current) {
-      console.log('🚫 useAuth: Запит вже відправлено, пропускаємо');
+      console.log('useAuth: Запит вже відправлено, пропускаємо');
       return;
     }
 
     // Гейт №4: мінімальний інтервал між запитами (1 секунда)
     if (timeSinceLastRequest < 1000) {
-      console.log('🚫 useAuth: Занадто швидко, пропускаємо');
+      console.log('useAuth: Занадто швидко, пропускаємо');
       return;
     }
 
     // Гейт №5: додаткова перевірка для React Strict Mode
     // Перевіряємо, чи не завантажується вже профіль в Redux
     if (isLoading) {
-      console.log('🚫 useAuth: Вже завантажується, пропускаємо');
+      console.log('useAuth: Вже завантажується, пропускаємо');
       return;
     }
 
@@ -82,18 +82,18 @@ export const useAuth = () => {
       requestedRef.current = true;
       lastRequestTime.current = now;
       
-      console.log('🔄 useAuth: Завантажуємо профіль користувача');
+      console.log('useAuth: Завантажуємо профіль користувача');
       
       dispatch(getProfile())
         .then((result) => {
           if (result.meta.requestStatus === 'fulfilled') {
-            console.log('✅ useAuth: Профіль успішно завантажено');
+            console.log('useAuth: Профіль успішно завантажено');
           } else {
-            console.log('❌ useAuth: Помилка завантаження профілю');
+            console.log('useAuth: Помилка завантаження профілю');
           }
         })
         .catch((error) => {
-          console.error('💥 useAuth: Критична помилка:', error);
+          console.error('useAuth: Критична помилка:', error);
         })
         .finally(() => {
           // Дозволяємо повторну спробу через 5 секунд
@@ -102,7 +102,7 @@ export const useAuth = () => {
           }, 5000);
         });
     } else {
-      console.log('🚫 useAuth: Умови не виконані, пропускаємо');
+      console.log('useAuth: Умови не виконані, пропускаємо');
     }
   }, [dispatch, isAuthenticated, isLoading, isError, userInfo, isPublic, pathname]);
 
@@ -114,11 +114,11 @@ export const useAuth = () => {
         try {
           const isValid = await tokenService.getValidToken();
           if (!isValid) {
-            console.log('🔑 useAuth: Токени недійсні, виконуємо logout');
+            console.log('useAuth: Токени недійсні, виконуємо logout');
             dispatch(forceLogout());
           }
         } catch (error) {
-          console.error('🔑 useAuth: Помилка перевірки токенів:', error);
+          console.error('useAuth: Помилка перевірки токенів:', error);
           dispatch(forceLogout());
         }
       }, 2 * 60 * 1000); // 2 минуты

@@ -2,31 +2,28 @@ import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSelector } from 'react-redux';
 import { fetchBookRatings, submitRating } from '../api/rating/ratingAPI';
-import { toast } from 'react-toastify';
+import { useToast } from '../components/CustomToast';
 import useBookAnalytics from '../hooks/useBookAnalytics';
 import './styles/RatingBar.css';
 
 const RatingBar = ({ bookSlug }) => {
-    const queryClient = useQueryClient();
-    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
-    const token = localStorage.getItem('token');
-    const { trackBookRating, trackTranslationRating } = useBookAnalytics();
-
+    const { isAuthenticated } = useSelector(state => state.auth);
     const { data: ratings, isLoading, error } = useQuery({
         queryKey: ['bookRatings', bookSlug],
-        queryFn: () => fetchBookRatings(bookSlug, token),
-        retry: 1
+        queryFn: () => fetchBookRatings(bookSlug),
     });
+    const { success, error: showError, warning } = useToast();
+    const queryClient = useQueryClient();
 
     const ratingMutation = useMutation({
         mutationFn: ({ ratingType, rating }) => 
             submitRating(bookSlug, ratingType, rating, token),
         onSuccess: () => {
             queryClient.invalidateQueries(['bookRatings', bookSlug]);
-            toast.success('Оцінка успішно збережена');
+            success('Оцінка успішно збережена');
         },
         onError: (error) => {
-            toast.error('Помилка при збереженні оцінки: ' + error.message);
+            showError('Помилка при збереженні оцінки: ' + error.message);
         }
     });
 
@@ -34,7 +31,7 @@ const RatingBar = ({ bookSlug }) => {
 
     const handleRating = async (ratingType, rating) => {
         if (!isAuthenticated) {
-            toast.warning('Будь ласка, увійдіть для оцінювання');
+            warning('Будь ласка, увійдіть для оцінювання');
             return;
         }
         if (ratingMutation.isLoading) return;
@@ -56,7 +53,7 @@ const RatingBar = ({ bookSlug }) => {
             console.log('Рейтинг успешно сохранен');
         } catch (error) {
             console.error('Ошибка при сохранении рейтинга:', error);
-            toast.error('Помилка при збереженні оцінки: ' + error.message);
+            showError('Помилка при збереженні оцінки: ' + error.message);
         }
     };
 

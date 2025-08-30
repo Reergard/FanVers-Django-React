@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { fetchAbandonedTranslations } from '../../api/catalog/catalogAPI';
+import { useToast } from "../../components/CustomToast";
+import { catalogAPI } from "../../api/catalog/catalogAPI";
 import { handleCatalogApiError } from "../utils/errorUtils";
+import TranslatorAccessGuard from "../components/TranslatorAccessGuard";
+import { BreadCrumb } from "../../main/components/BreadCrumb";
 import { getBookTypeLabel } from "../utils/bookUtils";
-import { toast } from "react-toastify";
 import { useQuery } from "@tanstack/react-query";
-import "../css/Catalog.css";
 import { useSelector } from "react-redux";
-import { BreadCrumb } from '../../main/components/BreadCrumb';
 
 const NovelCard = ({ book }) => {
   return (
@@ -64,29 +63,30 @@ const AbandonedTranslations = () => {
   const [books, setBooks] = useState([]);
   const [error, setError] = useState(null);
   const [visibleCount, setVisibleCount] = useState(4);
+  const { error: showError } = useToast();
+  const hideAdultContent = useSelector(
+    (state) => state.userSettings.hideAdultContent
+  );
 
   const showMoreBooks = () => {
     setVisibleCount((prevCount) => prevCount + 4);
   };
-  const hideAdultContent = useSelector(
-    (state) => state.userSettings.hideAdultContent
-  );
 
   useEffect(() => {
     const loadBooks = async () => {
       try {
         console.log("🔍 Завантажуємо список покинутих перекладів...");
-        const booksData = await fetchAbandonedTranslations();
+        const booksData = await catalogAPI.fetchAbandonedTranslations();
         console.log("📚 Отримано дані покинутих перекладів:", booksData);
         setBooks(booksData);
       } catch (error) {
-        handleCatalogApiError(error, toast);
+        handleCatalogApiError(error, { error: showError });
         setError("Не вдалось завантажити данні");
       }
     };
 
     loadBooks();
-  }, []);
+  }, [showError]);
 
   const filteredBooks = books.filter((book) => {
     if (hideAdultContent && book.adult_content) {

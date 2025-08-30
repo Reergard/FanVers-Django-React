@@ -5,7 +5,7 @@ import ModalAdultContent from '../../users/components/ModalAdultContent';
 import { setHideAdultContent } from "../../settings/userSettingsSlice";
 import { Form } from "react-bootstrap";
 import "../styles/NotificationPage.css";
-import { toast } from "react-toastify";
+import { useToast } from '../../components/CustomToast';
 import { BreadCrumb } from '../../main/components/BreadCrumb';
 import BgModal from '../../main/pages/img/bg-modal.svg';
 
@@ -25,6 +25,7 @@ const notificationsList = [
 const NotificationPage = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 1005);
   const [showFilters, setShowFilters] = useState(false);
+  const { success, error: showError } = useToast();
   
   useEffect(() => {
     const handleResize = () => {
@@ -67,9 +68,9 @@ const NotificationPage = () => {
   const handleDeleteNotification = async (notificationId) => {
     try {
       await dispatch(deleteNotification(notificationId)).unwrap();
-      toast.success("Повідомлення видалено");
+      success("Повідомлення видалено");
     } catch (error) {
-      toast.error("Помилка при видаленні повідомлення");
+      showError("Помилка при видаленні повідомлення");
     }
   };
 

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { handleAuthError } from './utils/authErrorUtils';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
@@ -20,7 +21,7 @@ class TokenService {
 
         // Проверяем, не истек ли токен
         if (this.isTokenExpired(token)) {
-            console.log('🔑 Токен застарів, оновлюємо...');
+            console.log('Токен застарів, оновлюємо...');
             return await this.refreshToken(refreshToken);
         }
 
@@ -32,7 +33,7 @@ class TokenService {
         try {
             const payload = JSON.parse(atob(token.split('.')[1]));
             const currentTime = Date.now() / 1000;
-            const bufferTime = 60; // 1 минута буфера
+            const bufferTime = 300; // 5 минут буфера для надежности
             
             return payload.exp < (currentTime + bufferTime);
         } catch (error) {
@@ -49,7 +50,7 @@ class TokenService {
 
         this.refreshPromise = (async () => {
             try {
-                console.log('🔄 Оновлюємо токен...');
+                console.log('Оновлюємо токен...');
                 const response = await axios.post(`${API_URL}/auth/jwt/refresh/`, {
                     refresh: refreshToken
                 });
@@ -60,15 +61,17 @@ class TokenService {
                 }
 
                 localStorage.setItem('token', access);
-                console.log('✅ Токен успішно оновлено');
+                console.log('Токен успішно оновлено');
                 return access;
 
             } catch (error) {
-                console.error('❌ Помилка оновлення токена:', error);
+                console.error('Помилка оновлення токена:', error);
                 // Очищаем токены при ошибке
-                localStorage.removeItem('token');
-                localStorage.removeItem('refresh');
-                throw error;
+                this.clearTokens();
+                
+                // Используем новую систему обработки ошибок
+                const userMessage = handleAuthError(error);
+                throw userMessage;
             } finally {
                 this.refreshPromise = null;
             }
@@ -77,23 +80,39 @@ class TokenService {
         return await this.refreshPromise;
     }
 
+    // Проверка валидности токенов без обновления
+    async validateTokens() {
+        try {
+            const token = localStorage.getItem('token');
+            const refreshToken = localStorage.getItem('refresh');
+            
+            if (!token || !refreshToken) {
+                return false;
+            }
+
+            if (this.isTokenExpired(token)) {
+                // Пытаемся обновить токен
+                await this.refreshToken(refreshToken);
+                return true;
+            }
+
+            return true;
+        } catch (error) {
+            console.error('Помилка валідації токенів:', error);
+            return false;
+        }
+    }
+
     // Мониторинг токенов
     startTokenMonitoring() {
-        // Проверяем токены каждые 5 минут
+        // Проверяем токены каждые 4 минуты
         this.tokenCheckInterval = setInterval(async () => {
             try {
-                const token = localStorage.getItem('token');
-                if (token && this.isTokenExpired(token)) {
-                    console.log('🔑 Автоматичне оновлення застарілого токена...');
-                    const refreshToken = localStorage.getItem('refresh');
-                    if (refreshToken) {
-                        await this.refreshToken(refreshToken);
-                    }
-                }
+                await this.validateTokens();
             } catch (error) {
-                console.error('❌ Помилка автоматичного оновлення токена:', error);
+                console.error('Помилка автоматичного оновлення токена:', error);
             }
-        }, 5 * 60 * 1000); // 5 минут
+        }, 4 * 60 * 1000); // 4 минуты
     }
 
     // Остановка мониторинга

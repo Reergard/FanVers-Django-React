@@ -6,7 +6,7 @@ import { catalogAPI } from '../../api/catalog/catalogAPI';
 import "../styles/TranslatorsList.css";
 import { Card, Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
+import { useToast } from "../../components/CustomToast";
 import { BreadCrumb } from '../../main/components/BreadCrumb';
 import { websiteAdvertisingAPI } from '../../api/website_advertising/website_advertisingAPI';
 import { useSelector } from "react-redux";
@@ -64,36 +64,29 @@ const NovelCard = ({ title, description, image, slug }) => {
 const UserTranslations = () => {
   const [books, setBooks] = useState([]);
   const [error, setError] = useState(null);
-  const [visibleCount, setVisibleCount] = useState(3);
-
-  const showMoreBooks = () => {
-    setVisibleCount((prevCount) => prevCount + 3);
-  };
+  const [visibleCount, setVisibleCount] = useState(4);
+  const { error: showError } = useToast();
   const hideAdultContent = useSelector(
     (state) => state.userSettings.hideAdultContent
   );
 
-  const { data: advertisedBooks, isLoading: isLoadingAds } = useQuery({
-    queryKey: ["catalogAds"],
-    queryFn: websiteAdvertisingAPI.getCatalogAds,
-    onError: (error) => {
-      console.error("Error loading catalog advertisements:", error);
-    },
-  });
+  const showMoreBooks = () => {
+    setVisibleCount((prevCount) => prevCount + 4);
+  };
 
   useEffect(() => {
     const loadBooks = async () => {
       try {
-        const booksData = await fetchBooks();
+        const booksData = await catalogAPI.fetchUserTranslations();
         setBooks(booksData);
       } catch (error) {
-        handleCatalogApiError(error, toast);
+        handleCatalogApiError(error, { error: showError });
         setError("Не вдалось завантажити данні");
       }
     };
 
     loadBooks();
-  }, []);
+  }, [showError]);
 
   const filteredBooks = books.filter((book) => {
     if (hideAdultContent && book.adult_content) {

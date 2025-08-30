@@ -1,50 +1,36 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useToast } from '../../components/CustomToast';
 import { useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 
 const TranslatorAccessGuard = ({ children }) => {
-  const currentUser = useSelector(state => state.auth.user);
-  const userInfo = useSelector(state => state.auth.userInfo);
+  const navigate = useNavigate();
+  const { user, isAuthenticated } = useSelector((state) => state.auth);
+  const { error: showError } = useToast();
 
-  // Логування для діагностики
-  console.log('TranslatorAccessGuard Debug:', {
-    currentUser,
-    userInfo,
-    userRole: userInfo?.role,
-    isAuthenticated: !!currentUser
-  });
+  // Проверяем аутентификацию
+  if (!isAuthenticated || !user) {
+    showError('Для доступу до цієї сторінки необхідна авторизація');
+    navigate('/login');
+    return null;
+  }
+
+  // Проверяем профиль пользователя
+  if (!user.profile) {
+    showError('Завантаження профілю користувача...');
+    return null;
+  }
 
   // Проверяем роль пользователя
-  const isTranslator = userInfo?.role === 'Перекладач' || userInfo?.role === 'Літератор';
-  const isReader = userInfo?.role === 'Читач';
-
-  // Если пользователь не авторизован
-  if (!currentUser) {
-    toast.error('Для доступу до цієї сторінки необхідна авторизація');
-    return <Navigate to="/login" replace />;
+  const userRole = user.profile?.role;
+  if (!userRole || (userRole !== 'Перекладач' && userRole !== 'Літератор')) {
+    showError('Ця функція доступна користувачам сайту, які належать до Перекладач або Літератор. На даний момент Ви Читач. Щоб мати можливість перекладати/публікувати тексти, необхідно змінити Тип профілю на Перекладач або Літератор.');
+    navigate('/profile');
+    return null;
   }
 
-  // Если роль не определена, показываем сообщение
-  if (!userInfo || !userInfo.role) {
-    toast.error('Завантаження профілю користувача...');
-    return <div>Завантаження...</div>;
-  }
-
-  // Если пользователь читатель
-  if (isReader) {
-    toast.error('Ця функція доступна користувачам сайту, які належать до Перекладач або Літератор. На даний момент Ви Читач. Щоб мати можливість перекладати/публікувати тексти, необхідно змінити Тип профілю на сторінці Профілю!');
-    return <Navigate to="/profile" replace />;
-  }
-
-  // Если пользователь переводчик или литератор
-  if (isTranslator) {
-    return children;
-  }
-
-  // Если роль не определена, показываем сообщение
-  toast.error('Не вдалося визначити роль користувача');
-  return <Navigate to="/profile" replace />;
+  // Если все проверки пройдены, отображаем содержимое
+  return children;
 };
 
 export default TranslatorAccessGuard;

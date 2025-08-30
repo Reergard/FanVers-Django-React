@@ -1,0 +1,237 @@
+/* ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ДЛЯ РАМКИ */
+.modalContainer{
+  /* отступы от рамки до текста */
+  --pad-x: 64px;
+  --pad-y: 48px;
+
+  /* внутренние отступы от внешнего края контейнера до прямой линии (фона) */
+  --edge-x: 22px;   /* слева/справа — половина ширины угла (44px / 2) */
+  --edge-y: 22px;   /* сверху/снизу — половина высоты угла (44px / 2) */
+  
+  /* ВАЖНО: --edge-x и --edge-y должны быть РОВНО ПОЛОВИНОЙ размера угловых SVG,
+     чтобы фон доходил до середины углов, а не до их края */
+
+  /* размеры углов (если нужно руками задать). По умолчанию возьмётся natural size SVG */
+  --corner-w: auto;
+  --corner-h: auto;
+
+  /* высота верх/низ орнамента (Up/Dn). Можно оставить auto */
+  --cap-h: auto;
+
+  /* высота растягиваемой полосы Line2 */
+  --band-h: 1px;        /* высота для тонких CSS линий */
+
+  /* цвет волосков */
+  --hairline: #F58807;
+}
+
+.modalContainer{
+  position: relative;
+  display: inline-block;
+  box-sizing: border-box;
+  padding: var(--pad-y) var(--pad-x);
+  max-width: min(90vw, 640px);
+  margin: 0 auto;
+}
+
+/* Фон 80% */
+.modalBackground{
+  position: absolute;
+  /* сверху/снизу = --edge-y, слева/справа = --edge-x */
+  inset: var(--edge-y) var(--edge-x);
+  background: #001620cc;                       /* 80% */
+  backdrop-filter: blur(10px);
+  filter: drop-shadow(0 4px 4px #00000040);
+  z-index: 0;
+}
+
+/* Контент поверх всего */
+.messageContainer{
+  position: relative;
+  z-index: 3;
+  color: #fff;
+  text-align: center;
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  font: 500 40px/60px "A.alleycaticg.alen.rus", -apple-system, Roboto, Helvetica, sans-serif;
+}
+
+.messageText{ 
+  color: #fff; 
+  word-break: break-word; 
+  font: 400 40px "A.alleycaticg.alen.rus", -apple-system, Roboto, Helvetica, sans-serif;
+}
+
+/* Кнопка закрытия */
+.closeButton{
+  position: absolute;
+  top: calc(var(--edge-y) * 0.4);
+  right: calc(var(--edge-x) * 0.4);
+  z-index: 4;
+  background: none; 
+  border: none; 
+  color: #fff;
+  font-size: 24px; 
+  cursor: pointer;
+}
+
+/* Слой рамки */
+.frameLayer{
+  position: absolute; 
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* УГЛЫ — фиксируем в углах, не тянем */
+.corner{ 
+  position: absolute; 
+  display: block; 
+}
+.tl{ top: 0; left: 0; }
+.tr{ top: 0; right: 0; }
+.bl{ bottom: 0; left: 0; }
+.br{ bottom: 0; right: 0; }
+
+/* ВЕРХ/НИЗ ОРНАМЕНТ — выше и ниже горизонтальных линий */
+.cap{
+  position: absolute; left: 50%;
+  display: block;
+  /* height можно не задавать (auto из самого SVG) */
+}
+.capTop{    
+  /* Верхний орнамент: ВЫШЕ верхней горизонтальной линии */
+  top: calc(var(--edge-y) - var(--band-h)/2 - 70px);
+  transform: translateX(-50%);
+}
+.capBottom{ 
+  /* Нижний орнамент: НИЖЕ нижней горизонтальной линии */
+  bottom: calc(var(--edge-y) - var(--band-h)/2 - 20px);
+  transform: translateX(-50%);
+}
+
+/* ЛОГИКА: орнаменты Up/Dn теперь находятся ВЫШЕ и НИЖЕ горизонтальных линий,
+   создавая четкое разделение между рамкой и декоративными элементами */
+
+/* ГОРИЗОНТАЛЬНЫЕ ПОЛОСЫ (растягиваемые) — строго между уголками */
+.hBand{
+  position: absolute;
+  left:  var(--edge-x);
+  right: var(--edge-x);
+  height: var(--band-h);
+  display: flex; align-items: center; justify-content: center;
+}
+.topBand{    top:    calc(var(--edge-y) - var(--band-h)/2); }
+.bottomBand{ bottom: calc(var(--edge-y) - var(--band-h)/2); }
+
+/* Горизонтальные линии с CSS стилями вместо SVG */
+.hBandLine{
+  width: 100%;
+  height: 100%;
+  background-color: #f58807;
+  border: none;
+}
+
+/* Тонкая 1px линия — по центру полосы и на всю ширину полосы */
+.hHairline{
+  position: absolute;
+  left:  0;
+  right: 0;
+  top: 50%; transform: translateY(-50%);
+  height: 1px; background: var(--hairline);
+}
+
+/* ВЕРТИКАЛЬНЫЕ 1px линии — по кромке фона, от верхней до нижней полосы */
+.vHairline{
+  position: absolute; 
+  top:    var(--edge-y);
+  bottom: var(--edge-y);
+  width: 1px; background: var(--hairline);
+}
+/* ставим по внутренней границе — там, где начинается фон */
+.leftLine{  left:  var(--edge-x); }
+.rightLine{ right: var(--edge-x); }
+
+/* Адаптив */
+@media (width <= 991px) {
+  .modalContainer {
+    width: 90%;
+    max-width: 500px;
+  }
+  
+  .messageContainer {
+    font-size: 32px;
+    line-height: 48px;
+  }
+  
+  .messageText {
+    font-size: 32px;
+  }
+}
+
+@media (width <= 640px) {
+  .modalContainer {
+    width: 95%;
+    max-width: 350px;
+    --pad-x: 40px;
+    --pad-y: 32px;
+    --edge-x: 18px; /* половина ширины угла для мобильных (36px / 2) */
+    --edge-y: 18px; /* половина высоты угла для мобильных (36px / 2) */
+    --band-h: 3px; /* уменьшенная высота для мобильных */
+  }
+  
+  .messageContainer {
+    font-size: 24px;
+    line-height: 36px;
+  }
+  
+  .messageText {
+    font-size: 24px;
+  }
+}
+
+/* Стили для toast-контейнера */
+:global(.toast-container) {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  pointer-events: none;
+}
+
+:global(.toast-item) {
+  pointer-events: auto;
+  animation: slideInRight 0.3s ease-out;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Анимация исчезновения */
+:global(.toast-item.removing) {
+  animation: slideOutRight 0.3s ease-in forwards;
+}
+
+@keyframes slideOutRight {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+    

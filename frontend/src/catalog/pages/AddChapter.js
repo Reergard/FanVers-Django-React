@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { uploadChapter as apiUploadChapter } from '../../api/catalog/catalogAPI';
-import "../css/Catalog.css";
-import { Container } from 'react-bootstrap';
-import axios from 'axios';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
+import { useToast } from '../../components/CustomToast';
 import { catalogAPI } from '../../api/catalog/catalogAPI';
 import { handleCatalogApiError } from '../utils/errorUtils';
+import TranslatorAccessGuard from '../components/TranslatorAccessGuard';
+import { BreadCrumb } from '../../main/components/BreadCrumb';
+import Form from 'react-bootstrap/Form';
+import { Container } from 'react-bootstrap';
+import axios from 'axios';
 
 const AddChapter = () => {
   const { slug } = useParams();
@@ -21,11 +22,12 @@ const AddChapter = () => {
   const { user } = useSelector(state => state.auth);
   const [book, setBook] = useState(null);
   const [price, setPrice] = useState('1.00');
+  const { error: showError, success } = useToast();
 
   useEffect(() => {
     const checkOwnerAccess = async () => {
       if (!user) {
-        toast.error('Необхідна авто��изація');
+        showError('Необхідна авторизація');
         navigate(`/books/${slug}`);
         return;
       }
@@ -35,20 +37,20 @@ const AddChapter = () => {
         
         // Перевіряємо права власника
         if (user.id !== bookData.owner) {
-          toast.error('У вас немає прав для додавання глав до цієї книги');
+          showError('У вас немає прав для додавання глав до цієї книги');
           navigate(`/books/${slug}`);
           return;
         }
 
         setBook(bookData);
       } catch (error) {
-        handleCatalogApiError(error, toast);
+        handleCatalogApiError(error, { error: showError });
         navigate(`/books/${slug}`);
       }
     };
 
     checkOwnerAccess();
-  }, [slug, user, navigate]);
+  }, [slug, user, navigate, showError]);
 
   useEffect(() => {
     const fetchVolumes = async () => {
@@ -57,12 +59,12 @@ const AddChapter = () => {
         setVolumes(volumesData);
       } catch (error) {
         console.error('Помилка при отриманні томів:', error);
-        toast.error(error.message || 'Помилка при завантаженні томів');
+        showError(error.message || 'Помилка при завантаженні томів');
       }
     };
 
     fetchVolumes();
-  }, [slug]);
+  }, [slug, showError]);
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -104,7 +106,7 @@ const AddChapter = () => {
       setSelectedVolume('');
       setPrice('1.00');
       
-      toast.success('Глава успішно завантажена');
+      success('Глава успішно завантажена');
       
     } catch (error) {
       setError(error.message || 'Помилка при завантаженні глави');

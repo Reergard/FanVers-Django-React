@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { usersAPI } from '../../api/users/usersAPI';
 import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import { useToast } from "../../components/CustomToast";
 import { BreadCrumb } from '../../main/components/BreadCrumb';
 import { websiteAdvertisingAPI } from '../../api/website_advertising/website_advertisingAPI';
 import { Link } from "react-router-dom";
@@ -157,6 +157,7 @@ const BookmarksPage = () => {
     const [isFiltersOpen, setIsFiltersOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 900);
     const [isLoadingMore, setIsLoadingMore] = useState(false);
+    const { error: showError } = useToast();
 
     const currentUser = useSelector(state => state.auth.user);
     const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
@@ -197,7 +198,7 @@ const BookmarksPage = () => {
         enabled: !!isAuthenticated && !!currentUser?.id,
         onError: (error) => {
             console.error('Error loading bookmarks:', error);
-            toast.error('Помилка завантаження закладок');
+            showError('Помилка завантаження закладок');
         }
     });
 

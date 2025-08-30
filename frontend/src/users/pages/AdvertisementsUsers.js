@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useToast } from '../../components/CustomToast';
 import { websiteAdvertisingAPI } from '../../api/website_advertising/website_advertisingAPI';
-import { toast } from 'react-toastify';
-import '../styles/AdvertisementsUsers.css';
+import TranslatorAccessGuard from '../../catalog/components/TranslatorAccessGuard';
+import { BreadCrumb } from '../../main/components/BreadCrumb';
 
 const NovelCard = ({ title, description, image, startDate, endDate, location }) => {
     const locationNames = {
@@ -44,24 +45,24 @@ const NovelCard = ({ title, description, image, startDate, endDate, location }) 
 };
 
 const AdvertisementsUsers = () => {
-    const [advertisements, setAdvertisements] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+  const [advertisements, setAdvertisements] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const { error: showError } = useToast();
 
-    useEffect(() => {
-        const fetchAdvertisements = async () => {
-            try {
-                const response = await websiteAdvertisingAPI.getUserAdvertisements();
-                setAdvertisements(response);
-                setIsLoading(false);
-            } catch (error) {
-                console.error('Помилка при завантаженні реклами:', error);
-                toast.error('Помилка при завантаженні реклами');
-                setIsLoading(false);
-            }
-        };
+  useEffect(() => {
+    const loadAdvertisements = async () => {
+      try {
+        const data = await websiteAdvertisingAPI.getUserAdvertisements();
+        setAdvertisements(data);
+      } catch (error) {
+        console.error('Помилка при завантаженні реклами:', error);
+        showError('Помилка при завантаженні реклами');
+        setIsLoading(false);
+      }
+    };
 
-        fetchAdvertisements();
-    }, []);
+    loadAdvertisements();
+  }, [showError]);
 
     if (isLoading) {
         return <div className="loading">Завантаження...</div>;

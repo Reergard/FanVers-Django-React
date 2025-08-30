@@ -5,7 +5,7 @@ import { fetchBooks } from '../../api/catalog/catalogAPI';
 import { websiteAdvertisingAPI } from '../../api/website_advertising/website_advertisingAPI';
 import { handleCatalogApiError } from "../utils/errorUtils";
 import { getBookTypeLabel } from "../utils/bookUtils";
-import { toast } from "react-toastify";
+import { useToast } from "../../components/CustomToast";
 import { useQuery } from "@tanstack/react-query";
 import "../css/Catalog.css";
 import { useSelector } from "react-redux";
@@ -65,6 +65,7 @@ const Catalog = () => {
   const [books, setBooks] = useState([]);
   const [error, setError] = useState(null);
   const [visibleCount, setVisibleCount] = useState(4);
+  const { error: showError } = useToast();
 
   const showMoreBooks = () => {
     setVisibleCount((prevCount) => prevCount + 4);
@@ -87,13 +88,13 @@ const Catalog = () => {
         const booksData = await fetchBooks();
         setBooks(booksData);
       } catch (error) {
-        handleCatalogApiError(error, toast);
+        handleCatalogApiError(error, { error: showError });
         setError("Не вдалось завантажити данні");
       }
     };
 
     loadBooks();
-  }, []);
+  }, [showError]);
 
   const filteredBooks = books.filter((book) => {
     if (hideAdultContent && book.adult_content) {

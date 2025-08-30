@@ -1,19 +1,32 @@
 import { api } from '../api/instance';
 import tokenService from './tokenService';
+import { handleAuthError } from './utils/authErrorUtils';
 
 const authService = {
     register: async (userData) => {
-        const response = await api.post('/auth/users/', userData);
-        return response.data;
+        try {
+            const response = await api.post('/auth/users/', userData);
+            return response.data;
+        } catch (error) {
+            // Используем новую систему обработки ошибок
+            const userMessage = handleAuthError(error);
+            throw userMessage;
+        }
     },
 
     login: async (userData) => {
-        const response = await api.post('/auth/jwt/create/', userData);
-        if (response.data) {
-            localStorage.setItem('token', response.data.access);
-            localStorage.setItem('refresh', response.data.refresh);
+        try {
+            const response = await api.post('/auth/jwt/create/', userData);
+            if (response.data) {
+                localStorage.setItem('token', response.data.access);
+                localStorage.setItem('refresh', response.data.refresh);
+            }
+            return response.data;
+        } catch (error) {
+            // Используем новую систему обработки ошибок
+            const userMessage = handleAuthError(error);
+            throw userMessage;
         }
-        return response.data;
     },
 
     logout: () => {
@@ -21,18 +34,33 @@ const authService = {
     },
 
     activate: async (userData) => {
-        const response = await api.post('/auth/users/activation/', userData);
-        return response.data;
+        try {
+            const response = await api.post('/auth/users/activation/', userData);
+            return response.data;
+        } catch (error) {
+            const userMessage = handleAuthError(error);
+            throw userMessage;
+        }
     },
 
     resetPassword: async (userData) => {
-        const response = await api.post('/auth/users/reset_password/', userData);
-        return response.data;
+        try {
+            const response = await api.post('/auth/users/reset_password/', userData);
+            return response.data;
+        } catch (error) {
+            const userMessage = handleAuthError(error);
+            throw userMessage;
+        }
     },
 
     resetPasswordConfirm: async (userData) => {
-        const response = await api.post('/auth/users/reset_password_confirm/', userData);
-        return response.data;
+        try {
+            const response = await api.post('/auth/users/reset_password_confirm/', userData);
+            return response.data;
+        } catch (error) {
+            const userMessage = handleAuthError(error);
+            throw userMessage;
+        }
     },
 
     getProfile: async () => {
@@ -46,19 +74,26 @@ const authService = {
             
             // Додаткова обробка помилок з'єднання
             if (error.code === 'ERR_NETWORK' || error.message === 'Network Error') {
-                console.error('🌐 Помилка з\'єднання з сервером в authService.getProfile');
+                console.error('Помилка з\'єднання з сервером в authService.getProfile');
                 throw new Error('Помилка з\'єднання з сервером');
             }
             
-            throw error;
+            // Используем новую систему обработки ошибок
+            const userMessage = handleAuthError(error);
+            throw userMessage;
         }
     },
 
     updateProfile: async (profileData) => {
-        // Получаем актуальный токен перед запросом
-        await tokenService.getValidToken();
-        const response = await api.put('/auth/users/me/', profileData);
-        return response.data;
+        try {
+            // Получаем актуальный токен перед запросом
+            await tokenService.getValidToken();
+            const response = await api.put('/auth/users/me/', profileData);
+            return response.data;
+        } catch (error) {
+            const userMessage = handleAuthError(error);
+            throw userMessage;
+        }
     },
 
     // Новый метод для проверки токенов

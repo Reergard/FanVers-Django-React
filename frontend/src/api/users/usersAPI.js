@@ -18,7 +18,7 @@ export const usersAPI = {
             
             // Додаткова обробка помилок з'єднання
             if (error.code === 'ERR_NETWORK' || error.message === 'Network Error') {
-                console.error('🌐 Помилка з\'єднання з сервером в getProfile');
+                console.error('Помилка з\'єднання з сервером в getProfile');
                 throw new Error('Помилка з\'єднання з сервером');
             }
             
@@ -31,12 +31,12 @@ export const usersAPI = {
     },
     
     getAuthorsList: () => {
-        console.log("🌐 API: Запит на отримання списку авторів");
+        console.log("API: Запит на отримання списку авторів");
         return api.get('/users/authors/').then(response => {
-            console.log("✅ API: Отримано відповідь:", response.data);
+            console.log("API: Отримано відповідь:", response.data);
             return response.data;
         }).catch(error => {
-            console.error("❌ API: Помилка при отриманні авторів:", error);
+            console.error("API: Помилка при отриманні авторів:", error);
             throw error;
         });
     },

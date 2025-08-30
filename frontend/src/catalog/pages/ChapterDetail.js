@@ -11,7 +11,7 @@ import ModalErrorReport from '../../editors/components/ModalErrorReport';
 import "../css/ChapterDetail.css";
 import styles from "../css/BookDetailRouter.module.css";
 import { handleCatalogApiError } from "../utils/errorUtils";
-import { toast } from "react-toastify";
+import { useToast } from "../../components/CustomToast";
 import { debounce } from "lodash";
 import RightArrow from '../../main/pages/img/right-arrow.png';
 import { monitoringAPI } from '../../api/monitoring/monitoringAPI';
@@ -114,6 +114,7 @@ const ChapterDetail = () => {
   const lastScrollTime = useRef(Date.now());
   const scrollPositions = useRef([]);
   const lastProgressUpdate = useRef(Date.now());
+  const { error: showError } = useToast();
 
   const checkReadingProgress = debounce(
     async (force = false, source = "unknown") => {
@@ -241,7 +242,7 @@ const ChapterDetail = () => {
 
   useEffect(() => {
     if (!bookSlug || !chapterSlug) {
-      toast.error("Помилка: відсутні параметри маршруту");
+      showError("Помилка: відсутні параметри маршруту");
       navigate("/");
       return;
     }
@@ -249,77 +250,42 @@ const ChapterDetail = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        setError(null);
-
-        const [chapterResponse, navigationResponse] = await Promise.all([
+        const [chapterResult, navigationResult] = await Promise.all([
           getChapterDetail(bookSlug, chapterSlug),
           getChapterNavigation(bookSlug, chapterSlug),
         ]);
 
-        if (!chapterResponse || !chapterResponse.data) {
-          throw new Error("Дані глави недоступні");
-        }
-
-        const chapterData = {
-          title: chapterResponse.data.title,
-          content: chapterResponse.data.content,
-          book_title: chapterResponse.data.book_title,
-          book_id: chapterResponse.data.book_id,
-          id: chapterResponse.data.id,
-          is_paid: chapterResponse.data.is_paid,
-          price: chapterResponse.data.price,
-        };
-
-        if (!chapterData.title || !chapterData.content || !chapterData.id) {
-          throw new Error("Неповні дані розділу");
-        }
-
-        setChapterData(chapterData);
-        setNavigationData(navigationResponse.data);
+        setChapterData(chapterResult);
+        setNavigationData(navigationResult);
       } catch (error) {
         const errorMessage = error.response?.data?.error || error.message;
         setError(errorMessage);
-        toast.error(errorMessage);
+        showError(errorMessage);
       } finally {
         setLoading(false);
       }
     };
 
     fetchData();
-  }, [bookSlug, chapterSlug, navigate]);
+  }, [bookSlug, chapterSlug, navigate, showError]);
 
   const handleCommentSubmit = async (commentText, parentId = null) => {
     try {
-      const newComment = await postChapterComment(
-        chapterSlug,
-        commentText,
-        parentId
-      );
-      setComments((prevComments) => {
-        if (parentId) {
-          return prevComments.map((comment) =>
-            comment.id === parentId
-              ? { ...comment, replies: [...comment.replies, newComment] }
-              : comment
-          );
-        }
-        return [...prevComments, newComment];
-      });
+      const response = await postChapterComment(chapterData.id, commentText, parentId);
+      setComments((prevComments) => [...prevComments, response]);
     } catch (error) {
-      handleCatalogApiError(error, toast);
+      handleCatalogApiError(error, { error: showError });
     }
   };
 
-  const handleReaction = async (commentId, action) => {
+  const handleReaction = async (commentId, reactionType) => {
     try {
-      const updatedComment = await updateReaction(commentId, "chapter", action);
-      setComments((prevComments) =>
-        prevComments.map((comment) =>
-          comment.id === commentId ? updatedComment : comment
-        )
-      );
+      await updateReaction(commentId, reactionType);
+      // Обновляем комментарии после реакции
+      const updatedComments = await fetchChapterComments(chapterData.id);
+      setComments(updatedComments);
     } catch (error) {
-      handleCatalogApiError(error, toast);
+      handleCatalogApiError(error, { error: showError });
     }
   };
 

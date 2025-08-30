@@ -28,9 +28,9 @@ const forceLogout = () => {
     // Додаємо подію для очищення Redux state
     window.dispatchEvent(new CustomEvent('forceLogout'));
     
-    console.log('🚪 Force logout виконано, очищено всі дані');
+    console.log('Force logout виконано, очищено всі дані');
   } catch (error) {
-    console.error('❌ Помилка при force logout:', error);
+    console.error('Помилка при force logout:', error);
   } finally {
     // Заміняємо URL (без додавання запису в історію)
     window.location.replace('/login');
@@ -72,7 +72,7 @@ api.interceptors.response.use(
 
     // Обробляємо помилки з'єднання
     if (error.code === 'ERR_NETWORK' || error.message === 'Network Error') {
-      console.error('🌐 Помилка з\'єднання з сервером:', error.message);
+      console.error('Помилка з\'єднання з сервером:', error.message);
       return Promise.reject(error);
     }
 
@@ -84,7 +84,7 @@ api.interceptors.response.use(
       const token = localStorage.getItem('token');
       const refreshToken = localStorage.getItem('refresh');
       if (!token || !refreshToken) {
-        console.log('❌ Немає токенів для refresh, виконуємо logout');
+        console.log('Немає токенів для refresh, виконуємо logout');
         forceLogout();
         return Promise.reject(error);
       }
@@ -95,7 +95,7 @@ api.interceptors.response.use(
           await refreshPromise;
           const newToken = localStorage.getItem('token');
           if (!newToken) {
-            console.log('❌ Refresh не повернув новий токен, logout');
+            console.log('Refresh не повернув новий токен, logout');
             forceLogout();
             return Promise.reject(error);
           }
@@ -105,7 +105,7 @@ api.interceptors.response.use(
           };
           return api(originalRequest);
         } catch (e) {
-          console.log('❌ Помилка при очікуванні refresh, logout');
+          console.log('Помилка при очікуванні refresh, logout');
           forceLogout();
           return Promise.reject(e);
         }
@@ -114,7 +114,7 @@ api.interceptors.response.use(
       // запустити refresh
       refreshPromise = (async () => {
         try {
-          console.log('🔄 Виконуємо refresh токена...');
+          console.log('Виконуємо refresh токена...');
           const resp = await axios.post(`${API_URL}/auth/jwt/refresh/`, {
             refresh: refreshToken,
           });
@@ -123,10 +123,10 @@ api.interceptors.response.use(
 
           localStorage.setItem('token', access);
           api.defaults.headers.common.Authorization = `JWT ${access}`;
-          console.log('✅ Refresh токена успішний');
+          console.log('Refresh токена успішний');
           return access;
         } catch (e) {
-          console.log('❌ Refresh токена не вдався:', e.message);
+          console.log('Refresh токена не вдався:', e.message);
           forceLogout();
           throw e;
         } finally {
@@ -138,7 +138,7 @@ api.interceptors.response.use(
         await refreshPromise;
         const newToken = localStorage.getItem('token');
         if (!newToken) {
-          console.log('❌ Немає нового токена після refresh, logout');
+          console.log('Немає нового токена після refresh, logout');
           forceLogout();
           return Promise.reject(error);
         }

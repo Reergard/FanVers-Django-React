@@ -1,142 +1,140 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
-import { register, reset } from '../authSlice';
-import { useNavigate } from 'react-router-dom';
+import { useToast } from '../../components/CustomToast';
+import { register, reset } from '../../auth/authSlice';
+import '../../auth/styles/AuthModal.css';
 
 const RegisterModal = ({ isOpen, onRequestClose }) => {
-    const [formData, setFormData] = useState({
-        username: "",
-        email: "",
-        password: "",
-        re_password: "",
-    });
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    password: '',
+    password2: '',
+  });
 
-    const { username, email, password, re_password } = formData;
+  const dispatch = useDispatch();
+  const { isLoading } = useSelector((state) => state.auth);
+  const { success, error: showError } = useToast();
 
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+  const handleChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
 
-    const { user, isLoading, isError, isSuccess, message } = useSelector(
-        (state) => state.auth
-    );
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (formData.password !== formData.password2) {
+      showError("Паролі не співпадають");
+      return;
+    }
 
-    const handleChange = (e) => {
-        setFormData((prev) => ({
-            ...prev,
-            [e.target.name]: e.target.value
-        }));
-    };
+    try {
+      const result = await dispatch(register(formData)).unwrap();
+      if (result) {
+        success("Вітаємо! Для завершення реєстрації перейдіть за посиланням у листі.");
+        onRequestClose();
+        setFormData({ username: '', email: '', password: '', password2: '' });
+      }
+    } catch (err) {
+      e.preventDefault();
+      if (err && typeof err === 'string') {
+        showError(err);
+      } else if (err && err.message) {
+        showError(err.message);
+      } else {
+        showError("Помилка реєстрації");
+      }
+      return false;
+    }
+    return false;
+  };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+  const handleClose = (e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    setFormData({ username: '', email: '', password: '', password2: '' });
+    dispatch(reset());
+    onRequestClose();
+  };
 
-        if (password !== re_password) {
-            toast.error("Паролі не співпадають");
-            return;
-        }
-
-        const userData = {
-            username,
-            email,
-            password,
-            re_password
-        };
-
-        dispatch(register(userData))
-            .unwrap()
-            .then(() => {
-                toast.success("Вітаємо! Для завершення реєстрації перейдіть за посиланням у листі.");
-                onRequestClose();
-            })
-            .catch((error) => {
-                if (typeof error === 'object') {
-                    Object.values(error).forEach((err) => {
-                        toast.error(err);
-                    });
-                } else {
-                    toast.error(error);
-                }
-            });
-    };
-
-    useEffect(() => {
-        if (isError) {
-            toast.error(message);
-        }
-        if (isSuccess || user) {
-            navigate("/");
-            toast.success("Вітаємо вас на нашому сайті. Для завершення реєстрації перейдіть за посиланням, яке надіслано на вашу електронну пошту.");
-            onRequestClose();
-        }
-        dispatch(reset());
-    }, [isError, isSuccess, user, navigate, dispatch, message, onRequestClose]);
-
-    return (
-        <Modal 
-            isOpen={isOpen} 
-            onRequestClose={onRequestClose} 
-            ariaHideApp={false}
-            className="modal"
-            overlayClassName="modal-overlay"
-        >
-            <div className="container auth__container">
-                <h1 className="main__title">Register</h1>
-                <form className="auth__form" onSubmit={handleSubmit}>
-                    <input
-                        type="text"
-                        placeholder="Username"
-                        name="username"
-                        onChange={handleChange}
-                        value={username}
-                        required
-                        className="auth__input"
-                    />
-                    <input
-                        type="email"
-                        placeholder="Email"
-                        name="email"
-                        onChange={handleChange}
-                        value={email}
-                        required
-                        className="auth__input"
-                    />
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        name="password"
-                        onChange={handleChange}
-                        value={password}
-                        required
-                        className="auth__input"
-                    />
-                    <input
-                        type="password"
-                        placeholder="Retype Password"
-                        name="re_password"
-                        onChange={handleChange}
-                        value={re_password}
-                        required
-                        className="auth__input"
-                    />
-                    <button 
-                        className="btn btn-primary" 
-                        type="submit" 
-                        disabled={isLoading}
-                    >
-                        {isLoading ? 'Loading...' : 'Register'}
-                    </button>
-                </form>
-                <button 
-                    onClick={onRequestClose}
-                    className="btn btn-secondary"
-                >
-                    Закрити
-                </button>
-            </div>
-        </Modal>
-    );
+  return (
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={handleClose}
+      className="auth-modal"
+      overlayClassName="auth-modal__overlay"
+      ariaHideApp={false}
+      shouldCloseOnOverlayClick={true}
+      shouldCloseOnEsc={true}
+    >
+      <div className="auth-modal__container">
+        <h2 className="auth-modal__title">Реєстрація</h2>
+        <form className="auth-modal__form" onSubmit={handleSubmit}>
+          <div className="auth-modal__input-group">
+            <input
+              type="text"
+              className="auth-modal__input"
+              placeholder="Ім\'я користувача"
+              name="username"
+              onChange={handleChange}
+              value={formData.username}
+              required
+            />
+          </div>
+          <div className="auth-modal__input-group">
+            <input
+              type="email"
+              className="auth-modal__input"
+              placeholder="Email"
+              name="email"
+              onChange={handleChange}
+              value={formData.email}
+              required
+            />
+          </div>
+          <div className="auth-modal__input-group">
+            <input
+              type="password"
+              className="auth-modal__input"
+              placeholder="Пароль"
+              name="password"
+              onChange={handleChange}
+              value={formData.password}
+              required
+            />
+          </div>
+          <div className="auth-modal__input-group">
+            <input
+              type="password"
+              className="auth-modal__input"
+              placeholder="Підтвердіть пароль"
+              name="password2"
+              onChange={handleChange}
+              value={formData.password2}
+              required
+            />
+          </div>
+          <button
+            className="auth-modal__submit"
+            type="submit"
+            disabled={isLoading}
+          >
+            {isLoading ? 'Завантаження...' : 'Зареєструватися'}
+          </button>
+        </form>
+        <button className="auth-modal__close" onClick={handleClose}>
+          ✕
+        </button>
+      </div>
+    </Modal>
+  );
 };
 
 export default RegisterModal;

@@ -53,6 +53,9 @@ import PaymentsFAQ from "./info/help/faq/payments";
 import { BreadCrumb } from './main/components/BreadCrumb';
 import Faq from './catalog/pages/Faq';
 
+// Custom Toast System
+import { ToastProvider } from './components/CustomToast';
+
 const queryClient = new QueryClient();
 
 function App() {
@@ -104,7 +107,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <>
+      <ToastProvider>
         <Preloader load={load} />
         <div className="App" id="scroll">
           <Header />
@@ -225,7 +228,7 @@ function App() {
           </Routes>
           <Footer />
         </div>
-      </>
+      </ToastProvider>
     </QueryClientProvider>
   );
 }

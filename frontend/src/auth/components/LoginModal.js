@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
+import { useToast } from '../../components/CustomToast';
 import { login, reset, setIsAuthenticated, getProfile } from '../../auth/authSlice';
 import '../../auth/styles/AuthModal.css';
 
@@ -13,6 +13,7 @@ const LoginModal = ({ isOpen, onRequestClose }) => {
 
   const dispatch = useDispatch();
   const { isLoading } = useSelector((state) => state.auth);
+  const { success, error: showError } = useToast();
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -26,7 +27,7 @@ const LoginModal = ({ isOpen, onRequestClose }) => {
     e.stopPropagation();
     
     if (!formData.username || !formData.password) {
-      toast.error("Будь ласка, заповніть всі поля");
+      showError("Будь ласка, заповніть всі поля");
       return;
     }
 
@@ -34,7 +35,7 @@ const LoginModal = ({ isOpen, onRequestClose }) => {
       const result = await dispatch(login(formData)).unwrap();
       if (result) {
         dispatch(getProfile());
-        toast.success("Ви успішно увійшли в систему");
+        success("Ви успішно увійшли в систему");
         dispatch(setIsAuthenticated(true));
         onRequestClose();
         setFormData({ username: '', password: '' });
@@ -44,12 +45,12 @@ const LoginModal = ({ isOpen, onRequestClose }) => {
       if (error && typeof error === 'string') {
         if (error.toLowerCase().includes('no active account') || 
           error.toLowerCase().includes('credentials')) {
-          toast.error("Невірний логін або пароль");
+          showError("Невірний логін або пароль");
         } else {
-          toast.error(error);
+          showError(error);
         }
       } else {
-        toast.error("Помилка входу в систему");
+        showError("Помилка входу в систему");
       }
       return false;
     }

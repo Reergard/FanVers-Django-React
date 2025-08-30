@@ -1,10 +1,11 @@
-import { useState, forwardRef, useImperativeHandle } from "react";
-import styles from "./Burger.module.css";
-import { ProfileImage } from "../Header/ProfileImage";
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { logout } from '../../../auth/authSlice';
-import { toast } from 'react-toastify';
+import { useToast } from '../../../components/CustomToast';
+import styles from './Burger.module.css';
+import { ProfileImage } from "../Header/ProfileImage";
+import { Link } from 'react-router-dom';
 import { FALLBACK_IMAGES, IMAGE_SIZES } from '../../../constants/fallbackImages';
 
 // Импорт SVG иконок
@@ -20,6 +21,7 @@ const BurgerMenu = forwardRef(function BurgerMenu(_, ref) {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { success, error: showError } = useToast();
   const currentUser = JSON.parse(localStorage.getItem('user'));
   
   // Открытие/закрытие извне
@@ -37,11 +39,11 @@ const BurgerMenu = forwardRef(function BurgerMenu(_, ref) {
       localStorage.removeItem('refresh');
       localStorage.removeItem('user');
       
-      toast.success('Ви успішно вийшли з системи');
+      success('Ви успішно вийшли з системи');
       setIsOpen(false);
       navigate('/');
     } catch (error) {
-      toast.error('Помилка при виході з системи');
+      showError('Помилка при виході з системи');
       console.error('Logout error:', error);
     }
   };

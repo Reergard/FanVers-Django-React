@@ -10,7 +10,7 @@ import { catalogAPI } from '../../api/catalog/catalogAPI';
 import "../styles/TranslatorsList.css";
 import { Card, Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
+import { useToast } from "../../components/CustomToast";
 import { BreadCrumb } from '../../main/components/BreadCrumb';
 import { websiteAdvertisingAPI } from '../../api/website_advertising/website_advertisingAPI';
 import { useSelector } from "react-redux";
@@ -113,6 +113,7 @@ const SearchPage = () => {
     const [isFiltersOpen, setIsFiltersOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 900);
     const [isOpen, setIsOpen] = useState(false);
+    const { error: showError } = useToast();
 
     useEffect(() => {
         const handleResize = () => {
@@ -145,13 +146,13 @@ const SearchPage = () => {
                 const booksData = await fetchBooks();
                 setBooks(booksData);
             } catch (error) {
-                handleCatalogApiError(error, toast);
+                handleCatalogApiError(error, { error: showError });
                 setError("Не вдалось завантажити данні");
             }
         };
 
         loadBooks();
-    }, []);
+    }, [showError]);
 
     const filteredBooks = books.filter((book) => {
         if (hideAdultContent && book.adult_content) {

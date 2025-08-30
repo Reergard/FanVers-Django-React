@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
-import { toast } from 'react-toastify';
 import { websiteAdvertisingAPI } from '../../api/website_advertising/website_advertisingAPI';
 import { catalogAPI } from '../../api/catalog/catalogAPI';
 import { useQuery } from '@tanstack/react-query';
 import { usersAPI } from '../../api/users/usersAPI';
 import "react-datepicker/dist/react-datepicker.css";
 import '../styles/AdvertisementSettings.css';
+import { useToast } from '../../components/CustomToast';
+import TranslatorAccessGuard from '../../catalog/components/TranslatorAccessGuard';
+import { BreadCrumb } from '../../main/components/BreadCrumb';
 
 const AdvertisementSettings = () => {
     const navigate = useNavigate();
@@ -21,6 +23,7 @@ const AdvertisementSettings = () => {
     const [book, setBook] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const { success, error: showError } = useToast();
 
     const { data: userBalance, refetch: refetchBalance } = useQuery({
         queryKey: ['userBalance'],
@@ -38,7 +41,7 @@ const AdvertisementSettings = () => {
                 setBook(bookData);
             } catch (error) {
                 console.error('Error loading book:', error);
-                toast.error('Помилка при завантаженні даних книги');
+                showError('Помилка при завантаженні даних книги');
                 navigate('/profile/my-books');
             } finally {
                 setIsLoading(false);
@@ -48,7 +51,7 @@ const AdvertisementSettings = () => {
         if (slug) {
             fetchBookData();
         }
-    }, [slug, navigate]);
+    }, [slug, navigate, showError]);
 
     const handleMainPageDateChange = async (dates) => {
         const [start, end] = dates;
@@ -60,7 +63,7 @@ const AdvertisementSettings = () => {
                 const response = await websiteAdvertisingAPI.calculateCost(start, end);
                 setMainPageCost(response.total_cost);
             } catch (error) {
-                toast.error(error.response?.data?.error || 'Помилка при розрахунку вартості');
+                showError(error.response?.data?.error || 'Помилка при розрахунку вартості');
                 setMainPageCost(0);
             }
         } else {
@@ -78,7 +81,7 @@ const AdvertisementSettings = () => {
                 const response = await websiteAdvertisingAPI.calculateCost(start, end);
                 setCatalogCost(response.total_cost);
             } catch (error) {
-                toast.error(error.response?.data?.error || 'Помилка при розрахунку вартості');
+                showError(error.response?.data?.error || 'Помилка при розрахунку вартості');
                 setCatalogCost(0);
             }
         } else {
@@ -88,7 +91,7 @@ const AdvertisementSettings = () => {
 
     const handleMainPageOrder = async () => {
         if (!mainPageDates.startDate || !mainPageDates.endDate) {
-            toast.error('Будь ласка, виберіть дати');
+            showError('Будь ласка, виберіть дати');
             return;
         }
 
@@ -96,16 +99,16 @@ const AdvertisementSettings = () => {
             const response = await websiteAdvertisingAPI.calculateCost(mainPageDates.startDate, mainPageDates.endDate);
             setMainPageCost(response.total_cost);
             setMainPageOrdered(true);
-            toast.success('Вартість розраховано');
+            success('Вартість розраховано');
         } catch (error) {
-            toast.error(error.response?.data?.error || 'Помилка при розрахунку вартості');
+            showError(error.response?.data?.error || 'Помилка при розрахунку вартості');
             setMainPageOrdered(false);
         }
     };
 
     const handleCatalogOrder = async () => {
         if (!catalogDates.startDate || !catalogDates.endDate) {
-            toast.error('Будь ласка, виберіть дати');
+            showError('Будь ласка, виберіть дати');
             return;
         }
 
@@ -113,31 +116,31 @@ const AdvertisementSettings = () => {
             const response = await websiteAdvertisingAPI.calculateCost(catalogDates.startDate, catalogDates.endDate);
             setCatalogCost(response.total_cost);
             setCatalogOrdered(true);
-            toast.success('Вартість розраховано');
+            success('Вартість розраховано');
         } catch (error) {
-            toast.error(error.response?.data?.error || 'Помилка при розрахунку вартості');
+            showError(error.response?.data?.error || 'Помилка при розрахунку вартості');
             setCatalogOrdered(false);
         }
     };
 
     const handlePublish = async () => {
         if (!book?.id) {
-            toast.error('Помилка: некоректні дані книги');
+            showError('Помилка: некоректні дані книги');
             return;
         }
 
         if (!mainPageOrdered && !catalogOrdered) {
-            toast.error('Будь ласка, замовте хоча б один тип реклами');
+            showError('Будь ласка, замовте хоча б один тип реклами');
             return;
         }
 
         if (totalCost === 0) {
-            toast.error('Помилка: не розраховано вартість');
+            showError('Помилка: не розраховано вартість');
             return;
         }
 
         if (userBalance?.balance < totalCost) {
-            toast.error('Недостатньо коштів на балансі');
+            showError('Недостатньо коштів на балансі');
             return;
         }
 
@@ -167,13 +170,13 @@ const AdvertisementSettings = () => {
             }
 
             await refetchBalance();
-            toast.success('Реклама успішно створена');
+            success('Реклама успішно створена');
             navigate('/profile/my-advertisements');
         } catch (error) {
             if (error.message && error.message.includes('вже є активна реклама')) {
-                toast.warning(error.message);
+                showError(error.message);
             } else {
-                toast.error(error.message || 'Помилка при створенні реклами');
+                showError(error.message || 'Помилка при створенні реклами');
             }
         } finally {
             setIsSubmitting(false);
