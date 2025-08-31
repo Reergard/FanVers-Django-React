@@ -36,7 +36,7 @@ const NovelCard = ({ book }) => {
   // Проверяем наличие slug для навигации
   if (!book.slug) {
     return (
-      <div className="novel-card UserTranslations no-link-card">
+              <div className="novel-card UserTranslations no-link-card">
         <div className="novel-cover">
           <div className="image-container">
             <div className="image-wrapper">
@@ -54,7 +54,9 @@ const NovelCard = ({ book }) => {
                 role="separator"
                 aria-orientation="vertical"
               />
-              <span className="novel-letter">a</span>
+              {book.book_type === 'AUTHOR' && (
+                <span className="novel-letter">a</span>
+              )}
             </div>
           </div>
         </div>
@@ -106,7 +108,9 @@ const NovelCard = ({ book }) => {
                 role="separator"
                 aria-orientation="vertical"
               />
-              <span className="novel-letter">a</span>
+              {book.book_type === 'AUTHOR' && (
+                <span className="novel-letter">a</span>
+              )}
             </div>
           </div>
         </div>

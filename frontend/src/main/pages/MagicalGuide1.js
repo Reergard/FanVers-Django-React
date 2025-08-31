@@ -6,7 +6,7 @@ import "../styles/MagicalGuide.css";
 import { useQuery } from "@tanstack/react-query";
 import Slider from "react-slick";
 
-const NovelCard = ({ title, description, image, slug }) => {
+const NovelCard = ({ title, description, image, slug, book_type }) => {
   return (
     <div className="novel-card-magical">
       <div className="novel-cover magical">
@@ -21,12 +21,14 @@ const NovelCard = ({ title, description, image, slug }) => {
                 e.target.style.display = "none";
               }}
             />
-            <div
-              className="divider"
-              role="separator"
-              aria-orientation="vertical"
-            />
-            <span className="novel-letter">a</span>
+                          <div
+                className="divider"
+                role="separator"
+                aria-orientation="vertical"
+              />
+              {book_type === 'AUTHOR' && (
+                <span className="novel-letter">a</span>
+              )}
           </div>
         </div>
       </div>
@@ -111,6 +113,7 @@ const MagicalGuide1 = () => {
                 title={ad.title}
                 description={ad.description}
                 image={ad.image}
+                book_type={ad.book_type}
               />
             ))}
           </Slider>

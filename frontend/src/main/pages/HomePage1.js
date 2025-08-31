@@ -12,7 +12,7 @@ import { Link, useNavigate } from "react-router-dom";
 import BlueDot from "./img/blue-dot.png";
 import { useSelector } from "react-redux";
 
-const NovelCard = ({ title, description, image, slug }) => {
+const NovelCard = ({ title, description, image, slug, book_type }) => {
   const navigate = useNavigate();
   const currentUser = useSelector(state => state.auth.user);
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
@@ -129,12 +129,14 @@ const NovelCard = ({ title, description, image, slug }) => {
                 e.target.style.display = 'none';
               }}
             />
-            <div
-              className="divider"
-              role="separator"
-              aria-orientation="vertical"
-            />
-            <span className="novel-letter">a</span>
+                          <div
+                className="divider"
+                role="separator"
+                aria-orientation="vertical"
+              />
+              {book_type === 'AUTHOR' && (
+                <span className="novel-letter">a</span>
+              )}
           </div>
         </div>
       </div>
@@ -233,6 +235,7 @@ const HomePage1 = () => {
                 description={ad.description}
                 image={ad.image}
                 slug={ad.slug}
+                book_type={ad.book_type}
               />
             ))}
           </Slider>

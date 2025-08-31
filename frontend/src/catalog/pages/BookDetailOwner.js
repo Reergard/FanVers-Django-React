@@ -46,7 +46,7 @@ import BookRating from '../components/BookRating';
 
 
 
-const NovelCard = ({ title, description, image }) => {
+const NovelCard = ({ title, description, image, book_type }) => {
   const imageUrl = image ? (image.startsWith('http') ? image : `http://localhost:8000${image}`) : '';
   
   return (
@@ -63,12 +63,14 @@ const NovelCard = ({ title, description, image }) => {
                 e.target.style.display = "none";
               }}
             />
-            <div
-              className="divider"
-              role="separator"
-              aria-orientation="vertical"
-            />
-            <span className="novel-letter">a</span>
+                          <div
+                className="divider"
+                role="separator"
+                aria-orientation="vertical"
+              />
+              {book_type === 'AUTHOR' && (
+                <span className="novel-letter">a</span>
+              )}
           </div>
         </div>
       </div>
@@ -688,6 +690,7 @@ const BookDetailOwner = () => {
                       title={ad.title}
                       description={ad.description}
                       image={ad.image}
+                      book_type={ad.book_type}
                     />
                   ))}
                 </Slider>

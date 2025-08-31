@@ -4,7 +4,7 @@ import { websiteAdvertisingAPI } from '../../api/website_advertising/website_adv
 import TranslatorAccessGuard from '../../catalog/components/TranslatorAccessGuard';
 import { BreadCrumb } from '../../main/components/BreadCrumb';
 
-const NovelCard = ({ title, description, image, startDate, endDate, location }) => {
+const NovelCard = ({ title, description, image, startDate, endDate, location, book_type }) => {
     const locationNames = {
         'main': 'Головна сторінка',
         'genres': 'Пошук за жанрами',
@@ -27,7 +27,9 @@ const NovelCard = ({ title, description, image, startDate, endDate, location }) 
                             }} 
                         />
                         <div className="divider" role="separator" aria-orientation="vertical" />
-                        <span className="novel-letter">a</span>
+                        {book_type === 'AUTHOR' && (
+                          <span className="novel-letter">a</span>
+                        )}
                     </div>
                 </div>
             </div>
@@ -88,6 +90,7 @@ const AdvertisementsUsers = () => {
                         startDate={ad.start_date}
                         endDate={ad.end_date}
                         location={ad.location}
+                        book_type={ad.book_details.book_type}
                     />
                 ))}
             </div>

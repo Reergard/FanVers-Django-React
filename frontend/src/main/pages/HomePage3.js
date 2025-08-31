@@ -29,7 +29,7 @@ const ExpandableTags = ({ title, className, items }) => {
   );
 };
 
-const NovelCard = ({ title, description, image }) => {
+const NovelCard = ({ title, description, image, book_type }) => {
   return (
     <div className="novel-card homepage">
       <div className="novel-cover">
@@ -44,12 +44,14 @@ const NovelCard = ({ title, description, image }) => {
                 e.target.style.display = "none";
               }}
             />
-            <div
-              className="divider"
-              role="separator"
-              aria-orientation="vertical"
-            />
-            <span className="novel-letter">a</span>
+                          <div
+                className="divider"
+                role="separator"
+                aria-orientation="vertical"
+              />
+              {book_type === 'AUTHOR' && (
+                <span className="novel-letter">a</span>
+              )}
           </div>
         </div>
       </div>
@@ -137,6 +139,7 @@ const HomePage3 = () => {
                 title={ad.title}
                 description={ad.description}
                 image={ad.image}
+                book_type={ad.book_type}
               />
             ))}
           </Slider>

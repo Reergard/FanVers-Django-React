@@ -11,7 +11,7 @@ import "../css/Catalog.css";
 import { useSelector } from "react-redux";
 import { BreadCrumb } from '../../main/components/BreadCrumb';
 import HomePage1 from '../../main/pages/HomePage1';
-const NovelCard = ({ title, description, image, slug }) => {
+const NovelCard = ({ title, description, image, slug, book_type }) => {
   return (
     <div className="novel-card mobal">
       <div className="novel-cover">
@@ -26,12 +26,14 @@ const NovelCard = ({ title, description, image, slug }) => {
                 e.target.style.display = "none";
               }}
             />
-            <div
-              className="divider"
-              role="separator"
-              aria-orientation="vertical"
-            />
-            <span className="novel-letter">a</span>
+                          <div
+                className="divider"
+                role="separator"
+                aria-orientation="vertical"
+              />
+              {book_type === 'AUTHOR' && (
+                <span className="novel-letter">a</span>
+              )}
           </div>
         </div>
       </div>
@@ -134,6 +136,7 @@ const Catalog = () => {
                     description={book.description}
                     image={book.image}
                     slug={book.slug}
+                    book_type={book.book_type}
                   />
                 ))}
               </div>
