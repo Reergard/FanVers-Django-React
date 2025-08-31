@@ -13,7 +13,7 @@ import BookCart from "./img/image__book-cart.png";
 import { Button } from 'react-bootstrap';
 import SettingsBook from './img/Setting.svg';
 import { Form } from 'react-bootstrap';
-import Star from "./img/Star_fill.svg";
+
 import AuthorBook from "./img/author.svg";
 import bookMini from "./img/book-mini.svg";
 import LeftArrow from '../../main/pages/img/left-arrow.png';
@@ -42,6 +42,7 @@ import {
     getOriginalStatusLabel,
     getBookTypeLabel 
 } from '../utils/bookUtils';
+import BookRating from '../components/BookRating';
 
 
 
@@ -631,28 +632,30 @@ const BookDetailOwner = () => {
                   </div>
                 </div>
                 <div className={styles.raiting}>
-                  <div className={styles.raitingBook}>
-                    <span>Рейтинг твору:</span>
-                    <div className={styles.stars}>
-                      <img src={Star} alt="Star" />
-                      <img src={Star} alt="Star" />
-                      <img src={Star} alt="Star" />
-                      <img src={Star} alt="Star" />
-                      <img src={Star} alt="Star" />
-                    </div>
-                  </div>
-                  <div className={styles.raitingTranslator}>
-                    <span>Якість перекладу:</span>
-                    <div className={styles.stars}>
-                      <img src={Star} alt="Star" />
-                      <img src={Star} alt="Star" />
-                      <img src={Star} alt="Star" />
-                      <img src={Star} alt="Star" />
-                      <img src={Star} alt="Star" />
-                    </div>
-                  </div>
+                  <BookRating
+                    bookSlug={slug}
+                    ratingType="BOOK"
+                    title="Рейтинг твору:"
+                    onRatingUpdate={() => {
+                      // Можно добавить дополнительную логику при обновлении рейтинга
+                      console.log('Рейтинг твору оновлено');
+                    }}
+                  />
+                  {book.book_type === 'TRANSLATION' && (
+                    <BookRating
+                      bookSlug={slug}
+                      ratingType="TRANSLATION"
+                      title="Якість перекладу:"
+                      onRatingUpdate={() => {
+                        // Можно добавить дополнительную логику при обновлении рейтинга
+                        console.log('Рейтинг перекладу оновлено');
+                      }}
+                    />
+                  )}
                 </div>
-                <img src={AuthorBook} alt="Author book" />
+                {book.book_type === 'AUTHOR' && (
+                  <img src={AuthorBook} alt="Author book" />
+                )}
               </div>
             </div>
             <button className={styles.translators}>

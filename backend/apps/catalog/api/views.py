@@ -349,16 +349,16 @@ def create_book(request):
             )
             
             # Обробка масивів
-            if 'genres[]' in request.data:
-                genres_ids = request.data.getlist('genres[]')
+            if 'genres' in request.data:
+                genres_ids = request.data.getlist('genres')
                 book.genres.set(genres_ids)
             
-            if 'tags[]' in request.data:
-                tags_ids = request.data.getlist('tags[]')
+            if 'tags' in request.data:
+                tags_ids = request.data.getlist('tags')
                 book.tags.set(tags_ids)
             
-            if 'fandoms[]' in request.data:
-                fandoms_ids = request.data.getlist('fandoms[]')
+            if 'fandoms' in request.data:
+                fandoms_ids = request.data.getlist('fandoms')
                 book.fandoms.set(fandoms_ids)
             
             print(f"create_book: Книга успешно создана с ID: {book.id}")

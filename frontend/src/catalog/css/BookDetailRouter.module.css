@@ -98,13 +98,57 @@
   gap: 35px;
   font-size: 16px;
   text-transform: uppercase;
-  color: #f58807;
 }
-.stars {
-  display: flex;
-}
+
 .raitingBook {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.raitingBook span {
+  font-size: 16px;
+  color: #f58807;
+  text-transform: uppercase;
+}
+
+.raitingBook .stars {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.raitingBook .stars .stars-row {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.raitingBook .starRating {
+  width: 24px;
+  height: 24px;
+  transition: all 0.2s ease;
+}
+
+.raitingBook .starRating:hover {
+  transform: scale(1.1);
+}
+
+.raitingBook .ratingInfo {
+  font-size: 14px;
+  color: #05b4c7;
   text-align: center;
+  margin-top: 5px;
+  width: 100%;
+}
+
+.raitingBook .ratingError {
+  color: #ff6b6b;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 5px;
 }
 .rightInfoBook {
   display: flex;
