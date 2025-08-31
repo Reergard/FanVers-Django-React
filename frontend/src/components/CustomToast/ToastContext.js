@@ -1,6 +1,7 @@
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, { createContext, useContext, useState, useCallback, useRef } from 'react';
 import NotificationModal from './NotificationModal';
 import { extractUserMessage } from '../../utils/errorHandler';
+import './ToastContainer.css';
 
 const ToastContext = createContext();
 
@@ -14,13 +15,14 @@ export const useToast = () => {
 
 export const ToastProvider = ({ children }) => {
   const [toasts, setToasts] = useState([]);
+  const toastIdCounter = useRef(0);
 
   const removeToast = useCallback((id) => {
     setToasts(prev => prev.filter(toast => toast.id !== id));
   }, []);
 
   const addToast = useCallback((message, type = 'success', duration = 5000) => {
-    const id = Date.now();
+    const id = ++toastIdCounter.current;
     // Нормализация входа: в UI только «чистый» текст
     const safeMessage = type === 'error'
       ? extractUserMessage(message, 'Сталася помилка')

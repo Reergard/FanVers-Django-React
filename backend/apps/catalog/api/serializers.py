@@ -297,13 +297,52 @@ class BookCreateSerializer(serializers.ModelSerializer):
         if book_type == 'AUTHOR':
             data['translation_status'] = None
         elif book_type == 'TRANSLATION':
-            data['translation_status'] = 'TRANSLATING'
+            current_status = data.get('translation_status')
+            data['translation_status'] = current_status or 'TRANSLATING'
             
+        # Детальная валидация обязательных полей
+        errors = {}
+        
         if not data.get('title'):
-            raise serializers.ValidationError({"title": "Назва книги обов'язкова"})
+            errors['title'] = "Назва книги обов'язкова"
             
         if not data.get('author'):
-            raise serializers.ValidationError({"author": "Ім'я автора обов'язкове"})
+            errors['author'] = "Ім'я автора обов'язкове"
+            
+        if not data.get('country'):
+            errors['country'] = "Країна обов'язкова"
+            
+        if not data.get('genres'):
+            errors['genres'] = "Виберіть хоча б один жанр"
+            
+        if book_type == 'TRANSLATION' and not data.get('translation_status'):
+            errors['translation_status'] = "Оберіть статус перекладу"
+        elif book_type == 'TRANSLATION' and data.get('translation_status'):
+            # Запрещаем создание книг с недопустимыми статусами
+            invalid_statuses = ['Перерва', 'Закінчено', 'Зупинено', 'ABANDONED', 'COMPLETED', 'STOPPED']
+            current_status = data.get('translation_status')
+            if current_status in invalid_statuses:
+                errors['translation_status'] = f"Не можна створити книгу зі статусом '{current_status}'. Для нових книг використовуйте статус 'Перекладається' або 'TRANSLATING'"
+        
+        if not data.get('original_status'):
+            errors['original_status'] = "Оберіть статус випуску оригіналу"
+        
+        # Дополнительные проверки
+        if data.get('title') and len(data.get('title', '').strip()) < 2:
+            errors['title'] = "Назва книги повинна містити мінімум 2 символи"
+            
+        if data.get('description') and len(data.get('description', '').strip()) < 10:
+            errors['description'] = "Опис повинен містити мінімум 10 символів"
+            
+        if data.get('genres') and len(data.get('genres', [])) > 5:
+            errors['genres'] = "Можна вибрати максимум 5 жанрів"
+            
+        if data.get('tags') and len(data.get('tags', [])) > 10:
+            errors['tags'] = "Можна вибрати максимум 10 тегів"
+        
+        if errors:
+            print(f"BookCreateSerializer.validate: Найдены ошибки валидации: {errors}")
+            raise serializers.ValidationError(errors)
             
         return data
 

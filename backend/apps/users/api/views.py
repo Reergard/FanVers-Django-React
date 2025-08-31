@@ -510,3 +510,104 @@ class AuthStatusView(APIView):
         return Response({
             'isAuthenticated': request.user.is_authenticated
         })
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_user_statistics(request):
+    """API для отримання статистики користувача по перекладах"""
+    try:
+        user = request.user
+        profile = user.profile
+        
+        # Получаем все книги пользователя
+        user_books = user.owned_books.all()
+        
+        # Статистика по всем книгам
+        total_books_count = user_books.count()
+        
+        # Статистика по главам и символам
+        from apps.catalog.models import Chapter
+        from django.db.models import Sum, Count
+        
+        chapters_stats = Chapter.objects.filter(book__owner=user).aggregate(
+            total_chapters=Count('id'),
+            total_characters=Sum('characters_count') or 0
+        )
+        
+        # Статистика по доходам (покупки глав)
+        from apps.monitoring.models import TransactionLog
+        from django.utils import timezone
+        from datetime import datetime, timedelta
+        
+        today = timezone.now().date()
+        month_start = today.replace(day=1)
+        
+        # Доход за день
+        daily_income = TransactionLog.objects.filter(
+            owner=profile,
+            created_at__date=today
+        ).aggregate(
+            total=Sum('final_amount')
+        )['total'] or 0
+        
+        # Доход за месяц
+        monthly_income = TransactionLog.objects.filter(
+            owner=profile,
+            created_at__date__gte=month_start
+        ).aggregate(
+            total=Sum('final_amount')
+        )['total'] or 0
+        
+        # Статистика по просмотрам (если есть)
+        from apps.monitoring.models import BookView
+        daily_views = BookView.objects.filter(
+            book__owner=user,
+            viewed_at__date=today
+        ).values('book').distinct().count()
+        
+        # Дата последней активности (последняя покупка, комментарий и т.д.)
+        last_activity = None
+        
+        # Ищем последнюю активность в разных источниках
+        last_purchase = TransactionLog.objects.filter(
+            owner=profile
+        ).order_by('-created_at').first()
+        
+        if last_purchase:
+            last_activity = last_purchase.created_at
+        
+        # Если нет покупок, используем дату последней главы
+        if not last_activity:
+            last_chapter = Chapter.objects.filter(
+                book__owner=user
+            ).order_by('-created_at').first()
+            
+            if last_chapter:
+                last_activity = last_chapter.created_at
+        
+        # Если нет глав, используем дату создания первой книги
+        if not last_activity:
+            first_book = user_books.order_by('created_at').first()
+            if first_book:
+                last_activity = first_book.created_at
+        
+        statistics = {
+            'total_books_count': total_books_count,
+            'total_chapters': chapters_stats['total_chapters'],
+            'total_characters': chapters_stats['total_characters'],
+            'commission': float(profile.commission),
+            'daily_income': float(daily_income),
+            'monthly_income': float(monthly_income),
+            'daily_views': daily_views,
+            'last_activity': last_activity.isoformat() if last_activity else None
+        }
+        
+        return Response(statistics)
+        
+    except Exception as e:
+        logger.error(f"Помилка в get_user_statistics: {str(e)}", exc_info=True)
+        return Response(
+            {'error': 'Внутрішня помилка сервера'}, 
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )

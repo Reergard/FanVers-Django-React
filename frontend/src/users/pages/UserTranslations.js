@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchBooks } from '../../api/catalog/catalogAPI';
 import { handleCatalogApiError } from '../../catalog/utils/errorUtils';
 import { catalogAPI } from '../../api/catalog/catalogAPI';
+import { usersAPI } from '../../api/users/usersAPI';
 import "../styles/TranslatorsList.css";
 import { Card, Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -11,53 +12,128 @@ import { BreadCrumb } from '../../main/components/BreadCrumb';
 import { websiteAdvertisingAPI } from '../../api/website_advertising/website_advertisingAPI';
 import { useSelector } from "react-redux";
 
-const NovelCard = ({ title, description, image, slug }) => {
+const NovelCard = ({ book }) => {
+  // Форматируем дату создания
+  const formatDate = (dateString) => {
+    if (!dateString) return 'Н/Д';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('uk-UA');
+  };
+
+  // Форматируем дату последней активности
+  const formatLastActivity = (dateString) => {
+    if (!dateString) return 'Н/Д';
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffTime = Math.abs(now - date);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    if (diffDays === 1) return 'Вчора';
+    if (diffDays < 7) return `${diffDays} днів тому`;
+    return date.toLocaleDateString('uk-UA');
+  };
+
+  // Проверяем наличие slug для навигации
+  if (!book.slug) {
+    return (
+      <div className="novel-card UserTranslations no-link-card">
+        <div className="novel-cover">
+          <div className="image-container">
+            <div className="image-wrapper">
+              <img
+                src={book.image || '/images/default-book-cover.jpg'}
+                alt={book.title}
+                className="novel-image"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.style.display = "none";
+                }}
+              />
+              <div
+                className="divider"
+                role="separator"
+                aria-orientation="vertical"
+              />
+              <span className="novel-letter">a</span>
+            </div>
+          </div>
+        </div>
+        <div className="all-desc-catalog">
+          <div className="one-desc">
+            <div className="name-desc-catalog">Дата створення </div>
+            <span>{formatDate(book.created)}</span>
+          </div>
+          <div className="one-desc">
+            <div className="name-desc-catalog">Дата останньої активности </div>
+            <span>{formatLastActivity(book.last_updated)}</span>
+          </div>
+          <div className="one-desc">
+            <div className="name-desc-catalog">Переглядів за день</div>
+            <span>{book.daily_views || 0}</span>
+          </div>
+          <div className="one-desc">
+            <div className="name-desc-catalog">Дохід за день </div>
+            <span>{book.daily_income ? `${book.daily_income.toFixed(2)}$` : '0$'}</span>
+          </div>
+          <div className="one-desc">
+            <div className="name-desc-catalog">Дохід за місяць</div>
+            <span>{book.monthly_income ? `${book.monthly_income.toFixed(2)}$` : '0$'}</span>
+          </div>
+        </div>
+        <div className="click-hint">Книга без slug - навігація недоступна</div>
+      </div>
+    );
+  }
+
+  // Карточка с навигацией - вся карточка кликабельна
   return (
-    <div className="novel-card UserTranslations">
-      <div className="novel-cover">
-        <div className="image-container">
-          <div className="image-wrapper">
-            <img
-              src={image}
-              alt={title}
-              className="novel-image"
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.style.display = "none";
-              }}
-            />
-            <div
-              className="divider"
-              role="separator"
-              aria-orientation="vertical"
-            />
-            <span className="novel-letter">a</span>
+    <Link to={`/books/${book.slug}`} className="book-card-link">
+      <div className="novel-card UserTranslations clickable">
+        <div className="novel-cover">
+          <div className="image-container">
+            <div className="image-wrapper">
+              <img
+                src={book.image || '/images/default-book-cover.jpg'}
+                alt={book.title}
+                className="novel-image"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.style.display = "none";
+                }}
+              />
+              <div
+                className="divider"
+                role="separator"
+                aria-orientation="vertical"
+              />
+              <span className="novel-letter">a</span>
+            </div>
+          </div>
+        </div>
+        <div className="all-desc-catalog">
+          <div className="one-desc">
+            <div className="name-desc-catalog">Дата створення </div>
+            <span>{formatDate(book.created)}</span>
+          </div>
+          <div className="one-desc">
+            <div className="name-desc-catalog">Дата останньої активности </div>
+            <span>{formatLastActivity(book.last_updated)}</span>
+          </div>
+          <div className="one-desc">
+            <div className="name-desc-catalog">Переглядів за день</div>
+            <span>{book.daily_views || 0}</span>
+          </div>
+          <div className="one-desc">
+            <div className="name-desc-catalog">Дохід за день </div>
+            <span>{book.daily_income ? `${book.daily_income.toFixed(2)}$` : '0$'}</span>
+          </div>
+          <div className="one-desc">
+            <div className="name-desc-catalog">Дохід за місяць</div>
+            <span>{book.monthly_income ? `${book.monthly_income.toFixed(2)}$` : '0$'}</span>
           </div>
         </div>
       </div>
-      <div className="all-desc-catalog">
-        <div className="one-desc">
-          <div className="name-desc-catalog">Дата створення </div>
-          <span>14.02.2023</span>
-        </div>
-        <div className="one-desc">
-          <div className="name-desc-catalog">Дата останньої активности </div>
-          <span>14.02.2023</span>
-        </div>
-        <div className="one-desc">
-          <div className="name-desc-catalog">Переглядів за день</div>
-          <span>150</span>
-        </div>
-        <div className="one-desc">
-          <div className="name-desc-catalog">Дохід за день </div>
-          <span>15$</span>
-        </div>
-        <div className="one-desc">
-          <div className="name-desc-catalog">Дохід за місяць</div>
-          <span>15$</span>
-        </div>
-      </div>
-    </div>
+    </Link>
   );
 };
 
@@ -65,6 +141,7 @@ const UserTranslations = () => {
   const [books, setBooks] = useState([]);
   const [error, setError] = useState(null);
   const [visibleCount, setVisibleCount] = useState(4);
+  const [userStatistics, setUserStatistics] = useState(null);
   const { error: showError } = useToast();
   const hideAdultContent = useSelector(
     (state) => state.userSettings.hideAdultContent
@@ -77,15 +154,32 @@ const UserTranslations = () => {
   useEffect(() => {
     const loadBooks = async () => {
       try {
+        console.log('UserTranslations: Загружаем переводы пользователя...');
         const booksData = await catalogAPI.fetchUserTranslations();
+        console.log('UserTranslations: Получены данные:', booksData);
         setBooks(booksData);
+        setError(null); // Очищаем ошибку при успехе
       } catch (error) {
+        console.error('UserTranslations: Ошибка загрузки:', error);
         handleCatalogApiError(error, { error: showError });
         setError("Не вдалось завантажити данні");
       }
     };
 
+    const loadUserStatistics = async () => {
+      try {
+        console.log('UserTranslations: Загружаем статистику пользователя...');
+        const statsData = await usersAPI.getUserStatistics();
+        console.log('UserTranslations: Получена статистика:', statsData);
+        setUserStatistics(statsData);
+      } catch (error) {
+        console.error('UserTranslations: Ошибка загрузки статистики:', error);
+        // Не показываем ошибку пользователю, так как это не критично
+      }
+    };
+
     loadBooks();
+    loadUserStatistics();
   }, [showError]);
 
   const filteredBooks = books.filter((book) => {
@@ -109,6 +203,10 @@ const UserTranslations = () => {
 
           {error ? (
             <p>{error}</p>
+          ) : books.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '50px' }}>
+              <p>У вас поки немає перекладів. Створіть першу книгу!</p>
+            </div>
           ) : (
             <div className="user-selector-block">
               <div style={{ paddingTop: "0" }} className="all-ell-catalog">
@@ -118,10 +216,7 @@ const UserTranslations = () => {
                   {filteredBooks.slice(0, visibleCount).map((book) => (
                     <NovelCard
                       key={book.id}
-                      title={book.title}
-                      description={book.description}
-                      image={book.image}
-                      slug={book.slug}
+                      book={book}
                     />
                   ))}
                 </div>
@@ -162,25 +257,25 @@ const UserTranslations = () => {
                 </div>
                 <div className="content-statistics-translations">
                   <div className="one-param-statistics">
-                    <span>Перекладів</span>
-                    <p>54</p>
+                    <span>Книг:</span>
+                    <p>{userStatistics?.total_books_count || 0}</p>
                   </div>
 
                   <div className="one-param-statistics">
                     <span>Сторінок переведено</span>
-                    <p>568</p>
+                    <p>{userStatistics?.total_chapters || 0}</p>
                   </div>
 
                   <div className="one-param-statistics">
                     <span>Символів переклав</span>
-                    <p>5 988</p>
+                    <p>{userStatistics?.total_characters ? userStatistics.total_characters.toLocaleString() : 0}</p>
                   </div>
                 </div>
 
                 <div className="footer-statistics-translations">
                   <span>Комісія</span>
                   <div className="bg-statistics">
-                   15%
+                    {userStatistics?.commission || 15}%
                   </div>
                 </div>
               </div>

@@ -286,39 +286,96 @@ const updateChapterStatus = async (chapterId, isPaid) => {
     }
 };
 
+// Функция для перевода названий полей на украинский
+const getFieldDisplayName = (fieldName) => {
+    const fieldNames = {
+        'title': 'Назва книги',
+        'title_en': 'Назва мовою перекладу',
+        'author': 'Автор',
+        'description': 'Опис',
+        'genres': 'Жанри',
+        'tags': 'Теги',
+        'country': 'Країна',
+        'fandoms': 'Фендом',
+        'book_type': 'Тип твору',
+        'translation_status': 'Статус перекладу',
+        'original_status': 'Статус оригіналу',
+        'image': 'Зображення'
+    };
+    return fieldNames[fieldName] || fieldName;
+};
+
 const createBook = async (bookData) => {
     const token = localStorage.getItem('token');
     if (!token) {
         throw new Error('Необхідна авторизація');
     }
 
+    console.log('catalogAPI.createBook: Начинаем создание книги');
+
     const formData = new FormData();
     Object.keys(bookData).forEach(key => {
         if (key === 'image') {
             if (bookData[key]) {
                 formData.append(key, bookData[key]);
+                console.log('catalogAPI.createBook: Добавлено изображение:', bookData[key].name);
             }
         } else if (Array.isArray(bookData[key])) {
             bookData[key].forEach(value => {
-                formData.append(`${key}[]`, value);
+                formData.append(key, value);
             });
+            console.log(`catalogAPI.createBook: Добавлен массив ${key}:`, bookData[key]);
         } else {
             formData.append(key, bookData[key]);
         }
     });
 
     try {
+        console.log('catalogAPI.createBook: Отправляем запрос на /catalog/books/create/');
         const response = await api.post('/catalog/books/create/', formData, {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'multipart/form-data',
             }
         });
+        
+        console.log('catalogAPI.createBook: Успешный ответ:', response.data);
         return response.data;
     } catch (error) {
+        console.error('catalogAPI.createBook: Ошибка:', error);
+        console.error('catalogAPI.createBook: Статус:', error.response?.status);
+        console.error('catalogAPI.createBook: Данные ответа:', error.response?.data);
+        
         if (error.response?.status === 400) {
-            throw new Error(error.response.data.message || 'Помилка валідації даних');
+            const errorData = error.response.data;
+            
+            // Приоритет детальным ошибкам валидации
+            if (errorData.details) {
+                const fieldErrors = Object.entries(errorData.details)
+                    .map(([field, errors]) => {
+                        const fieldName = getFieldDisplayName(field);
+                        const errorText = Array.isArray(errors) ? errors[0] : errors;
+                        return `${fieldName}: ${errorText}`;
+                    })
+                    .join('\n');
+                throw new Error(`Помилки валідації:\n${fieldErrors}`);
+            } else if (errorData.message) {
+                throw new Error(errorData.message);
+            } else if (errorData.error) {
+                throw new Error(errorData.error);
+            } else {
+                throw new Error('Помилка валідації даних');
+            }
+        } else if (error.response?.status === 401) {
+            throw new Error('Необхідна авторизація. Спробуйте увійти знову');
+        } else if (error.response?.status === 403) {
+            throw new Error('У вас немає прав для створення книг');
+        } else if (error.response?.status >= 500) {
+            throw new Error('Помилка сервера. Спробуйте пізніше');
+        } else if (error.code === 'ERR_NETWORK' || error.message === 'Network Error') {
+            throw new Error('Помилка з\'єднання з сервером. Перевірте підключення до інтернету');
         }
+        
         throw new Error('Помилка при створенні книги');
     }
 };
@@ -393,6 +450,37 @@ const fetchAbandonedTranslations = async () => {
     }
 };
 
+const fetchUserTranslations = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        throw new Error('Необхідна авторизація');
+    }
+
+    try {
+        const response = await api.get('/catalog/user-translations/', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return response.data || [];
+    } catch (error) {
+        console.error('Error fetching user translations:', error);
+        
+        // Специальная обработка ошибок
+        if (error.response?.status === 401) {
+            throw new Error('Необхідна авторизація');
+        } else if (error.response?.status === 403) {
+            throw new Error('Доступ заборонено');
+        } else if (error.response?.status >= 500) {
+            throw new Error('Помилка сервера. Спробуйте пізніше');
+        } else if (error.code === 'ERR_NETWORK') {
+            throw new Error('Помилка з\'єднання з сервером');
+        }
+        
+        throw new Error('Помилка при завантаженні перекладів користувача');
+    }
+};
+
 export const catalogAPI = {
     fetchGenres,
     fetchTags,
@@ -412,6 +500,7 @@ export const catalogAPI = {
     deleteChapter,
     getVolumeList,
     fetchAbandonedTranslations,
+    fetchUserTranslations,
 };
 
 export {
@@ -433,4 +522,5 @@ export {
     deleteChapter,
     getVolumeList,
     fetchAbandonedTranslations,
+    fetchUserTranslations,
 };

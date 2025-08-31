@@ -5,7 +5,7 @@ from .views import (
     genres_list, tags_list, countries_list, fandoms_list,
     add_chapter, chapter_list, chapter_detail, volume_list,
     create_volume, owned_books, delete_chapter, BookInfoView,
-    create_book, abandoned_translations
+    create_book, abandoned_translations, user_translations, register_book_view
 )
 
 router = DefaultRouter()
@@ -25,8 +25,10 @@ urlpatterns = [
     path('books/<slug:book_slug>/volumes/', volume_list, name='volume_list'),
     path('books/<slug:book_slug>/create-volume/', create_volume, name='create_volume'),
     path('owned-books/', owned_books, name='owned-books'),
+    path('user-translations/', user_translations, name='user-translations'),
     path('books/<slug:book_slug>/chapters/<int:chapter_id>/delete/', delete_chapter, name='delete_chapter'),
     path('books/info/<slug:slug>/', BookInfoView.as_view(), name='book-info'),
     path('books/create/', create_book, name='book-create'),
+    path('books/<int:book_id>/view/', register_book_view, name='register-book-view'),
     path('abandoned-translations/', abandoned_translations, name='abandoned-translations'),
 ] + router.urls

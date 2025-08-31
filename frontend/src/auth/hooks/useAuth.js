@@ -27,17 +27,19 @@ export const useAuth = () => {
     const hasToken = !!localStorage.getItem('token');
     const timeSinceLastRequest = now - lastRequestTime.current;
 
-    // Діагностичне логування
-    console.log('useAuth: Перевірка умов:', {
-      isPublic,
-      hasToken,
-      requestedRef: requestedRef.current,
-      timeSinceLastRequest,
-      isLoading,
-      isError,
-      userInfoExists: !!userInfo,
-      userInfoKeys: userInfo ? Object.keys(userInfo).length : 0
-    });
+    // Діагностичне логування - только при изменении условий
+    if (process.env.NODE_ENV === 'development') {
+      console.log('useAuth: Перевірка умов:', {
+        isPublic,
+        hasToken,
+        requestedRef: requestedRef.current,
+        timeSinceLastRequest,
+        isLoading,
+        isError,
+        userInfoExists: !!userInfo,
+        userInfoKeys: userInfo ? Object.keys(userInfo).length : 0
+      });
+    }
 
     // Гейт №1: не грузим профиль на публичных роутов
     if (isPublic) {
@@ -76,9 +78,8 @@ export const useAuth = () => {
     // Завантажуємо тільки якщо:
     // - Є токен
     // - Не завантажується
-    // - Немає помилок
     // - Немає userInfo або userInfo порожній
-    if (!isError && (!userInfo || Object.keys(userInfo).length === 0)) {
+    if (!isLoading && (!userInfo || Object.keys(userInfo).length === 0)) {
       requestedRef.current = true;
       lastRequestTime.current = now;
       
@@ -102,7 +103,12 @@ export const useAuth = () => {
           }, 5000);
         });
     } else {
-      console.log('useAuth: Умови не виконані, пропускаємо');
+      console.log('useAuth: Умови не виконані, пропускаємо', {
+        isLoading,
+        userInfoExists: !!userInfo,
+        userInfoKeys: userInfo ? Object.keys(userInfo).length : 0,
+        userInfoContent: userInfo
+      });
     }
   }, [dispatch, isAuthenticated, isLoading, isError, userInfo, isPublic, pathname]);
 

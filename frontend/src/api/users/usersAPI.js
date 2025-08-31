@@ -216,5 +216,16 @@ export const usersAPI = {
             console.error('Error fetching user bookmarks:', error);
             throw error;
         }
+    },
+
+    // Метод для отримання статистики користувача по перекладах
+    getUserStatistics: async () => {
+        try {
+            const response = await api.get('/users/profile/statistics/');
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching user statistics:', error);
+            throw error;
+        }
     }
 };

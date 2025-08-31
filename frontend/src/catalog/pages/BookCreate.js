@@ -19,13 +19,38 @@ const CreateBook = () => {
   const currentUser = useSelector(state => state.auth.user);
   const userInfo = useSelector(state => state.auth.userInfo);
   const { success, error: showError } = useToast();
-  
-  // Логування для діагностики
-  console.log('BookCreate Debug:', {
-    currentUser,
-    userInfo,
-    userRole: userInfo?.role
-  });
+
+  // Функция для перевода названий полей на украинский
+  const getFieldDisplayName = (fieldName) => {
+    const fieldNames = {
+      'title': 'Назва книги',
+      'title_en': 'Назва мовою перекладу',
+      'author': 'Автор',
+      'description': 'Опис',
+      'genres': 'Жанри',
+      'tags': 'Теги',
+      'country': 'Країна',
+      'fandoms': 'Фендом',
+      'book_type': 'Тип твору',
+      'translation_status': 'Статус перекладу',
+      'original_status': 'Статус оригіналу',
+      'image': 'Зображення'
+    };
+    return fieldNames[fieldName] || fieldName;
+  };
+
+  // Логування для діагностики - только при изменении состояния
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development') {
+      console.log('BookCreate: Состояние компонента изменилось:', {
+        currentUser: !!currentUser,
+        userInfo: !!userInfo,
+        userRole: userInfo?.role,
+        isAuthenticated: currentUser && Object.keys(currentUser).length > 0,
+        userInfoKeys: userInfo ? Object.keys(userInfo).length : 0
+      });
+    }
+  }, [currentUser, userInfo]);
   
   const [formData, setFormData] = useState({
     title: "",
@@ -43,7 +68,6 @@ const CreateBook = () => {
     original_status: "",
   });
   const [imagePreview, setImagePreview] = useState(null);
-  const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Получаем списки для селектов
@@ -51,19 +75,23 @@ const CreateBook = () => {
     { value: "TRANSLATION", label: "Переклад" },
     { value: "AUTHOR", label: "Авторська" },
   ];
-  const { data: genres } = useQuery({
+  
+  const { data: genres, isLoading: genresLoading } = useQuery({
     queryKey: ["genres"],
     queryFn: catalogAPI.fetchGenres,
   });
-  const { data: tags } = useQuery({
+  
+  const { data: tags, isLoading: tagsLoading } = useQuery({
     queryKey: ["tags"],
     queryFn: catalogAPI.fetchTags,
   });
-  const { data: countries } = useQuery({
+  
+  const { data: countries, isLoading: countriesLoading } = useQuery({
     queryKey: ["countries"],
     queryFn: catalogAPI.fetchCountries,
   });
-  const { data: fandoms } = useQuery({
+  
+  const { data: fandoms, isLoading: fandomsLoading } = useQuery({
     queryKey: ["fandoms"],
     queryFn: catalogAPI.fetchFandoms,
   });
@@ -71,15 +99,48 @@ const CreateBook = () => {
   const adultTag = tags?.find((tag) => tag.name === "18+");
   const adultTagId = adultTag?.id;
 
+  // Функция для обновления adult_content на основе выбранных тегов
+  const updateAdultContent = (newTags) => {
+    const hasAdultTag = newTags.includes(adultTagId);
+    setFormData(prev => ({
+      ...prev,
+      adult_content: hasAdultTag
+    }));
+  };
+
   const createBookMutation = useMutation({
     mutationFn: catalogAPI.createBook,
-    onSuccess: () => {
+    onSuccess: (data) => {
+      console.log('BookCreate: Книга успешно создана:', data);
       success("Книга успішно створена!");
+      setIsSubmitting(false);
       navigate("/catalog");
     },
     onError: (error) => {
-      showError(error.message || "Помилка при створенні книги");
-      setIsSubmitting(false);
+      console.error('BookCreate: Ошибка создания книги:', error);
+      
+      // Теперь catalogAPI.js возвращает детальные ошибки в error.message
+      let errorMessage = error.message || 'Помилка при створенні книги';
+      
+      // Дополнительная обработка для других типов ошибок
+      if (error.response?.status === 401) {
+        errorMessage = 'Необхідна авторизація. Спробуйте увійти знову';
+        setIsSubmitting(false); // Сбрасываем только для ошибок авторизации
+      } else if (error.response?.status === 403) {
+        errorMessage = 'У вас немає прав для створення книг';
+        setIsSubmitting(false); // Сбрасываем только для ошибок прав доступа
+      } else if (error.response?.status >= 500) {
+        errorMessage = 'Помилка сервера. Спробуйте пізніше';
+        // НЕ сбрасываем isSubmitting для технических ошибок сервера
+      } else if (error.code === 'ERR_NETWORK' || error.message === 'Network Error') {
+        errorMessage = 'Помилка з\'єднання з сервером. Перевірте підключення до інтернету';
+        // НЕ сбрасываем isSubmitting для сетевых ошибок
+      } else {
+        // Для всех остальных ошибок (400, 422 и т.д.) сбрасываем
+        setIsSubmitting(false);
+      }
+      
+      showError(errorMessage);
     },
   });
 
@@ -98,6 +159,7 @@ const CreateBook = () => {
 
   const validateForm = () => {
     const newErrors = {};
+    console.log('BookCreate: Валидация формы:', formData);
 
     if (!formData.title?.trim()) {
       newErrors.title = "Назва книги обов\'язкова";
@@ -125,9 +187,22 @@ const CreateBook = () => {
 
     if (formData.book_type === "TRANSLATION" && !formData.translation_status) {
       newErrors.translation_status = "Оберіть статус перекладу";
+    } else if (formData.book_type === "TRANSLATION" && formData.translation_status) {
+      // Запрещаем создание книг с недопустимыми статусами
+      const invalidStatuses = ['Перерва', 'Закінчено', 'Зупинено', 'ABANDONED', 'COMPLETED', 'STOPPED'];
+      if (invalidStatuses.includes(formData.translation_status)) {
+        newErrors.translation_status = `Не можна створити книгу зі статусом '${formData.translation_status}'. Для нових книг використовуйте статус 'Перекладається' або 'TRANSLATING'`;
+      }
     }
 
-    setErrors(newErrors);
+    console.log('BookCreate: Ошибки валидации:', newErrors);
+    
+    // Если есть ошибки, показываем детальное сообщение
+    if (Object.keys(newErrors).length > 0) {
+      const errorMessages = Object.values(newErrors).join(', ');
+      showError(`Помилка: ${errorMessages}`);
+    }
+    
     return Object.keys(newErrors).length === 0;
   };
 
@@ -157,15 +232,92 @@ const CreateBook = () => {
     }));
   };
 
+  // Обработчик выбора жанров
+  const handleGenreClick = (genreId) => {
+    if (!genreId) return;
+    
+    setFormData(prev => {
+      const newGenres = prev.genres.includes(genreId)
+        ? prev.genres.filter(id => id !== genreId)
+        : [...prev.genres, genreId];
+      
+      return {
+        ...prev,
+        genres: newGenres
+      };
+    });
+  };
+
+  // Обработчик выбора тегов
+  const handleTagClick = (tagId) => {
+    if (!tagId) return;
+    
+    setFormData(prev => {
+      const newTags = prev.tags.includes(tagId)
+        ? prev.tags.filter(id => id !== tagId)
+        : [...prev.tags, tagId];
+      
+      // Обновляем adult_content на основе выбранных тегов
+      updateAdultContent(newTags);
+      
+      return {
+        ...prev,
+        tags: newTags
+      };
+    });
+  };
+
+  // Обработчик выбора фандомов
+  const handleFandomClick = (fandomId) => {
+    if (!fandomId) return;
+    
+    setFormData(prev => {
+      const newFandoms = prev.fandoms.includes(fandomId)
+        ? prev.fandoms.filter(id => id !== fandomId)
+        : [...prev.fandoms, fandomId];
+      
+      return {
+        ...prev,
+        fandoms: newFandoms
+      };
+    });
+  };
+
+  // Обработчик изменения adult_content чекбокса
+  const handleAdultContentChange = (isChecked) => {
+    setFormData(prev => {
+      let newTags = [...prev.tags];
+      
+      if (isChecked && adultTagId && !newTags.includes(adultTagId)) {
+        newTags = [...newTags, adultTagId];
+      } else if (!isChecked && adultTagId) {
+        newTags = newTags.filter(id => id !== adultTagId);
+      }
+      
+      return {
+        ...prev,
+        adult_content: isChecked,
+        tags: newTags
+      };
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (isSubmitting) return;
+    console.log('BookCreate: Попытка отправки формы');
+    
+    if (isSubmitting) {
+      console.log('BookCreate: Форма уже отправляется, пропускаем');
+      return;
+    }
     
     if (!validateForm()) {
+      console.log('BookCreate: Валидация не пройдена, показываем ошибки');
       return;
     }
 
+    console.log('BookCreate: Форма валидна, начинаем отправку');
     setIsSubmitting(true);
 
     try {
@@ -175,9 +327,11 @@ const CreateBook = () => {
           formData.book_type === "AUTHOR" ? null : formData.translation_status,
       };
 
+      console.log('BookCreate: Отправляем данные:', submitData);
       await createBookMutation.mutateAsync(submitData);
     } catch (error) {
-      console.error('Error creating book:', error);
+      console.error('BookCreate: Критическая ошибка при создании книги:', error);
+      // Ошибка уже обработана в onError мутации
     }
   };
 
@@ -187,6 +341,19 @@ const CreateBook = () => {
       translation_status: prev.book_type === "AUTHOR" ? null : "TRANSLATING",
     }));
   }, [formData.book_type]);
+
+  // Показываем загрузку, если данные еще не загружены
+  if (genresLoading || tagsLoading || countriesLoading || fandomsLoading) {
+    return (
+      <TranslatorAccessGuard>
+        <div className="BookCreateContainer">
+          <div style={{ textAlign: 'center', padding: '50px' }}>
+            <p>Завантаження даних...</p>
+          </div>
+        </div>
+      </TranslatorAccessGuard>
+    );
+  }
 
   return (
     <TranslatorAccessGuard>
@@ -216,12 +383,8 @@ const CreateBook = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, title: e.target.value })
                 }
-                isInvalid={!!errors.title}
                 required
               />
-              <Form.Control.Feedback type="invalid">
-                {errors.title}
-              </Form.Control.Feedback>
             </div>
           </Form.Group>
 
@@ -239,11 +402,7 @@ const CreateBook = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, title_en: e.target.value })
                 }
-                isInvalid={!!errors.title_en}
               />
-              <Form.Control.Feedback type="invalid">
-                {errors.title_en}
-              </Form.Control.Feedback>
             </div>
           </Form.Group>
         </div>
@@ -278,12 +437,8 @@ const CreateBook = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, author: e.target.value })
                 }
-                isInvalid={!!errors.author}
                 required
               />
-              <Form.Control.Feedback type="invalid">
-                {errors.author}
-              </Form.Control.Feedback>
             </div>
           </Form.Group>
           <Form.Group className="mb-3 block-name-book">
@@ -299,7 +454,6 @@ const CreateBook = () => {
                     original_status: e.target.value,
                   })
                 }
-                isInvalid={!!errors.original_status}
               >
                 <option value="">Оберіть статус</option>
                 {originalStatuses.map((status) => (
@@ -308,9 +462,6 @@ const CreateBook = () => {
                   </option>
                 ))}
               </Form.Select>
-              <Form.Control.Feedback type="invalid">
-                {errors.original_status}
-              </Form.Control.Feedback>
             </div>
           </Form.Group>
           {formData.book_type === "TRANSLATION" && (
@@ -328,7 +479,6 @@ const CreateBook = () => {
                       translation_status: e.target.value,
                     })
                   }
-                  isInvalid={!!errors.translation_status}
                 >
                   <option value="">Оберіть статус</option>
                   {translationStatuses.map((status) => (
@@ -337,9 +487,6 @@ const CreateBook = () => {
                     </option>
                   ))}
                 </Form.Select>
-                <Form.Control.Feedback type="invalid">
-                  {errors.translation_status}
-                </Form.Control.Feedback>
               </div>
             </Form.Group>
           )}
@@ -355,7 +502,6 @@ const CreateBook = () => {
                     country: e.target.value,
                   })
                 }
-                isInvalid={!!errors.country}
                 required
               >
                 <option value="">Оберіть країну</option>
@@ -365,28 +511,16 @@ const CreateBook = () => {
                   </option>
                 ))}
               </Form.Select>
-              <Form.Control.Feedback type="invalid">
-                {errors.country}
-              </Form.Control.Feedback>
             </div>
           </Form.Group>
           <Form.Group className="mb-3 block-name-book mobile">
             <Form.Check
               type="checkbox"
-              id="adult_content"
+              id="adult_content_mobile"
               className={`adult-content-checkbox check-content  ${styles.chapterCheck}`}
               label="Присутній контент"
               checked={formData.adult_content}
-              onChange={(e) => {
-                const isChecked = e.target.checked;
-                setFormData({
-                  ...formData,
-                  adult_content: isChecked,
-                  tags: isChecked
-                    ? [...new Set([...formData.tags, adultTagId])]
-                    : formData.tags.filter((id) => id !== adultTagId),
-                });
-              }}
+              onChange={(e) => handleAdultContentChange(e.target.checked)}
             />
             <img src={Content} />
           </Form.Group>
@@ -406,34 +540,21 @@ const CreateBook = () => {
               onChange={(e) =>
                 setFormData({ ...formData, description: e.target.value })
               }
-              isInvalid={!!errors.description}
             />
             <Form.Text className="text-muted">
               {formData.description
                 ? `${formData.description.split(" ").length}/250 слів`
                 : "0/250 слів"}
             </Form.Text>
-            <Form.Control.Feedback type="invalid">
-              {errors.description}
-            </Form.Control.Feedback>
           </Form.Group>
           <Form.Group className="mb-3 all-content">
             <Form.Check
               type="checkbox"
-              id="adult_content"
+              id="adult_content_desktop"
               className={`adult-content-checkbox check-content ${styles.chapterCheck}`}
               label="Контент"
               checked={formData.adult_content}
-              onChange={(e) => {
-                const isChecked = e.target.checked;
-                setFormData({
-                  ...formData,
-                  adult_content: isChecked,
-                  tags: isChecked
-                    ? [...new Set([...formData.tags, adultTagId])]
-                    : formData.tags.filter((id) => id !== adultTagId),
-                });
-              }}
+              onChange={(e) => handleAdultContentChange(e.target.checked)}
             />
             <img src={Content} />
           </Form.Group>
@@ -457,21 +578,14 @@ const CreateBook = () => {
               className={`genre-item ${
                 formData.genres.includes(genre.id) ? "selected" : ""
               }`}
-              onClick={() => {
-                const newGenres = formData.genres.includes(genre.id)
-                  ? formData.genres.filter((id) => id !== genre.id)
-                  : [...formData.genres, genre.id];
-                setFormData({ ...formData, genres: newGenres });
-              }}
+              onClick={() => handleGenreClick(genre.id)}
             >
               {genre.name}
             </div>
           ))}
         </div>
-        {errors.genres && (
-          <div className="text-danger mt-1">{errors.genres}</div>
-        )}
       </Form.Group>
+      
       <div className="tags-all">
         <Form.Group className="mb-3" style={{ position: "relative" }}>
           <Form.Label
@@ -497,22 +611,7 @@ const CreateBook = () => {
                     className={`tag-item ${
                       formData.tags.includes(tag.id) ? "selected" : ""
                     }`}
-                    onClick={() => {
-                      const newTags = formData.tags.includes(tag.id)
-                        ? formData.tags.filter((id) => id !== tag.id)
-                        : [...formData.tags, tag.id];
-
-                      // Если выбран/снят тег 18+
-                      if (tag.id === adultTagId) {
-                        setFormData({
-                          ...formData,
-                          tags: newTags,
-                          adult_content: !formData.tags.includes(tag.id),
-                        });
-                      } else {
-                        setFormData({ ...formData, tags: newTags });
-                      }
-                    }}
+                    onClick={() => handleTagClick(tag.id)}
                   >
                     {tag.name}
                   </div>
@@ -532,22 +631,7 @@ const CreateBook = () => {
                     className={`tag-item ${
                       formData.tags.includes(tag.id) ? "selected" : ""
                     }`}
-                    onClick={() => {
-                      const newTags = formData.tags.includes(tag.id)
-                        ? formData.tags.filter((id) => id !== tag.id)
-                        : [...formData.tags, tag.id];
-
-                      // Если выбран/снят тег 18+
-                      if (tag.id === adultTagId) {
-                        setFormData({
-                          ...formData,
-                          tags: newTags,
-                          adult_content: !formData.tags.includes(tag.id),
-                        });
-                      } else {
-                        setFormData({ ...formData, tags: newTags });
-                      }
-                    }}
+                    onClick={() => handleTagClick(tag.id)}
                   >
                     {tag.name}
                   </div>
@@ -564,6 +648,7 @@ const CreateBook = () => {
           </div>
         </Form.Group>
       </div>
+      
       <div className="header-book-genres">
         <img src={BorderCreate} />
       </div>
@@ -581,12 +666,7 @@ const CreateBook = () => {
               className={`fandom-item ${
                 formData.fandoms.includes(fandom.id) ? "selected" : ""
               }`}
-              onClick={() => {
-                const newFandoms = formData.fandoms.includes(fandom.id)
-                  ? formData.fandoms.filter((id) => id !== fandom.id)
-                  : [...formData.fandoms, fandom.id];
-                setFormData({ ...formData, fandoms: newFandoms });
-              }}
+              onClick={() => handleFandomClick(fandom.id)}
             >
               {fandom.name}
             </div>
@@ -654,115 +734,7 @@ const CreateBook = () => {
             </Form.Group>
           </div>
         </div>
-        {/* <div className="another_img">
-          <div className="img-book any">
-            <div className="general-img" style={{ position: "relative" }}>
-              <Form.Group
-                style={{ height: "284px", width: "auto", padding: "30px" }}
-                className="mb-3 input-name-book another-input-name-book"
-              >
-                <Form.Label
-                  style={{ top: "-18px", left: "-4px" }}
-                  className="name-book-label img_book"
-                >
-                  Додаткові зображення
-                </Form.Label>
-
-                <div className="custom-file-upload any-img">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    id="fileInput"
-                    className="hidden-input "
-                  />
-                  <label htmlFor="fileInput" className="file-label input-img">
-                    <img src={Upload} alt="Загрузить" className="upload-icon" />
-                  </label>
-                </div>
-                <div className="custom-file-upload any-img">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    id="fileInput"
-                    className="hidden-input "
-                  />
-                  <label htmlFor="fileInput" className="file-label input-img">
-                    <img src={Upload} alt="Загрузить" className="upload-icon" />
-                  </label>
-                </div>
-                <div className="custom-file-upload any-img">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    id="fileInput"
-                    className="hidden-input "
-                  />
-                  <label htmlFor="fileInput" className="file-label input-img">
-                    <img src={Upload} alt="Загрузить" className="upload-icon" />
-                  </label>
-                </div>
-                <div className="custom-file-upload any-img">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    id="fileInput"
-                    className="hidden-input "
-                  />
-                  <label htmlFor="fileInput" className="file-label input-img">
-                    <img src={Upload} alt="Загрузить" className="upload-icon" />
-                  </label>
-                </div>
-                <div className="custom-file-upload any-img">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    id="fileInput"
-                    className="hidden-input "
-                  />
-                  <label htmlFor="fileInput" className="file-label input-img">
-                    <img src={Upload} alt="Загрузить" className="upload-icon" />
-                  </label>
-                </div>
-                <div className="custom-file-upload any-img">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    id="fileInput"
-                    className="hidden-input "
-                  />
-                  <label htmlFor="fileInput" className="file-label input-img">
-                    <img src={Upload} alt="Загрузить" className="upload-icon" />
-                  </label>
-                </div>
-                <div className="custom-file-upload any-img">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    id="fileInput"
-                    className="hidden-input "
-                  />
-                  <label htmlFor="fileInput" className="file-label input-img">
-                    <img src={Upload} alt="Загрузить" className="upload-icon" />
-                  </label>
-                </div>
-                {imagePreview && (
-                  <img
-                    src={imagePreview}
-                    alt="Preview"
-                    className="img-fluid mt-2"
-                  />
-                )}
-              </Form.Group>
-            </div>
-          </div> */}
-        </div>
+      </div>
       
       {/* Кнопка публикации - размещена после блока изображений */}
       <div className="all-sub-img" style={{ marginTop: '20px', textAlign: 'center' }}>

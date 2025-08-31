@@ -337,9 +337,12 @@ def create_volume(request, book_slug):
 @permission_classes([IsAuthenticated])
 def create_book(request):
     try:
+        print(f"create_book: Получен запрос от пользователя {request.user.username}")
+        
         serializer = BookCreateSerializer(data=request.data)
         
         if serializer.is_valid():
+            print("create_book: Данные валидны, создаем книгу")
             book = serializer.save(
                 owner=request.user,
                 creator=request.user
@@ -358,17 +361,36 @@ def create_book(request):
                 fandoms_ids = request.data.getlist('fandoms[]')
                 book.fandoms.set(fandoms_ids)
             
+            print(f"create_book: Книга успешно создана с ID: {book.id}")
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        
-        return Response(
-            {'error': serializer.errors}, 
-            status=status.HTTP_400_BAD_REQUEST
-        )
+        else:
+            print(f"create_book: Ошибки валидации: {serializer.errors}")
+            
+            # Формируем детальное сообщение об ошибках
+            error_details = {}
+            for field, errors in serializer.errors.items():
+                if isinstance(errors, list):
+                    error_details[field] = errors[0] if errors else 'Помилка валідації'
+                else:
+                    error_details[field] = str(errors)
+            
+            print(f"create_book: Сформированные детали ошибок: {error_details}")
+            
+            return Response(
+                {
+                    'error': 'Помилка даних',
+                    'details': error_details,
+                    'message': 'Перевірте правильність заповнення всіх полів'
+                }, 
+                status=HTTP_400_BAD_REQUEST
+            )
             
     except Exception as e:
+        print(f"create_book: Критическая ошибка: {str(e)}")
+        logger.error(f"create_book: Ошибка создания книги: {str(e)}", exc_info=True)
         return Response(
-            {'error': str(e)},
-            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            {'error': f'Внутрішня помилка сервера: {str(e)}'},
+            status=HTTP_500_INTERNAL_SERVER_ERROR
         )
 
 
@@ -383,6 +405,75 @@ def owned_books(request):
         return Response(
             {"error": "Внутрішня помилка сервера"}, 
             status=500
+        )
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def user_translations(request):
+    """
+    API для отримання перекладів конкретного користувача
+    Включає всі книги, де користувач є власником або творцем
+    """
+    try:
+        # Отримуємо книги, де користувач є власником або творцем
+        user_books = Book.objects.filter(
+            owner=request.user
+        ).select_related(
+            'owner', 'creator', 'country'
+        ).prefetch_related(
+            'genres', 'tags', 'fandoms'
+        ).order_by('-last_updated')
+        
+        # Додаємо додаткову інформацію про кожну книгу
+        from apps.monitoring.models import TransactionLog, BookView
+        from django.utils import timezone
+        from django.db.models import Sum
+        
+        today = timezone.now().date()
+        month_start = today.replace(day=1)
+        
+        books_with_stats = []
+        for book in user_books:
+            book_data = BookOwnerSerializer(book, context={'request': request}).data
+            
+            # Доход за день
+            daily_income = TransactionLog.objects.filter(
+                owner=request.user.profile,
+                book=book,
+                created_at__date=today
+            ).aggregate(
+                total=Sum('final_amount')
+            )['total'] or 0
+            
+            # Доход за месяц
+            monthly_income = TransactionLog.objects.filter(
+                owner=request.user.profile,
+                book=book,
+                created_at__date__gte=month_start
+            ).aggregate(
+                total=Sum('final_amount')
+            )['total'] or 0
+            
+            # Реальные просмотры за день
+            daily_views = BookView.get_daily_views(book, today)
+            
+            # Добавляем статистику к данным книги
+            book_data.update({
+                'daily_income': float(daily_income),
+                'monthly_income': float(monthly_income),
+                'daily_views': daily_views
+            })
+            
+            books_with_stats.append(book_data)
+        
+        return Response(books_with_stats, status=HTTP_200_OK)
+        
+    except Exception as e:
+        logger.error(f"Помилка в user_translations: {str(e)}", exc_info=True)
+        return Response(
+            {'error': 'Внутрішня помилка сервера'}, 
+            status=HTTP_500_INTERNAL_SERVER_ERROR
         )
 
 
@@ -491,6 +582,43 @@ def abandoned_translations(request):
         
     except Exception as e:
         logger.error(f"Помилка в abandoned_translations: {str(e)}", exc_info=True)
+        return Response(
+            {'error': 'Внутрішня помилка сервера'}, 
+            status=HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def register_book_view(request, book_id):
+    """API для регистрации просмотра книги"""
+    try:
+        from apps.catalog.models import Book
+        from apps.monitoring.models import BookView
+        from django.utils import timezone
+        
+        book = get_object_or_404(Book, id=book_id)
+        today = timezone.now().date()
+        
+        # Проверяем, не просматривал ли пользователь книгу сегодня
+        existing_view = BookView.objects.filter(
+            user=request.user,
+            book=book,
+            viewed_at__date=today
+        ).first()
+        
+        if not existing_view:
+            # Регистрируем новый просмотр
+            BookView.objects.create(
+                user=request.user,
+                book=book,
+                ip_address=request.META.get('REMOTE_ADDR')
+            )
+        
+        return Response({'message': 'Просмотр зарегистрирован'})
+        
+    except Exception as e:
+        logger.error(f"Помилка в register_book_view: {str(e)}", exc_info=True)
         return Response(
             {'error': 'Внутрішня помилка сервера'}, 
             status=HTTP_500_INTERNAL_SERVER_ERROR
