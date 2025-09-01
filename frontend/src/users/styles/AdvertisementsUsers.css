@@ -189,6 +189,17 @@
   display: block;
 }
 
+.novel-adult-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  z-index: 2;
+  pointer-events: none;
+}
+
 .novel-title {
   font-weight: 600;
   font-size: 1.1rem;

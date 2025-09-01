@@ -13,7 +13,7 @@ class BooksNewsSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'title', 'description', 'image',
             'slug', 'background_image', 'cover_image',
-            'created_at', 'book_type'
+            'created_at', 'book_type', 'adult_content'
         ]
 
     def get_background_image(self, obj):

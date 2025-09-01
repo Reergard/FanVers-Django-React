@@ -5,8 +5,9 @@ import { analyticsBooksAPI } from '../../api/analytics_books/analytics_booksAPI'
 import "../styles/MagicalGuide.css";
 import { useQuery } from "@tanstack/react-query";
 import Slider from "react-slick";
+import AdultIcon from "../../catalog/pages/img/18.svg";
 
-const NovelCard = ({ title, description, image, slug, book_type }) => {
+const NovelCard = ({ title, description, image, slug, book_type, adult_content }) => {
   return (
     <div className="novel-card-magical">
       <div className="novel-cover magical">
@@ -21,6 +22,9 @@ const NovelCard = ({ title, description, image, slug, book_type }) => {
                 e.target.style.display = "none";
               }}
             />
+            {adult_content && (
+              <img src={AdultIcon} alt="18+" className="novel-adult-icon" />
+            )}
                           <div
                 className="divider"
                 role="separator"
@@ -114,6 +118,7 @@ const MagicalGuide1 = () => {
                 description={ad.description}
                 image={ad.image}
                 book_type={ad.book_type}
+                adult_content={ad.adult_content}
               />
             ))}
           </Slider>

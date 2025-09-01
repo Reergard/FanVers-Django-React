@@ -11,7 +11,8 @@ import "../css/Catalog.css";
 import { useSelector } from "react-redux";
 import { BreadCrumb } from '../../main/components/BreadCrumb';
 import HomePage1 from '../../main/pages/HomePage1';
-const NovelCard = ({ title, description, image, slug, book_type }) => {
+import AdultIcon from "../pages/img/18.svg";
+const NovelCard = ({ title, description, image, slug, book_type, adult_content }) => {
   return (
     <div className="novel-card mobal">
       <div className="novel-cover">
@@ -26,6 +27,9 @@ const NovelCard = ({ title, description, image, slug, book_type }) => {
                 e.target.style.display = "none";
               }}
             />
+            {adult_content && (
+              <img src={AdultIcon} alt="18+" className="novel-adult-icon" />
+            )}
                           <div
                 className="divider"
                 role="separator"
@@ -137,6 +141,7 @@ const Catalog = () => {
                     image={book.image}
                     slug={book.slug}
                     book_type={book.book_type}
+                    adult_content={book.adult_content}
                   />
                 ))}
               </div>

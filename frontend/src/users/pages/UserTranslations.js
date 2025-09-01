@@ -11,6 +11,7 @@ import { useToast } from "../../components/CustomToast";
 import { BreadCrumb } from '../../main/components/BreadCrumb';
 import { websiteAdvertisingAPI } from '../../api/website_advertising/website_advertisingAPI';
 import { useSelector } from "react-redux";
+import AdultIcon from "../../catalog/pages/img/18.svg";
 
 const NovelCard = ({ book }) => {
   // Форматируем дату создания
@@ -49,6 +50,9 @@ const NovelCard = ({ book }) => {
                   e.target.style.display = "none";
                 }}
               />
+              {book.adult_content && (
+                <img src={AdultIcon} alt="18+" className="novel-adult-icon" />
+              )}
               <div
                 className="divider"
                 role="separator"
@@ -103,6 +107,9 @@ const NovelCard = ({ book }) => {
                   e.target.style.display = "none";
                 }}
               />
+              {book.adult_content && (
+                <img src={AdultIcon} alt="18+" className="novel-adult-icon" />
+              )}
               <div
                 className="divider"
                 role="separator"

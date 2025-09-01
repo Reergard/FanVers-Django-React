@@ -31,7 +31,7 @@ import Favorite from '../../main/pages/img/Favorite.png';
 import LeftFooter from "./img/left-footer.svg";
 import RightFooter from "./img/right-footer.svg";
 import BookmarkButton from '../../navigation/components/BookmarkButton';
-import AdultIcon from '../../assets/images/icons/18+.png';
+import AdultIcon from '../pages/img/18.svg';
 import ghostFull from '../../assets/images/icons/ghost_full.png';
 import ghost from '../../assets/images/icons/ghost.png';
 
@@ -45,7 +45,7 @@ import BookRating from '../components/BookRating';
 
 
 
-const NovelCard = ({ title, description, image, book_type }) => {
+const NovelCard = ({ title, description, image, book_type, adult_content }) => {
   const imageUrl = image ? (image.startsWith('http') ? image : `http://localhost:8000${image}`) : '';
   
   return (
@@ -62,6 +62,9 @@ const NovelCard = ({ title, description, image, book_type }) => {
                 e.target.style.display = "none";
               }}
             />
+            {adult_content && (
+              <img src={AdultIcon} alt="18+" className="novel-adult-icon" />
+            )}
                           <div
                 className="divider"
                 role="separator"
@@ -693,6 +696,7 @@ const BookDetailReader = ({ book: propBook, chapters = [], currentRange, totalCh
                       description={ad.description}
                       image={ad.image}
                       book_type={ad.book_type}
+                      adult_content={ad.adult_content}
                     />
                   ))}
                 </Slider>

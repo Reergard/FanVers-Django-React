@@ -3,8 +3,9 @@ import { useToast } from '../../components/CustomToast';
 import { websiteAdvertisingAPI } from '../../api/website_advertising/website_advertisingAPI';
 import TranslatorAccessGuard from '../../catalog/components/TranslatorAccessGuard';
 import { BreadCrumb } from '../../main/components/BreadCrumb';
+import AdultIcon from "../../catalog/pages/img/18.svg";
 
-const NovelCard = ({ title, description, image, startDate, endDate, location, book_type }) => {
+const NovelCard = ({ title, description, image, startDate, endDate, location, book_type, adult_content }) => {
     const locationNames = {
         'main': 'Головна сторінка',
         'genres': 'Пошук за жанрами',
@@ -26,6 +27,9 @@ const NovelCard = ({ title, description, image, startDate, endDate, location, bo
                                 e.target.style.display = 'none';
                             }} 
                         />
+                        {adult_content && (
+                          <img src={AdultIcon} alt="18+" className="novel-adult-icon" />
+                        )}
                         <div className="divider" role="separator" aria-orientation="vertical" />
                         {book_type === 'AUTHOR' && (
                           <span className="novel-letter">a</span>
@@ -91,6 +95,7 @@ const AdvertisementsUsers = () => {
                         endDate={ad.end_date}
                         location={ad.location}
                         book_type={ad.book_details.book_type}
+                        adult_content={ad.book_details.adult_content}
                     />
                 ))}
             </div>

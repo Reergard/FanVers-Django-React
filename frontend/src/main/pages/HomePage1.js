@@ -11,11 +11,14 @@ import OrangeDot from "./img/orange-dot.png";
 import { Link, useNavigate } from "react-router-dom";
 import BlueDot from "./img/blue-dot.png";
 import { useSelector } from "react-redux";
+import AdultIcon from "../../catalog/pages/img/18.svg";
 
-const NovelCard = ({ title, description, image, slug, book_type }) => {
+const NovelCard = ({ title, description, image, slug, book_type, adult_content }) => {
   const navigate = useNavigate();
   const currentUser = useSelector(state => state.auth.user);
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  
+
 
   const handleReadClick = async (e) => {
     e.stopPropagation(); // Предотвращаем всплытие события
@@ -129,6 +132,9 @@ const NovelCard = ({ title, description, image, slug, book_type }) => {
                 e.target.style.display = 'none';
               }}
             />
+            {adult_content && (
+              <img src={AdultIcon} alt="18+" className="novel-adult-icon" />
+            )}
                           <div
                 className="divider"
                 role="separator"
@@ -236,6 +242,7 @@ const HomePage1 = () => {
                 image={ad.image}
                 slug={ad.slug}
                 book_type={ad.book_type}
+                adult_content={ad.adult_content}
               />
             ))}
           </Slider>

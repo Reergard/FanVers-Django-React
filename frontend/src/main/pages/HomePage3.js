@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { mainAPI } from '../../api/main/mainAPI';
 import "../styles/HomePage3.css";
 import Slider from "react-slick";
+import AdultIcon from "../../catalog/pages/img/18.svg";
 
 const ExpandableTags = ({ title, className, items }) => {
   const [expanded, setExpanded] = useState(false);
@@ -29,7 +30,7 @@ const ExpandableTags = ({ title, className, items }) => {
   );
 };
 
-const NovelCard = ({ title, description, image, book_type }) => {
+const NovelCard = ({ title, description, image, book_type, adult_content }) => {
   return (
     <div className="novel-card homepage">
       <div className="novel-cover">
@@ -44,6 +45,9 @@ const NovelCard = ({ title, description, image, book_type }) => {
                 e.target.style.display = "none";
               }}
             />
+            {adult_content && (
+              <img src={AdultIcon} alt="18+" className="novel-adult-icon" />
+            )}
                           <div
                 className="divider"
                 role="separator"
@@ -140,6 +144,7 @@ const HomePage3 = () => {
                 description={ad.description}
                 image={ad.image}
                 book_type={ad.book_type}
+                adult_content={ad.adult_content}
               />
             ))}
           </Slider>
