@@ -21,7 +21,7 @@ import Header from './main/components/Header/Header';
 import Footer from './main/components/Footer';
 import HomePage from './main/pages/HomePage';
 import CreateTranslation from './catalog/pages/BookCreate';
-import SearchPage from './users/pages/SearchPage';
+import SearchPage from './search/pages/SearchPage';
 import BookmarksPage from './users/pages/BookmarksPage';
 import UserTranslations from './users/pages/UserTranslations';
 import NotificationPage from './notification/pages/NotificationPage';
