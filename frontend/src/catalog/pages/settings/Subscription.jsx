@@ -1,6 +1,6 @@
 import React from "react";
-import styles from "../css/AllSettings.module.css";
-import CheckSave from '../../main/pages/img/CheckSave.png';
+import styles from "../../css/AllSettings.module.css";
+import CheckSave from '../../../main/pages/img/CheckSave.png';
 
 function Subscription() {
     return (

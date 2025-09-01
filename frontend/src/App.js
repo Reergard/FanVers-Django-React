@@ -32,7 +32,7 @@ import "./components/Scrollbar.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import AdvertisementSettings from './website_advertising/pages/AdvertisementSettings';
 import AdvertisementsUsers from './users/pages/AdvertisementsUsers';
-import AllSettings from './catalog/pages/AllSettings';
+import AllSettings from './catalog/pages/settings/AllSettings';
 
 // Legal pages
 import UserAgreement from "./info/legal/user-agreement";

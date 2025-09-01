@@ -380,6 +380,80 @@ const createBook = async (bookData) => {
     }
 };
 
+const updateBook = async (slug, bookData) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        throw new Error('Необхідна авторизація');
+    }
+
+    console.log('catalogAPI.updateBook: Начинаем обновление книги');
+
+    const formData = new FormData();
+    Object.keys(bookData).forEach(key => {
+        if (key === 'image') {
+            if (bookData[key]) {
+                formData.append(key, bookData[key]);
+                console.log('catalogAPI.updateBook: Добавлено изображение:', bookData[key].name);
+            }
+        } else if (Array.isArray(bookData[key])) {
+            bookData[key].forEach(value => {
+                formData.append(key, value);
+            });
+            console.log(`catalogAPI.updateBook: Добавлен массив ${key}:`, bookData[key]);
+        } else if (bookData[key] !== null && bookData[key] !== undefined) {
+            formData.append(key, bookData[key]);
+        }
+    });
+
+    try {
+        console.log('catalogAPI.updateBook: Отправляем PATCH запрос на /catalog/books/owner/{slug}/');
+        const response = await api.patch(`/catalog/books/owner/${slug}/`, formData, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data',
+            }
+        });
+        
+        console.log('catalogAPI.updateBook: Успешный ответ:', response.data);
+        return response.data;
+    } catch (error) {
+        console.error('catalogAPI.updateBook: Ошибка:', error);
+        console.error('catalogAPI.updateBook: Статус:', error.response?.status);
+        console.error('catalogAPI.updateBook: Данные ответа:', error.response?.data);
+        
+        if (error.response?.status === 400) {
+            const errorData = error.response.data;
+            
+            if (errorData.details) {
+                const fieldErrors = Object.entries(errorData.details)
+                    .map(([field, errors]) => {
+                        const fieldName = getFieldDisplayName(field);
+                        const errorText = Array.isArray(errors) ? errors[0] : errors;
+                        return `${fieldName}: ${errorText}`;
+                    })
+                    .join('\n');
+                throw new Error(`Помилки валідації:\n${fieldErrors}`);
+            } else if (errorData.message) {
+                throw new Error(errorData.message);
+            } else if (errorData.error) {
+                throw new Error(errorData.error);
+            } else {
+                throw new Error('Помилка валідації даних');
+            }
+        } else if (error.response?.status === 401) {
+            throw new Error('Необхідна авторизація. Спробуйте увійти знову');
+        } else if (error.response?.status === 403) {
+            throw new Error('У вас немає прав для редагування цієї книги');
+        } else if (error.response?.status >= 500) {
+            throw new Error('Помилка сервера. Спробуйте пізніше');
+        } else if (error.code === 'ERR_NETWORK' || error.message === 'Network Error') {
+            throw new Error('Помилка з\'єднання з сервером. Перевірте підключення до інтернету');
+        }
+        
+        throw new Error('Помилка при оновленні книги');
+    }
+};
+
 
 
 const getOwnedBooks = async () => {
@@ -495,6 +569,7 @@ export const catalogAPI = {
     updateChapterOrder,
     updateChapterStatus,
     createBook,
+    updateBook,
     getOwnedBooks,
     getBookTitle,
     deleteChapter,
@@ -517,6 +592,7 @@ export {
     updateChapterOrder,
     updateChapterStatus,
     createBook,
+    updateBook,
     getOwnedBooks,
     getBookTitle,
     deleteChapter,

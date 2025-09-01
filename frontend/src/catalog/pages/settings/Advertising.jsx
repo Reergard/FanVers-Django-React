@@ -1,7 +1,7 @@
 import React from "react";
-import styles from "../css/AllSettings.module.css";
+import styles from "../../css/AllSettings.module.css";
 import { Form } from "react-bootstrap";
-import buttonAdvertisingImg from "./img/Check_ring_light.svg";
+import buttonAdvertisingImg from "../img/Check_ring_light.svg";
 
 function Advertising() {
     return (

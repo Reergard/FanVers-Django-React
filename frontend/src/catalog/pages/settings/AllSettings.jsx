@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import { useQuery } from '@tanstack/react-query';
-import { catalogAPI } from '../../api/catalog/catalogAPI';
-import styles from "../css/AllSettings.module.css";
+import { catalogAPI } from '../../../api/catalog/catalogAPI';
+import styles from "../../css/AllSettings.module.css";
 import AccessRights from "./AccessRights";
 import Advertising from "./Advertising";
 import GeneralSettings from "./GeneralSettings";
 import Subscription from "./Subscription";
-import BgChapter from "./img/bg-chapter.png";
-import { BreadCrumb } from '../../main/components/BreadCrumb';
+import BgChapter from "../img/bg-chapter.png";
+import { BreadCrumb } from '../../../main/components/BreadCrumb';
 
 const TABS = {
-    general: { label: "Загальні налаштування", component: <GeneralSettings /> },
+    general: { label: "Книга", component: <GeneralSettings /> },
     subscription: { label: "Абонемент", component: <Subscription /> },
     advertising: { label: "Реклама на сайті", component: <Advertising /> },
     accessRights: { label: "Права доступу", component: <AccessRights /> },
@@ -38,12 +38,12 @@ function AllSettings() {
             return [
                 { href: "/", label: "Головна" },
                 { href: `/books/${slug}`, label: book.title || "Назва книги" },
-                { href: `/books/${slug}/settings`, label: "Налаштування перекладу" },
+                { href: `/books/${slug}/settings`, label: "Налаштування" },
             ];
         } else {
             return [
                 { href: "/", label: "Головна" },
-                { href: "/all-settings", label: "Налаштування перекладу" },
+                { href: "/all-settings", label: "Налаштування" },
             ];
         }
     };
