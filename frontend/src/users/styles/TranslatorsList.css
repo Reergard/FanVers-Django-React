@@ -171,7 +171,7 @@ tbody tr td:nth-child(2) {
   font-family: "Bad Script";
 }
 .bg-statistics {
-  background-image: url("../pages/settings/img/triangle.svg");
+  background-image: url("../../catalog/pages/img/triangle.svg");
   background-repeat: no-repeat;
   font-size: 48px;
   background-repeat: no-repeat;

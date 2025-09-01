@@ -153,7 +153,7 @@
 }
 
 .dateAdvertising input[type="date"]::-webkit-calendar-picker-indicator {
-  background-image: url("./img/calendar.svg");
+  background-image: url("../pages/img/calendar.svg");
   background-size: 20px;
   background-repeat: no-repeat;
   background-position: center;
@@ -163,7 +163,7 @@
 }
 
 .dateAdvertising input[type="date"]::-moz-calendar-picker-indicator {
-  background-image: url("./img/calendar.svg");
+  background-image: url("../pages/img/calendar.svg");
   background-size: 20px;
   background-repeat: no-repeat;
   background-position: center;
@@ -303,7 +303,7 @@
   right: 10px;
   width: 10px;
   height: 10px;
-  background-image: url("./img/arrow-select.png");
+  background-image: url("../pages/img/arrow-select.png");
   background-size: contain;
   background-repeat: no-repeat;
   pointer-events: none;

@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./AllSettings.module.css";
+import styles from "../css/AllSettings.module.css";
 import { Form } from "react-bootstrap";
 import buttonAdvertisingImg from "./img/Check_ring_light.svg";
 

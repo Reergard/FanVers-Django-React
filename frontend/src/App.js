@@ -32,7 +32,7 @@ import "./components/Scrollbar.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import AdvertisementSettings from './website_advertising/pages/AdvertisementSettings';
 import AdvertisementsUsers from './users/pages/AdvertisementsUsers';
-import AllSettings from './users/pages/settings/AllSettings';
+import AllSettings from './catalog/pages/AllSettings';
 
 // Legal pages
 import UserAgreement from "./info/legal/user-agreement";
@@ -197,6 +197,14 @@ function App() {
               element={
                 <PrivateRoute>
                   <AdvertisementSettings />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/books/:slug/settings"
+              element={
+                <PrivateRoute>
+                  <AllSettings />
                 </PrivateRoute>
               }
             />
