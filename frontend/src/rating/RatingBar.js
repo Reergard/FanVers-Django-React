@@ -7,10 +7,10 @@ import useBookAnalytics from '../hooks/useBookAnalytics';
 import './styles/RatingBar.css';
 
 const RatingBar = ({ bookSlug }) => {
-    const { isAuthenticated } = useSelector(state => state.auth);
+    const { isAuthenticated, token } = useSelector(state => state.auth);
     const { data: ratings, isLoading, error } = useQuery({
         queryKey: ['bookRatings', bookSlug],
-        queryFn: () => fetchBookRatings(bookSlug),
+        queryFn: () => fetchBookRatings(bookSlug, token),
     });
     const { success, error: showError, warning } = useToast();
     const queryClient = useQueryClient();
@@ -23,11 +23,13 @@ const RatingBar = ({ bookSlug }) => {
             success('Оцінка успішно збережена');
         },
         onError: (error) => {
-            showError('Помилка при збереженні оцінки: ' + error.message);
+            console.error('Rating error:', error);
+            showError(error.message || 'Помилка при збереженні оцінки');
         }
     });
 
     const [hoverRating, setHoverRating] = useState({ BOOK: 0, TRANSLATION: 0 });
+    const { trackBookRating, trackTranslationRating } = useBookAnalytics();
 
     const handleRating = async (ratingType, rating) => {
         if (!isAuthenticated) {
@@ -53,7 +55,7 @@ const RatingBar = ({ bookSlug }) => {
             console.log('Рейтинг успешно сохранен');
         } catch (error) {
             console.error('Ошибка при сохранении рейтинга:', error);
-            showError('Помилка при збереженні оцінки: ' + error.message);
+            showError(error.message || 'Помилка при збереженні оцінки');
         }
     };
 

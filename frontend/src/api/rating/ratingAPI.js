@@ -25,13 +25,19 @@ export const submitRating = async (bookSlug, ratingType, rating, token) => {
       },
       {
         headers: {
-          Authorization: `JWT ${token}`,
+          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json'
         }
       }
     );
     return response.data;
   } catch (error) {
+    console.error('Error submitting rating:', error);
+    
+    if (error.response?.status === 403) {
+      throw new Error(error.response?.data?.error || 'У вас немає прав для оцінювання цієї книги');
+    }
+    
     throw new Error('Помилка при надсиланні оцінки: ' + 
       (error.response?.data?.error || error.message));
   }

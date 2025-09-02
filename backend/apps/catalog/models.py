@@ -200,6 +200,44 @@ class Book(models.Model):
     )
     adult_content = models.BooleanField(default=False, verbose_name='Контент 18+')
     
+    # Налаштування доступу до книги
+    ACCESS_CHOICES = [
+        ('all', 'Усі'),
+        ('bookmarked', 'У кого в закладках'),
+        ('none', 'Ніхто'),
+    ]
+    
+    # Права доступу
+    view_permission = models.CharField(
+        max_length=20,
+        choices=ACCESS_CHOICES,
+        default='all',
+        verbose_name='Увійти на сторінку книги'
+    )
+    comment_book_permission = models.CharField(
+        max_length=20,
+        choices=ACCESS_CHOICES,
+        default='all',
+        verbose_name='Коментувати книгу'
+    )
+    comment_chapter_permission = models.CharField(
+        max_length=20,
+        choices=ACCESS_CHOICES,
+        default='all',
+        verbose_name='Коментувати розділ'
+    )
+    download_permission = models.CharField(
+        max_length=20,
+        choices=ACCESS_CHOICES,
+        default='all',
+        verbose_name='Завантажити'
+    )
+    rate_permission = models.CharField(
+        max_length=20,
+        choices=ACCESS_CHOICES,
+        default='all',
+        verbose_name='Оцінити'
+    )
 
     
 

@@ -9,6 +9,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 import logging
 from rest_framework.exceptions import NotFound
 from rest_framework.decorators import action
+from apps.catalog.api.permissions import check_book_access_permission
 
 logger = logging.getLogger(__name__)
 
@@ -24,10 +25,26 @@ class BookCommentViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         logger.info(f"Received data: {request.data}")
+        
+        # Перевіряємо права доступу до коментування книги
+        book_slug = self.kwargs.get('slug')
+        book = get_object_or_404(Book, slug=book_slug)
+        
+        is_allowed, error_message = check_book_access_permission(
+            request.user, book, 'comment_book'
+        )
+        
+        if not is_allowed:
+            return Response(
+                {"detail": error_message}, 
+                status=status.HTTP_403_FORBIDDEN
+            )
+        
         serializer = self.get_serializer(data=request.data)
         if not serializer.is_valid():
             logger.error(f"Serializer errors: {serializer.errors}")
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
         if request.user.is_authenticated:
             self.perform_create(serializer)
             headers = self.get_success_headers(serializer.data)
@@ -66,10 +83,27 @@ class ChapterCommentViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         logger.info(f"Received data: {request.data}")
+        
+        # Перевіряємо права доступу до коментування розділу
+        chapter_slug = self.kwargs.get('slug')
+        chapter = get_object_or_404(Chapter, slug=chapter_slug)
+        book = chapter.book
+        
+        is_allowed, error_message = check_book_access_permission(
+            request.user, book, 'comment_chapter'
+        )
+        
+        if not is_allowed:
+            return Response(
+                {"detail": error_message}, 
+                status=status.HTTP_403_FORBIDDEN
+            )
+        
         serializer = self.get_serializer(data=request.data)
         if not serializer.is_valid():
             logger.error(f"Serializer errors: {serializer.errors}")
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
         if request.user.is_authenticated:
             self.perform_create(serializer)
             headers = self.get_success_headers(serializer.data)

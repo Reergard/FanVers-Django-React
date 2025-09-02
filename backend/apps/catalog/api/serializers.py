@@ -144,7 +144,8 @@ class BookOwnerSerializer(serializers.ModelSerializer):
             'original_status', 'original_status_display',
             'country', 'slug', 'last_updated', 'owner', 'creator',
             'adult_content', 'owner_username', 'creator_username', 'book_type',
-            'genres', 'tags', 'fandoms'
+            'genres', 'tags', 'fandoms', 'view_permission', 'comment_book_permission',
+            'comment_chapter_permission', 'download_permission', 'rate_permission'
         ]
         read_only_fields = ['slug', 'last_updated', 'owner', 'creator']
 
@@ -288,7 +289,9 @@ class BookCreateSerializer(serializers.ModelSerializer):
         fields = [
             'title', 'title_en', 'author', 'description', 'image',
             'translation_status', 'original_status', 'country',
-            'genres', 'tags', 'fandoms', 'adult_content', 'book_type'
+            'genres', 'tags', 'fandoms', 'adult_content', 'book_type',
+            'view_permission', 'comment_book_permission', 'comment_chapter_permission',
+            'download_permission', 'rate_permission'
         ]
 
     def validate(self, data):

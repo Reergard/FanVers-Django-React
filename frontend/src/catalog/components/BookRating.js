@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { fetchBookRatings, submitRating } from '../../api/rating/ratingAPI';
+import { useToast } from '../../components/CustomToast';
 import StarLightOff from '../../components/images/Star_light_off.svg';
 import StarFillOn from '../../components/images/Star_fill_on.svg';
 import StarLightMidl from '../../components/images/Star_fill_midl.svg';
@@ -12,10 +13,10 @@ const BookRating = ({ bookSlug, ratingType, title, onRatingUpdate }) => {
   const [averageRating, setAverageRating] = useState(0);
   const [totalVotes, setTotalVotes] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
   
   const currentUser = useSelector(state => state.auth.user);
   const token = localStorage.getItem('token');
+  const { error: showError, warning } = useToast();
 
   // Загружаем рейтинги при монтировании компонента
   useEffect(() => {
@@ -27,7 +28,6 @@ const BookRating = ({ bookSlug, ratingType, title, onRatingUpdate }) => {
   const loadRatings = async () => {
     try {
       setIsLoading(true);
-      setError(null);
       
       const ratingsData = await fetchBookRatings(bookSlug, token);
       
@@ -56,7 +56,7 @@ const BookRating = ({ bookSlug, ratingType, title, onRatingUpdate }) => {
       }
     } catch (error) {
       console.error('Error loading ratings:', error);
-      setError('Помилка завантаження рейтингу');
+      showError('Помилка завантаження рейтингу');
     } finally {
       setIsLoading(false);
     }
@@ -64,13 +64,12 @@ const BookRating = ({ bookSlug, ratingType, title, onRatingUpdate }) => {
 
   const handleRatingClick = async (selectedRating) => {
     if (!currentUser || !token) {
-      setError('Для голосування необхідно увійти в систему');
+      warning('Для голосування необхідно увійти в систему');
       return;
     }
 
     try {
       setIsLoading(true);
-      setError(null);
       
       await submitRating(bookSlug, ratingType, selectedRating, token);
       
@@ -86,7 +85,7 @@ const BookRating = ({ bookSlug, ratingType, title, onRatingUpdate }) => {
       }
     } catch (error) {
       console.error('Error submitting rating:', error);
-      setError('Помилка при голосуванні');
+      showError(error.message || 'Помилка при голосуванні');
     } finally {
       setIsLoading(false);
     }
@@ -179,11 +178,6 @@ const BookRating = ({ bookSlug, ratingType, title, onRatingUpdate }) => {
            </span>
          )}
        </div>
-      {error && (
-        <div className={styles.ratingError}>
-          {error}
-        </div>
-      )}
     </div>
   );
 };

@@ -23,7 +23,7 @@ from decimal import Decimal
 from django.conf import settings
 from django.utils.translation import gettext as _
 from apps.catalog.utils.errorUtils import get_error_codes
-from apps.catalog.api.permissions import IsBookOwner, IsNotBookOwner
+from apps.catalog.api.permissions import IsBookOwner, IsNotBookOwner, check_book_access_permission
 from rest_framework import generics
 from rest_framework import serializers
 from django.utils.text import slugify
@@ -116,6 +116,17 @@ def chapter_detail(request, book_slug, chapter_slug):
             book__slug=book_slug, 
             slug=chapter_slug
         )
+        
+        # Перевіряємо права доступу до завантаження розділу
+        is_allowed, error_message = check_book_access_permission(
+            request.user, chapter.book, 'download'
+        )
+        
+        if not is_allowed:
+            return Response(
+                {"error": error_message}, 
+                status=status.HTTP_403_FORBIDDEN
+            )
         
         if chapter.is_paid and request.user.is_authenticated:
             is_purchased = request.user.profile.purchased_chapters.filter(id=chapter.id).exists()
@@ -258,6 +269,18 @@ class BookReaderViewSet(viewsets.ReadOnlyModelViewSet):
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
+        
+        # Перевіряємо права доступу до перегляду книги
+        is_allowed, error_message = check_book_access_permission(
+            request.user, instance, 'view'
+        )
+        
+        if not is_allowed:
+            return Response(
+                {"detail": error_message}, 
+                status=status.HTTP_403_FORBIDDEN
+            )
+        
         if request.user.is_authenticated:
             bookmark = Bookmark.objects.filter(
                 book=instance,
@@ -525,6 +548,24 @@ class BookInfoView(generics.RetrieveAPIView):
     permission_classes = [AllowAny]
     throttle_classes = [StrictUserRateThrottle, StrictAnonRateThrottle]
     
+    def get(self, request, *args, **kwargs):
+        """
+        Перевизначаємо get метод для додаткової перевірки прав доступу до налаштувань
+        """
+        response = super().get(request, *args, **kwargs)
+        
+        # Якщо запит йде з фронтенду для отримання налаштувань доступу
+        # (перевіряємо по заголовку або параметру)
+        if request.headers.get('X-Requested-With') == 'AccessRights' and request.user.is_authenticated:
+            book = self.get_object()
+            if book.owner != request.user:
+                return Response(
+                    {'error': 'У вас немає прав для перегляду налаштувань доступу цієї книги'}, 
+                    status=status.HTTP_403_FORBIDDEN
+                )
+        
+        return response
+    
     def get_serializer_class(self):
         class BookInfoSerializer(serializers.ModelSerializer):
             image = serializers.SerializerMethodField()
@@ -545,7 +586,9 @@ class BookInfoView(generics.RetrieveAPIView):
                     'original_status_display', 'country', 'slug', 
                     'last_updated', 'owner', 'creator', 'adult_content',
                     'owner_username', 'creator_username', 'book_type',
-                    'genres', 'tags', 'fandoms'
+                    'genres', 'tags', 'fandoms', 'view_permission', 
+                    'comment_book_permission', 'comment_chapter_permission',
+                    'download_permission', 'rate_permission'
                 ]
                 read_only_fields = fields
 
@@ -564,6 +607,97 @@ class BookInfoView(generics.RetrieveAPIView):
                 return obj.creator.username if obj.creator else None
 
         return BookInfoSerializer
+
+
+@api_view(['GET'])
+def check_book_access(request, slug):
+    """
+    Перевіряє права доступу користувача до книги
+    """
+    try:
+        book = get_object_or_404(Book, slug=slug)
+        
+        # Перевіряємо права доступу до перегляду книги
+        is_allowed, error_message = check_book_access_permission(
+            request.user, book, 'view'
+        )
+        
+        return Response({
+            'has_access': is_allowed,
+            'message': error_message if not is_allowed else None,
+            'book_title': book.title
+        }, status=status.HTTP_200_OK)
+        
+    except Book.DoesNotExist:
+        return Response(
+            {'has_access': False, 'message': 'Книга не знайдена'}, 
+            status=status.HTTP_404_NOT_FOUND
+        )
+    except Exception as e:
+        logger.error(f"Error checking book access for {slug}: {e}")
+        return Response(
+            {'has_access': False, 'message': 'Помилка при перевірці доступу'}, 
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+
+@api_view(['PATCH'])
+@permission_classes([IsAuthenticated, IsBookOwner])
+def update_book_access_rights(request, slug):
+    """
+    Оновлення налаштувань доступу до книги
+    """
+    try:
+        book = get_object_or_404(Book, slug=slug)
+        
+        # Додаткова перевірка власника (на випадок, якщо IsBookOwner не спрацював)
+        if book.owner != request.user:
+            logger.warning(f"Unauthorized access attempt to book {slug} by user {request.user.id}")
+            return Response(
+                {'error': 'У вас немає прав для зміни налаштувань цієї книги'}, 
+                status=status.HTTP_403_FORBIDDEN
+            )
+        
+        # Список дозволених полів для оновлення
+        allowed_fields = [
+            'view_permission', 'comment_book_permission', 
+            'comment_chapter_permission', 'download_permission', 
+            'rate_permission'
+        ]
+        
+        # Оновлюємо тільки дозволені поля
+        updated_fields = []
+        for field in allowed_fields:
+            if field in request.data:
+                value = request.data[field]
+                # Валідуємо значення
+                if value in ['all', 'bookmarked', 'none']:
+                    setattr(book, field, value)
+                    updated_fields.append(field)
+                else:
+                    return Response(
+                        {'error': f'Недійсне значення для поля {field}: {value}'}, 
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+        
+        if updated_fields:
+            book.save(update_fields=updated_fields)
+            return Response({
+                'message': 'Налаштування доступу успішно оновлено',
+                'updated_fields': updated_fields
+            }, status=status.HTTP_200_OK)
+        else:
+            return Response(
+                {'error': 'Не надано жодного поля для оновлення'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+            
+    except Exception as e:
+        logger.error(f"Помилка при оновленні налаштувань доступу: {str(e)}")
+        return Response(
+            {'error': 'Внутрішня помилка сервера'}, 
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
 
 
 @api_view(['GET'])

@@ -319,6 +319,16 @@ const GeneralSettings = () => {
     
     console.log('GeneralSettings: Попытка обновления книги');
     
+    // Проверяем права доступа перед отправкой
+    if (book && userInfo) {
+      const isOwner = book.owner === userInfo.id;
+      if (!isOwner) {
+        showError('У вас немає прав для редагування цієї книги');
+        navigate(`/books/${slug}`);
+        return;
+      }
+    }
+    
     if (isSubmitting) {
       console.log('GeneralSettings: Форма уже отправляется, пропускаем');
       return;

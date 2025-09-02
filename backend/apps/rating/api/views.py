@@ -8,6 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 from apps.catalog.models import Book
 from django.db import models
+from apps.catalog.api.permissions import check_book_access_permission
 
 class BookRatingViewSet(viewsets.ModelViewSet):
     serializer_class = BookRatingSerializer
@@ -18,6 +19,21 @@ class BookRatingViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         try:
+            # Перевіряємо права доступу до оцінювання книги
+            book_slug = request.data.get('book_slug')
+            if book_slug:
+                book = get_object_or_404(Book, slug=book_slug)
+                
+                is_allowed, error_message = check_book_access_permission(
+                    request.user, book, 'rate'
+                )
+                
+                if not is_allowed:
+                    return Response(
+                        {'error': error_message}, 
+                        status=status.HTTP_403_FORBIDDEN
+                    )
+            
             serializer = self.get_serializer(data=request.data)
             if not serializer.is_valid():
                 return Response(

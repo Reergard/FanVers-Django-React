@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useQuery } from '@tanstack/react-query';
 import { catalogAPI } from '../../api/catalog/catalogAPI';
@@ -8,12 +8,15 @@ import BookDetailOwner from './BookDetailOwner';
 import BookDetailReader from './BookDetailReader';
 import ChapterRangeSelector from '../../navigation/components/ChapterRangeSelector';
 import useBookAnalytics from '../../hooks/useBookAnalytics';
+import { useToast } from '../../components/CustomToast';
 
 const BookDetailRouter = () => {
   const { slug } = useParams();
+  const navigate = useNavigate();
   const currentUser = useSelector(state => state.auth.user);
   const [currentStartChapter, setCurrentStartChapter] = useState(1);
   const { trackView } = useBookAnalytics();
+  const { error: showError } = useToast();
 
   console.log('BookDetailRouter: загрузка для slug:', slug);
 
@@ -83,6 +86,14 @@ const BookDetailRouter = () => {
   
   if (bookError) {
     console.error('BookDetailRouter: ошибка загрузки книги:', bookError);
+    
+    // Якщо помилка 403 - це означає, що немає доступу до книги
+    if (bookError.message?.includes('403') || bookError.message?.includes('Forbidden')) {
+      showError('Власник цієї книги обмежив доступ до неї');
+      navigate(-1); // Повертаємося назад
+      return null;
+    }
+    
     return <div>Помилка: {bookError.message}</div>;
   }
   

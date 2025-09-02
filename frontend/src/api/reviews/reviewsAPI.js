@@ -23,6 +23,11 @@ const postBookComment = async (bookSlug, text, parentId = null) => {
         console.error('Помилка при надсиланні коментаря до книги:', 
             error.response?.data || error.message
         );
+        
+        if (error.response?.status === 403) {
+            throw new Error(error.response?.data?.detail || 'У вас немає прав для коментування цієї книги');
+        }
+        
         throw new Error('Не вдалося надіслати коментар');
     }
 };
@@ -50,6 +55,11 @@ const postChapterComment = async (chapterSlug, text, parentId = null) => {
         console.error('Помилка при надсиланні коментаря до глави:', 
             error.response?.data || error.message
         );
+        
+        if (error.response?.status === 403) {
+            throw new Error(error.response?.data?.detail || 'У вас немає прав для коментування цього розділу');
+        }
+        
         throw new Error('Не вдалося надіслати коментар');
     }
 };

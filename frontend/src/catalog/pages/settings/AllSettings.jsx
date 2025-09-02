@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useQuery } from '@tanstack/react-query';
+import { useSelector } from 'react-redux';
 import { catalogAPI } from '../../../api/catalog/catalogAPI';
 import styles from "../../css/AllSettings.module.css";
 import AccessRights from "./AccessRights";
@@ -21,6 +22,9 @@ function AllSettings() {
     const [activeTab, setActiveTab] = useState("general");
     const { slug } = useParams();
     const location = useLocation();
+    const navigate = useNavigate();
+    const currentUser = useSelector(state => state.auth.user);
+    const userInfo = useSelector(state => state.auth.userInfo);
     
     // Определяем, находимся ли мы в контексте книги
     const isBookContext = location.pathname.includes('/books/') && location.pathname.includes('/settings');
@@ -31,6 +35,23 @@ function AllSettings() {
         queryFn: () => catalogAPI.fetchBook(slug),
         enabled: !!slug && isBookContext,
     });
+
+    // Проверяем права доступа к настройкам книги
+    useEffect(() => {
+        if (isBookContext && book && currentUser && userInfo) {
+            const isOwner = book.owner === userInfo.id;
+            
+            if (!isOwner) {
+                console.warn('AllSettings: Пользователь не является владельцем книги, перенаправляем');
+                navigate(`/books/${slug}`, { 
+                    replace: true,
+                    state: { 
+                        error: 'У вас немає прав для перегляду налаштувань цієї книги' 
+                    }
+                });
+            }
+        }
+    }, [isBookContext, book, currentUser, userInfo, slug, navigate]);
 
     // Определяем breadcrumbs в зависимости от контекста
     const getBreadcrumbItems = () => {
@@ -50,6 +71,14 @@ function AllSettings() {
 
     if (isBookContext && isLoading) {
         return <div>Завантаження...</div>;
+    }
+
+    // Показываем сообщение о загрузке, если проверяем права доступа
+    if (isBookContext && book && currentUser && userInfo) {
+        const isOwner = book.owner === userInfo.id;
+        if (!isOwner) {
+            return <div>Перевірка прав доступу...</div>;
+        }
     }
 
     return (

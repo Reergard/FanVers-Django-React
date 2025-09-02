@@ -555,6 +555,92 @@ const fetchUserTranslations = async () => {
     }
 };
 
+const updateBookAccessRights = async (bookSlug, accessRights) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        throw new Error('Необхідна авторизація');
+    }
+
+    try {
+        const response = await api.patch(`/catalog/books/${bookSlug}/access-rights/`, accessRights, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error updating book access rights:', error);
+        
+        if (error.response?.status === 401) {
+            throw new Error('Необхідна авторизація');
+        } else if (error.response?.status === 403) {
+            throw new Error('У вас немає прав для зміни налаштувань цієї книги');
+        } else if (error.response?.status === 400) {
+            throw new Error(error.response?.data?.error || 'Помилка валідації даних');
+        } else if (error.response?.status >= 500) {
+            throw new Error('Помилка сервера. Спробуйте пізніше');
+        } else if (error.code === 'ERR_NETWORK') {
+            throw new Error('Помилка з\'єднання з сервером');
+        }
+        
+        throw new Error('Помилка при оновленні налаштувань доступу');
+    }
+};
+
+const getBookAccessRights = async (bookSlug) => {
+    const token = localStorage.getItem('token');
+    const config = token ? {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'X-Requested-With': 'AccessRights'
+        }
+    } : {};
+
+    try {
+        const response = await api.get(`/catalog/books/info/${bookSlug}/`, config);
+        const data = response.data;
+        
+        return {
+            view_permission: data.view_permission || 'all',
+            comment_book_permission: data.comment_book_permission || 'all',
+            comment_chapter_permission: data.comment_chapter_permission || 'all',
+            download_permission: data.download_permission || 'all',
+            rate_permission: data.rate_permission || 'all'
+        };
+    } catch (error) {
+        console.error('Error fetching book access rights:', error);
+        
+        if (error.response?.status === 403) {
+            throw new Error('У вас немає прав для перегляду налаштувань доступу цієї книги');
+        }
+        
+        throw new Error('Помилка при завантаженні налаштувань доступу');
+    }
+};
+
+const checkBookAccess = async (bookSlug) => {
+    const token = localStorage.getItem('token');
+    const config = token ? {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    } : {};
+
+    try {
+        const response = await api.get(`/catalog/books/${bookSlug}/check-access/`, config);
+        return response.data;
+    } catch (error) {
+        console.error('Error checking book access:', error);
+        
+        if (error.response?.status === 404) {
+            throw new Error('Книга не знайдена');
+        }
+        
+        throw new Error('Помилка при перевірці доступу до книги');
+    }
+};
+
 export const catalogAPI = {
     fetchGenres,
     fetchTags,
@@ -576,6 +662,9 @@ export const catalogAPI = {
     getVolumeList,
     fetchAbandonedTranslations,
     fetchUserTranslations,
+    updateBookAccessRights,
+    getBookAccessRights,
+    checkBookAccess,
 };
 
 export {
@@ -599,4 +688,7 @@ export {
     getVolumeList,
     fetchAbandonedTranslations,
     fetchUserTranslations,
+    updateBookAccessRights,
+    getBookAccessRights,
+    checkBookAccess,
 };

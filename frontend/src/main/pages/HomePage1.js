@@ -12,11 +12,13 @@ import { Link, useNavigate } from "react-router-dom";
 import BlueDot from "./img/blue-dot.png";
 import { useSelector } from "react-redux";
 import AdultIcon from "../../catalog/pages/img/18.svg";
+import { useBookAccess } from "../../hooks/useBookAccess";
 
 const NovelCard = ({ title, description, image, slug, book_type, adult_content }) => {
   const navigate = useNavigate();
   const currentUser = useSelector(state => state.auth.user);
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  const { checkAccessAndNavigate } = useBookAccess();
   
 
 
@@ -30,30 +32,8 @@ const NovelCard = ({ title, description, image, slug, book_type, adult_content }
       return;
     }
 
-    try {
-      // Проверяем, является ли текущий пользователь владельцем книги
-      const bookInfo = await catalogAPI.getBookInfo(slug);
-      const isOwner = isAuthenticated && currentUser && bookInfo.owner === currentUser.id;
-      
-      console.log('NovelCard: проверка владельца:', { 
-        currentUserId: currentUser?.id, 
-        bookOwnerId: bookInfo.owner, 
-        isOwner 
-      });
-
-      // Переходим на соответствующую страницу
-      if (isOwner) {
-        console.log(`Переход на страницу владельца книги: ${slug}`);
-        navigate(`/books/${slug}`);
-      } else {
-        console.log(`Переход на страницу читателя книги: ${slug}`);
-        navigate(`/books/${slug}`);
-      }
-    } catch (error) {
-      console.error('Ошибка при проверке владельца книги:', error);
-      // В случае ошибки просто переходим на страницу книги
-      navigate(`/books/${slug}`);
-    }
+    // Используем новый хук для проверки доступа
+    await checkAccessAndNavigate(slug, title);
   };
 
   const handleCardClick = async () => {
@@ -65,30 +45,8 @@ const NovelCard = ({ title, description, image, slug, book_type, adult_content }
       return;
     }
 
-    try {
-      // Проверяем, является ли текущий пользователь владельцем книги
-      const bookInfo = await catalogAPI.getBookInfo(slug);
-      const isOwner = isAuthenticated && currentUser && bookInfo.owner === currentUser.id;
-      
-      console.log('NovelCard: проверка владельца (клик по карточке):', { 
-        currentUserId: currentUser?.id, 
-        bookOwnerId: bookInfo.owner, 
-        isOwner 
-      });
-
-      // Переходим на соответствующую страницу
-      if (isOwner) {
-        console.log(`Переход на страницу владельца книги (клик по карточке): ${slug}`);
-        navigate(`/books/${slug}`);
-      } else {
-        console.log(`Переход на страницу читателя книги (клик по карточке): ${slug}`);
-        navigate(`/books/${slug}`);
-      }
-    } catch (error) {
-      console.error('Ошибка при проверке владельца книги (клик по карточке):', error);
-      // В случае ошибки просто переходим на страницу книги
-      navigate(`/books/${slug}`);
-    }
+    // Используем новый хук для проверки доступа
+    await checkAccessAndNavigate(slug, title);
   };
 
   // Проверяем наличие обязательных данных

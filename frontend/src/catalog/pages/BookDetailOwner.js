@@ -13,6 +13,7 @@ import BookCart from "./img/image__book-cart.png";
 import { Button } from 'react-bootstrap';
 import SettingsBook from './img/Setting.svg';
 import { Form } from 'react-bootstrap';
+import { useToast } from '../../components/CustomToast';
 
 import AuthorBook from "./img/author.svg";
 import bookMini from "./img/book-mini.svg";
@@ -224,6 +225,7 @@ const BookDetailOwner = () => {
 
   const { slug } = useParams();
   const currentUser = useSelector(state => state.auth.user);
+  const { error: showError } = useToast();
   const [currentStartChapter, setCurrentStartChapter] = useState(1);
   const sliderRef = useRef(null);
   
@@ -347,6 +349,13 @@ const BookDetailOwner = () => {
       refetchComments();
     } catch (error) {
       console.error('Error posting comment:', error);
+      
+      // Показываем уведомление об ошибке доступа
+      if (error.response?.status === 403) {
+        showError(error.response?.data?.detail || 'У вас немає прав для коментування цієї книги');
+      } else {
+        showError('Помилка при відправці коментаря: ' + (error.message || 'Невідома помилка'));
+      }
     }
   };
 
@@ -362,6 +371,13 @@ const BookDetailOwner = () => {
       refetchComments();
     } catch (error) {
       console.error('Error posting reply:', error);
+      
+      // Показываем уведомление об ошибке доступа
+      if (error.response?.status === 403) {
+        showError(error.response?.data?.detail || 'У вас немає прав для коментування цієї книги');
+      } else {
+        showError('Помилка при відправці відповіді: ' + (error.message || 'Невідома помилка'));
+      }
     }
   };
 
