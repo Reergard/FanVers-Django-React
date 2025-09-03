@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
-
+import { Link } from "react-router-dom";
 import { fetchBooks } from '../../api/catalog/catalogAPI';
 
 import { handleCatalogApiError } from "../utils/errorUtils";
-
+import { getBookTypeLabel } from "../utils/bookUtils";
 import { useToast } from "../../components/CustomToast";
-
+import { useQuery } from "@tanstack/react-query";
 import "../css/Catalog.css";
 import { useSelector } from "react-redux";
 import { BreadCrumb } from '../../main/components/BreadCrumb';

@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { websiteAdvertisingAPI } from '../../api/website_advertising/website_advertisingAPI';
 import { useBookAccess } from "../../hooks/useBookAccess";
-
+import { useSelector } from "react-redux";
 import Slider from "react-slick";
 import LeftArrow from "../../main/pages/img/left-arrow.png";
 import RightArrow from "../../main/pages/img/right-arrow.png";
