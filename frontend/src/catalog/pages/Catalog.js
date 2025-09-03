@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
-import { Link } from "react-router-dom";
+
 import { fetchBooks } from '../../api/catalog/catalogAPI';
-import { websiteAdvertisingAPI } from '../../api/website_advertising/website_advertisingAPI';
+
 import { handleCatalogApiError } from "../utils/errorUtils";
-import { getBookTypeLabel } from "../utils/bookUtils";
+
 import { useToast } from "../../components/CustomToast";
-import { useQuery } from "@tanstack/react-query";
+
 import "../css/Catalog.css";
 import { useSelector } from "react-redux";
 import { BreadCrumb } from '../../main/components/BreadCrumb';
-import HomePage1 from '../../main/pages/HomePage1';
+import CatalogAdvertisingCarousel from '../components/CatalogAdvertisingCarousel';
 import AdultIcon from "../pages/img/18.svg";
 const NovelCard = ({ title, description, image, slug, book_type, adult_content }) => {
   return (
@@ -80,13 +80,7 @@ const Catalog = () => {
     (state) => state.userSettings.hideAdultContent
   );
 
-  const { data: advertisedBooks, isLoading: isLoadingAds } = useQuery({
-    queryKey: ["catalogAds"],
-    queryFn: websiteAdvertisingAPI.getCatalogAds,
-    onError: (error) => {
-      console.error("Error loading catalog advertisements:", error);
-    },
-  });
+
 
   useEffect(() => {
     const loadBooks = async () => {
@@ -119,7 +113,7 @@ const Catalog = () => {
           ]}
         />
         <Container className="catalog-content">
-          <HomePage1 />
+          <CatalogAdvertisingCarousel />
 
           {error ? (
             <p>{error}</p>

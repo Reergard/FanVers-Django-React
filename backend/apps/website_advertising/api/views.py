@@ -31,8 +31,10 @@ class AdvertisementViewSet(viewsets.ModelViewSet):
         return [IsAuthenticated()]  # Авторизація для інших дій
 
     def get_queryset(self):
-        logger.info(f"Отримання реклами для користувача: {self.request.user.id}")
-        return Advertisement.objects.filter(user=self.request.user)
+        if self.action in ['list', 'retrieve', 'user_advertisements']:
+            logger.info(f"Отримання реклами для користувача: {self.request.user.id}")
+            return Advertisement.objects.filter(user=self.request.user)
+        return Advertisement.objects.all()
 
     @action(detail=False, methods=['post'])
     def calculate_cost(self, request):

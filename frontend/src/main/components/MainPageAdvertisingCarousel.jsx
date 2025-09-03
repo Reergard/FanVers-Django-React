@@ -1,27 +1,22 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
-// import { websiteAdvertisingAPI } from '../../api/website_advertising/website_advertisingAPI';
-import { mainAPI } from '../../api/main/mainAPI';
-import { catalogAPI } from '../../api/catalog/catalogAPI';
-import "../styles/HomePage1.css";
-import Slider from "react-slick";
-import LeftArrow from "./img/left-arrow.png";
-import RightArrow from "./img/right-arrow.png";
-import OrangeDot from "./img/orange-dot.png";
-
-import BlueDot from "./img/blue-dot.png";
-
-import AdultIcon from "../../catalog/pages/img/18.svg";
+import { websiteAdvertisingAPI } from '../../api/website_advertising/website_advertisingAPI';
 import { useBookAccess } from "../../hooks/useBookAccess";
+
+import Slider from "react-slick";
+import LeftArrow from "../pages/img/left-arrow.png";
+import RightArrow from "../pages/img/right-arrow.png";
+import OrangeDot from "../pages/img/orange-dot.png";
+import BlueDot from "../pages/img/blue-dot.png";
+import AdultIcon from "../../catalog/pages/img/18.svg";
+import "../styles/HomePage1.css";
 
 const NovelCard = ({ title, description, image, slug, book_type, adult_content }) => {
   const { checkAccessAndNavigate } = useBookAccess();
-  
-
 
   const handleReadClick = async (e) => {
-    e.stopPropagation(); // Предотвращаем всплытие события
-    console.log('NovelCard: клик по кнопке "читати"', { title, slug });
+    e.stopPropagation();
+    console.log('MainPageAdvertisingCarousel: клик по кнопке "читати"', { title, slug });
     
     if (!slug) {
       console.warn('Отсутствует slug для книги:', { title, slug });
@@ -29,12 +24,11 @@ const NovelCard = ({ title, description, image, slug, book_type, adult_content }
       return;
     }
 
-    // Используем новый хук для проверки доступа
     await checkAccessAndNavigate(slug, title);
   };
 
   const handleCardClick = async () => {
-    console.log('NovelCard: клик по карточке', { title, slug });
+    console.log('MainPageAdvertisingCarousel: клик по карточке', { title, slug });
     
     if (!slug) {
       console.warn('Отсутствует slug для книги при клике по карточке:', { title, slug });
@@ -42,13 +36,11 @@ const NovelCard = ({ title, description, image, slug, book_type, adult_content }
       return;
     }
 
-    // Используем новый хук для проверки доступа
     await checkAccessAndNavigate(slug, title);
   };
 
-  // Проверяем наличие обязательных данных
   if (!title || !slug) {
-    console.warn('NovelCard: отсутствуют обязательные данные:', { title, slug });
+    console.warn('MainPageAdvertisingCarousel: отсутствуют обязательные данные:', { title, slug });
     return (
       <div className="novel-card advertising-mobal error-card">
         <div className="error-content">
@@ -90,14 +82,14 @@ const NovelCard = ({ title, description, image, slug, book_type, adult_content }
             {adult_content && (
               <img src={AdultIcon} alt="18+" className="novel-adult-icon" />
             )}
-                          <div
-                className="divider"
-                role="separator"
-                aria-orientation="vertical"
-              />
-              {book_type === 'AUTHOR' && (
-                <span className="novel-letter">a</span>
-              )}
+            <div
+              className="divider"
+              role="separator"
+              aria-orientation="vertical"
+            />
+            {book_type === 'AUTHOR' && (
+              <span className="novel-letter">a</span>
+            )}
           </div>
         </div>
       </div>
@@ -120,36 +112,11 @@ const NovelCard = ({ title, description, image, slug, book_type, adult_content }
   );
 };
 
-const HomePage1 = () => {
+const MainPageAdvertisingCarousel = () => {
   const { data: books, error, isLoading } = useQuery({
     queryKey: ["main-page-ads"],
     queryFn: () => websiteAdvertisingAPI.getMainPageAds(),
   });
-
-  // Логирование для отладки
-  useEffect(() => {
-    if (books) {
-      console.log('HomePage1: получены рекламные объявления:', books);
-      books.forEach((ad, index) => {
-        console.log(`Рекламное объявление ${index + 1}:`, {
-          id: ad.id,
-          book_title: ad.book_details?.title,
-          book_slug: ad.book_details?.slug,
-          location: ad.location,
-          start_date: ad.start_date,
-          end_date: ad.end_date,
-          total_cost: ad.total_cost
-        });
-      });
-    }
-  }, [books]);
-
-  // Обработка ошибок
-  useEffect(() => {
-    if (error) {
-      console.error('HomePage1: ошибка загрузки рекламных объявлений:', error);
-    }
-  }, [error]);
 
   const sliderRef = useRef(null);
   
@@ -205,7 +172,7 @@ const HomePage1 = () => {
             ))}
           </Slider>
         ) : (
-          <div className="no-books-message">Немає активних рекламних оголошень</div>
+          <div className="no-books-message">Немає активних рекламних оголошень для головної сторінки</div>
         )}
       </div>
       
@@ -233,4 +200,4 @@ const HomePage1 = () => {
   );
 };
 
-export default HomePage1;
+export default MainPageAdvertisingCarousel;

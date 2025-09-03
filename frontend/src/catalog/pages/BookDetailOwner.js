@@ -515,6 +515,10 @@ const BookDetailOwner = () => {
             </div>
             <div className={styles.footerBookCartUser}>
               <TranslationSettingsButton bookSlug={slug} />
+              <Link to={`/books/${slug}/advertisement`} className={styles.advertisementButton} style={{ marginTop: '10px' }}>
+                <img src={SettingsBook} alt="Advertisement" />
+                <span>Налаштування реклами</span>
+              </Link>
             </div>
 
           </div>

@@ -18,7 +18,7 @@ const websiteAdvertisingAPI = {
         });
 
         try {
-            const response = await api.post('/website-advertising/advertisements/calculate_cost/', {
+            const response = await api.post('/website_advertising/advertisements/calculate_cost/', {
                 start_date: formatDate(startDate),
                 end_date: formatDate(endDate)
             });
@@ -54,7 +54,7 @@ const websiteAdvertisingAPI = {
             console.log('Форматовані дані для бекенду:', formattedData);
 
             try {
-                const response = await api.post('/website-advertising/advertisements/', formattedData);
+                const response = await api.post('/website_advertising/advertisements/', formattedData);
                 console.log('Оголошення успішно створено:', response.data);
                 return response.data;
             } catch (error) {
@@ -101,7 +101,7 @@ const websiteAdvertisingAPI = {
     getMainPageAds: async () => {
         console.log('Початок запиту getMainPageAds');
         try {
-            const response = await api.get('/website-advertising/advertisements/main_page_ads/');
+            const response = await api.get('/website_advertising/advertisements/main_page_ads/');
             console.log('Отримано оголошення головної сторінки:', response.data);
             return response.data;
         } catch (error) {
@@ -116,7 +116,7 @@ const websiteAdvertisingAPI = {
     getUserAdvertisements: async () => {
         console.log('Початок запиту getUserAdvertisements');
         try {
-            const response = await api.get('/website-advertising/advertisements/user_advertisements/');
+            const response = await api.get('/website_advertising/advertisements/user_advertisements/');
             console.log('Отримано рекламні оголошення користувача:', response.data);
             return response.data;
         } catch (error) {
@@ -127,7 +127,7 @@ const websiteAdvertisingAPI = {
 
     getCatalogAds: async () => {
         try {
-            const response = await api.get('/website-advertising/advertisements/catalog_page_ads/');
+            const response = await api.get('/website_advertising/advertisements/catalog_page_ads/');
             console.log('Успішно отримано рекламу для каталогу:', response.data);
             return response.data;
         } catch (error) {
