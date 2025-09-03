@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 // import { websiteAdvertisingAPI } from '../../api/website_advertising/website_advertisingAPI';
 import { mainAPI } from '../../api/main/mainAPI';
-import { catalogAPI } from '../../api/catalog/catalogAPI';
+
 import "../styles/HomePage1.css";
 import Slider from "react-slick";
 import LeftArrow from "./img/left-arrow.png";
@@ -122,23 +122,20 @@ const NovelCard = ({ title, description, image, slug, book_type, adult_content }
 
 const HomePage1 = () => {
   const { data: books, error, isLoading } = useQuery({
-    queryKey: ["main-page-ads"],
-    queryFn: () => websiteAdvertisingAPI.getMainPageAds(),
+    queryKey: ["books-news"],
+    queryFn: () => mainAPI.getBooksNews(),
   });
 
   // Логирование для отладки
   useEffect(() => {
     if (books) {
-      console.log('HomePage1: получены рекламные объявления:', books);
-      books.forEach((ad, index) => {
-        console.log(`Рекламное объявление ${index + 1}:`, {
-          id: ad.id,
-          book_title: ad.book_details?.title,
-          book_slug: ad.book_details?.slug,
-          location: ad.location,
-          start_date: ad.start_date,
-          end_date: ad.end_date,
-          total_cost: ad.total_cost
+      console.log('HomePage1: получены новинки книг:', books);
+      books.forEach((book, index) => {
+        console.log(`Книга ${index + 1}:`, {
+          id: book.id,
+          title: book.title,
+          slug: book.slug,
+          description: book.description
         });
       });
     }
@@ -147,7 +144,7 @@ const HomePage1 = () => {
   // Обработка ошибок
   useEffect(() => {
     if (error) {
-      console.error('HomePage1: ошибка загрузки рекламных объявлений:', error);
+      console.error('HomePage1: ошибка загрузки новинок книг:', error);
     }
   }, [error]);
 
@@ -181,31 +178,31 @@ const HomePage1 = () => {
   return (
     <div className="main-container">
       <div className="header-container-homepage">
-        <span className="advertisement-homepage">Реклама</span>
+        <span className="advertisement-homepage">Новинки</span>
         <div className="line-homepage" />
       </div>
 
       <div className="novels-slider-wrapper">
         {isLoading ? (
-          <div className="loading-message">Завантаження реклами...</div>
+          <div className="loading-message">Завантаження новинок...</div>
         ) : error ? (
-          <div className="error-message">Помилка завантаження реклами: {error.message}</div>
+          <div className="error-message">Помилка завантаження новинок: {error.message}</div>
         ) : books?.length > 0 ? (
           <Slider ref={sliderRef} {...settings}>
-            {books.map((ad) => (
+            {books.map((book) => (
               <NovelCard
-                key={ad.id}
-                title={ad.book_details?.title}
-                description={ad.book_details?.description}
-                image={ad.book_details?.image}
-                slug={ad.book_details?.slug}
-                book_type={ad.book_details?.book_type}
-                adult_content={ad.book_details?.adult_content}
+                key={book.id}
+                title={book.title}
+                description={book.description}
+                image={book.image}
+                slug={book.slug}
+                book_type={book.book_type}
+                adult_content={book.adult_content}
               />
             ))}
           </Slider>
         ) : (
-          <div className="no-books-message">Немає активних рекламних оголошень</div>
+          <div className="no-books-message">Немає нових книг</div>
         )}
       </div>
       
