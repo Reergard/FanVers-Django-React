@@ -4,7 +4,7 @@ export { usersAPI } from './users/usersAPI';
 export { editorsAPI } from './editors/editorsAPI';
 export { navigationAPI } from './navigation/navigationAPI';
 export { fetchBookRatings, submitRating } from './rating/ratingAPI';
-export { default as BookRating } from '../catalog/components/BookRating';
+export { default as BookRatingComponent } from '../rating/components/BookRatingComponent';
 export { reviewsAPI } from './reviews/reviewsAPI';
 export { searchAPI } from './search/searchAPI';
 export { catalogAPI } from './catalog/catalogAPI';

@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 import { catalogAPI } from '../../api/catalog/catalogAPI';
 import { navigationAPI } from '../../api/navigation/navigationAPI';
+import { mainAPI } from '../../api/main/mainAPI';
 import BookDetailOwner from './BookDetailOwner';
 import BookDetailReader from './BookDetailReader';
 import ChapterRangeSelector from '../../navigation/components/ChapterRangeSelector';
@@ -35,6 +37,37 @@ const BookDetailRouter = () => {
       return response.data;
     },
     enabled: !!slug,
+  });
+
+  // Load volumes - moved from individual components to avoid duplication
+  const { data: volumes = [] } = useQuery({
+    queryKey: ['volumes', slug],
+    queryFn: async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/api/catalog/books/${slug}/volumes/`);
+        console.log('Volumes loaded in router:', response.data);
+        return response.data;
+      } catch (error) {
+        console.error('Error loading volumes in router:', error);
+        return [];
+      }
+    },
+    enabled: !!slug,
+  });
+
+  // Load other books for slider - moved from individual components to avoid duplication
+  const { data: books } = useQuery({
+    queryKey: ["books-news"],
+    queryFn: async () => {
+      try {
+        const booksData = await mainAPI.getBooksNews();
+        console.log('Other books loaded in router:', booksData);
+        return booksData;
+      } catch (error) {
+        console.error('Error loading books news in router:', error);
+        return [];
+      }
+    },
   });
 
   // Debug logging for chapters data
@@ -109,6 +142,8 @@ const BookDetailRouter = () => {
   const commonProps = {
     book,
     chapters: chaptersData || [],
+    volumes: volumes || [],
+    books: books || [],
     currentRange: { start: 1, end: chaptersData?.length || 0 },
     totalChapters: chaptersData?.length || 0,
   };

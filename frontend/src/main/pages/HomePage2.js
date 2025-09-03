@@ -18,6 +18,7 @@ import OrangeDot from "./img/orange-dot.png";
 import { Link } from "react-router-dom";
 import BlueDot from "./img/blue-dot.png";
 import BookImg from "./img/book-homepages.svg";
+import BookRatingComponent from '../../rating/components/BookRatingComponent';
 // Импорты звезд рейтинга
 const starFills1 = [...Array(4)].map((_, i) =>
   require(`./img/star-fill-${8 + i}.svg`)
@@ -54,6 +55,17 @@ const HomePage2 = () => {
   // Текущая книга для отображения
   const currentBook = books?.[currentBookIndex];
 
+  // Логирование для отладки
+  useEffect(() => {
+    if (currentBook) {
+      console.log('HomePage2: Текущая книга в карусели:', {
+        title: currentBook.title,
+        slug: currentBook.slug,
+        index: currentBookIndex
+      });
+    }
+  }, [currentBook, currentBookIndex]);
+
   return (
     <div className="homepage-pc screen">
        <div className="line-rUQU7Z">
@@ -86,52 +98,44 @@ const HomePage2 = () => {
             <img className="x3-1-rUQU7Z" src={backgroundImage} alt="3 1" />
             <div className="container-home-page">
               <div className="rating-rUQU7Z">
-                <div className="rating2-kpIWzg">
-                  {/* <div className="rectangle-3957"></div> */}
-                  <div className="group-50-aNiaBw">
-                    <img
-                      className="star_light"
-                      src={starLight2}
-                      alt="Star_light"
-                    />
-                    {[...Array(4)].map((_, index) => (
-                      <img
-                        key={`star-fill-${index}`}
-                        className={`star_fill-${
-                          ["hle15p", "nlSlgt", "Glaod1", "BhyzBe"][index]
-                        } star_fill`}
-                        src={starFills1[index]}
-                        alt="Star_fill"
-                      />
-                    ))}
-                  </div>
-                  <div className="text_label-aNiaBw text_label a-alleycaticg-alen-rus-regular-normal-tangerine-20px">
-                    якість перекладу
-                  </div>
-                </div>
-                <div className="rating1-kpIWzg">
-                  {/* <div className="rectangle-3957"></div> */}
-                  <div className="text_label-i2YPU0 text_label a-alleycaticg-alen-rus-regular-normal-tangerine-20px">
-                    рейтинг твору
-                  </div>
-                  <div className="group-49-i2YPU0">
-                    <img
-                      className="star_light"
-                      src={starLight3}
-                      alt="Star_light"
-                    />
-                    {[...Array(4)].map((_, index) => (
-                      <img
-                        key={`star-fill-2-${index}`}
-                        className={`star_fill-${
-                          ["aIXtUm", "MSv9cK", "9jjRNj", "Z6M2St"][index]
-                        } star_fill`}
-                        src={starFills2[index]}
-                        alt="Star_fill"
-                      />
-                    ))}
-                  </div>
-                </div>
+                {currentBook && (
+                  <>
+                    <div className="rating2-kpIWzg">
+                      <div className="group-50-aNiaBw">
+                        <BookRatingComponent
+                          key={`translation-${currentBook.slug}`}
+                          bookSlug={currentBook.slug}
+                          ratingType="TRANSLATION"
+                          title=""
+                          compact={true}
+                          onRatingUpdate={() => {
+                            console.log('Рейтинг перекладу оновлено в карусели');
+                          }}
+                        />
+                      </div>
+                      <div className="text_label-aNiaBw text_label a-alleycaticg-alen-rus-regular-normal-tangerine-20px">
+                        якість перекладу
+                      </div>
+                    </div>
+                    <div className="rating1-kpIWzg">
+                      <div className="text_label-i2YPU0 text_label a-alleycaticg-alen-rus-regular-normal-tangerine-20px">
+                        рейтинг твору
+                      </div>
+                      <div className="group-49-i2YPU0">
+                        <BookRatingComponent
+                          key={`book-${currentBook.slug}`}
+                          bookSlug={currentBook.slug}
+                          ratingType="BOOK"
+                          title=""
+                          compact={true}
+                          onRatingUpdate={() => {
+                            console.log('Рейтинг твору оновлено в карусели');
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
               <img src={BookImg} className="book-img" />
               <div className="text-book-rUQU7Z">

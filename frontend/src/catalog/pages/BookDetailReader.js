@@ -42,7 +42,7 @@ import {
     getOriginalStatusLabel,
     getBookTypeLabel 
 } from '../utils/bookUtils';
-import BookRating from '../components/BookRating';
+import BookRatingComponent from '../../rating/components/BookRatingComponent';
 
 
 
@@ -220,7 +220,7 @@ const CommentComponent = ({ comment, onReply, onReaction, onOwnerLike, isOwner, 
   );
 };
 
-const BookDetailReader = ({ book: propBook, chapters = [], currentRange, totalChapters }) => {
+const BookDetailReader = ({ book: propBook, chapters = [], volumes = [], books = [], currentRange, totalChapters }) => {
 
   const { slug } = useParams();
   const currentUser = useSelector(state => state.auth.user);
@@ -281,36 +281,9 @@ const BookDetailReader = ({ book: propBook, chapters = [], currentRange, totalCh
     enabled: !!slug,
   });
 
-  // Load volumes - exactly like in working code
-  const { data: volumes = [] } = useQuery({
-    queryKey: ['volumes', slug],
-    queryFn: async () => {
-      try {
-        const response = await axios.get(`http://localhost:8000/api/catalog/books/${slug}/volumes/`);
-        console.log('Volumes loaded:', response.data);
-        return response.data;
-      } catch (error) {
-        console.error('Error loading volumes:', error);
-        return [];
-      }
-    },
-    enabled: !!slug,
-  });
+  // Volumes теперь загружаются в BookDetailRouter и передаются как props
 
-  // Load other books for slider - exactly like in working code
-  const { data: books } = useQuery({
-    queryKey: ["books-news"],
-    queryFn: async () => {
-      try {
-        const booksData = await mainAPI.getBooksNews();
-        console.log('Other books loaded:', booksData);
-        return booksData;
-      } catch (error) {
-        console.error('Error loading books news:', error);
-        return [];
-      }
-    },
-  });
+  // Other books теперь загружаются в BookDetailRouter и передаются как props
 
   // Load comments for the book
   const { data: comments = [], refetch: refetchComments } = useQuery({
@@ -328,13 +301,7 @@ const BookDetailReader = ({ book: propBook, chapters = [], currentRange, totalCh
     enabled: !!slug,
   });
 
-  useEffect(() => {
-    if (slug) {
-      // Временно отключаем trackView, так как endpoint не существует
-      // trackView(slug);
-      console.log('Track view for slug:', slug);
-    }
-  }, [slug]);
+  // trackView теперь вызывается в BookDetailRouter, убираем дублирование
 
   const handleRangeSelect = (startChapter) => {
     setCurrentStartChapter(startChapter);
@@ -655,7 +622,8 @@ const BookDetailReader = ({ book: propBook, chapters = [], currentRange, totalCh
                   </div>
                 </div>
                 <div className={styles.raiting}>
-                  <BookRating
+                  <BookRatingComponent
+                    key={`book-rating-${slug}`}
                     bookSlug={slug}
                     ratingType="BOOK"
                     title="Рейтинг твору:"
@@ -665,7 +633,8 @@ const BookDetailReader = ({ book: propBook, chapters = [], currentRange, totalCh
                     }}
                   />
                   {book.book_type === 'TRANSLATION' && (
-                    <BookRating
+                    <BookRatingComponent
+                      key={`translation-rating-${slug}`}
                       bookSlug={slug}
                       ratingType="TRANSLATION"
                       title="Якість перекладу:"

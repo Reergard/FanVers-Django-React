@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 import axios from 'axios';
 
 // Создаем экземпляр axios с базовой конфигурацией
@@ -11,11 +11,34 @@ const axiosInstance = axios.create({
 });
 
 const useBookAnalytics = () => {
+    const pendingRequests = useRef(new Map());
+    const lastRequestTime = useRef(new Map());
+    const MIN_INTERVAL = 500; // Минимальный интервал между запросами аналитики (мс)
+
     const updateAnalytics = useCallback(async (bookId, actionType) => {
         console.log('updateAnalytics вызван с параметрами:', { bookId, actionType });
         
         if (!bookId) {
             console.error('updateAnalytics: bookId не предоставлен');
+            return;
+        }
+
+        // Создаем уникальный ключ для запроса
+        const requestKey = `${bookId}_${actionType}`;
+        
+        // Проверяем временной интервал
+        const now = Date.now();
+        const lastTime = lastRequestTime.current.get(requestKey) || 0;
+        const timeSinceLastRequest = now - lastTime;
+        
+        if (timeSinceLastRequest < MIN_INTERVAL) {
+            console.log(`Analytics request for ${requestKey} is too frequent, skipping...`);
+            return;
+        }
+        
+        // Проверяем, есть ли уже запрос для этого ключа
+        if (pendingRequests.current.has(requestKey)) {
+            console.log(`Analytics request for ${requestKey} is already pending, skipping...`);
             return;
         }
 
@@ -25,6 +48,10 @@ const useBookAnalytics = () => {
             action_type: actionType
         };
         console.log('Отправляемые данные:', payload);
+
+        // Добавляем запрос в pending и обновляем время
+        pendingRequests.current.set(requestKey, true);
+        lastRequestTime.current.set(requestKey, now);
 
         try {
             console.log('Отправка запроса на:', '/api/analytics_books/update/');
@@ -36,7 +63,18 @@ const useBookAnalytics = () => {
             console.log('Конфигурация запроса:', error.config);
             console.log('Статус ответа:', error.response?.status);
             console.log('Данные ответа:', error.response?.data);
+            
+            // Обработка ошибки 429 (Too Many Requests)
+            if (error.response?.status === 429) {
+                console.log('Analytics rate limit exceeded, request will be retried later');
+                // Не выбрасываем ошибку для 429, чтобы не нарушать UX
+                return;
+            }
+            
             throw error;
+        } finally {
+            // Удаляем запрос из pending
+            pendingRequests.current.delete(requestKey);
         }
     }, []);
 

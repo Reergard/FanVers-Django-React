@@ -4,7 +4,7 @@ import { api } from '../instance';
 export const fetchBookRatings = async (bookSlug, token) => {
   try {
     const response = await api.get(`/rating/${bookSlug}/book-ratings/`, {
-      headers: token ? { Authorization: `JWT ${token}` } : {}
+      headers: token ? { Authorization: `Bearer ${token}` } : {}
     });
     return response.data;
   } catch (error) {
