@@ -32,7 +32,7 @@ const EditChapter = () => {
 
                 const bookSlug = data.book_slug;
                 const volumesResponse = await axios.get(
-                    `http://localhost:8000/api/catalog/books/${bookSlug}/volumes/`
+                    `http://127.0.0.1:8000/api/catalog/books/${bookSlug}/volumes/`
                 );
                 setVolumes(volumesResponse.data);
             } catch (error) {

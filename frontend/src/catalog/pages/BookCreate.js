@@ -79,21 +79,33 @@ const CreateBook = () => {
   const { data: genres, isLoading: genresLoading } = useQuery({
     queryKey: ["genres"],
     queryFn: catalogAPI.fetchGenres,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    staleTime: 10 * 60 * 1000, // 10 минут
   });
   
   const { data: tags, isLoading: tagsLoading } = useQuery({
     queryKey: ["tags"],
     queryFn: catalogAPI.fetchTags,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    staleTime: 10 * 60 * 1000, // 10 минут
   });
   
   const { data: countries, isLoading: countriesLoading } = useQuery({
     queryKey: ["countries"],
     queryFn: catalogAPI.fetchCountries,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    staleTime: 10 * 60 * 1000, // 10 минут
   });
   
   const { data: fandoms, isLoading: fandomsLoading } = useQuery({
     queryKey: ["fandoms"],
     queryFn: catalogAPI.fetchFandoms,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    staleTime: 10 * 60 * 1000, // 10 минут
   });
 
   const adultTag = tags?.find((tag) => tag.name === "18+");

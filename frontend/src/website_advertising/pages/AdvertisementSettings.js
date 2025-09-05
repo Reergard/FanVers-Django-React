@@ -28,7 +28,9 @@ const AdvertisementSettings = () => {
     const { data: userBalance, refetch: refetchBalance } = useQuery({
         queryKey: ['userBalance'],
         queryFn: () => usersAPI.getUserBalance(),
-        refetchOnWindowFocus: true
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
+        staleTime: 2 * 60 * 1000, // 2 минуты
     });
 
     const totalCost = (mainPageOrdered ? mainPageCost : 0) + (catalogOrdered ? catalogCost : 0);

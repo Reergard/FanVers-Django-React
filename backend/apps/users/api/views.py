@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth import get_user_model
 from rest_framework import status, generics, permissions
-from rest_framework.decorators import api_view, permission_classes, throttle_classes, parser_classes
+from rest_framework.decorators import api_view, permission_classes, parser_classes
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.views import APIView
@@ -29,7 +29,7 @@ from apps.users.api.serializers import (
     NotificationSettingsSerializer
 )
 from apps.users.models import Profile
-from .throttling import ProfileThrottle, ProfileImageUploadThrottle
+# Удаляем импорт старых throttling классов
 
 # Получаем модель User через get_user_model()
 User = get_user_model()
@@ -37,7 +37,6 @@ User = get_user_model()
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-# @throttle_classes([ProfileThrottle])  # Розкоментувати на продакшені
 def save_token_view(request):
     """Збереження FCM токену для push-сповіщень"""
     token = request.data.get('token')
@@ -184,32 +183,33 @@ def update_profile_view(request):
         )
 
 
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-@throttle_classes([ProfileImageUploadThrottle])
-@parser_classes([MultiPartParser, FormParser])
-def upload_profile_image(request):
-    """Завантаження зображення профілю з покращеною безпекою"""
-    try:
-        serializer = ProfileImageUploadSerializer(data=request.data, context={'request': request})
-        if serializer.is_valid():
-            # Використовуємо метод save з serializer'а
-            profile = serializer.save()
+class ProfileImageView(APIView):
+    permission_classes = [IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser]
+    throttle_scope = 'upload'  # Загрузка файлов
+    
+    def post(self, request):
+        """Завантаження зображення профілю з покращеною безпекою"""
+        try:
+            serializer = ProfileImageUploadSerializer(data=request.data, context={'request': request})
+            if serializer.is_valid():
+                # Використовуємо метод save з serializer'а
+                profile = serializer.save()
+                
+                return Response({
+                    'message': 'Зображення профілю успішно оновлено',
+                    'image_url': request.build_absolute_uri(profile.image.url) + f'?v={int(time.time())}',
+                    'has_custom_image': True
+                })
             
-            return Response({
-                'message': 'Зображення профілю успішно оновлено',
-                'image_url': request.build_absolute_uri(profile.image.url) + f'?v={int(time.time())}',
-                'has_custom_image': True
-            })
-        
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        
-    except Exception as e:
-        logger.error(f"Помилка завантаження зображення: {str(e)}", exc_info=True)
-        return Response(
-            {'error': 'Помилка при завантаженні зображення'}, 
-            status=status.HTTP_500_INTERNAL_SERVER_ERROR
-        )
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+        except Exception as e:
+            logger.error(f"Помилка завантаження зображення: {str(e)}", exc_info=True)
+            return Response(
+                {'error': 'Помилка при завантаженні зображення'}, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
 
 @api_view(['DELETE'])

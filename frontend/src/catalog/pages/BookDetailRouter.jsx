@@ -27,6 +27,9 @@ const BookDetailRouter = () => {
     queryKey: ['book', slug],
     queryFn: () => catalogAPI.fetchBook(slug),
     enabled: !!slug,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    staleTime: 2 * 60 * 1000, // 2 минуты
   });
 
   // Load chapters using the same API as BookDetailReader
@@ -37,6 +40,9 @@ const BookDetailRouter = () => {
       return response.data;
     },
     enabled: !!slug,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    staleTime: 2 * 60 * 1000, // 2 минуты
   });
 
   // Load volumes - moved from individual components to avoid duplication
@@ -44,7 +50,7 @@ const BookDetailRouter = () => {
     queryKey: ['volumes', slug],
     queryFn: async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/catalog/books/${slug}/volumes/`);
+        const response = await axios.get(`http://127.0.0.1:8000/api/catalog/books/${slug}/volumes/`);
         console.log('Volumes loaded in router:', response.data);
         return response.data;
       } catch (error) {
@@ -53,24 +59,15 @@ const BookDetailRouter = () => {
       }
     },
     enabled: !!slug,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    staleTime: 2 * 60 * 1000, // 2 минуты
   });
 
-  // Load other books for slider - moved from individual components to avoid duplication
-  const { data: books } = useQuery({
-    queryKey: ["books-news"],
-    queryFn: async () => {
-      try {
-        const booksData = await mainAPI.getBooksNews();
-        console.log('Other books loaded in router:', booksData);
-        return booksData;
-      } catch (error) {
-        console.error('Error loading books news in router:', error);
-        return [];
-      }
-    },
-  });
+  // УДАЛЕНО: Дублирующийся запрос books-news (уже есть в HomePage2.js)
+  // Это вызывало бесконечные перезапросы!
 
-  // Debug logging for chapters data
+  // Debug logging for chapters data - объединяем в один useEffect
   useEffect(() => {
     if (chaptersData) {
       console.log('BookDetailRouter: Chapters data loaded:', {
@@ -78,16 +75,16 @@ const BookDetailRouter = () => {
         chapters: chaptersData.map(ch => ({ id: ch.id, title: ch.title, position: ch.position }))
       });
     }
-  }, [chaptersData]);
+  }, [chaptersData?.length]); // Используем только длину массива
 
   useEffect(() => {
     if (slug) {
       console.log('BookDetailRouter: отслеживание просмотра для slug:', slug);
       trackView(slug);
     }
-  }, [slug, trackView]);
+  }, [slug]); // Убираем trackView из зависимостей
 
-  // Логирование для отладки
+  // Логирование для отладки - объединяем в один useEffect
   useEffect(() => {
     if (book) {
       console.log('BookDetailRouter: книга загружена:', {
@@ -97,16 +94,7 @@ const BookDetailRouter = () => {
         currentUser: currentUser?.id
       });
     }
-  }, [book, currentUser]);
-
-  useEffect(() => {
-    if (chaptersData) {
-      console.log('BookDetailRouter: главы загружены:', {
-        count: chaptersData.length,
-        chapters: chaptersData.map(ch => ({ id: ch.id, title: ch.title }))
-      });
-    }
-  }, [chaptersData]);
+  }, [book?.id, currentUser?.id]); // Используем только ID вместо объектов
 
   const handleRangeSelect = (startChapter) => {
     setCurrentStartChapter(startChapter);
@@ -143,7 +131,7 @@ const BookDetailRouter = () => {
     book,
     chapters: chaptersData || [],
     volumes: volumes || [],
-    books: books || [],
+    // books: удалено - дублирующийся запрос
     currentRange: { start: 1, end: chaptersData?.length || 0 },
     totalChapters: chaptersData?.length || 0,
   };

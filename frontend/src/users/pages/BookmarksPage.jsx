@@ -22,7 +22,7 @@ const NovelCard = ({ book, status }) => {
         );
     }
 
-    const imageUrl = book.image ? (book.image.startsWith('http') ? book.image : `http://localhost:8000${book.image}`) : '';
+    const imageUrl = book.image ? (book.image.startsWith('http') ? book.image : `http://127.0.0.1:8000${book.image}`) : '';
     
     // Функція для форматування дати
     const formatDate = (dateString) => {
@@ -196,6 +196,9 @@ const BookmarksPage = () => {
         queryKey: ['user-bookmarks', currentUser?.id, selectedStatus],
         queryFn: () => usersAPI.getUserBookmarks(selectedStatus),
         enabled: !!isAuthenticated && !!currentUser?.id,
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
+        staleTime: 2 * 60 * 1000, // 2 минуты
         onError: (error) => {
             console.error('Error loading bookmarks:', error);
             showError('Помилка завантаження закладок');
@@ -206,6 +209,9 @@ const BookmarksPage = () => {
     const { data: advertisedBooks, isLoading: isLoadingAds } = useQuery({
         queryKey: ["catalogAds"],
         queryFn: websiteAdvertisingAPI.getCatalogAds,
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
+        staleTime: 5 * 60 * 1000, // 5 минут
         onError: (error) => {
             console.error("Error loading catalog advertisements:", error);
         },

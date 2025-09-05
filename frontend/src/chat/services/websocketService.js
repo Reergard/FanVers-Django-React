@@ -56,7 +56,7 @@ class WebSocketService {
                 throw new Error('Токен авторизації не знайдений або не дійсний');
             }
 
-            const wsUrl = `ws://localhost:8000/ws/chat/${chatId}/?token=${token}`;
+            const wsUrl = `ws://127.0.0.1:8000/ws/chat/${chatId}/?token=${token}`;
             console.log('🔌 [WebSocketService] WebSocket URL:', wsUrl);
 
             return new Promise((resolve, reject) => {

@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from django.db.models import Avg
 from ..models import BookRating
 from .serializers import BookRatingSerializer
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.shortcuts import get_object_or_404
 from apps.catalog.models import Book
 from django.db import models
@@ -13,6 +13,15 @@ from apps.catalog.api.permissions import check_book_access_permission
 class BookRatingViewSet(viewsets.ModelViewSet):
     serializer_class = BookRatingSerializer
     permission_classes = [IsAuthenticated]
+    
+    def get_permissions(self):
+        """
+        Разрешаем чтение рейтингов для всех (гости могут видеть рейтинги),
+        но требуем авторизацию для создания/изменения/удаления
+        """
+        if self.action in ['book_ratings', 'list', 'retrieve']:
+            return [AllowAny()]
+        return [IsAuthenticated()]
     
     def get_queryset(self):
         return BookRating.objects.filter(user=self.request.user)
@@ -48,7 +57,11 @@ class BookRatingViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-    @action(detail=False, methods=['GET'])
+    @action(
+        detail=False, 
+        methods=['GET'],
+        url_path=r'(?P<book_slug>[^/.]+)/book-ratings'
+    )
     def book_ratings(self, request, book_slug=None):
         try:
             book_slug = book_slug or request.query_params.get('book_slug')

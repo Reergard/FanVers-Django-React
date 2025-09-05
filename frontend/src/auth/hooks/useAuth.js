@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProfile, forceLogout } from '../authSlice';
+import { getProfile, forceLogout, setIsAuthenticated } from '../authSlice';
 import { useLocation } from 'react-router-dom';
 import tokenService from '../tokenService';
 
@@ -41,10 +41,20 @@ export const useAuth = () => {
       });
     }
 
+    // Предотвращаем циклы - если уже загружаемся, не делаем ничего
+    if (isLoading) {
+      return;
+    }
+
     // Гейт №1: не грузим профиль на публичных роутов
     if (isPublic) {
-      console.log('useAuth: Публічна сторінка, пропускаємо');
       requestedRef.current = false;
+      // Если токена нет — гарантированно считаем неавторизованным,
+      // чтобы логика редиректов со страницы логина не уносила на "/"
+      const hasToken = !!localStorage.getItem('token');
+      if (!hasToken) {
+        if (isAuthenticated) dispatch(setIsAuthenticated(false));
+      }
       return;
     }
 
@@ -52,6 +62,21 @@ export const useAuth = () => {
     if (!hasToken) {
       console.log('useAuth: Немає токена, пропускаємо');
       requestedRef.current = false;
+      // Устанавливаем isAuthenticated в false если нет токена
+      if (isAuthenticated) {
+        dispatch(setIsAuthenticated(false));
+      }
+      return;
+    }
+
+    // Гейт №2.5: если есть токен но нет userInfo, загружаем профиль
+    if (hasToken && (!userInfo || Object.keys(userInfo).length === 0)) {
+      // Продолжаем к загрузке профиля
+    } else if (hasToken && userInfo && Object.keys(userInfo).length > 0) {
+      // Если есть токен и userInfo, пользователь авторизован
+      if (!isAuthenticated) {
+        dispatch(setIsAuthenticated(true));
+      }
       return;
     }
 
@@ -67,19 +92,8 @@ export const useAuth = () => {
       return;
     }
 
-    // Гейт №5: додаткова перевірка для React Strict Mode
-    // Перевіряємо, чи не завантажується вже профіль в Redux
-    if (isLoading) {
-      console.log('useAuth: Вже завантажується, пропускаємо');
-      return;
-    }
-
-    // Гейт №6: логічні умови для завантаження профілю
-    // Завантажуємо тільки якщо:
-    // - Є токен
-    // - Не завантажується
-    // - Немає userInfo або userInfo порожній
-    if (!isLoading && (!userInfo || Object.keys(userInfo).length === 0)) {
+    // Гейт №5: завантажуємо профіль тільки якщо немає userInfo
+    if (!userInfo || Object.keys(userInfo).length === 0) {
       requestedRef.current = true;
       lastRequestTime.current = now;
       
@@ -89,12 +103,15 @@ export const useAuth = () => {
         .then((result) => {
           if (result.meta.requestStatus === 'fulfilled') {
             console.log('useAuth: Профіль успішно завантажено');
+            dispatch(setIsAuthenticated(true));
           } else {
             console.log('useAuth: Помилка завантаження профілю');
+            dispatch(setIsAuthenticated(false));
           }
         })
         .catch((error) => {
           console.error('useAuth: Критична помилка:', error);
+          dispatch(setIsAuthenticated(false));
         })
         .finally(() => {
           // Дозволяємо повторну спробу через 5 секунд
@@ -103,35 +120,46 @@ export const useAuth = () => {
           }, 5000);
         });
     } else {
-      console.log('useAuth: Умови не виконані, пропускаємо', {
-        isLoading,
-        userInfoExists: !!userInfo,
-        userInfoKeys: userInfo ? Object.keys(userInfo).length : 0,
-        userInfoContent: userInfo
-      });
+      console.log('useAuth: Профіль вже завантажено, пропускаємо');
+      
+      // Если у нас есть userInfo, значит пользователь авторизован
+      if (userInfo && Object.keys(userInfo).length > 0) {
+        dispatch(setIsAuthenticated(true));
+      }
     }
-  }, [dispatch, isAuthenticated, isLoading, isError, userInfo, isPublic, pathname]);
+  }, [dispatch, isLoading, isError, isPublic, pathname, userInfo]);
 
   // Дополнительный эффект для мониторинга токенов
   useEffect(() => {
-    if (!isPublic && isAuthenticated) {
-      // Проверяем токены каждые 2 минуты
-      const tokenCheckInterval = setInterval(async () => {
-        try {
-          const isValid = await tokenService.getValidToken();
-          if (!isValid) {
-            console.log('useAuth: Токени недійсні, виконуємо logout');
-            dispatch(forceLogout());
-          }
-        } catch (error) {
-          console.error('useAuth: Помилка перевірки токенів:', error);
-          dispatch(forceLogout());
-        }
-      }, 2 * 60 * 1000); // 2 минуты
+    // ВРЕМЕННО ОТКЛЮЧАЕМ ПРОВЕРКУ ТОКЕНОВ ДЛЯ ДИАГНОСТИКИ
+    // if (!isPublic && isAuthenticated) {
+    //   // Проверяем токены каждые 2 минуты
+    //   const tokenCheckInterval = setInterval(async () => {
+    //     try {
+    //       const isValid = await tokenService.getValidToken();
+    //       if (!isValid) {
+    //         console.log('useAuth: Токени недійсні, виконуємо logout');
+    //         dispatch(forceLogout());
+    //       }
+    //     } catch (error) {
+    //       console.error('useAuth: Помилка перевірки токенів:', error);
+    //       dispatch(forceLogout());
+    //     }
+    //   }, 2 * 60 * 1000); // 2 минуты
 
-      return () => clearInterval(tokenCheckInterval);
-    }
+    //   return () => clearInterval(tokenCheckInterval);
+    // }
   }, [dispatch, isPublic, isAuthenticated]);
+
+  // Обработчик forceLogout для сброса локальных флагов
+  useEffect(() => {
+    const onForceLogout = () => {
+      requestedRef.current = false;
+      lastRequestTime.current = 0;
+    };
+    window.addEventListener('forceLogout', onForceLogout);
+    return () => window.removeEventListener('forceLogout', onForceLogout);
+  }, []);
 
   return { user, isSuccess, isLoading, isError, userInfo, isAuthenticated };
 };

@@ -90,6 +90,9 @@ const Profile = () => {
   const { data: readingStatsData, refetch: refetchStats } = useQuery({
     queryKey: ["readingStats"],
     queryFn: () => monitoringAPI.getUserReadingStats(),
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    staleTime: 5 * 60 * 1000, // 5 минут
   });
 
   // Отримуємо профіль з Redux store

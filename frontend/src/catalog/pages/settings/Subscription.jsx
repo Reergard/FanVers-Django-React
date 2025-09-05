@@ -18,6 +18,9 @@ function Subscription() {
         queryKey: ['book', slug],
         queryFn: () => catalogAPI.fetchBook(slug),
         enabled: !!slug,
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
+        staleTime: 5 * 60 * 1000, // 5 минут
     });
 
     // Перевіряємо права доступу

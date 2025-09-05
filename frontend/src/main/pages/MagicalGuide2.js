@@ -54,8 +54,11 @@ const NovelCard = ({ title, description, image, slug, book_type, adult_content }
 };
 const MagicalGuide2 = () => {
   const { data: books } = useQuery({
-    queryKey: ["books-news"],
+    queryKey: ["books-news-magical-guide-2"],
     queryFn: () => mainAPI.getBooksNews(),
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    staleTime: 5 * 60 * 1000, // 5 минут
   });
   const sliderRef = useRef(null);
   const settings = {

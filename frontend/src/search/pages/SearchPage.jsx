@@ -4,6 +4,7 @@ import {
     QueryClient,
     QueryClientProvider,
 } from "@tanstack/react-query";
+import { useCallback } from "react";
 import { fetchBooks } from '../../api/catalog/catalogAPI';
 import { handleCatalogApiError } from '../../catalog/utils/errorUtils';
 import { catalogAPI } from '../../api/catalog/catalogAPI';
@@ -104,18 +105,30 @@ const SearchPage = () => {
     const { data: genres } = useQuery({
         queryKey: ["genres"],
         queryFn: catalogAPI.fetchGenres,
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
+        staleTime: 10 * 60 * 1000, // 10 минут
     });
     const { data: tags } = useQuery({
         queryKey: ["tags"],
         queryFn: catalogAPI.fetchTags,
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
+        staleTime: 10 * 60 * 1000, // 10 минут
     });
     const { data: countries } = useQuery({
         queryKey: ["countries"],
         queryFn: catalogAPI.fetchCountries,
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
+        staleTime: 10 * 60 * 1000, // 10 минут
     });
     const { data: fandoms } = useQuery({
         queryKey: ["fandoms"],
         queryFn: catalogAPI.fetchFandoms,
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
+        staleTime: 10 * 60 * 1000, // 10 минут
     });
 
     const [openFilters, setOpenFilters] = useState({
@@ -155,7 +168,7 @@ const SearchPage = () => {
     // Начальный поиск при загрузке страницы
     useEffect(() => {
         performSearch();
-    }, []); // Выполняется только при первой загрузке
+    }, [performSearch]); // Добавляем performSearch в зависимости
 
     const showMoreBooks = () => {
         setVisibleCount((prevCount) => prevCount + 3);
@@ -168,7 +181,7 @@ const SearchPage = () => {
     // Убираем загрузку рекламы - она не нужна на странице поиска
 
     // Функция поиска
-    const performSearch = async () => {
+    const performSearch = useCallback(async () => {
         setIsSearching(true);
         setError(null);
         
@@ -190,10 +203,10 @@ const SearchPage = () => {
         } finally {
             setIsSearching(false);
         }
-    };
+    }, [filters, searchQuery, hideAdultContent]);
 
     // Автоматический поиск с задержкой
-    const performSearchWithDelay = () => {
+    const performSearchWithDelay = useCallback(() => {
         if (searchTimeout) {
             clearTimeout(searchTimeout);
         }
@@ -203,7 +216,7 @@ const SearchPage = () => {
         }, 500); // 500ms задержка
         
         setSearchTimeout(timeout);
-    };
+    }, [searchTimeout, performSearch]);
 
     // Обработчик поиска по Enter
     const handleSearchKeyPress = (e) => {

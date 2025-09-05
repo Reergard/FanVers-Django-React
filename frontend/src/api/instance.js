@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000/api';
+export const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000/api';
 
 export const api = axios.create({
   baseURL: API_URL,
@@ -32,8 +32,8 @@ const forceLogout = () => {
   } catch (error) {
     console.error('Помилка при force logout:', error);
   } finally {
-    // Заміняємо URL (без додавання запису в історію)
-    window.location.replace('/login');
+    // важливо: розблокувати підстановку токенів для подальшого логіна без перезавантаження вкладки
+    forcingLogout = false;
   }
 };
 
@@ -43,7 +43,7 @@ api.interceptors.request.use(
     if (!forcingLogout) {
       const token = localStorage.getItem('token');
       if (token) {
-        config.headers.Authorization = `JWT ${token}`;
+        config.headers.Authorization = `Bearer ${token}`;
       }
     }
 
@@ -83,6 +83,13 @@ api.interceptors.response.use(
       // якщо немає токена або refresh — одразу виходимо
       const token = localStorage.getItem('token');
       const refreshToken = localStorage.getItem('refresh');
+      
+      // 🔸 Гость без токенов — просто отдаем ошибку наверх, НИКАКИХ forceLogout
+      if (!token && !refreshToken) {
+        console.log('Гость без токенов, возвращаем 401 без forceLogout');
+        return Promise.reject(error);
+      }
+      
       if (!token || !refreshToken) {
         console.log('Немає токенів для refresh, виконуємо logout');
         forceLogout();
@@ -101,7 +108,7 @@ api.interceptors.response.use(
           }
           originalRequest.headers = {
             ...(originalRequest.headers || {}),
-            Authorization: `JWT ${newToken}`,
+            Authorization: `Bearer ${newToken}`,
           };
           return api(originalRequest);
         } catch (e) {
@@ -122,7 +129,7 @@ api.interceptors.response.use(
           if (!access) throw new Error('No access in refresh response');
 
           localStorage.setItem('token', access);
-          api.defaults.headers.common.Authorization = `JWT ${access}`;
+          api.defaults.headers.common.Authorization = `Bearer ${access}`;
           console.log('Refresh токена успішний');
           return access;
         } catch (e) {
@@ -144,7 +151,7 @@ api.interceptors.response.use(
         }
         originalRequest.headers = {
           ...(originalRequest.headers || {}),
-          Authorization: `JWT ${newToken}`,
+          Authorization: `Bearer ${newToken}`,
         };
         return api(originalRequest);
       } catch (e) {

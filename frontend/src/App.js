@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { forceLogout } from "./auth/authSlice";
+import { forceLogout, setIsAuthenticated } from "./auth/authSlice";
 import PrivateRoute from "./auth/components/PrivateRoute";
 import Catalog from './catalog/pages/Catalog';
 import AbandonedTranslations from './catalog/pages/AbandonedTranslations';
@@ -69,6 +69,7 @@ function App() {
     const handleForceLogout = () => {
       console.log('🚪 App: Отримано подію forceLogout, очищаємо Redux state');
       dispatch(forceLogout());
+      dispatch(setIsAuthenticated(false));
     };
 
     // Додаємо слухач події

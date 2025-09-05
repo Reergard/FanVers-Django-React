@@ -34,6 +34,9 @@ function AllSettings() {
         queryKey: ['book', slug],
         queryFn: () => catalogAPI.fetchBook(slug),
         enabled: !!slug && isBookContext,
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
+        staleTime: 5 * 60 * 1000, // 5 минут
     });
 
     // Проверяем права доступа к настройкам книги

@@ -79,8 +79,11 @@ const MagicalGuide1 = () => {
   //   }
   // };
   const { data: books } = useQuery({
-    queryKey: ["books-news"],
+    queryKey: ["books-news-magical-guide-1"],
     queryFn: () => mainAPI.getBooksNews(),
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    staleTime: 5 * 60 * 1000, // 5 минут
   });
   const sliderRef = useRef(null);
   const settings = {

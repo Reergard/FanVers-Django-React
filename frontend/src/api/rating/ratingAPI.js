@@ -17,7 +17,7 @@ export const fetchBookRatings = async (bookSlug, token) => {
 export const submitRating = async (bookSlug, ratingType, rating, token) => {
   try {
     const response = await api.post(
-      '/rating/ratings/',
+      '/rating/',
       {
         book_slug: bookSlug,
         rating_type: ratingType,

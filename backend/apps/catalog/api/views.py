@@ -28,7 +28,8 @@ from rest_framework import generics
 from rest_framework import serializers
 from django.utils.text import slugify
 import uuid
-from apps.core.throttling import BaseUserRateThrottle, BaseAnonRateThrottle, StrictUserRateThrottle, StrictAnonRateThrottle
+# Удаляем импорт старых throttling классов
+from apps.core.smart_throttling import SmartThrottle
 
 logger = logging.getLogger(__name__)
 
@@ -546,7 +547,14 @@ class BookInfoView(generics.RetrieveAPIView):
     queryset = Book.objects.all()
     lookup_field = 'slug'
     permission_classes = [AllowAny]
-    throttle_classes = [StrictUserRateThrottle, StrictAnonRateThrottle]
+    
+    def get_throttle_scope(self):
+        """
+        Понижаем скоп для подозрительных запросов
+        """
+        if SmartThrottle.is_suspicious_request(self.request):
+            return 'read_light'  # 120/min - мягко режем скорость
+        return 'read_heavy'  # 240/min - обычная скорость для деталей книг
     
     def get(self, request, *args, **kwargs):
         """

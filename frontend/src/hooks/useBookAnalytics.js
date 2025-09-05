@@ -3,7 +3,7 @@ import axios from 'axios';
 
 // Создаем экземпляр axios с базовой конфигурацией
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:8000',
+    baseURL: 'http://127.0.0.1:8000',
     headers: {
         'Content-Type': 'application/json',
     },
@@ -13,7 +13,7 @@ const axiosInstance = axios.create({
 const useBookAnalytics = () => {
     const pendingRequests = useRef(new Map());
     const lastRequestTime = useRef(new Map());
-    const MIN_INTERVAL = 500; // Минимальный интервал между запросами аналитики (мс)
+    const MIN_INTERVAL = 5000; // Минимальный интервал между запросами аналитики (5 секунд)
 
     const updateAnalytics = useCallback(async (bookId, actionType) => {
         console.log('updateAnalytics вызван с параметрами:', { bookId, actionType });

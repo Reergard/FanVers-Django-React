@@ -99,8 +99,11 @@ const NovelCard = ({ title, description, image, book_type, adult_content }) => {
 
 const HomePage3 = () => {
   const { data: books } = useQuery({
-    queryKey: ["books-news"],
+    queryKey: ["books-news-homepage-3"],
     queryFn: () => mainAPI.getBooksNews(),
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    staleTime: 5 * 60 * 1000, // 5 минут
   });
   const sliderRef = useRef(null);
   const settings = {

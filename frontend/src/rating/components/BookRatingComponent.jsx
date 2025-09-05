@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { fetchBookRatings, submitRating } from '../../api/rating/ratingAPI';
 import { useToast } from '../../components/CustomToast';
@@ -18,8 +18,10 @@ const BookRatingComponent = ({ bookSlug, ratingType, title, onRatingUpdate, comp
   const [isLoading, setIsLoading] = useState(false);
   
   const currentUser = useSelector(state => state.auth.user);
-  const token = localStorage.getItem('token');
   const { error: showError, warning } = useToast();
+  
+  // Получаем token через useMemo для стабильности
+  const token = useMemo(() => localStorage.getItem('token'), []);
 
   const loadRatings = useCallback(async () => {
     if (!bookSlug) return;
@@ -77,7 +79,7 @@ const BookRatingComponent = ({ bookSlug, ratingType, title, onRatingUpdate, comp
         setIsLoading(false);
       }
     });
-  }, [bookSlug, ratingType, token, showError]);
+  }, [bookSlug, ratingType, token]); // Убираем showError из зависимостей
 
   // Загружаем рейтинги при монтировании компонента и при изменении bookSlug
   useEffect(() => {
@@ -94,7 +96,7 @@ const BookRatingComponent = ({ bookSlug, ratingType, title, onRatingUpdate, comp
         loadRatings();
       }, delay);
     }
-  }, [bookSlug, ratingType, loadRatings]);
+  }, [bookSlug, ratingType, loadRatings]); // Добавляем loadRatings обратно
 
   const handleRatingClick = async (selectedRating) => {
     if (!currentUser || !token) {

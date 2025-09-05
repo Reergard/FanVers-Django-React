@@ -19,6 +19,9 @@ const BookmarkButton = ({ bookId }) => {
         queryKey: ['bookmark-status', bookId],
         queryFn: () => getBookmarkStatus(bookId),
         enabled: !!bookId,
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
+        staleTime: 2 * 60 * 1000, // 2 минуты
     });
 
     const addMutation = useMutation({

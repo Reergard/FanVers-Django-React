@@ -43,6 +43,9 @@ function AccessRights() {
         queryKey: ['bookAccessRights', slug],
         queryFn: () => catalogAPI.getBookAccessRights(slug),
         enabled: !!slug,
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
+        staleTime: 5 * 60 * 1000, // 5 минут
     });
 
     // Завантажуємо дані книги для перевірки власника
@@ -50,6 +53,9 @@ function AccessRights() {
         queryKey: ['book', slug],
         queryFn: () => catalogAPI.fetchBook(slug),
         enabled: !!slug,
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
+        staleTime: 5 * 60 * 1000, // 5 минут
     });
 
     // Заповнюємо форму поточними налаштуваннями

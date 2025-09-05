@@ -48,7 +48,7 @@ import BookRatingComponent from '../../rating/components/BookRatingComponent';
 
 
 const NovelCard = ({ title, description, image, book_type, adult_content }) => {
-  const imageUrl = image ? (image.startsWith('http') ? image : `http://localhost:8000${image}`) : '';
+  const imageUrl = image ? (image.startsWith('http') ? image : `http://127.0.0.1:8000${image}`) : '';
   
   return (
     <div className="novel-card" style={{ background: "none", minHeight: "auto", height: "min-content" }}>
@@ -240,6 +240,9 @@ const BookDetailOwner = ({ volumes = [], books = [] }) => {
     queryKey: ['book', slug],
     queryFn: () => catalogAPI.fetchBook(slug),
     enabled: !!slug,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    staleTime: 5 * 60 * 1000, // 5 минут
   });
 
   // Debug logging for book data
@@ -261,6 +264,9 @@ const BookDetailOwner = ({ volumes = [], books = [] }) => {
     queryKey: ['paginatedChapters', book?.id, currentStartChapter],
     queryFn: () => navigationAPI.getPaginatedChapters(book.id, currentStartChapter),
     enabled: !!book?.id,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    staleTime: 2 * 60 * 1000, // 2 минуты
   });
 
   // Load chapters list for owner table - exactly like in working code
@@ -277,6 +283,9 @@ const BookDetailOwner = ({ volumes = [], books = [] }) => {
       }
     },
     enabled: !!slug,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    staleTime: 2 * 60 * 1000, // 2 минуты
   });
 
   // Volumes теперь загружаются в BookDetailRouter и передаются как props
@@ -297,6 +306,9 @@ const BookDetailOwner = ({ volumes = [], books = [] }) => {
       }
     },
     enabled: !!slug,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    staleTime: 5 * 60 * 1000, // 5 минут
   });
 
   // trackView теперь вызывается в BookDetailRouter, убираем дублирование
@@ -390,7 +402,7 @@ const BookDetailOwner = ({ volumes = [], books = [] }) => {
     if (user?.profile_image) {
       return user.profile_image.startsWith('http') 
         ? user.profile_image 
-        : `http://localhost:8000${user.profile_image}`;
+        : `http://127.0.0.1:8000${user.profile_image}`;
     }
     return ghostFull;
   };
@@ -408,7 +420,7 @@ const BookDetailOwner = ({ volumes = [], books = [] }) => {
 
   // Prepare dynamic data - exactly like in working code
   const title = book.title || '—';
-  const imageUrl = book.image ? (book.image.startsWith('http') ? book.image : `http://localhost:8000${book.image}`) : BookCart;
+  const imageUrl = book.image ? (book.image.startsWith('http') ? book.image : `http://127.0.0.1:8000${book.image}`) : BookCart;
   
   // Author - exactly like in working code
   const authorName = book.author?.name || book.author_username || book.creator_username || book.owner_username || '—';

@@ -31,26 +31,39 @@ const starFills2 = [...Array(4)].map((_, i) =>
 const HomePage2 = () => {
   // Получаем список новых книг
   const { data: books } = useQuery({
-    queryKey: ["books-news"],
+    queryKey: ["books-news-homepage-2"],
     queryFn: () => mainAPI.getBooksNews(),
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    staleTime: 5 * 60 * 1000, // 5 минут
   });
 
-  // Автоматическое переключение книг каждые 10 секунд
+  // Автоматическое переключение книг каждые 5 минут (оптимизация для throttling)
   const [currentBookIndex, setCurrentBookIndex] = useState(0);
   useEffect(() => {
+    // Проверяем, что books существует и является массивом
+    if (!books || !Array.isArray(books) || books.length === 0) {
+      return;
+    }
+
     const interval = setInterval(() => {
       setCurrentBookIndex((prevIndex) =>
-        books.length ? (prevIndex + 1) % books.length : 0
+        (prevIndex + 1) % books.length
       );
-    }, 10000);
+    }, 300000); // 5 минут = 300000 мс
 
     return () => clearInterval(interval);
-  }, [books]);
+  }, [books?.length]); // Используем только длину массива как зависимость
 
-  const handleNext = () =>
+  const handleNext = () => {
+    if (!books || !Array.isArray(books) || books.length === 0) return;
     setCurrentBookIndex((prev) => (prev + 1) % books.length);
-  const handlePrev = () =>
+  };
+  
+  const handlePrev = () => {
+    if (!books || !Array.isArray(books) || books.length === 0) return;
     setCurrentBookIndex((prev) => (prev - 1 + books.length) % books.length);
+  };
 
   // Текущая книга для отображения
   const currentBook = books?.[currentBookIndex];
@@ -64,7 +77,26 @@ const HomePage2 = () => {
         index: currentBookIndex
       });
     }
-  }, [currentBook, currentBookIndex]);
+  }, [currentBookIndex, books?.length]);
+
+  // Показываем загрузку или ошибку если нет данных
+  if (!books || !Array.isArray(books) || books.length === 0) {
+    return (
+      <div className="homepage-pc screen">
+        <div className="line-rUQU7Z">
+          <h2>НОВИНКИ</h2>
+          <div className="line-51-ZCydxi"></div>
+        </div>
+        <div className="frame-123-hp28Hm">
+          <div className="mobile-container-homepage">
+            <h1 className="text_label-S9xaSz text_label mobile">
+              Завантаження новинок...
+            </h1>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="homepage-pc screen">

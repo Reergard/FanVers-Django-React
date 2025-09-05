@@ -42,13 +42,18 @@ function Advertising() {
         queryKey: ['book', slug],
         queryFn: () => catalogAPI.fetchBook(slug),
         enabled: !!slug,
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
+        staleTime: 5 * 60 * 1000, // 5 минут
     });
 
     // Завантажуємо баланс користувача
     const { data: userBalance, refetch: refetchBalance } = useQuery({
         queryKey: ['userBalance'],
         queryFn: () => usersAPI.getUserBalance(),
-        refetchOnWindowFocus: true
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
+        staleTime: 2 * 60 * 1000, // 2 минуты
     });
 
     // Перевіряємо права доступу

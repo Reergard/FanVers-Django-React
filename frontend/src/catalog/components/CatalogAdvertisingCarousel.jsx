@@ -116,6 +116,9 @@ const CatalogAdvertisingCarousel = () => {
   const { data: books, error, isLoading } = useQuery({
     queryKey: ["catalog-page-ads"],
     queryFn: () => websiteAdvertisingAPI.getCatalogAds(),
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    staleTime: 5 * 60 * 1000, // 5 минут
   });
 
   const sliderRef = useRef(null);

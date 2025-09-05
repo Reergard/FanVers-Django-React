@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { fetchBookComments, postBookComment, updateReaction, updateOwnerLike } from '../../api/reviews/reviewsAPI';
 import CommentForm from './CommentForm';
@@ -14,7 +14,7 @@ const BookComments = ({ bookSlug, book, isBookOwner }) => {
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   const { trackComment, trackCommentLike } = useBookAnalytics();
 
-  const loadComments = async () => {
+  const loadComments = useCallback(async () => {
     setLoading(true);
     try {
       const fetchedComments = await fetchBookComments(bookSlug);
@@ -25,28 +25,35 @@ const BookComments = ({ bookSlug, book, isBookOwner }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [bookSlug]);
+
+  // Создаем стабильный ключ для зависимостей
+  const bookKey = useMemo(() => {
+    if (typeof bookSlug === 'string') return bookSlug;
+    if (bookSlug?.slug) return bookSlug.slug;
+    if (bookSlug?.id) return bookSlug.id;
+    return '';
+  }, [bookSlug?.slug, bookSlug?.id, typeof bookSlug === 'string' ? bookSlug : null]);
 
   useEffect(() => {
-    loadComments();
-  }, [bookSlug]);
+    if (bookKey) {
+      setError(null); // Очищаем предыдущие ошибки
+      loadComments();
+    }
+  }, [bookKey, loadComments]);
 
   const handleCommentSubmit = async (text, parentId = null) => {
     if (!isAuthenticated) {
         alert('Пожалуйста, войдите в систему, чтобы оставить комментарий');
         return;
     }
-    console.log('Попытка добавления комментария для книги:', bookSlug);
     setLoading(true);
     try {
         const newComment = await postBookComment(bookSlug, text, parentId);
-        console.log('Комментарий успешно добавлен:', newComment);
         setComments(prevComments => 
           Array.isArray(prevComments) ? [...prevComments, newComment] : [newComment]
         );
-        console.log('Отправка данных в аналитику для комментария');
-        await trackComment(bookSlug);
-        console.log('Аналитика комментария обновлена');
+        // Аналитика уже вызывается в CommentForm.js, убираем дублирование
         await loadComments();
     } catch (error) {
         console.error('Ошибка при отправке комментария:', error);
@@ -78,13 +85,10 @@ const BookComments = ({ bookSlug, book, isBookOwner }) => {
         alert('Пожалуйста, войдите в систему, чтобы оставить реакцию');
         return;
     }
-    console.log('Попытка добавления реакции:', { commentId, action, bookSlug });
     try {
       await updateReaction(commentId, 'book', action);
       if (action === 'like') {
-        console.log('Отправка данных в аналитику для лайка');
         await trackCommentLike(bookSlug);
-        console.log('Аналитика лайка обновлена');
       }
       loadComments();
     } catch (error) {

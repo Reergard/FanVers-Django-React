@@ -127,6 +127,9 @@ const HomePage1 = () => {
   const { data: books, error, isLoading } = useQuery({
     queryKey: ["main-page-ads"],
     queryFn: () => websiteAdvertisingAPI.getMainPageAds(),
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    staleTime: 5 * 60 * 1000, // 5 минут
   });
 
   // Логирование для отладки

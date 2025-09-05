@@ -61,7 +61,7 @@ INSTALLED_APPS = [
     'djoser',
     'apps.rating.apps.RatingConfig',
     'channels',
-    'django_celery_beat',
+    # 'django_celery_beat',  # Временно отключаем для стабильности
 ]
 
 MIDDLEWARE = [
@@ -122,7 +122,10 @@ CORS_ALLOW_METHODS = [
 ]
 
 CORS_PREFLIGHT_MAX_AGE = 86400  # 24 часа
-CORS_EXPOSE_HEADERS = ["Content-Type", "X-CSRFToken"]
+CORS_EXPOSE_HEADERS = [
+    "Content-Type", "X-CSRFToken",
+    "Retry-After", "X-RateLimit-Limit", "X-RateLimit-Remaining", "X-RateLimit-Reset"
+]
 
 
 ROOT_URLCONF = 'FanVers_project.urls'
@@ -154,14 +157,25 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny', 
     ],
     'DEFAULT_THROTTLE_CLASSES': [
-        'rest_framework.throttling.AnonRateThrottle',
         'rest_framework.throttling.UserRateThrottle',
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.ScopedRateThrottle',
     ],
+    'NUM_PROXIES': 1,  # Количество прокси перед Django (Nginx/Load-balancer)
+    'EXCEPTION_HANDLER': 'apps.api.exc_handlers.drf_exception_handler',
     'DEFAULT_THROTTLE_RATES': {
-        'anon': '100/day',
-        'user': '1000/day',
-        'profile': '100/day',    # Для ProfileThrottle
-        'balance': '10/hour'     # Для BalanceOperationThrottle
+        # базовые коридоры (сетка безопасности >= максимального скопа)
+        'user': '240/min',      # авторизованные (>= read_heavy)
+        'anon': '120/min',      # анонимы (>= read_light)
+        # скопы (бизнес-логика)
+        'read_heavy': '240/min',   # чтение «тяжёлых» страниц (детали книги, ленты)
+        'read_light': '120/min',   # общий листинг/поиск
+        'rating': '30/min',        # голоса/лайки/дизлайки
+        'analytics': '60/min',     # trackView и прочее телеметрия
+        'upload': '20/hour',       # загрузки
+        'purchase': '10/hour',     # покупки
+        'balance': '100/hour',     # баланс (как у вас)
+        'profile': '1000/hour',    # профили (как у вас)
     }
 }
 
@@ -201,7 +215,7 @@ SITE_NAME = "FanVers"
 
 # Налаштування SimpleJWT
 SIMPLE_JWT = {
-    'AUTH_HEADER_TYPES': ('JWT',),  # Підтримка JWT префіксу замість Bearer
+    'AUTH_HEADER_TYPES': ('Bearer', 'JWT'),  # Підтримка обох префіксів
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'ROTATE_REFRESH_TOKENS': False,
@@ -233,14 +247,21 @@ SIMPLE_JWT = {
 
 
 
-# Сначала определяем настройки Redis (перемещаем в начало настроек Celery)
+# Настройки Redis для разных сервисов (разделение DB)
 REDIS_HOST = os.getenv('REDIS_HOST', '127.0.0.1')
 REDIS_PORT = os.getenv('REDIS_PORT', '6379')
+
+# Разные DB для разных сервисов
+REDIS_DB_CACHE = int(os.getenv('REDIS_DB_CACHE', '1'))      # Django Cache (throttling/SmartThrottle)
+REDIS_DB_CELERY = int(os.getenv('REDIS_DB_CELERY', '2'))    # Celery broker/result
+REDIS_DB_CHANNELS = int(os.getenv('REDIS_DB_CHANNELS', '3')) # Channels WebSocket
+
+# Обратная совместимость
 REDIS_DB = os.getenv('REDIS_DB', '0')
 
 # Затем настройки Celery
-CELERY_BROKER_URL = f'redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB}'
-CELERY_RESULT_BACKEND = f'redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB}'
+CELERY_BROKER_URL = f'redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB_CELERY}'
+CELERY_RESULT_BACKEND = f'redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB_CELERY}'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
@@ -312,6 +333,7 @@ CHANNEL_LAYERS = {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
             "hosts": [('127.0.0.1', 6379)],
+            "prefix": f"fanvers_channels_{REDIS_DB_CHANNELS}",
             "symmetric_encryption_keys": [SECRET_KEY],
             "capacity": 1500,
             # Убираем таймер который закрывает WebSocket!
@@ -357,10 +379,15 @@ if not DEBUG:
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
 else:
-    # Dev налаштування
+    # Dev налаштування - ВРЕМЕННО ОТКЛЮЧАЕМ ВСЕ HTTPS
     SECURE_SSL_REDIRECT = False
     SESSION_COOKIE_SECURE = False
     CSRF_COOKIE_SECURE = False
+    SECURE_PROXY_SSL_HEADER = None  # Временно отключаем для DEBUG
+
+# Настройки для работы за прокси (Nginx) - КРИТИЧНО для HTTPS редиректов
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+USE_X_FORWARDED_HOST = True
 
 # Налаштування для медіа файлів
 MEDIA_URL = '/media/'
@@ -438,6 +465,9 @@ MAX_BALANCE_OPERATION_AMOUNT = 1000000
 
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': f'redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB_CACHE}',
+        'KEY_PREFIX': 'fanvers_cache',
+        'TIMEOUT': 300,  # 5 минут по умолчанию
     }
 }

@@ -6,7 +6,7 @@ const user = JSON.parse(localStorage.getItem("user"));
 const initialState = {
     user: user ? user : null,
     userInfo: {},
-    isAuthenticated: !!user,
+    isAuthenticated: false, // НЕ определяем по localStorage, только после успешной загрузки профиля
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -106,8 +106,8 @@ export const getProfile = createAsyncThunk(
     {
         condition: (_, { getState }) => {
             const { auth } = getState();
-            // не звати, якщо вже завантажуємо або профіль є
-            return !auth.isLoading && (!auth.userInfo || Object.keys(auth.userInfo).length === 0);
+            // не звати, якщо вже завантажуємо
+            return !auth.isLoading;
         }
     }
 );
@@ -185,11 +185,7 @@ export const authSlice = createSlice({
                     token: action.payload.access
                 };
                 // НЕ встановлюємо userInfo тут - він буде завантажений через getProfile
-                localStorage.setItem("token", action.payload.access);
-                localStorage.setItem("refresh", action.payload.refresh);
-                localStorage.setItem("user", JSON.stringify({
-                    token: action.payload.access
-                }));
+                // Токены уже записаны в authService.login, не дублируем здесь
             })
             .addCase(login.rejected, (state, action) => {
                 state.isLoading = false;
@@ -276,7 +272,11 @@ export const authSlice = createSlice({
                 state.isLoading = false;
                 state.isError = true;
                 state.message = action.payload;
-                // НЕ скидаємо isAuthenticated тут - можливо це тимчасова помилка
+                // Если токена нет в localStorage, считаем пользователя неавторизованным
+                const hasToken = !!localStorage.getItem('token');
+                if (!hasToken) {
+                    state.isAuthenticated = false;
+                }
             })
             .addCase(updateProfile.fulfilled, (state, action) => {
                 state.userInfo = action.payload;

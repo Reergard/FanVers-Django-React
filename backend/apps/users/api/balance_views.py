@@ -1,5 +1,5 @@
 from rest_framework import status
-from rest_framework.decorators import api_view, permission_classes, throttle_classes
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -13,7 +13,7 @@ from .serializers import (
     BalanceOperationSerializer
 )
 from .mixins import BalanceOperationMixin
-from .throttling import BalanceOperationThrottle
+# Удаляем импорт старых throttling классов
 from apps.catalog.models import Chapter
 from apps.monitoring.models import TransactionLog
 import logging
@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 class AddBalanceView(APIView):
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
-    #throttle_classes = [BalanceOperationThrottle]
+    throttle_scope = 'balance'  # Операции с балансом
 
     def post(self, request):
         serializer = UpdateBalanceSerializer(data=request.data)
@@ -53,7 +53,6 @@ class AddBalanceView(APIView):
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-# @throttle_classes([BalanceOperationThrottle])  # Розкоментувати на продакшені
 def withdraw_balance(request):
     try:
         amount = float(request.data.get('amount', 0))
@@ -104,7 +103,6 @@ def withdraw_balance(request):
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-@throttle_classes([BalanceOperationThrottle])
 def update_balance(request):
     serializer = UpdateBalanceSerializer(data=request.data)
     if serializer.is_valid():

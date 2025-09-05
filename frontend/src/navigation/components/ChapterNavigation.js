@@ -33,7 +33,7 @@ const ChapterNavigation = ({ bookSlug, currentChapter, prevChapter, nextChapter,
                     const chapterUrl = `/books/${bookSlug}/chapters/${targetChapter.slug}`;
                     console.log('Переходим по URL:', chapterUrl);
                     navigate(chapterUrl);
-                    window.location.reload();
+                    // Убираем window.location.reload() - он вызывает бесконечное обновление!
                 }
             } else {
                 console.error('Неожиданный ответ:', response);
