@@ -48,6 +48,14 @@
   font-size: 16px;
   font-weight: 600;
 }
+
+.last-update {
+  font-size: 12px;
+  color: #888;
+  font-style: italic;
+  margin-top: 4px;
+  text-align: center;
+}
 .number-chapter {
   display: flex;
 }

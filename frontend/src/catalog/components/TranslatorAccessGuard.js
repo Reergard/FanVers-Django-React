@@ -20,24 +20,24 @@ const TranslatorAccessGuard = ({ children }) => {
       });
     }
 
-    // Проверяем аутентификацию
-    if (!isAuthenticated || !user) {
-      console.log('TranslatorAccessGuard: Не аутентифицирован');
+    // Проверяем наличие токена (основной индикатор авторизации)
+    const hasToken = !!localStorage.getItem('token');
+    
+    // Если нет токена - точно не авторизован
+    if (!hasToken) {
+      console.log('TranslatorAccessGuard: Нет токена, не авторизован');
       showError('Для доступу до цієї сторінки необхідна авторизація');
       navigate('/login');
       return;
     }
 
-    // Проверяем профиль пользователя
-    if (!userInfo || Object.keys(userInfo).length === 0) {
-      if (!isLoading) {
-        console.log('TranslatorAccessGuard: Профиль не загружен');
-        showError('Завантаження профілю користувача...');
-      }
+    // Если есть токен, но профиль еще загружается - ждем
+    if (isLoading || !userInfo || Object.keys(userInfo).length === 0) {
+      console.log('TranslatorAccessGuard: Загружается профиль, ждем...');
       return;
     }
 
-    // Проверяем роль пользователя
+    // Проверяем роль пользователя только после загрузки профиля
     const userRole = userInfo?.role;
     console.log('TranslatorAccessGuard: Проверяем роль', { userRole });
     
@@ -51,6 +51,14 @@ const TranslatorAccessGuard = ({ children }) => {
     console.log('TranslatorAccessGuard: Все проверки пройдены успешно');
   }, [isAuthenticated, user, userInfo, isLoading, navigate, showError]);
 
+  // Проверяем наличие токена
+  const hasToken = !!localStorage.getItem('token');
+  
+  // Если нет токена - не показываем ничего
+  if (!hasToken) {
+    return null;
+  }
+
   // Если загружается профиль, показываем загрузку
   if (isLoading || !userInfo || Object.keys(userInfo).length === 0) {
     return (
@@ -58,11 +66,6 @@ const TranslatorAccessGuard = ({ children }) => {
         <p>Завантаження профілю користувача...</p>
       </div>
     );
-  }
-
-  // Если не аутентифицирован, не показываем ничего
-  if (!isAuthenticated || !user) {
-    return null;
   }
 
   // Проверяем роль пользователя

@@ -14,5 +14,6 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('home/', views.home_data, name='home_data'),
     path('books-news/', views.books_news, name='books_news'),
+    path('books-recent-updates/', views.books_recent_updates, name='books_recent_updates'),
 
 ] + router.urls
