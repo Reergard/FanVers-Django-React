@@ -1,35 +1,59 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { mainAPI } from '../../api/main/mainAPI';
 
 const ContentRules = () => {
-  return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <h1 className="text-3xl font-bold mb-6">Правила розміщення авторського контенту</h1>
-      
-      <div className="prose prose-lg max-w-none">
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">1. Авторські права</h2>
-          <p className="mb-4">
-            Розміщуючи контент на платформі, ви підтверджуєте, що маєте всі необхідні 
-            права на його публікацію та використання.
-          </p>
-        </section>
+  const [content, setContent] = useState('');
+  const [title, setTitle] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">2. Заборонений контент</h2>
-          <p className="mb-4">
-            Заборонено розміщувати контент, що порушує авторські права, містить 
-            образливі матеріали або порушує законодавство України.
-          </p>
-        </section>
+  useEffect(() => {
+    const loadDocument = async () => {
+      try {
+        setLoading(true);
+        // Загружаем содержимое через API
+        const response = await mainAPI.getContentRules();
+        setContent(response.content);
+        setTitle(response.title);
+      } catch (err) {
+        console.error('Error loading document:', err);
+        setError('Помилка завантаження документа');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">3. Модерація</h2>
-          <p className="mb-4">
-            Всі матеріали проходять попередню модерацію. Адміністрація залишає за собою 
-            право видаляти контент, що не відповідає правилам платформи.
-          </p>
-        </section>
+    loadDocument();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="container mx-auto px-4 py-8 max-w-4xl">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Завантаження документа...</p>
+        </div>
       </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="container mx-auto px-4 py-8 max-w-4xl">
+        <div className="text-center text-red-600">
+          <p>{error}</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="container mx-auto px-4 py-8 max-w-5xl">
+      <h1 className="text-3xl font-bold mb-6">{title}</h1>
+      <div 
+        className="prose prose-lg max-w-none"
+        dangerouslySetInnerHTML={{ __html: content }}
+      />
     </div>
   );
 };

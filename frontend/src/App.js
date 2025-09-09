@@ -38,8 +38,8 @@ import AllSettings from './catalog/pages/settings/AllSettings';
 import UserAgreement from "./info/legal/user-agreement";
 import PrivacyPolicy from "./info/legal/privacy-policy";
 import ContentRules from "./info/legal/content-rules";
-import Confidentiality from "./info/legal/confidentiality";
 import AuthorAgreement from "./info/legal/author-agreement";
+import ForCopyrightHolders from "./info/legal/for-copyright-holders";
 
 // Help pages
 import TranslatorAgreement from "./info/legal/translator-agreement";
@@ -220,7 +220,7 @@ function App() {
             <Route path="/info/legal/user-agreement" element={<UserAgreement />} />
             <Route path="/info/legal/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/info/legal/content-rules" element={<ContentRules />} />
-            <Route path="/info/legal/confidentiality" element={<Confidentiality />} />
+            <Route path="/info/legal/for-copyright-holders" element={<ForCopyrightHolders />} />
             <Route path="/info/legal/author-agreement" element={<AuthorAgreement />} />
             <Route
               path="/info/legal/translator-agreement"

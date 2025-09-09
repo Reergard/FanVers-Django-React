@@ -10,7 +10,7 @@ info/
 │   ├── user-agreement.jsx      # Угода користувача
 │   ├── privacy-policy.jsx      # Політика конфіденційності
 │   ├── content-rules.jsx       # Правила розміщення контенту
-│   ├── confidentiality.jsx     # Угода конфіденційності
+│   ├── for-copyright-holders.jsx     # Для правовласників
 │   ├── author-agreement.jsx    # Публічний договір з автором
 │   └── translator-agreement.jsx # Договір з перекладачем
 ├── help/                     # Справочні сторінки

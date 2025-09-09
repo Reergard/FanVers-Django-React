@@ -1,35 +1,59 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { mainAPI } from '../../api/main/mainAPI';
 
 const UserAgreement = () => {
-  return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <h1 className="text-3xl font-bold mb-6">Угода користувача</h1>
-      
-      <div className="prose prose-lg max-w-none">
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">1. Загальні положення</h2>
-          <p className="mb-4">
-            Ця Угода користувача регулює відносини між користувачем та платформою FanVers 
-            щодо використання послуг та функціональності сайту.
-          </p>
-        </section>
+  const [content, setContent] = useState('');
+  const [title, setTitle] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">2. Умови використання</h2>
-          <p className="mb-4">
-            Користувач зобов'язується використовувати платформу відповідно до 
-            встановлених правил та не порушувати права інших користувачів.
-          </p>
-        </section>
+  useEffect(() => {
+    const loadDocument = async () => {
+      try {
+        setLoading(true);
+        // Загружаем содержимое через API
+        const response = await mainAPI.getUserAgreement();
+        setContent(response.content);
+        setTitle(response.title);
+      } catch (err) {
+        console.error('Error loading document:', err);
+        setError('Помилка завантаження документа');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">3. Відповідальність</h2>
-          <p className="mb-4">
-            Користувач несе повну відповідальність за контент, який він розміщує 
-            на платформі, та за дотримання авторських прав.
-          </p>
-        </section>
+    loadDocument();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="container mx-auto px-4 py-8 max-w-4xl">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Завантаження документа...</p>
+        </div>
       </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="container mx-auto px-4 py-8 max-w-4xl">
+        <div className="text-center text-red-600">
+          <p>{error}</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="container mx-auto px-4 py-8 max-w-5xl">
+      <h1 className="text-3xl font-bold mb-6">{title}</h1>
+      <div 
+        className="prose prose-lg max-w-none"
+        dangerouslySetInnerHTML={{ __html: content }}
+      />
     </div>
   );
 };

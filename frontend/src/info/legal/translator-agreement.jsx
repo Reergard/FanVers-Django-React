@@ -1,35 +1,59 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { mainAPI } from '../../api/main/mainAPI';
 
 const TranslatorAgreement = () => {
-  return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <h1 className="text-3xl font-bold mb-6">Договір між автором та перекладачем</h1>
-      
-      <div className="prose prose-lg max-w-none">
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">1. Предмет договору</h2>
-          <p className="mb-4">
-            Цей договір регулює відносини між автором оригінального твору та 
-            перекладачем щодо створення перекладу на інші мови.
-          </p>
-        </section>
+  const [content, setContent] = useState('');
+  const [title, setTitle] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">2. Права перекладача</h2>
-          <p className="mb-4">
-            Перекладач має право на визнання його творчого внеску та отримання 
-            справедливої винагороди за виконану роботу.
-          </p>
-        </section>
+  useEffect(() => {
+    const loadDocument = async () => {
+      try {
+        setLoading(true);
+        // Загружаем содержимое через API
+        const response = await mainAPI.getTranslatorAgreement();
+        setContent(response.content);
+        setTitle(response.title);
+      } catch (err) {
+        console.error('Error loading document:', err);
+        setError('Помилка завантаження документа');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">3. Якість перекладу</h2>
-          <p className="mb-4">
-            Перекладач зобов'язується забезпечити високу якість перекладу, 
-            зберігаючи стиль та дух оригінального твору.
-          </p>
-        </section>
+    loadDocument();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="container mx-auto px-4 py-8 max-w-4xl">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Завантаження документа...</p>
+        </div>
       </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="container mx-auto px-4 py-8 max-w-4xl">
+        <div className="text-center text-red-600">
+          <p>{error}</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="container mx-auto px-4 py-8 max-w-5xl">
+      <h1 className="text-3xl font-bold mb-6">{title}</h1>
+      <div 
+        className="prose prose-lg max-w-none"
+        dangerouslySetInnerHTML={{ __html: content }}
+      />
     </div>
   );
 };

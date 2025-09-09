@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { mainAPI } from '../../api/main/mainAPI';
 
-const PrivacyPolicy = () => {
+const ForCopyrightHolders = () => {
   const [content, setContent] = useState('');
   const [title, setTitle] = useState('');
   const [loading, setLoading] = useState(true);
@@ -12,7 +12,7 @@ const PrivacyPolicy = () => {
       try {
         setLoading(true);
         // Загружаем содержимое через API
-        const response = await mainAPI.getPrivacyPolicy();
+        const response = await mainAPI.getCopyrightHolders();
         setContent(response.content);
         setTitle(response.title);
       } catch (err) {
@@ -58,4 +58,4 @@ const PrivacyPolicy = () => {
   );
 };
 
-export default PrivacyPolicy;
+export default ForCopyrightHolders;

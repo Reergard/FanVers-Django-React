@@ -21,7 +21,9 @@ const Footer = () => {
 
       <div className="footer-content">
         <div className="footer-column left-footer">
-          <h3>Для правовласників</h3>
+          <h3>
+            <Link to="/info/legal/for-copyright-holders">Для правовласників</Link>
+          </h3>
           <ul>
             <li>
               <Link to="/info/legal/user-agreement">Угода користувача</Link>
@@ -38,9 +40,6 @@ const Footer = () => {
             </li>
             <li>
               <div className="line-footer"></div>
-            </li>
-            <li>
-              <Link to="/info/legal/confidentiality">Угода конфіденційності</Link>
             </li>
             <li>
               <Link to="/info/legal/author-agreement">Публічний договір з автором</Link>

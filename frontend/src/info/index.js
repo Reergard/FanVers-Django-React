@@ -2,7 +2,7 @@
 export { default as UserAgreement } from './legal/user-agreement';
 export { default as PrivacyPolicy } from './legal/privacy-policy';
 export { default as ContentRules } from './legal/content-rules';
-export { default as Confidentiality } from './legal/confidentiality';
+export { default as ForCopyrightHolders } from './legal/for-copyright-holders';
 export { default as AuthorAgreement } from './legal/author-agreement';
 export { default as TranslatorAgreement } from './legal/translator-agreement';
 
