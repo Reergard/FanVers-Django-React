@@ -10,9 +10,18 @@
   justify-content: center;
 }
 .nav-notifications {
-  width: 60%;
+  width: 100%;
   margin: 0 auto;
   padding-top: 40px;
+}
+
+/* Стили для компьютеров и ноутбуков - прижимаем содержимое к левой стороне */
+@media (min-width: 1024px) {
+  .nav-notifications {
+    width: 100%;
+    margin: 0;
+    margin-right: auto;
+  }
 }
 .header-nav-notifications {
   font-family: "Sofia Sans Semi Condensed";
@@ -31,10 +40,12 @@
 }
 .nav-notifications {
   background-image: url("../../main/pages/img/border-notification.png");
-  background-size: 100% 100%;
+  background-size: contain;
   background-repeat: no-repeat;
+  background-position: center;
   max-width: 370px;
   padding: 60px 60px;
+  height: fit-content;
 }
 .form-check-label:hover {
   color: #00eafd;
@@ -42,16 +53,25 @@
 }
 .nav-notifications.modal {
   background-image: url("../../main/pages/img/bg-modal.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: fit-content;
 }
 .modal-overlay.notifications {
   background-color: rgba(16, 24, 28, 1);
   display: flex;
 }
-.all-content-notifications {
-  padding-top: 40px;
+.notifications-container {
   display: flex;
+  gap: 20px;
+  padding-top: 40px;
   width: 60%;
   margin: 0 auto;
+}
+
+.all-content-notifications {
+  flex: 1;
 }
 .text-notifications {
   background: rgba(5, 180, 199, 0.15);
@@ -133,23 +153,29 @@
 }
 
 @media (max-width: 1365px) {
-  .all-content-notifications,
+  .notifications-container,
   .headerNotification {
     width: 80%;
   }
 }
 
 @media (max-width: 1245px) {
-  .all-content-notifications,
+  .notifications-container,
   .headerNotification {
     width: 95%;
   }
 }
 @media (max-width: 1005px) {
+  .notifications-container {
+    display: block;
+    width: 95%;
+  }
+  
   .all-content-notifications,
   .headerNotification {
     width: 95%;
   }
+  
   .headerNotification {
     align-items: center;
     justify-content: space-between;

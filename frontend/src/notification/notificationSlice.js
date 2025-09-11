@@ -4,22 +4,39 @@ import { notificationAPI } from '../api';
 const initialState = {
     notifications: [],
     loading: false,
-    error: null
+    error: null,
+    lastVersion: null
 };
 
 export const fetchNotifications = createAsyncThunk(
     'notification/fetchNotifications',
     async (_, thunkAPI) => {
         try {
-            const response = await notificationAPI.getNotifications();
+            const { lastVersion } = thunkAPI.getState().notification;
+            const response = await notificationAPI.getNotifications(lastVersion);
             
             // Проверяем, что response существует и содержит data
             if (!response || !response.data) {
                 console.warn('Invalid response from API:', response);
-                return [];
+                return { data: [], changed: false };
             }
             
-            return response.data;
+            // Проверяем, что data является массивом
+            if (!Array.isArray(response.data)) {
+                console.warn('Invalid data format from API:', response.data);
+                return { data: [], changed: false };
+            }
+            
+            // Дополнительная проверка на валидность элементов массива
+            const validNotifications = response.data.filter(item => 
+                item && typeof item === 'object' && item.id
+            );
+            
+            return { 
+                data: validNotifications, 
+                changed: !!response.changed,
+                version: response.version
+            };
         } catch (error) {
             console.error('Error in fetchNotifications thunk:', error);
             return thunkAPI.rejectWithValue(error.message || 'Помилка завантаження повідомлень');
@@ -68,17 +85,50 @@ const notificationSlice = createSlice({
                 state.error = null;
             })
             .addCase(fetchNotifications.fulfilled, (state, action) => {
-                // Проверяем, что action.payload существует и является массивом
-                if (Array.isArray(action.payload)) {
+                const { data = [], changed = false, version } = action.payload || {};
+                
+                // Проверяем, что data существует и является массивом
+                if (Array.isArray(data)) {
+                    // Дополнительная проверка на валидность элементов массива
+                    const validNotifications = data.filter(item => 
+                        item && typeof item === 'object' && item.id
+                    );
+                    
                     const uniqueNotifications = [...new Map(
-                        action.payload.map(item => [item.id, item])
+                        validNotifications.map(item => [item.id, item])
                     ).values()];
-                    state.notifications = uniqueNotifications;
+                    
+                    // Определяем, это старый формат (без версии) или новый
+                    const isOldFormat = version == null || version === '0';
+                    
+                    if (isOldFormat) {
+                        // Старый формат — версий нет, доверяем данным целиком
+                        state.notifications = uniqueNotifications;  // обновляем даже если []
+                        state.lastVersion = version ?? '0';
+                        console.log(`📬 [Notifications] (old format) state overwritten, count: ${uniqueNotifications.length}`);
+                    } else if (changed || state.notifications.length === 0) {
+                        // Новый формат — обновляем только при изменениях
+                        state.notifications = uniqueNotifications;
+                        state.lastVersion = version;
+                        console.log(`📬 [Notifications] updated (changed: ${changed}, v:${version})`);
+                    } else {
+                        console.log(`📬 [Notifications] skipped (unchanged, v:${version})`);
+                    }
+                    
+                    // Логируем количество уведомлений из БД
+                    console.log(`📬 [Notifications] Загружено уведомлений из БД: ${uniqueNotifications.length}`);
+                    console.log(`📬 [Notifications] Непрочитанных: ${uniqueNotifications.filter(n => !n.is_read).length}`);
+                    console.log(`📬 [Notifications] Прочитанных: ${uniqueNotifications.filter(n => n.is_read).length}`);
                 } else {
                     console.warn('Invalid payload in fetchNotifications.fulfilled:', action.payload);
-                    state.notifications = [];
+                    // Не перезаписываем существующие уведомления при ошибке
+                    if (state.notifications.length === 0) {
+                        state.notifications = [];
+                    }
+                    console.log(`📬 [Notifications] Загружено уведомлений из БД: 0 (неверный формат данных)`);
                 }
                 state.loading = false;
+                state.error = null;
             })
             .addCase(fetchNotifications.rejected, (state, action) => {
                 state.loading = false;

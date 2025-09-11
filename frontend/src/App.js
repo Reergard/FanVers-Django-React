@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { forceLogout, setIsAuthenticated } from "./auth/authSlice";
+import { forceLogout, setIsAuthenticated, setHasToken, getProfile, authFinishedLoading } from "./auth/authSlice";
+import tokenService from "./auth/tokenService";
 import PrivateRoute from "./auth/components/PrivateRoute";
 import Catalog from './catalog/pages/Catalog';
 import AbandonedTranslations from './catalog/pages/AbandonedTranslations';
@@ -64,20 +65,58 @@ function App() {
   const location = useLocation();
   const dispatch = useDispatch();
 
+  // Инициализация auth при загрузке приложения
+  useEffect(() => {
+    // Проверяем наличие window для SSR
+    if (typeof window === 'undefined') {
+      dispatch(authFinishedLoading());
+      return;
+    }
+    
+    const token = localStorage.getItem('token');
+    dispatch(setHasToken(!!token));
+    
+    if (token) {
+      // Есть токен — загружаем профиль
+      dispatch(getProfile());
+      // Запускаем мониторинг токенов
+      tokenService.startTokenMonitoring();
+    } else {
+      // Нет токена — явно заканчиваем загрузку
+      dispatch(authFinishedLoading());
+    }
+  }, [dispatch]);
+
   // Обробка події forceLogout від instance.js
   useEffect(() => {
     const handleForceLogout = () => {
       console.log('🚪 App: Отримано подію forceLogout, очищаємо Redux state');
       dispatch(forceLogout());
       dispatch(setIsAuthenticated(false));
+      // Останавливаем мониторинг токенов
+      tokenService.stopTokenMonitoring();
     };
 
-    // Додаємо слухач події
-    window.addEventListener('forceLogout', handleForceLogout);
+    // Синхронизация между вкладками
+    const handleStorageChange = (e) => {
+      if (e.key === 'auth_logout') {
+        console.log('🚪 App: Синхронизация логаута с другой вкладкой');
+        dispatch(forceLogout());
+        dispatch(setIsAuthenticated(false));
+        // Останавливаем мониторинг токенов
+        tokenService.stopTokenMonitoring();
+        localStorage.removeItem('auth_logout'); // Очищаем ключ для чистоты
+      }
+    };
 
-    // Очищаємо слухач при розмонтуванні
+    // Додаємо слухачі подій
+    window.addEventListener('forceLogout', handleForceLogout);
+    window.addEventListener('storage', handleStorageChange);
+
+    // Очищаємо слухачі при розмонтуванні
     return () => {
       window.removeEventListener('forceLogout', handleForceLogout);
+      window.removeEventListener('storage', handleStorageChange);
     };
   }, [dispatch]);
 
@@ -124,7 +163,6 @@ function App() {
             <Route path="/magical-guide" element={<MagicalGuide />} />
             <Route path="/all-settings" element={<AllSettings />} />
             <Route path="/books/:slug" element={<BookDetailRouter />} />
-            <Route path="/create-translation" element={<CreateTranslation />} />
             <Route path="/search" element={<SearchPage />} />
             <Route path="/translators" element={<TranslatorsList />} />
             <Route path="/authors" element={<Authors />} />

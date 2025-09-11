@@ -31,6 +31,12 @@ const authService = {
 
     logout: () => {
         tokenService.clearTokens();
+        // Очищаем заголовки axios при обычном логауте
+        if (typeof window !== 'undefined') {
+            delete api.defaults.headers.common.Authorization;
+        }
+        // Останавливаем мониторинг токенов при обычном логауте
+        tokenService.stopTokenMonitoring();
     },
 
     activate: async (userData) => {
@@ -65,8 +71,7 @@ const authService = {
 
     getProfile: async () => {
         try {
-            // Получаем актуальный токен перед запросом
-            await tokenService.getValidToken();
+            // Интерсептор автоматически обработает refresh токена при 401
             const response = await api.get('/users/profile/');
             return response.data;
         } catch (error) {
@@ -86,8 +91,7 @@ const authService = {
 
     updateProfile: async (profileData) => {
         try {
-            // Получаем актуальный токен перед запросом
-            await tokenService.getValidToken();
+            // Интерсептор автоматически обработает refresh токена при 401
             const response = await api.put('/auth/users/me/', profileData);
             return response.data;
         } catch (error) {

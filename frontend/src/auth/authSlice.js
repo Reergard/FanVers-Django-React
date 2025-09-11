@@ -1,15 +1,16 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import authService from './authService';
 
-const user = JSON.parse(localStorage.getItem("user"));
+const user = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem("user") || 'null') : null;
 
 const initialState = {
     user: user ? user : null,
     userInfo: {},
     isAuthenticated: false, // НЕ определяем по localStorage, только после успешной загрузки профиля
+    hasToken: typeof window !== 'undefined' ? !!localStorage.getItem('token') : false, // Синхронно проверяем наличие токена
     isError: false,
     isSuccess: false,
-    isLoading: false,
+    isLoading: true, // Стартуем в состоянии загрузки
     message: "",
 };
 
@@ -98,16 +99,18 @@ export const getProfile = createAsyncThunk(
         try {
             return await authService.getProfile();
         } catch (error) {
-            const message = (error.response && error.response.data
-                && error.response.data.message) || error.message || error.toString();
-            return thunkAPI.rejectWithValue(message);
-        }
-    },
-    {
-        condition: (_, { getState }) => {
-            const { auth } = getState();
-            // не звати, якщо вже завантажуємо
-            return !auth.isLoading;
+            const isNetwork =
+                error?.code === 'ERR_NETWORK' ||
+                error?.message === 'Network Error' ||
+                error?.message === 'Помилка з\'єднання з сервером' ||
+                // если ты в authService кидаешь строку с текстом про сеть:
+                (typeof error === 'string' && error.toLowerCase().includes('з\'єднання'));
+
+            // Возвращаем структурированный payload
+            return thunkAPI.rejectWithValue({ 
+                code: isNetwork ? 'NETWORK' : 'AUTH', 
+                message: (error?.message || error || 'Помилка')
+            });
         }
     }
 );
@@ -139,6 +142,12 @@ export const authSlice = createSlice({
         setIsAuthenticated: (state, action) => {
             state.isAuthenticated = action.payload;
         },
+        setHasToken: (state, action) => {
+            state.hasToken = action.payload;
+        },
+        authFinishedLoading: (state) => {
+            state.isLoading = false;
+        },
         // Новий reducer для force logout
         forceLogout: (state) => {
             state.user = null;
@@ -148,6 +157,12 @@ export const authSlice = createSlice({
             state.isSuccess = false;
             state.isLoading = false;
             state.message = "";
+            state.hasToken = false; // Сбрасываем флаг токена
+            if (typeof window !== 'undefined') {
+                localStorage.removeItem('token'); // Очищаем токен
+                localStorage.removeItem('refresh'); // Очищаем refresh
+                localStorage.removeItem('user'); // Очищаем пользователя
+            }
         },
         // Очищення помилок
         clearErrors: (state) => {
@@ -180,10 +195,11 @@ export const authSlice = createSlice({
             .addCase(login.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
-                state.isAuthenticated = true;
+                state.isAuthenticated = false; // Не устанавливаем true, ждем getProfile
                 state.user = {
                     token: action.payload.access
                 };
+                state.hasToken = true; // Фиксируем наличие токена после успешного логина
                 // НЕ встановлюємо userInfo тут - він буде завантажений через getProfile
                 // Токены уже записаны в authService.login, не дублируем здесь
             })
@@ -203,6 +219,10 @@ export const authSlice = createSlice({
                 state.isSuccess = false;
                 state.isLoading = false;
                 state.message = "";
+                state.hasToken = false; // Сбрасываем флаг токена
+                localStorage.removeItem('token'); // Очищаем токен
+                localStorage.removeItem('refresh'); // Очищаем refresh для консистентности
+                localStorage.removeItem('user'); // Очищаем пользователя
             })
             .addCase(activate.pending, (state) => {
                 state.isLoading = true;
@@ -271,12 +291,20 @@ export const authSlice = createSlice({
             .addCase(getProfile.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
-                state.message = action.payload;
-                // Если токена нет в localStorage, считаем пользователя неавторизованным
-                const hasToken = !!localStorage.getItem('token');
-                if (!hasToken) {
-                    state.isAuthenticated = false;
+                state.message = action.payload?.message || String(action.payload || '');
+                state.isAuthenticated = false;
+                state.user = null;
+
+                if (action.payload?.code === 'AUTH') {
+                    // только при реальной проблеме авторизации чистим локалсторедж
+                    state.hasToken = false;
+                    if (typeof window !== 'undefined') {
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('refresh');
+                        localStorage.removeItem('user');
+                    }
                 }
+                // при NETWORK — токены оставляем, пользователь не вылетает.
             })
             .addCase(updateProfile.fulfilled, (state, action) => {
                 state.userInfo = action.payload;
@@ -284,6 +312,6 @@ export const authSlice = createSlice({
     }
 });
 
-export const { reset, setIsAuthenticated, forceLogout, clearErrors } = authSlice.actions;
+export const { reset, setIsAuthenticated, setHasToken, authFinishedLoading, forceLogout, clearErrors } = authSlice.actions;
 
 export default authSlice.reducer;

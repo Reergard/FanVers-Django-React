@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { useToast } from '../../components/CustomToast';
-import { login, reset, setIsAuthenticated, getProfile } from '../../auth/authSlice';
+import { login, reset, getProfile } from '../../auth/authSlice';
+import tokenService from '../../auth/tokenService';
 import '../../auth/styles/AuthModal.css';
 
 const LoginModal = ({ isOpen, onRequestClose }) => {
@@ -35,13 +36,12 @@ const LoginModal = ({ isOpen, onRequestClose }) => {
       const result = await dispatch(login(formData)).unwrap();
       if (result) {
         dispatch(getProfile());
+        tokenService.startTokenMonitoring(); // Запускаем мониторинг сразу после логина
         success("Ви успішно увійшли в систему");
-        dispatch(setIsAuthenticated(true));
         onRequestClose();
         setFormData({ username: '', password: '' });
       }
     } catch (error) {
-      e.preventDefault();
       if (error && typeof error === 'string') {
         if (error.toLowerCase().includes('no active account') || 
           error.toLowerCase().includes('credentials')) {

@@ -6,7 +6,6 @@ class TokenService {
     constructor() {
         this.refreshPromise = null;
         this.tokenCheckInterval = null;
-        this.startTokenMonitoring();
     }
 
     // Получить актуальный токен (с автоматическим обновлением)
@@ -54,23 +53,34 @@ class TokenService {
                     refresh: refreshToken
                 });
 
-                const { access } = response.data;
+                const { access, refresh: newRefresh } = response.data || {};
                 if (!access) {
                     throw new Error('Немає access токена в відповіді');
                 }
 
                 localStorage.setItem('token', access);
+                // Ротация refresh-токена, если сервер его вернул
+                if (newRefresh) {
+                    localStorage.setItem('refresh', newRefresh);
+                    console.log('Refresh токен також оновлено');
+                }
                 console.log('Токен успішно оновлено');
                 return access;
 
             } catch (error) {
                 console.error('Помилка оновлення токена:', error);
-                // Очищаем токены при ошибке
-                this.clearTokens();
-                
-                // Используем новую систему обработки ошибок
-                const userMessage = handleAuthError(error);
-                throw userMessage;
+                const isNetwork = error?.code === 'ERR_NETWORK' || error?.message === 'Network Error';
+                const status = error?.response?.status;
+
+                if (isNetwork) {
+                    // сеть: НЕ чистим токены, позволяем повторить позже
+                    throw handleAuthError(error);
+                }
+                if (status === 400 || status === 401) {
+                    // invalid refresh – чистим
+                    this.clearTokens();
+                }
+                throw handleAuthError(error);
             } finally {
                 this.refreshPromise = null;
             }
@@ -104,6 +114,12 @@ class TokenService {
 
     // Мониторинг токенов
     startTokenMonitoring() {
+        // Если мониторинг уже запущен, не создаем новый интервал
+        if (this.tokenCheckInterval) {
+            console.log('Мониторинг токенов уже запущен');
+            return;
+        }
+        
         // Проверяем токены каждые 4 минуты
         this.tokenCheckInterval = setInterval(async () => {
             try {
@@ -112,6 +128,8 @@ class TokenService {
                 console.error('Помилка автоматичного оновлення токена:', error);
             }
         }, 4 * 60 * 1000); // 4 минуты
+        
+        console.log('Мониторинг токенов запущен');
     }
 
     // Остановка мониторинга
