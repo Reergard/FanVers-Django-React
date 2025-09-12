@@ -411,13 +411,14 @@ class Chapter(models.Model):
         if not self.slug:
             self.slug = self.generate_unique_slug()    
         
-        # Оновлення часу
-        if not self.pk or kwargs.get('update_fields') is None:
+        # Оновлення часу (только для новых глав)
+        if not self.pk:
             self.last_updated = timezone.now()
             
         # Підрахунок символів та часу читання
         if self.html_content:
             self.character_count = len(self.html_content)
+            self.characters_count = len(self.html_content)  # Дублируем для совместимости
             # 3 хвилини на 1000 символів = 180 секунд на 1000 символів
             self.reading_time = (self.character_count / 1000) * 180
             self.min_reading_time = self.reading_time * 0.75
@@ -453,7 +454,10 @@ class Chapter(models.Model):
             
             self.html_file_path = self.generate_html_filename()
             self.html_content = html_content
-            self.save(update_fields=['html_file_path', 'html_content'])
+            # Обновляем поля символов
+            self.character_count = len(html_content)
+            self.characters_count = len(html_content)
+            self.save(update_fields=['html_file_path', 'html_content', 'character_count', 'characters_count'])
         except Exception as e:
             raise
 

@@ -22,6 +22,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from decimal import Decimal
 from django.conf import settings
 from django.utils.translation import gettext as _
+from django.utils import timezone
 from apps.catalog.utils.errorUtils import get_error_codes
 from apps.catalog.api.permissions import IsBookOwner, IsNotBookOwner, check_book_access_permission
 from rest_framework import generics
@@ -203,16 +204,21 @@ def add_chapter(request, slug):
         is_paid = request.data.get('is_paid', '').lower() == 'true'
         title = request.data.get('title')
         
-        try:
-            price = Decimal(request.data.get('price', '1.00'))
-        except (TypeError, ValueError):
-            price = Decimal('1.00')
-        
-        if is_paid and (price <= 0 or price > 1000):
-            return Response(
-                {'error': 'Некоректна ціна розділу'}, 
-                status=status.HTTP_400_BAD_REQUEST
-            )
+        # Для бесплатных глав устанавливаем цену 0, для платных - берем из запроса
+        if is_paid:
+            try:
+                price = Decimal(request.data.get('price', '1.00'))
+            except (TypeError, ValueError):
+                price = Decimal('1.00')
+            
+            if price <= 0 or price > 1000:
+                return Response(
+                    {'error': 'Некоректна ціна розділу'}, 
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+        else:
+            # Для бесплатных глав всегда устанавливаем цену 0
+            price = Decimal('0.00')
             
         if 'file' not in request.FILES:
             return Response(
@@ -228,6 +234,20 @@ def add_chapter(request, slug):
             is_paid=is_paid,
             price=price
         )
+        
+        # Обновляем last_updated книги при создании главы
+        book.last_updated = timezone.now()
+        book.save(update_fields=['last_updated'])
+        
+        # Генерируем HTML контент сразу при создании главы
+        try:
+            with open(chapter.file.path, "rb") as docx_file:
+                result = mammoth.convert_to_html(docx_file)
+                html_content = result.value
+                chapter.save_html_content(html_content)
+        except Exception as e:
+            logger.error(f"Ошибка при генерации HTML контента для главы {chapter.id}: {str(e)}")
+            # Не прерываем создание главы, просто логируем ошибку
         
         serializer = ChapterSerializer(chapter)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
