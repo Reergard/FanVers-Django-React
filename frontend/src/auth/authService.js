@@ -2,6 +2,9 @@ import { api } from '../api/instance';
 import tokenService from './tokenService';
 import { handleAuthError } from './utils/authErrorUtils';
 
+// Дедупликация запросов профиля
+let profilePromise = null;
+
 const authService = {
     register: async (userData) => {
         try {
@@ -70,29 +73,53 @@ const authService = {
     },
 
     getProfile: async () => {
-        try {
-            // Интерсептор автоматически обработает refresh токена при 401
-            const response = await api.get('/users/profile/');
-            return response.data;
-        } catch (error) {
-            console.error('authService.getProfile error:', error);
-            
-            // Додаткова обробка помилок з'єднання
-            if (error.code === 'ERR_NETWORK' || error.message === 'Network Error') {
-                console.error('Помилка з\'єднання з сервером в authService.getProfile');
-                throw new Error('Помилка з\'єднання з сервером');
+        // Дедупликация: если уже идет запрос профиля, возвращаем тот же промис
+        if (profilePromise) {
+            console.log('Profile request already in progress, reusing promise');
+            return profilePromise;
+        }
+        
+        profilePromise = (async () => {
+            try {
+                // Интерсептор автоматически обработает refresh токена при 401
+                const response = await api.get('/users/profile/');
+                return response.data;
+            } catch (error) {
+                console.error('authService.getProfile error:', error);
+                
+                const status = error?.response?.status;
+                
+            if (status === 429) {
+                const ra = error?.response?.headers?.['retry-after'];
+                const retryAfter = Number.isFinite(+ra) ? parseInt(ra, 10) : 30;
+                console.warn(`Profile request throttled, retry after ${retryAfter}s`);
+                throw { 
+                    code: 'THROTTLED', 
+                    retryAfter, 
+                    message: 'Забагато запитів до профілю' 
+                };
             }
-            
-            // Используем новую систему обработки ошибок
+
+            if (error?.code === 'ERR_NETWORK' || error?.message === 'Network Error') {
+                throw { code: 'NETWORK', message: "Помилка з'єднання з сервером" };
+            }
+
+            // всё остальное — через унифицированный маппер ошибок
             const userMessage = handleAuthError(error);
             throw userMessage;
-        }
+            } finally {
+                // Очищаем промис после завершения (успешного или с ошибкой)
+                profilePromise = null;
+            }
+        })();
+        
+        return profilePromise;
     },
 
     updateProfile: async (profileData) => {
         try {
             // Интерсептор автоматически обработает refresh токена при 401
-            const response = await api.put('/auth/users/me/', profileData);
+            const response = await api.put('/users/profile/detail/', profileData);
             return response.data;
         } catch (error) {
             const userMessage = handleAuthError(error);

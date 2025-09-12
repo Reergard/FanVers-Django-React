@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
     'djoser',
     'apps.rating.apps.RatingConfig',
@@ -175,7 +176,8 @@ REST_FRAMEWORK = {
         'upload': '20/hour',       # загрузки
         'purchase': '10/hour',     # покупки
         'balance': '100/hour',     # баланс (как у вас)
-        'profile': '1000/hour',    # профили (как у вас)
+        'profile': '60/min',       # профили (разумный лимит)
+        'monitoring': '10/min',    # мониторинг статистики
     }
 }
 
@@ -217,8 +219,8 @@ SITE_NAME = "FanVers"
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer', 'JWT'),  # Підтримка обох префіксів
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
-    'ROTATE_REFRESH_TOKENS': False,
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
     'UPDATE_LAST_LOGIN': False,
     'ALGORITHM': 'HS256',

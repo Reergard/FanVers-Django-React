@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Route, Routes, Navigate, useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { forceLogout, setIsAuthenticated, setHasToken, getProfile, authFinishedLoading } from "./auth/authSlice";
 import tokenService from "./auth/tokenService";
 import PrivateRoute from "./auth/components/PrivateRoute";
@@ -64,6 +64,9 @@ function App() {
   const [error, setError] = useState(null);
   const location = useLocation();
   const dispatch = useDispatch();
+  
+  // Селекторы для состояния авторизации
+  const { isAuthenticated, hasToken } = useSelector((state) => state.auth);
 
   // Инициализация auth при загрузке приложения
   useEffect(() => {
@@ -79,13 +82,20 @@ function App() {
     if (token) {
       // Есть токен — загружаем профиль
       dispatch(getProfile());
-      // Запускаем мониторинг токенов
-      tokenService.startTokenMonitoring();
+      // Мониторинг токенов запустится после успешного getProfile
     } else {
       // Нет токена — явно заканчиваем загрузку
       dispatch(authFinishedLoading());
     }
   }, [dispatch]);
+
+  // Запуск мониторинга токенов после успешной авторизации
+  useEffect(() => {
+    if (isAuthenticated && hasToken) {
+      console.log('🚀 App: Запуск мониторинга токенов после успешной авторизации');
+      tokenService.startTokenMonitoring();
+    }
+  }, [isAuthenticated, hasToken]);
 
   // Обробка події forceLogout від instance.js
   useEffect(() => {

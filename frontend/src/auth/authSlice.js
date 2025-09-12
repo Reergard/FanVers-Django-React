@@ -99,17 +99,29 @@ export const getProfile = createAsyncThunk(
         try {
             return await authService.getProfile();
         } catch (error) {
+            // Если ошибка уже структурирована сервисом — пробрасываем как есть
+            if (error && typeof error === 'object' && error.code) {
+                return thunkAPI.rejectWithValue(error);
+            }
+            
+            const status = error?.response?.status;
             const isNetwork =
                 error?.code === 'ERR_NETWORK' ||
                 error?.message === 'Network Error' ||
                 error?.message === 'Помилка з\'єднання з сервером' ||
-                // если ты в authService кидаешь строку с текстом про сеть:
                 (typeof error === 'string' && error.toLowerCase().includes('з\'єднання'));
-
+            
+            const isThrottled = status === 429;
+            
             // Возвращаем структурированный payload
             return thunkAPI.rejectWithValue({ 
-                code: isNetwork ? 'NETWORK' : 'AUTH', 
-                message: (error?.message || error || 'Помилка')
+                code: isThrottled ? 'THROTTLED' : (isNetwork ? 'NETWORK' : 'AUTH'), 
+                message: (error?.message || error || 'Помилка'),
+                retryAfter: isThrottled ? (() => {
+                    const retryAfterRaw = error?.response?.headers?.['retry-after'] || '30';
+                    const retryAfter = parseInt(retryAfterRaw, 10);
+                    return Number.isFinite(retryAfter) && retryAfter > 0 ? retryAfter : 30;
+                })() : undefined
             });
         }
     }
@@ -292,19 +304,22 @@ export const authSlice = createSlice({
                 state.isLoading = false;
                 state.isError = true;
                 state.message = action.payload?.message || String(action.payload || '');
-                state.isAuthenticated = false;
-                state.user = null;
-
-                if (action.payload?.code === 'AUTH') {
-                    // только при реальной проблеме авторизации чистим локалсторедж
+                
+                const code = action.payload?.code;
+                if (code === 'AUTH') {
+                    // только при реальной потере авторизации
+                    state.isAuthenticated = false;
+                    state.user = null;
                     state.hasToken = false;
                     if (typeof window !== 'undefined') {
                         localStorage.removeItem('token');
                         localStorage.removeItem('refresh');
                         localStorage.removeItem('user');
                     }
+                } else {
+                    // при THROTTLED/NETWORK/SERVER - НЕ трогаем isAuthenticated
+                    // пользователь остается авторизованным
                 }
-                // при NETWORK — токены оставляем, пользователь не вылетает.
             })
             .addCase(updateProfile.fulfilled, (state, action) => {
                 state.userInfo = action.payload;

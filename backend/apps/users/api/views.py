@@ -8,6 +8,7 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.throttling import ScopedRateThrottle
 import logging
 from django.db import transaction
 from django.contrib.auth import update_session_auth_hash
@@ -113,7 +114,8 @@ class LogoutView(APIView):
 class UserProfileView(APIView):
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
-    # throttle_classes = [ProfileThrottle]  # Розкоментувати на продакшені
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'profile'
 
     def get(self, request):
         try:
@@ -186,6 +188,7 @@ def update_profile_view(request):
 class ProfileImageView(APIView):
     permission_classes = [IsAuthenticated]
     parser_classes = [MultiPartParser, FormParser]
+    throttle_classes = [ScopedRateThrottle]
     throttle_scope = 'upload'  # Загрузка файлов
     
     def post(self, request):
@@ -528,11 +531,12 @@ def get_user_statistics(request):
         
         # Статистика по главам и символам
         from apps.catalog.models import Chapter
-        from django.db.models import Sum, Count
+        from django.db.models import Sum, Count, Value
+        from django.db.models.functions import Coalesce
         
         chapters_stats = Chapter.objects.filter(book__owner=user).aggregate(
             total_chapters=Count('id'),
-            total_characters=Sum('characters_count') or 0
+            total_characters=Coalesce(Sum('characters_count'), Value(0))
         )
         
         # Статистика по доходам (покупки глав)

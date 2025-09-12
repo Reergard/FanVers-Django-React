@@ -1,6 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.throttling import ScopedRateThrottle
 from django.shortcuts import get_object_or_404
 from apps.catalog.models import Chapter, Book
 from ..models import UserChapterProgress
@@ -66,6 +67,8 @@ class ChapterProgressView(APIView):
 
 class UserReadingStatsView(APIView):
     permission_classes = [IsAuthenticated]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'monitoring'
 
     def get(self, request):
         user = request.user

@@ -1,13 +1,13 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Container, Button, Spinner, Alert, Form } from "react-bootstrap";
+import { Button, Spinner, Alert, Form } from "react-bootstrap";
 import "../css/Profile.css";
 import { usersAPI } from "../../api";
 import { ProfileImage } from '../../main/components/Header/ProfileImage';
 import { FALLBACK_IMAGES, IMAGE_SIZES } from "../../constants/fallbackImages";
 import openEyeIcon from '../../main/pages/img/open-eye.png';
 import closedEyeIcon from '../../main/pages/img/closed-eye.png';
-import { useToast } from '../../components/CustomToast/ToastContext';
+import { useToast } from '../../components/CustomToast';
 import LoginPhoto from '../../main/pages/img/login.png';
 import Save from '../../main/pages/img/save.png';
 import ModalDepositBalance from "../components/ModalDepositBalance";
@@ -19,7 +19,7 @@ import { monitoringAPI } from '../../api/monitoring/monitoringAPI';
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { BreadCrumb } from '../../main/components/BreadCrumb';
 import { getProfile } from "../../auth/authSlice";
-import { withVersion } from "../../utils/withVersion";
+// withVersion убран - бэкенд уже добавляет cache-busting параметр
 import { useRef } from "react";
 
 const Profile = () => {
@@ -45,7 +45,7 @@ const Profile = () => {
   const [avatarLoading, setAvatarLoading] = useState(false);
   const [avatarError, setAvatarError] = useState("");
   const [avatarSuccess, setAvatarSuccess] = useState("");
-  const [avatarVersion, setAvatarVersion] = useState(0); // 0 = немає завантажень, >0 = версія для кеш-бастингу
+  // avatarVersion убран - бэкенд уже добавляет cache-busting параметр
 
   // Ref для file input
   const fileRef = useRef(null);
@@ -96,7 +96,9 @@ const Profile = () => {
   });
 
   // Отримуємо профіль з Redux store
-  const reduxProfile = useSelector((state) => state.auth.profile);
+  const reduxProfile = useSelector((state) =>
+    state.auth.user ?? state.auth.userInfo
+  );
 
   useEffect(() => {
     if (readingStatsData) {
@@ -104,7 +106,7 @@ const Profile = () => {
     }
   }, [readingStatsData]);
 
-  // Синхронізуємо локальний state з Redux store
+  // Синхронізуємо локальний state з Redux store (объединенный эффект)
   useEffect(() => {
     if (reduxProfile && reduxProfile.role && (!profile || profile.role !== reduxProfile.role)) {
       console.log('🔄 Синхронізую роль з Redux:', reduxProfile.role, '->', profile?.role || 'Н/Д');
@@ -121,7 +123,7 @@ const Profile = () => {
           role: reduxProfile.role
         }));
         
-        // Показуємо повідомлення про оновлення ролі
+        // Показуємо повідомлення про оновлення ролі (только один toast)
         toast.info(`Роль оновлено: ${profile.role} → ${reduxProfile.role}`);
       }
     }
@@ -129,113 +131,45 @@ const Profile = () => {
 
   // Оновлюємо профіль при фокусі на сторінці (наприклад, після повернення з адмінки)
   useEffect(() => {
-    const handleFocus = () => {
+    let cooldown = false;
+
+    const handleFocus = async () => {
+      if (cooldown) return;
       console.log('🎯 Сторінка отримала фокус, оновлюю профіль...');
-      dispatch(getProfile());
+      try {
+        await dispatch(getProfile()).unwrap();
+      } catch (e) {
+        if (e?.code === 'THROTTLED') {
+          cooldown = true;
+          setTimeout(() => { cooldown = false; }, (e.retryAfter ?? 30) * 1000);
+        }
+      }
+    };
+
+    const tick = async () => {
+      if (cooldown) return;
+      try {
+        await dispatch(getProfile()).unwrap();
+      } catch (e) {
+        if (e?.code === 'THROTTLED') {
+          cooldown = true;
+          setTimeout(() => { cooldown = false; }, (e.retryAfter ?? 30) * 1000);
+        }
+      }
     };
 
     window.addEventListener('focus', handleFocus);
-    return () => window.removeEventListener('focus', handleFocus);
+    const interval = setInterval(tick, 120000); // 2 минуты вместо 30 секунд
+
+    return () => {
+      window.removeEventListener('focus', handleFocus);
+      clearInterval(interval);
+    };
   }, [dispatch]);
 
-  // Автоматично оновлюємо профіль кожні 30 секунд для синхронізації з адмінкою
-  useEffect(() => {
-    const interval = setInterval(() => {
-      console.log('⏰ Автоматичне оновлення профілю...');
-      dispatch(getProfile());
-    }, 30000); // 30 секунд
+  // fetchProfile удален - используем только Redux getProfile
 
-    return () => clearInterval(interval);
-  }, [dispatch]);
-
-  // Додаткова перевірка при зміні Redux профілю
-  useEffect(() => {
-    if (reduxProfile && reduxProfile.role && profile && profile.role !== reduxProfile.role) {
-      console.log('🔄 Redux профіль змінився, оновлюю локальний:', profile.role, '->', reduxProfile.role);
-      setProfile(prev => ({
-        ...prev,
-        role: reduxProfile.role
-      }));
-      
-      // Показуємо повідомлення про оновлення ролі
-      toast.info(`Роль оновлено: ${profile.role} → ${reduxProfile.role}`);
-    }
-  }, [reduxProfile?.role, profile?.role]);
-
-  // Примусове оновлення профілю при зміні ролі через адмінку
-  useEffect(() => {
-    if (reduxProfile && reduxProfile.role && profile && profile.role !== reduxProfile.role) {
-      console.log('🔄 Примусове оновлення ролі з адмінки:', profile.role, '->', reduxProfile.role);
-      
-      // Оновлюємо роль в локальному state
-      setProfile(prev => ({
-        ...prev,
-        role: reduxProfile.role
-      }));
-      
-      // Показуємо повідомлення
-      toast.info(`Роль оновлено з адмінки: ${profile.role} → ${reduxProfile.role}`);
-    }
-  }, [reduxProfile?.role]);
-
-  const fetchProfile = useCallback(async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const data = await usersAPI.getProfile();
-      
-      // Якщо є Redux профіль з актуальною роллю, використовуємо його
-      if (reduxProfile && reduxProfile.role && reduxProfile.role !== data.role) {
-        console.log('🔄 Використовую роль з Redux:', reduxProfile.role, 'замість:', data.role);
-        setProfile({
-          ...data,
-          role: reduxProfile.role
-        });
-      } else {
-        console.log('🔍 Встановлюю профіль з API:', data.role);
-        setProfile(data);
-      }
-      
-      if (data.is_owner) {
-        setBalanceHistory(data.balance_history || []);
-      }
-      
-      // Додатково перевіряємо актуальну роль користувача
-      console.log('🔍 Завантажено профіль, поточна роль:', data.role);
-      
-    } catch (error) {
-      console.error('Profile fetch error:', error);
-      
-      // Обробляємо різні типи помилок
-      if (error.code === 'ERR_NETWORK' || error.message === 'Network Error') {
-        const errorMessage = "Помилка з\'єднання з сервером. Перевірте, чи запущений Django сервер.";
-        setError(errorMessage);
-        toast.error(errorMessage);
-      } else if (error.response?.status === 401) {
-        const errorMessage = "Необхідна авторизація. Перенаправляємо на сторінку входу...";
-        setError(errorMessage);
-        toast.error(errorMessage);
-        // Автоматично перенаправляємо на логін через 2 секунди
-        setTimeout(() => {
-          window.location.href = '/login';
-        }, 2000);
-      } else {
-        const errorMessage = error.response?.data?.error || "Помилка при завантаженні профілю";
-        setError(errorMessage);
-        toast.error(errorMessage);
-      }
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    // Спочатку завантажуємо профіль через Redux
-    dispatch(getProfile());
-    
-    // Потім завантажуємо локально для додаткової інформації
-    fetchProfile();
-  }, [dispatch, fetchProfile]);
+  // getProfile вызывается только при фокусе и периодически - дублирующий вызов при монтировании убран
 
   // Ініціалізація email з профілю
   useEffect(() => {
@@ -260,9 +194,7 @@ const Profile = () => {
     }
   }, [profile]);
 
-  useEffect(() => {
-    queryClient.invalidateQueries(["readingStats"]);
-  }, [queryClient]);
+  // queryClient.invalidateQueries удален - не нужен при монтировании
 
   const handleDeposit = async () => {
     try {
@@ -595,8 +527,7 @@ const Profile = () => {
         has_custom_image: true
       }));
       
-      // Встановлюємо версію для кеш-бастингу
-      setAvatarVersion(Date.now());
+      // Cache-busting уже добавлен бэкендом в image_url
       
       // Очищаємо state
       setAvatarFile(null);
@@ -614,12 +545,6 @@ const Profile = () => {
 
       // Оновлюємо Redux state для синхронізації з іншими компонентами
       dispatch(getProfile());
-
-      // Додатково оновлюємо Redux state для синхронізації з Header
-      // Це забезпечить оновлення зображення профілю в усіх компонентах
-      setTimeout(() => {
-        dispatch(getProfile());
-      }, 100);
 
     } catch (error) {
       console.error('Avatar upload error:', error);
@@ -744,9 +669,7 @@ const Profile = () => {
                   <ProfileImage
                     src={
                       (profile.profile_image_large || profile.image)
-                        ? (avatarVersion
-                            ? withVersion(profile.profile_image_large || profile.image, avatarVersion)
-                            : (profile.profile_image_large || profile.image))
+                        ? (profile.profile_image_large || profile.image)
                         : null
                     }
                     alt={`Фото профілю ${profile.username}`}

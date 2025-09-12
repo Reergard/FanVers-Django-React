@@ -35,8 +35,8 @@ const LoginModal = ({ isOpen, onRequestClose }) => {
     try {
       const result = await dispatch(login(formData)).unwrap();
       if (result) {
-        dispatch(getProfile());
-        tokenService.startTokenMonitoring(); // Запускаем мониторинг сразу после логина
+        // Сначала загружаем профиль, мониторинг запустится автоматически в App.js
+        await dispatch(getProfile()).unwrap();
         success("Ви успішно увійшли в систему");
         onRequestClose();
         setFormData({ username: '', password: '' });
