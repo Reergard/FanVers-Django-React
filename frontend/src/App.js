@@ -31,7 +31,6 @@ import ScrollToTop from "./components/ScrollToTop";
 import "./components/Preloader.css";
 import "./components/Scrollbar.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import AdvertisementSettings from './website_advertising/pages/AdvertisementSettings';
 import AdvertisementsUsers from './users/pages/AdvertisementsUsers';
 import AllSettings from './catalog/pages/settings/AllSettings';
 
@@ -238,14 +237,6 @@ function App() {
               element={
                 <PrivateRoute>
                   <UserTranslations />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/books/:slug/advertisement"
-              element={
-                <PrivateRoute>
-                  <AdvertisementSettings />
                 </PrivateRoute>
               }
             />

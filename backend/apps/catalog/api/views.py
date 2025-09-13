@@ -340,6 +340,7 @@ def volume_list(request, book_slug):
 
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def create_volume(request, book_slug):
     try:
         book = Book.objects.get(slug=book_slug)

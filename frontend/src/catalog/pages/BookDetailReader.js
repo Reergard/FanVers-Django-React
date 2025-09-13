@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, Fragment } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { catalogAPI } from '../../api/catalog/catalogAPI';
 import { navigationAPI } from '../../api/navigation/navigationAPI';
 import axios from 'axios';
@@ -13,6 +13,7 @@ import { Button } from 'react-bootstrap';
 import SettingsBook from './img/Setting.svg';
 import { Form } from 'react-bootstrap';
 import { useToast } from '../../components/CustomToast';
+import { usersAPI } from '../../api/users/usersAPI';
 
 import AuthorBook from "./img/author.svg";
 import bookMini from "./img/book-mini.svg";
@@ -224,9 +225,13 @@ const BookDetailReader = ({ book: propBook, chapters = [], volumes = [], books =
 
   const { slug } = useParams();
   const currentUser = useSelector(state => state.auth.user);
-  const { error: showError } = useToast();
+  const { error: showError, success } = useToast();
+  const queryClient = useQueryClient();
   const [currentStartChapter, setCurrentStartChapter] = useState(1);
   const sliderRef = useRef(null);
+  
+  // Состояние для покупки глав
+  const [purchasingChapters, setPurchasingChapters] = useState(new Set());
   
   // Состояние для комментариев
   const [commentText, setCommentText] = useState('');
@@ -317,6 +322,41 @@ const BookDetailReader = ({ book: propBook, chapters = [], volumes = [], books =
 
   const handleRangeSelect = (startChapter) => {
     setCurrentStartChapter(startChapter);
+  };
+
+  // Функция покупки главы
+  const handlePurchaseChapter = async (chapterId, chapterTitle, price) => {
+    // Проверяем авторизацию
+    if (!currentUser) {
+      showError('Необхідна авторизація для покупки глави');
+      return;
+    }
+
+    if (purchasingChapters.has(chapterId)) {
+      return; // Предотвращаем повторные покупки
+    }
+
+    try {
+      setPurchasingChapters(prev => new Set(prev).add(chapterId));
+      
+      const result = await usersAPI.purchaseChapter(chapterId);
+      
+      success(`Главу "${chapterTitle}" успішно придбано за ${price} ₴`);
+      
+      // Обновляем данные глав
+      queryClient.invalidateQueries(['chapters', slug]);
+      queryClient.invalidateQueries(['book', slug]);
+      
+    } catch (error) {
+      console.error('Error purchasing chapter:', error);
+      showError(error.message || 'Помилка при покупці глави');
+    } finally {
+      setPurchasingChapters(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(chapterId);
+        return newSet;
+      });
+    }
   };
 
   // Функции для работы с комментариями
@@ -736,151 +776,286 @@ const BookDetailReader = ({ book: propBook, chapters = [], volumes = [], books =
             </div>
           </div>
           {/* <div className={styles.containerChapters}> */}
-          <table className={styles.chaptertableAuthor}>
-            <thead>
-              <tr>
-                <th></th>
-                <th></th>
-                <th>Назва</th>
-                <th></th>
-                <th>Вартість</th>
-                <th>Створено</th>
-                <th></th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {chapterList && chapterList.length > 0 ? (
-                chapterList
-                  .slice()
-                  .sort((a, b) => (a.volume === b.volume ? a.position - b.position : (a.volume || 0) - (b.volume || 0)))
-                  .map((chapter) => (
-                    <tr key={chapter.id}>
-                      <td>
-                        <Form.Check
-                          type="checkbox"
-                          id={`chapter-${chapter.id}`}
-                          className={`adult-content-checkbox ${styles.chapterCheck}`}
-                          disabled
-                        />
-                      </td>
-                      <td>
-                        <input className={styles.inputChapter} type="number" defaultValue={chapter.position} readOnly />
-                      </td>
-                      <td>
-                        <span className={styles.nameChapter}>{chapter.title}</span>
-                      </td>
-                      <td>
-                        <span className={styles.editChapter}>
-                          <img src={Read} alt="Read" />
-                          <span>Читати</span>
-                        </span>
-                      </td>
-                      <td>
-                        <span className={styles.numChapter}>
-                          {chapter.is_paid ? `${Number(chapter.price || 0).toFixed(2)} ₴` : 'Безкоштовно'}
-                        </span>
-                      </td>
-                      <td>
-                        <span className={styles.numChapter}>
-                          {new Date(chapter.created_at).toLocaleDateString()}
-                        </span>
-                      </td>
-                      <td>
-                        <Link to={`/books/${slug}/chapters/${chapter.slug}`} className={styles.chaptertableAuthorRead}>
-                          <img src={Read} alt="Read" />
-                          <span>Читати</span>
-                        </Link>
-                      </td>
-                      <td>
-                        <span className={styles.trashChapter}>
-                          <img src={Favorite} alt="Favorite" />
-                          <span>У закладки</span>
-                        </span>
-                      </td>
+          {chapterList && chapterList.length > 0 ? (
+            (() => {
+              // Группируем главы по томам
+              const groupedChapters = {};
+              const sortedChapters = chapterList
+                .slice()
+                .sort((a, b) => {
+                  // Сначала сортируем по наличию тома (тома идут первыми)
+                  if (a.volume && !b.volume) return -1;
+                  if (!a.volume && b.volume) return 1;
+                  // Затем по ID тома
+                  if (a.volume && b.volume) {
+                    if (a.volume !== b.volume) return a.volume - b.volume;
+                  }
+                  // Затем по позиции
+                  return a.position - b.position;
+                });
+              
+              sortedChapters.forEach(chapter => {
+                const volumeId = chapter.volume || 'no-volume';
+                const volumeTitle = chapter.volume_title || 'Без тома';
+                if (!groupedChapters[volumeId]) {
+                  groupedChapters[volumeId] = {
+                    title: volumeTitle,
+                    chapters: []
+                  };
+                }
+                groupedChapters[volumeId].chapters.push(chapter);
+              });
+
+              return (
+                <table className={styles.chaptertableAuthor}>
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>Назва</th>
+                      <th></th>
+                      <th>Вартість</th>
+                      <th>Створено</th>
+                      <th></th>
                     </tr>
-                  ))
-              ) : (
+                  </thead>
+                  <tbody>
+                    {Object.entries(groupedChapters).map(([volumeId, volumeData], volumeIndex) => (
+                      <React.Fragment key={volumeId}>
+                        {/* Заголовок тома */}
+                        {volumeId !== 'no-volume' && (
+                          <tr className="volume-separator-row">
+                            <td colSpan="6" className="volume-separator">
+                              <div className="volume-title">{volumeData.title}</div>
+                            </td>
+                          </tr>
+                        )}
+                        {/* Разделитель для глав без тома - показываем перед главами без тома */}
+                        {volumeId === 'no-volume' && (
+                          <tr className="volume-separator-row">
+                            <td colSpan="6" className="volume-separator">
+                              <div className="volume-title">Глави без тома</div>
+                            </td>
+                          </tr>
+                        )}
+                        {/* Главы тома */}
+                        {volumeData.chapters.map((chapter) => (
+                          <tr key={chapter.id}>
+                            <td>
+                              <Form.Check
+                                type="checkbox"
+                                id={`chapter-${chapter.id}`}
+                                className={`adult-content-checkbox ${styles.chapterCheck}`}
+                                disabled
+                              />
+                            </td>
+                            <td>
+                              <span className={styles.nameChapter}>{chapter.title}</span>
+                            </td>
+                            <td>
+                              <span className={styles.numChapter}>
+                                {chapter.is_paid ? `${Number(chapter.price || 0).toFixed(2)} ₴` : 'Безкоштовно'}
+                              </span>
+                            </td>
+                            <td>
+                              <span className={styles.numChapter}>
+                                {new Date(chapter.created_at).toLocaleDateString()}
+                              </span>
+                            </td>
+                            <td>
+                              {chapter.is_paid && !chapter.is_purchased && currentUser ? (
+                                <button 
+                                  onClick={() => handlePurchaseChapter(chapter.id, chapter.title, chapter.price)}
+                                  disabled={purchasingChapters.has(chapter.id)}
+                                  className={styles.chaptertableAuthorRead}
+                                  style={{
+                                    background: purchasingChapters.has(chapter.id) ? '#666' : '#f58807',
+                                    cursor: purchasingChapters.has(chapter.id) ? 'not-allowed' : 'pointer'
+                                  }}
+                                >
+                                  <img src={Read} alt="Purchase" />
+                                  <span>
+                                    {purchasingChapters.has(chapter.id) ? 'Купляємо...' : 'Купити'}
+                                  </span>
+                                </button>
+                              ) : chapter.is_paid && !chapter.is_purchased && !currentUser ? (
+                                <div className={styles.chaptertableAuthorRead} style={{opacity: 0.6, cursor: 'not-allowed'}}>
+                                  <img src={Read} alt="Login required" />
+                                  <span>Увійдіть для покупки</span>
+                                </div>
+                              ) : (
+                                <Link to={`/books/${slug}/chapters/${chapter.slug}`} className={styles.chaptertableAuthorRead}>
+                                  <img src={Read} alt="Read" />
+                                  <span>Читати</span>
+                                </Link>
+                              )}
+                            </td>
+                          </tr>
+                        ))}
+                      </React.Fragment>
+                    ))}
+                  </tbody>
+                </table>
+              );
+            })()
+          ) : (
+            <table className={styles.chaptertableAuthor}>
+              <tbody>
                 <tr>
-                  <td colSpan="8" style={{textAlign: 'center'}}>Немає доступних розділів</td>
+                  <td colSpan="6" style={{textAlign: 'center'}}>Немає доступних розділів</td>
                 </tr>
-              )}
-            </tbody>
-          </table>
+              </tbody>
+            </table>
+          )}
 
-          <table className={styles.chaptertableAuthorMobile}>
-            <tbody>
-              {chapterList && chapterList.length > 0 ? (
-                chapterList.map((chapter) => (
-                   <Fragment key={`m-${chapter.id}`}>
-                    {/* Первая строка */}
-                    <tr>
-                      <td>
-                        <Form.Check
-                          type="checkbox"
-                          id={`mobile-chapter-${chapter.id}`}
-                          className={`adult-content-checkbox ${styles.chapterCheck}`}
-                          disabled
-                        />
-                      </td>
-                      <td className={styles.nameChapter}>
-                  {chapter.title}
-                      </td>
-                      <td style={{position: "relative"}}>
-                        <Link to={`/books/${slug}/chapters/${chapter.slug}`} className={styles.chaptertableAuthorRead}>
-                          <img src={Read} alt="Read" />
-                          <span>Читати</span>
-                        </Link>
-                      </td>
-                    </tr>
+          {chapterList && chapterList.length > 0 ? (
+            (() => {
+              // Группируем главы по томам для мобильной версии
+              const groupedChapters = {};
+              const sortedChapters = chapterList
+                .slice()
+                .sort((a, b) => {
+                  // Сначала сортируем по наличию тома (тома идут первыми)
+                  if (a.volume && !b.volume) return -1;
+                  if (!a.volume && b.volume) return 1;
+                  // Затем по ID тома
+                  if (a.volume && b.volume) {
+                    if (a.volume !== b.volume) return a.volume - b.volume;
+                  }
+                  // Затем по позиции
+                  return a.position - b.position;
+                });
+              
+              sortedChapters.forEach(chapter => {
+                const volumeId = chapter.volume || 'no-volume';
+                const volumeTitle = chapter.volume_title || 'Без тома';
+                if (!groupedChapters[volumeId]) {
+                  groupedChapters[volumeId] = {
+                    title: volumeTitle,
+                    chapters: []
+                  };
+                }
+                groupedChapters[volumeId].chapters.push(chapter);
+              });
 
-                    {/* Вторая строка */}
-                    <tr className={styles.trBookDetail}>
-                      <td className={styles.inputChapterBlock}>
-                        <input className={styles.inputChapter} type="number" defaultValue={chapter.position} readOnly />
-                      </td>
-                                            <td className={styles.blockNumbersMobile} colSpan="2">
-                        <div className={styles.blockMobileTable}>
-                          <span className={styles.label}>Вартість<br/>(₴)</span>
-                          <p className={styles.numChapter}>
-                            {chapter.is_paid ? `${Number(chapter.price || 0).toFixed(2)}` : '0.00'}
-                          </p>
-                        </div>
-                        <div className={styles.blockMobileTable}>
-                          <span className={styles.label}>Створено</span>
-                          <p className={styles.numChapter}>
-                            {new Date(chapter.created_at).toLocaleDateString()}
-                          </p>
-                        </div>
-                      </td>
-                      <td></td>
-                    </tr>
+              return (
+                <table className={styles.chaptertableAuthorMobile}>
+                  <tbody>
+                    {Object.entries(groupedChapters).map(([volumeId, volumeData]) => (
+                      <React.Fragment key={`mobile-${volumeId}`}>
+                        {/* Заголовок тома */}
+                        {volumeId !== 'no-volume' && (
+                          <tr className="volume-separator-row">
+                            <td colSpan="3" className="volume-separator">
+                              <div className="volume-title">{volumeData.title}</div>
+                            </td>
+                          </tr>
+                        )}
+                        {/* Разделитель для глав без тома - показываем перед главами без тома */}
+                        {volumeId === 'no-volume' && (
+                          <tr className="volume-separator-row">
+                            <td colSpan="3" className="volume-separator">
+                              <div className="volume-title">Глави без тома</div>
+                            </td>
+                          </tr>
+                        )}
+                        {/* Главы тома */}
+                        {volumeData.chapters.map((chapter) => (
+                          <Fragment key={`m-${chapter.id}`}>
+                            {/* Первая строка */}
+                            <tr>
+                              <td>
+                                <Form.Check
+                                  type="checkbox"
+                                  id={`mobile-chapter-${chapter.id}`}
+                                  className={`adult-content-checkbox ${styles.chapterCheck}`}
+                                  disabled
+                                />
+                              </td>
+                              <td className={styles.nameChapter}>
+                                {chapter.title}
+                              </td>
+                              <td style={{position: "relative"}}>
+                                {chapter.is_paid && !chapter.is_purchased && currentUser ? (
+                                  <button 
+                                    onClick={() => handlePurchaseChapter(chapter.id, chapter.title, chapter.price)}
+                                    disabled={purchasingChapters.has(chapter.id)}
+                                    className={styles.chaptertableAuthorRead}
+                                    style={{
+                                      background: purchasingChapters.has(chapter.id) ? '#666' : '#f58807',
+                                      cursor: purchasingChapters.has(chapter.id) ? 'not-allowed' : 'pointer',
+                                      border: 'none',
+                                      padding: '8px 16px',
+                                      borderRadius: '4px',
+                                      color: 'white',
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                      gap: '8px'
+                                    }}
+                                  >
+                                    <img src={Read} alt="Purchase" />
+                                    <span>
+                                      {purchasingChapters.has(chapter.id) ? 'Купляємо...' : 'Купити'}
+                                    </span>
+                                  </button>
+                                ) : chapter.is_paid && !chapter.is_purchased && !currentUser ? (
+                                  <div className={styles.chaptertableAuthorRead} style={{
+                                    opacity: 0.6, 
+                                    cursor: 'not-allowed',
+                                    border: 'none',
+                                    padding: '8px 16px',
+                                    borderRadius: '4px',
+                                    color: 'white',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '8px'
+                                  }}>
+                                    <img src={Read} alt="Login required" />
+                                    <span>Увійдіть для покупки</span>
+                                  </div>
+                                ) : (
+                                  <Link to={`/books/${slug}/chapters/${chapter.slug}`} className={styles.chaptertableAuthorRead}>
+                                    <img src={Read} alt="Read" />
+                                    <span>Читати</span>
+                                  </Link>
+                                )}
+                              </td>
+                            </tr>
 
-                    {/* Третья строка */}
-                    <tr>
-                      <td></td>
-                      <td className={styles.buttonChapter}>
-                        <span className={styles.editChapter}>
-                          <img src={Read} alt="Read" />
-                          <span>Читати</span>
-                        </span>
-                      </td>
-                      <td>
-                        <span className={styles.trashChapter}>
-                          <img src={Favorite} alt="Favorite" />
-                          <span>У закладки</span>
-                        </span>
-                      </td>
-                    </tr>
-                  </Fragment>
-                ))
-              ) : (
+                            {/* Вторая строка */}
+                            <tr className={styles.trBookDetail}>
+                              <td></td>
+                              <td className={styles.blockNumbersMobile} colSpan="2">
+                                <div className={styles.blockMobileTable}>
+                                  <span className={styles.label}>Вартість<br/>(₴)</span>
+                                  <p className={styles.numChapter}>
+                                    {chapter.is_paid ? `${Number(chapter.price || 0).toFixed(2)}` : '0.00'}
+                                  </p>
+                                </div>
+                                <div className={styles.blockMobileTable}>
+                                  <span className={styles.label}>Створено</span>
+                                  <p className={styles.numChapter}>
+                                    {new Date(chapter.created_at).toLocaleDateString()}
+                                  </p>
+                                </div>
+                              </td>
+                            </tr>
+                          </Fragment>
+                        ))}
+                      </React.Fragment>
+                    ))}
+                  </tbody>
+                </table>
+              );
+            })()
+          ) : (
+            <table className={styles.chaptertableAuthorMobile}>
+              <tbody>
                 <tr>
                   <td colSpan="3" style={{textAlign: 'center'}}>Немає доступних розділів</td>
                 </tr>
-              )}
-            </tbody>
-          </table>
+              </tbody>
+            </table>
+          )}
         </div>
         {/* </div> */}
         {/* COMMENTS */}

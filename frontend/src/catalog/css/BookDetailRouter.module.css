@@ -3,11 +3,15 @@
   background-repeat: no-repeat;
   background-size: contain;
   padding: 20px 131px 168px 100px;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .BookDetailContainer {
   margin: 0 auto;
   width: 75%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 .headerBookDetail {
   display: flex;
@@ -388,6 +392,12 @@
   }
   .BookDetailContainer {
     width: 98%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+  .BookCartContainer {
+    padding: 20px 50px 168px 50px;
+    max-width: 100%;
   }
 }
 @media (max-width: 1081px) {

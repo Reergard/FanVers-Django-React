@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.a03e2c87.css",
-    "main.js": "/static/js/main.f55b495f.js",
+    "main.css": "/static/css/main.e3ea742d.css",
+    "main.js": "/static/js/main.e069445f.js",
     "static/js/453.d855a71b.chunk.js": "/static/js/453.d855a71b.chunk.js",
     "static/media/bg-create.svg": "/static/media/bg-create.2bea545dde950168f9b0.svg",
     "static/media/------3-1-1.svg": "/static/media/------3-1-1.745441fef760508eb100182a7a3ad357.svg",
@@ -11,7 +11,7 @@
     "static/media/background.png": "/static/media/background.d510e1e96814239559c4.png",
     "static/media/bg-dragons.png": "/static/media/bg-dragons.7b993863c6642ea631c9.png",
     "static/media/bg-photo.png": "/static/media/bg-photo.4d7d6bba57d609ae18e1.png",
-    "static/media/bg-modal.svg": "/static/media/bg-modal.316a3c56258c5e5089e16622729a8c48.svg",
+    "static/media/bg-modal.svg": "/static/media/bg-modal.316a3c56258c5e5089e1.svg",
     "static/media/bg-homepages.svg": "/static/media/bg-homepages.b0b1cfffc67320afbcbf.svg",
     "static/media/image__book-cart.png": "/static/media/image__book-cart.861efa154347ede76cb5.png",
     "static/media/homepage.png": "/static/media/homepage.02c8fa32e4a4af5e3719.png",
@@ -82,7 +82,7 @@
     "static/media/rectangle-6-1.svg": "/static/media/rectangle-6-1.3510d322eecb55a7f528a8ed388b97c5.svg",
     "static/media/notification-bell.svg": "/static/media/notification-bell.43917954fb880077cc238767a2722350.svg",
     "static/media/Trash.svg": "/static/media/Trash.acbde67168e09758d4677033c8eeea10.svg",
-    "static/media/triangle.svg": "/static/media/triangle.fe84b7d2904e216f7071.svg",
+    "static/media/triangle.svg": "/static/media/triangle.e02c4926b125440a2a76.svg",
     "index.html": "/index.html",
     "static/media/Rectangle.svg": "/static/media/Rectangle.11484560be1ea6d96ec0.svg",
     "static/media/profile-menu.svg": "/static/media/profile-menu.bebb349e5d1079a436da3d3e9d42172f.svg",
@@ -93,12 +93,12 @@
     "static/media/Search_light.svg": "/static/media/Search_light.c7bd75f2ae5c588183362abf29876b61.svg",
     "static/media/line-51-1.svg": "/static/media/line-51-1.7dfa3580e630827c0df44722f01e01ba.svg",
     "static/media/chevron_right.svg": "/static/media/chevron_right.fa23ac7c1bc5b6ba6e98a738fed340be.svg",
-    "main.a03e2c87.css.map": "/static/css/main.a03e2c87.css.map",
-    "main.f55b495f.js.map": "/static/js/main.f55b495f.js.map",
+    "main.e3ea742d.css.map": "/static/css/main.e3ea742d.css.map",
+    "main.e069445f.js.map": "/static/js/main.e069445f.js.map",
     "453.d855a71b.chunk.js.map": "/static/js/453.d855a71b.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.a03e2c87.css",
-    "static/js/main.f55b495f.js"
+    "static/css/main.e3ea742d.css",
+    "static/js/main.e069445f.js"
   ]
 }

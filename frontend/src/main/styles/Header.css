@@ -124,6 +124,7 @@
   left: 3%;
   font-size: 28px;
   width: 380px;
+  max-width: calc(100vw - 6%);
   font-family: "Bad Script", sans-serif;
   padding: 70px 60px 70px 70px;
   background: url("../../assets/images/bg/Rectangle 4049.png") -5px no-repeat;
@@ -502,9 +503,11 @@
     top: -8%;
     left: -9%;
     width: 280px;
+    max-width: calc(100vw - 18%);
   }
   .user-profile__balance {
     width: 239px;
+    max-width: calc(100vw - 18%);
   }
   .user-profile__balance {
     padding: 70px 8px 70px 64px;

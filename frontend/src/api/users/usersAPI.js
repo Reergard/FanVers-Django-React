@@ -76,10 +76,27 @@ export const usersAPI = {
 
             return response.data;
         } catch (error) {
-            if (error.response?.status === 429) {
+            console.error('Purchase chapter error:', error);
+            
+            // Обработка различных типов ошибок
+            if (error.response?.status === 400) {
+                const errorMessage = error.response.data?.error || 'Помилка при покупці глави';
+                throw new Error(errorMessage);
+            } else if (error.response?.status === 401) {
+                throw new Error('Необхідна авторизація для покупки глави');
+            } else if (error.response?.status === 403) {
+                throw new Error('У вас немає прав для покупки цієї глави');
+            } else if (error.response?.status === 404) {
+                throw new Error('Главу не знайдено');
+            } else if (error.response?.status === 429) {
                 throw new Error('Занадто багато запитів. Будь ласка, зачекайте хвилину');
+            } else if (error.response?.status >= 500) {
+                throw new Error('Помилка сервера. Спробуйте пізніше');
+            } else if (error.code === 'ERR_NETWORK' || error.message === 'Network Error') {
+                throw new Error('Помилка з\'єднання з сервером');
             }
-            throw error;
+            
+            throw new Error('Невідома помилка при покупці глави');
         } finally {
             setTimeout(() => {
                 purchaseInProgress = false;

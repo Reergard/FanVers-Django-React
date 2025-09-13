@@ -107,4 +107,79 @@
 
 .auth-modal {
   animation: modalAppear 0.3s ease;
+}
+
+/* Стили для формы создания тома */
+.confirmation-form {
+  margin-top: 1rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  color: #fff;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #3a3f5c;
+  border-radius: 6px;
+  background-color: #2a2d47;
+  color: #fff;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #05B4C7;
+}
+
+.form-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.form-input::placeholder {
+  color: #8a8a8a;
+}
+
+.form-help {
+  display: block;
+  color: #8a8a8a;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+
+/* Responsive design для формы */
+@media (max-width: 480px) {
+  .auth-modal {
+    max-width: 95%;
+    margin: 1rem;
+  }
+  
+  .auth-modal__container {
+    padding: 1.5rem;
+  }
+  
+  .auth-modal__title {
+    font-size: 1.5rem;
+  }
+  
+  .confirmation-buttons {
+    flex-direction: column;
+  }
+  
+  .confirmation-btn {
+    min-width: auto;
+    width: 100%;
+  }
 } 

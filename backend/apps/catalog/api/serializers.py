@@ -65,9 +65,9 @@ class ChapterSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'title', 'book', 'book_title', 'slug', 'file', 
             'is_paid', 'is_purchased', 'volume', 
-            'volume_title', 'position', 'book_slug', 'price'
+            'volume_title', 'position', 'book_slug', 'price', 'created_at'
         ]
-        read_only_fields = ['id', 'slug', 'is_purchased']
+        read_only_fields = ['id', 'slug', 'is_purchased', 'created_at']
 
     def get_book_slug(self, obj):
         return obj.book.slug if obj.book else None

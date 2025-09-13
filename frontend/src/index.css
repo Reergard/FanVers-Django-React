@@ -22,6 +22,7 @@ html {
   font-size: 19px;
   height: 100%;
   -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
 }
 
 body {
@@ -34,6 +35,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-tap-highlight-color: transparent;
+  overflow-x: hidden;
+  max-width: 100vw;
 }
 
 /* Базовые стили для форм */
@@ -100,4 +103,23 @@ input:-webkit-autofill:hover,
 input:-webkit-autofill:focus {
   -webkit-text-fill-color: #ffffff;
   transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Предотвращение горизонтального скролла */
+.App {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* Универсальные стили для контейнеров */
+.container,
+.container-fluid {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Исправление для элементов, которые могут выходить за границы */
+* {
+  max-width: 100%;
+  box-sizing: border-box;
 }

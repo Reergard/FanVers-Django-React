@@ -514,6 +514,43 @@ const getVolumeList = async (bookSlug) => {
     }
 };
 
+const createVolume = async (bookSlug, title) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        throw new Error('Необхідна авторизація');
+    }
+
+    try {
+        const response = await api.post(
+            `/catalog/books/${bookSlug}/create-volume/`,
+            { title },
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.error('Error creating volume:', error);
+        
+        if (error.response?.status === 401) {
+            throw new Error('Необхідна авторизація');
+        } else if (error.response?.status === 403) {
+            throw new Error('У вас немає прав для створення томів у цій книзі');
+        } else if (error.response?.status === 400) {
+            throw new Error(error.response?.data?.error || 'Помилка валідації даних');
+        } else if (error.response?.status >= 500) {
+            throw new Error('Помилка сервера. Спробуйте пізніше');
+        } else if (error.code === 'ERR_NETWORK') {
+            throw new Error('Помилка з\'єднання з сервером');
+        }
+        
+        throw new Error('Помилка при створенні тому');
+    }
+};
+
 const fetchAbandonedTranslations = async () => {
     try {
         const response = await api.get('/catalog/abandoned-translations/');
@@ -660,6 +697,7 @@ export const catalogAPI = {
     getBookTitle,
     deleteChapter,
     getVolumeList,
+    createVolume,
     fetchAbandonedTranslations,
     fetchUserTranslations,
     updateBookAccessRights,
@@ -686,6 +724,7 @@ export {
     getBookTitle,
     deleteChapter,
     getVolumeList,
+    createVolume,
     fetchAbandonedTranslations,
     fetchUserTranslations,
     updateBookAccessRights,
