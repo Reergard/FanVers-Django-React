@@ -10,19 +10,19 @@ export const ProfileImage = ({
   fallbackSmall = FALLBACK_IMAGES.SMALL,
   fallbackLarge = FALLBACK_IMAGES.LARGE
 }) => {
-  const [imageSrc, setImageSrc] = useState(src);
-  const [hasError, setHasError] = useState(false);
-  
-  // Оновлюємо imageSrc при зміні src
-  useEffect(() => {
-    setImageSrc(src);
-    setHasError(false);
-  }, [src]);
-  
   const getFallbackImage = () => {
     if (size === 'large') return fallbackLarge;
     return fallbackSmall;
   };
+  
+  const [imageSrc, setImageSrc] = useState(src || getFallbackImage());
+  const [hasError, setHasError] = useState(false);
+  
+  // Оновлюємо imageSrc при зміні src
+  useEffect(() => {
+    setImageSrc(src || getFallbackImage());
+    setHasError(false);
+  }, [src]);
   
   const handleImageError = () => {
     console.log(`ProfileImage: Ошибка загрузки изображения ${imageSrc}, используем fallback`);

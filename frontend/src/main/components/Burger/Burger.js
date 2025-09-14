@@ -7,6 +7,8 @@ import styles from './Burger.module.css';
 import { ProfileImage } from "../Header/ProfileImage";
 import { Link } from 'react-router-dom';
 import { FALLBACK_IMAGES, IMAGE_SIZES } from '../../../constants/fallbackImages';
+import LoginModal from '../../../auth/components/LoginModal';
+import RegisterModal from '../../../auth/components/RegisterModal';
 
 // Импорт SVG иконок
 import exitIcon from '../../assets/exit.svg';
@@ -19,10 +21,15 @@ import chatVerseIcon from '../../assets/ChatVerse.svg';
 
 const BurgerMenu = forwardRef(function BurgerMenu(_, ref) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { success, error: showError } = useToast();
-  const currentUser = JSON.parse(localStorage.getItem('user'));
+  
+  // Получаем состояние авторизации из Redux
+  const { isAuthenticated, user } = useSelector(state => state.auth);
+  const currentUser = user || JSON.parse(localStorage.getItem('user') || 'null');
   
   // Открытие/закрытие извне
   useImperativeHandle(ref, () => ({
@@ -46,6 +53,24 @@ const BurgerMenu = forwardRef(function BurgerMenu(_, ref) {
       showError('Помилка при виході з системи');
       console.error('Logout error:', error);
     }
+  };
+
+  const handleLoginClick = () => {
+    setIsLoginModalOpen(true);
+    setIsOpen(false);
+  };
+
+  const handleRegisterClick = () => {
+    setIsRegisterModalOpen(true);
+    setIsOpen(false);
+  };
+
+  const handleCloseLoginModal = () => {
+    setIsLoginModalOpen(false);
+  };
+
+  const handleCloseRegisterModal = () => {
+    setIsRegisterModalOpen(false);
   };
   
   const menuItems = [
@@ -88,65 +113,116 @@ const BurgerMenu = forwardRef(function BurgerMenu(_, ref) {
 
           {/* Аватар пользователя */}
           <ProfileImage
-            src={currentUser?.profile_image_large || currentUser?.image}
+            src={isAuthenticated && currentUser ? (currentUser?.profile_image_large || currentUser?.image) : null}
             alt="Profile"
             className={styles.profile_avatar}
             size={IMAGE_SIZES.USER_MENU_AVATAR}
             fallbackLarge={FALLBACK_IMAGES.LARGE}
             fallbackSmall={FALLBACK_IMAGES.SMALL}
+            style={{ width: '86px', height: '86px' }}
           />
 
           <div className={styles.create_book__block}>
-            <div 
-              className={styles.create_book}
-              onClick={() => {
-                window.location.href = '/create-translation';
-                setIsOpen(false);
-              }}
-              style={{ cursor: 'pointer' }}
-            >
-              <img src={createBookIcon} alt="" className={`${styles.create_book_icon} ${styles.icon_create}`} loading="lazy" />
-              Створити книгу
-            </div>
+            {/* Кнопка "Створити книгу" - только для авторизованных */}
+            {isAuthenticated && (
+              <div 
+                className={styles.create_book}
+                onClick={() => {
+                  window.location.href = '/create-translation';
+                  setIsOpen(false);
+                }}
+                style={{ cursor: 'pointer' }}
+              >
+                <img src={createBookIcon} alt="" className={`${styles.create_book_icon} ${styles.icon_create}`} loading="lazy" />
+                Створити книгу
+              </div>
+            )}
+
             <ul className={styles.ul_burger_menu}>
-              {menuItems.map((item, index) => (
-                <li key={index} className={styles.menu_item}>
-                  {item.onClick ? (
+              {isAuthenticated ? (
+                // Меню для авторизованных пользователей
+                menuItems.map((item, index) => (
+                  <li key={index} className={styles.menu_item}>
+                    {item.onClick ? (
+                      <button
+                        onClick={() => {
+                          item.onClick();
+                        }}
+                        className={styles.menu_button}
+                      >
+                        <img
+                          src={item.icon}
+                          alt=""
+                          className={`${styles.menu_icon} ${styles['icon_'+item.key] || ''}`}
+                          loading="lazy"
+                        />
+                        {item.text}
+                      </button>
+                    ) : (
+                      <Link
+                        to={item.href}
+                        onClick={() => setIsOpen(false)}
+                        className={styles.menu_link}
+                      >
+                        <img
+                          src={item.icon}
+                          alt=""
+                          className={`${styles.menu_icon} ${styles['icon_'+item.key] || ''}`}
+                          loading="lazy"
+                        />
+                        {item.text}
+                      </Link>
+                    )}
+                  </li>
+                ))
+              ) : (
+                // Меню для неавторизованных пользователей
+                <>
+                  <li className={styles.menu_item}>
                     <button
-                      onClick={() => {
-                        item.onClick();
-                      }}
-                      className={styles.menu_button}
+                      onClick={handleLoginClick}
+                      className={styles.auth_button}
                     >
                       <img
-                        src={item.icon}
+                        src={profileIcon}
                         alt=""
-                        className={`${styles.menu_icon} ${styles['icon_'+item.key] || ''}`}
+                        className={`${styles.menu_icon} ${styles.icon_profile}`}
                         loading="lazy"
                       />
-                      {item.text}
+                      Вхід
                     </button>
-                  ) : (
-                    <Link
-                      to={item.href}
-                      onClick={() => setIsOpen(false)}
-                      className={styles.menu_link}
+                  </li>
+                  <li className={styles.menu_item}>
+                    <button
+                      onClick={handleRegisterClick}
+                      className={styles.auth_button}
                     >
                       <img
-                        src={item.icon}
+                        src={profileIcon}
                         alt=""
-                        className={`${styles.menu_icon} ${styles['icon_'+item.key] || ''}`}
+                        className={`${styles.menu_icon} ${styles.icon_profile}`}
                         loading="lazy"
                       />
-                      {item.text}
-                    </Link>
-                  )}
-                </li>
-              ))}
+                      Реєстрація
+                    </button>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
         </div>
       )}
+      
+      {/* Модальные окна */}
+      <LoginModal
+        isOpen={isLoginModalOpen}
+        onRequestClose={handleCloseLoginModal}
+      />
+      
+      <RegisterModal
+        isOpen={isRegisterModalOpen}
+        onRequestClose={handleCloseRegisterModal}
+      />
     </div>
   );
 });

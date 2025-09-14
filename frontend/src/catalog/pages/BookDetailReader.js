@@ -14,6 +14,9 @@ import SettingsBook from './img/Setting.svg';
 import { Form } from 'react-bootstrap';
 import { useToast } from '../../components/CustomToast';
 import { usersAPI } from '../../api/users/usersAPI';
+import { monitoringAPI } from '../../api/monitoring/monitoringAPI';
+import ThanksModal from '../../components/ThanksModal';
+import NotificationModal from '../../components/CustomToast/NotificationModal';
 
 import AuthorBook from "./img/author.svg";
 import bookMini from "./img/book-mini.svg";
@@ -51,7 +54,7 @@ const NovelCard = ({ title, description, image, book_type, adult_content }) => {
   const imageUrl = image ? (image.startsWith('http') ? image : `http://127.0.0.1:8000${image}`) : '';
   
   return (
-    <div className="novel-card" style={{ background: "none", minHeight: "auto", height: "min-content" }}>
+    <div className={`novel-card ${styles.novelCardCustom}`}>
       <div className="novel-cover">
         <div className="image-container">
           <div className="image-wrapper">
@@ -238,6 +241,12 @@ const BookDetailReader = ({ book: propBook, chapters = [], volumes = [], books =
   const [replyText, setReplyText] = useState('');
   const [replyingTo, setReplyingTo] = useState(null);
   const [showReplyForm, setShowReplyForm] = useState(null);
+  
+  // Состояние для благодарности автору
+  const [isThanksModalOpen, setIsThanksModalOpen] = useState(false);
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState('');
+  const [notificationType, setNotificationType] = useState('info');
 
   // Load book data if not provided as prop
   const { data: fetchedBook, isLoading: bookLoading, error: bookError } = useQuery({
@@ -341,7 +350,7 @@ const BookDetailReader = ({ book: propBook, chapters = [], volumes = [], books =
       
       const result = await usersAPI.purchaseChapter(chapterId);
       
-      success(`Главу "${chapterTitle}" успішно придбано за ${price} ₴`);
+      success(`Главу "${chapterTitle}" успішно придбано за ${price} FanCoins`);
       
       // Обновляем данные глав
       queryClient.invalidateQueries(['chapters', slug]);
@@ -357,6 +366,79 @@ const BookDetailReader = ({ book: propBook, chapters = [], volumes = [], books =
         return newSet;
       });
     }
+  };
+
+  // Функция благодарности автору
+  const handleThanksAuthor = () => {
+    if (!currentUser) {
+      showError('Необхідна авторизація для подяки автору');
+      return;
+    }
+    setIsThanksModalOpen(true);
+  };
+
+  const handleThanksSubmit = async (thanksData) => {
+    try {
+      // Дополнительная валидация на фронтенде
+      if (!thanksData.amount || thanksData.amount < 10) {
+        showError('Мінімальна сума подяки: 10 FanCoins');
+        return;
+      }
+      
+      if (thanksData.amount > 10000) {
+        showError('Максимальна сума подяки: 10,000 FanCoins');
+        return;
+      }
+      
+      if (thanksData.message && thanksData.message.length > 500) {
+        showError('Повідомлення не може перевищувати 500 символів');
+        return;
+      }
+
+      const result = await monitoringAPI.sendAuthorThanks(
+        book.id,
+        thanksData.amount,
+        thanksData.message
+      );
+      
+      success(`Подяку успішно відправлено! Сума: ${thanksData.amount} FanCoins`);
+      
+      // Обновляем данные пользователя
+      queryClient.invalidateQueries(['user']);
+      
+    } catch (error) {
+      console.error('Error sending thanks:', error);
+      
+      // Показываем понятное сообщение пользователю
+      let errorMessage = 'Помилка при відправці подяки';
+      
+      if (error.message) {
+        errorMessage = error.message;
+      } else if (error.response?.data?.error) {
+        errorMessage = error.response.data.error;
+      }
+      
+      // Дополнительная обработка специфических ошибок
+      if (errorMessage.includes('Недостатньо коштів')) {
+        errorMessage = 'Вибачте, але на вашому балансі недостатньо коштів для цієї операції';
+      } else if (errorMessage.includes('429')) {
+        errorMessage = 'Занадто багато спроб. Зачекайте 5 хвилин перед наступною подякою';
+      } else if (errorMessage.includes('500')) {
+        errorMessage = 'Внутрішня помилка сервера. Спробуйте пізніше';
+      }
+      
+      showError(errorMessage);
+    }
+  };
+
+  const showNotification = (message, type = 'info') => {
+    setNotificationMessage(message);
+    setNotificationType(type);
+    setIsNotificationOpen(true);
+  };
+
+  const closeNotification = () => {
+    setIsNotificationOpen(false);
   };
 
   // Функции для работы с комментариями
@@ -462,6 +544,7 @@ const BookDetailReader = ({ book: propBook, chapters = [], volumes = [], books =
 
   // Prepare dynamic data - exactly like in working code
   const title = book.title || '—';
+  const originalTitle = book.title_en || '—';
   const imageUrl = book.image ? (book.image.startsWith('http') ? book.image : `http://127.0.0.1:8000${book.image}`) : BookCart;
   
   // Author - exactly like in working code
@@ -526,7 +609,7 @@ const BookDetailReader = ({ book: propBook, chapters = [], volumes = [], books =
 
 
         <div className={styles.headerTableInfoBook}>
-          <p>/</p> <span>{title}</span>
+          <p>/</p> <span>{originalTitle}</span>
         </div>
         <div className={styles.headerBookDetail}>
           <div className={styles.BookCartContainer}>
@@ -546,6 +629,14 @@ const BookDetailReader = ({ book: propBook, chapters = [], volumes = [], books =
                 <p>{authorName}</p>
               </div>
             </div>
+            {originalTitle !== '—' && (
+              <div className={styles.rightMobile}>
+                <div className={styles.tableBookMobileBlock}>
+                  <span>Оригінальна назва:</span>
+                  <p>{originalTitle}</p>
+                </div>
+              </div>
+            )}
             <div className={styles.rightMobile}>
               <div className={styles.tableBookMobileBlock}>
                 <span>Перекладач:</span>
@@ -610,6 +701,12 @@ const BookDetailReader = ({ book: propBook, chapters = [], volumes = [], books =
                       <td>Автор:</td>
                       <td>{authorName}</td>
                     </tr>
+                    {originalTitle !== '—' && (
+                      <tr>
+                        <td>Оригінальна назва:</td>
+                        <td>{originalTitle}</td>
+                      </tr>
+                    )}
                     <tr>
                       <td>Перекладач:</td>
                       <td>{translatorName}</td>
@@ -664,7 +761,11 @@ const BookDetailReader = ({ book: propBook, chapters = [], volumes = [], books =
                 </table>
               </div>
               <div className={styles.rightInfoBook}>
-                <div className={styles.thanks}>
+                <div 
+                  className={styles.thanks}
+                  onClick={handleThanksAuthor}
+                  style={{ cursor: 'pointer' }}
+                >
                   <div className={styles.fanCoins}>
                     <span>10</span>
                     <p>FanCoins</p>
@@ -737,7 +838,7 @@ const BookDetailReader = ({ book: propBook, chapters = [], volumes = [], books =
                     />
                   ))}
                 </Slider>
-                <div className="slider-controls" style={{ padding: "0" }}>
+                <div className={`slider-controls ${styles.sliderControlsCustom}`}>
                   <button
                     className="slider-btn left"
                     onClick={() => sliderRef.current.slickPrev()}
@@ -765,13 +866,10 @@ const BookDetailReader = ({ book: propBook, chapters = [], volumes = [], books =
         <div className={styles.chaptersBooks}>
           <div className={styles.headerChapters}>
             <div className={styles.leftHeaderChapters}>
-              <span className={styles.bookmarks}>
-                Розділи для читання
-              </span>
             </div>
             <div className={styles.rightHeaderChapters}>
-              <span className={styles.bookmarks}>
-                Загальна кількість: {chaptersCount}
+              <span className={`${styles.bookmarks} ${styles.chapterCountText}`}>
+                Загальна кількість розділів: {chaptersCount}
               </span>
             </div>
           </div>
@@ -853,7 +951,7 @@ const BookDetailReader = ({ book: propBook, chapters = [], volumes = [], books =
                             </td>
                             <td>
                               <span className={styles.numChapter}>
-                                {chapter.is_paid ? `${Number(chapter.price || 0).toFixed(2)} ₴` : 'Безкоштовно'}
+                                {chapter.is_paid ? `${Number(chapter.price || 0).toFixed(2)} FanCoins` : 'Безкоштовно'}
                               </span>
                             </td>
                             <td>
@@ -866,11 +964,7 @@ const BookDetailReader = ({ book: propBook, chapters = [], volumes = [], books =
                                 <button 
                                   onClick={() => handlePurchaseChapter(chapter.id, chapter.title, chapter.price)}
                                   disabled={purchasingChapters.has(chapter.id)}
-                                  className={styles.chaptertableAuthorRead}
-                                  style={{
-                                    background: purchasingChapters.has(chapter.id) ? '#666' : '#f58807',
-                                    cursor: purchasingChapters.has(chapter.id) ? 'not-allowed' : 'pointer'
-                                  }}
+                                  className={`${styles.chaptertableAuthorRead} ${styles.purchaseButton} ${purchasingChapters.has(chapter.id) ? styles.purchasing : ''}`}
                                 >
                                   <img src={Read} alt="Purchase" />
                                   <span>
@@ -878,7 +972,7 @@ const BookDetailReader = ({ book: propBook, chapters = [], volumes = [], books =
                                   </span>
                                 </button>
                               ) : chapter.is_paid && !chapter.is_purchased && !currentUser ? (
-                                <div className={styles.chaptertableAuthorRead} style={{opacity: 0.6, cursor: 'not-allowed'}}>
+                                <div className={`${styles.chaptertableAuthorRead} ${styles.loginRequired}`}>
                                   <img src={Read} alt="Login required" />
                                   <span>Увійдіть для покупки</span>
                                 </div>
@@ -901,7 +995,7 @@ const BookDetailReader = ({ book: propBook, chapters = [], volumes = [], books =
             <table className={styles.chaptertableAuthor}>
               <tbody>
                 <tr>
-                  <td colSpan="6" style={{textAlign: 'center'}}>Немає доступних розділів</td>
+                  <td colSpan="6" className={styles.noChaptersMessage}>Немає доступних розділів</td>
                 </tr>
               </tbody>
             </table>
@@ -974,23 +1068,12 @@ const BookDetailReader = ({ book: propBook, chapters = [], volumes = [], books =
                               <td className={styles.nameChapter}>
                                 {chapter.title}
                               </td>
-                              <td style={{position: "relative"}}>
+                              <td className={styles.mobileButtonContainer}>
                                 {chapter.is_paid && !chapter.is_purchased && currentUser ? (
                                   <button 
                                     onClick={() => handlePurchaseChapter(chapter.id, chapter.title, chapter.price)}
                                     disabled={purchasingChapters.has(chapter.id)}
-                                    className={styles.chaptertableAuthorRead}
-                                    style={{
-                                      background: purchasingChapters.has(chapter.id) ? '#666' : '#f58807',
-                                      cursor: purchasingChapters.has(chapter.id) ? 'not-allowed' : 'pointer',
-                                      border: 'none',
-                                      padding: '8px 16px',
-                                      borderRadius: '4px',
-                                      color: 'white',
-                                      display: 'flex',
-                                      alignItems: 'center',
-                                      gap: '8px'
-                                    }}
+                                    className={`${styles.chaptertableAuthorRead} ${styles.purchaseButton} ${purchasingChapters.has(chapter.id) ? styles.purchasing : ''}`}
                                   >
                                     <img src={Read} alt="Purchase" />
                                     <span>
@@ -998,17 +1081,7 @@ const BookDetailReader = ({ book: propBook, chapters = [], volumes = [], books =
                                     </span>
                                   </button>
                                 ) : chapter.is_paid && !chapter.is_purchased && !currentUser ? (
-                                  <div className={styles.chaptertableAuthorRead} style={{
-                                    opacity: 0.6, 
-                                    cursor: 'not-allowed',
-                                    border: 'none',
-                                    padding: '8px 16px',
-                                    borderRadius: '4px',
-                                    color: 'white',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '8px'
-                                  }}>
+                                  <div className={`${styles.chaptertableAuthorRead} ${styles.loginRequired}`}>
                                     <img src={Read} alt="Login required" />
                                     <span>Увійдіть для покупки</span>
                                   </div>
@@ -1026,7 +1099,7 @@ const BookDetailReader = ({ book: propBook, chapters = [], volumes = [], books =
                               <td></td>
                               <td className={styles.blockNumbersMobile} colSpan="2">
                                 <div className={styles.blockMobileTable}>
-                                  <span className={styles.label}>Вартість<br/>(₴)</span>
+                                  <span className={styles.label}>Вартість<br/>(FanCoins)</span>
                                   <p className={styles.numChapter}>
                                     {chapter.is_paid ? `${Number(chapter.price || 0).toFixed(2)}` : '0.00'}
                                   </p>
@@ -1051,7 +1124,7 @@ const BookDetailReader = ({ book: propBook, chapters = [], volumes = [], books =
             <table className={styles.chaptertableAuthorMobile}>
               <tbody>
                 <tr>
-                  <td colSpan="3" style={{textAlign: 'center'}}>Немає доступних розділів</td>
+                  <td colSpan="3" className={styles.noChaptersMessage}>Немає доступних розділів</td>
                 </tr>
               </tbody>
             </table>
@@ -1060,11 +1133,6 @@ const BookDetailReader = ({ book: propBook, chapters = [], volumes = [], books =
         {/* </div> */}
         {/* COMMENTS */}
                   </div>
-      {chaptersData?.total_chapters > 0 && (
-        <div className="total-chapters">
-          Всього розділів: {chaptersData.total_chapters}
-                </div>
-      )}
       {chaptersData?.page_ranges && chaptersData.page_ranges.length > 0 && (
         <ChapterRangeSelector
           pageRanges={chaptersData.page_ranges}
@@ -1118,6 +1186,21 @@ const BookDetailReader = ({ book: propBook, chapters = [], volumes = [], books =
           <p>Коментарів поки ще немає.</p>
         )}
       </div>
+      
+      {/* Модальные окна */}
+      <ThanksModal
+        isOpen={isThanksModalOpen}
+        onRequestClose={() => setIsThanksModalOpen(false)}
+        onConfirm={handleThanksSubmit}
+        bookTitle={book.title}
+      />
+      
+      <NotificationModal
+        isOpen={isNotificationOpen}
+        onClose={closeNotification}
+        message={notificationMessage}
+        type={notificationType}
+      />
     </>
   );
 };

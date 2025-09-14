@@ -52,7 +52,7 @@ const NovelCard = ({ title, description, image, book_type, adult_content }) => {
   const imageUrl = image ? (image.startsWith('http') ? image : `http://127.0.0.1:8000${image}`) : '';
   
   return (
-    <div className="novel-card" style={{ background: "none", minHeight: "auto", height: "min-content" }}>
+    <div className={`novel-card ${styles.novelCardCustom}`}>
       <div className="novel-cover">
         <div className="image-container">
           <div className="image-wrapper">
@@ -518,6 +518,7 @@ const BookDetailOwner = ({ volumes = [], books = [] }) => {
 
   // Prepare dynamic data - exactly like in working code
   const title = book.title || '—';
+  const originalTitle = book.title_en || '—';
   const imageUrl = book.image ? (book.image.startsWith('http') ? book.image : `http://127.0.0.1:8000${book.image}`) : BookCart;
   
   // Author - exactly like in working code
@@ -580,9 +581,8 @@ const BookDetailOwner = ({ volumes = [], books = [] }) => {
       ]} />
       <div className={styles.BookDetailContainer}>
 
-
         <div className={styles.headerTableInfoBook}>
-          <p>/</p> <span>{title}</span>
+          <p>/</p> <span>{originalTitle}</span>
         </div>
         <div className={styles.headerBookDetail}>
           <div className={styles.BookCartContainer}>
@@ -602,6 +602,14 @@ const BookDetailOwner = ({ volumes = [], books = [] }) => {
                 <p>{authorName}</p>
               </div>
             </div>
+            {originalTitle !== '—' && (
+              <div className={styles.rightMobile}>
+                <div className={styles.tableBookMobileBlock}>
+                  <span>Оригінальна назва:</span>
+                  <p>{originalTitle}</p>
+                </div>
+              </div>
+            )}
             <div className={styles.rightMobile}>
               <div className={styles.tableBookMobileBlock}>
                 <span>Перекладач:</span>
@@ -666,6 +674,12 @@ const BookDetailOwner = ({ volumes = [], books = [] }) => {
                       <td>Автор:</td>
                       <td>{authorName}</td>
                     </tr>
+                    {originalTitle !== '—' && (
+                      <tr>
+                        <td>Оригінальна назва:</td>
+                        <td>{originalTitle}</td>
+                      </tr>
+                    )}
                     <tr>
                       <td>Перекладач:</td>
                       <td>{translatorName}</td>
@@ -720,15 +734,7 @@ const BookDetailOwner = ({ volumes = [], books = [] }) => {
                 </table>
               </div>
               <div className={styles.rightInfoBook}>
-                <div className={styles.thanks}>
-                  <div className={styles.fanCoins}>
-                    <span>10</span>
-                    <p>FanCoins</p>
-                  </div>
-                  <div className={styles.spanThanks}>
-                    подякувати автору
-                  </div>
-                </div>
+                
                 <div className={styles.raiting}>
                   <BookRatingComponent
                     key={`book-rating-${slug}`}
@@ -793,7 +799,7 @@ const BookDetailOwner = ({ volumes = [], books = [] }) => {
                     />
                   ))}
                 </Slider>
-                <div className="slider-controls" style={{ padding: "0" }}>
+                <div className={`slider-controls ${styles.sliderControlsCustom}`}>
                   <button
                     className="slider-btn left"
                     onClick={() => sliderRef.current.slickPrev()}
@@ -952,7 +958,7 @@ const BookDetailOwner = ({ volumes = [], books = [] }) => {
                               </td>
                               <td>
                                 <span className={styles.numChapter}>
-                                  {chapter.is_paid ? `${Number(chapter.price || 0).toFixed(2)} ₴` : 'Безкоштовно'}
+                                  {chapter.is_paid ? `${Number(chapter.price || 0).toFixed(2)} FanCoins` : 'Безкоштовно'}
                                 </span>
                               </td>
                               <td>
@@ -975,7 +981,7 @@ const BookDetailOwner = ({ volumes = [], books = [] }) => {
                 );
               })()
             ) : (
-              <div style={{textAlign: 'center', padding: '20px'}}>Немає доступних розділів</div>
+              <div className={styles.noChaptersMessage}>Немає доступних розділів</div>
             )}
           </div>
 

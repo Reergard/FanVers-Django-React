@@ -41,8 +41,21 @@ class AddBalanceView(APIView):
                     'new_balance': new_balance
                 })
             except ValidationError as e:
+                # Улучшенные сообщения об ошибках для пользователя
+                error_message = str(e)
+                if "Недостатньо коштів" in error_message:
+                    error_message = "Вибачте, але на вашому балансі недостатньо коштів для цієї операції"
+                elif "Максимальний баланс" in error_message:
+                    error_message = "Максимальний баланс перевищено"
+                elif "Невірна сума операції" in error_message:
+                    error_message = "Невірна сума операції"
+                elif "Сума повинна бути більше нуля" in error_message:
+                    error_message = "Сума повинна бути більше нуля"
+                elif "Мінімальна сума поповнення" in error_message:
+                    error_message = "Мінімальна сума поповнення: 100 FanCoins"
+                
                 return Response(
-                    {'error': str(e)},
+                    {'error': error_message},
                     status=status.HTTP_400_BAD_REQUEST
                 )
         return Response(
@@ -83,8 +96,21 @@ def withdraw_balance(request):
                 })
             except ValidationError as e:
                 logger.error(f"Помилка валідації: {str(e)}")
+                # Улучшенные сообщения об ошибках для пользователя
+                error_message = str(e)
+                if "Недостатньо коштів" in error_message:
+                    error_message = "Вибачте, але на вашому балансі недостатньо коштів для виведення"
+                elif "Максимальний баланс" in error_message:
+                    error_message = "Максимальний баланс перевищено"
+                elif "Невірна сума операції" in error_message:
+                    error_message = "Невірна сума операції"
+                elif "Сума повинна бути більше нуля" in error_message:
+                    error_message = "Сума повинна бути більше нуля"
+                elif "Мінімальна сума виведення" in error_message:
+                    error_message = "Мінімальна сума виведення: 1,000 FanCoins"
+                
                 return Response(
-                    {'error': str(e)},
+                    {'error': error_message},
                     status=status.HTTP_400_BAD_REQUEST
                 )
         else:
@@ -119,8 +145,21 @@ def update_balance(request):
                 'new_balance': new_balance
             })
         except ValidationError as e:
+            # Улучшенные сообщения об ошибках для пользователя
+            error_message = str(e)
+            if "Недостатньо коштів" in error_message:
+                error_message = "Вибачте, але на вашому балансі недостатньо коштів для цієї операції"
+            elif "Максимальний баланс" in error_message:
+                error_message = "Максимальний баланс перевищено"
+            elif "Невірна сума операції" in error_message:
+                error_message = "Невірна сума операції"
+            elif "Сума повинна бути більше нуля" in error_message:
+                error_message = "Сума повинна бути більше нуля"
+            elif "Мінімальна сума поповнення" in error_message:
+                error_message = "Мінімальна сума поповнення: 100 FanCoins"
+            
             return Response(
-                {'error': str(e)},
+                {'error': error_message},
                 status=status.HTTP_400_BAD_REQUEST
             )
     return Response(
@@ -186,7 +225,7 @@ def purchase_chapter(request, chapter_id):
         # Проверяем достаточность средств
         if buyer_profile.balance < chapter_price:
             return Response(
-                {'error': f'Недостатньо коштів. Потрібно: {chapter_price} ₴, доступно: {buyer_profile.balance} ₴'}, 
+                {'error': f'Недостатньо коштів. Потрібно: {chapter_price} FanCoins, доступно: {buyer_profile.balance} FanCoins'}, 
                 status=status.HTTP_400_BAD_REQUEST
             )
 
@@ -246,7 +285,22 @@ def purchase_chapter(request, chapter_id):
         })
 
     except ValidationError as e:
-        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        # Улучшенные сообщения об ошибках для пользователя
+        error_message = str(e)
+        if "Недостатньо коштів" in error_message:
+            error_message = "Вибачте, але на вашому балансі недостатньо коштів для цієї операції"
+        elif "Максимальний баланс" in error_message:
+            error_message = "Максимальний баланс перевищено"
+        elif "Невірна сума операції" in error_message:
+            error_message = "Невірна сума операції"
+        elif "Сума повинна бути більше нуля" in error_message:
+            error_message = "Сума повинна бути більше нуля"
+        elif "Мінімальна сума поповнення" in error_message:
+            error_message = "Мінімальна сума поповнення: 100 FanCoins"
+        elif "Мінімальна сума виведення" in error_message:
+            error_message = "Мінімальна сума виведення: 1,000 FanCoins"
+        
+        return Response({'error': error_message}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         logger.error(f"Помилка покупки: {str(e)}", exc_info=True)
         return Response(
