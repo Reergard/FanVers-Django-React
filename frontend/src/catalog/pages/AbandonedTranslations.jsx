@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import { useToast } from "../../components/CustomToast";
 import { catalogAPI } from "../../api/catalog/catalogAPI";
 import { handleCatalogApiError } from "../utils/errorUtils";
@@ -10,8 +11,20 @@ import { useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 
 const NovelCard = ({ book }) => {
+  const navigate = useNavigate();
+
+  const handleCardClick = () => {
+    if (book.slug) {
+      navigate(`/books/${book.slug}`);
+    }
+  };
+
   return (
-    <div className="novel-card mobal">
+    <div 
+      className="novel-card mobal" 
+      onClick={handleCardClick}
+      style={{ cursor: 'pointer' }}
+    >
       <div className="novel-cover">
         <div className="image-container">
           <div className="image-wrapper">

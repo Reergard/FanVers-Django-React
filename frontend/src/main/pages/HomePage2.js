@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 import { mainAPI } from '../../api/main/mainAPI';
 import "../styles/HomePage2.css";
 
 // Импорты изображений
 import coverImage from "./img/1sr-glcht4s-1-1.png";
 import backgroundImage from "./img/------3-1-1.svg";
-import starLight2 from "./img/star-light-2.svg";
-import starLight3 from "./img/star-light-3.svg";
-import rectangle6 from "./img/rectangle-6-1.svg";
 import navigation4 from "./img/navigation4-1.svg";
 import navigation5 from "./img/navigation5-1.svg";
 import line51 from "./img/line-51-1.svg";
@@ -29,6 +27,8 @@ const starFills2 = [...Array(4)].map((_, i) =>
 );
 
 const HomePage2 = () => {
+  const navigate = useNavigate();
+  
   // Получаем список новых книг
   const { data: books } = useQuery({
     queryKey: ["books-news-homepage-2"],
@@ -63,6 +63,13 @@ const HomePage2 = () => {
   const handlePrev = () => {
     if (!books || !Array.isArray(books) || books.length === 0) return;
     setCurrentBookIndex((prev) => (prev - 1 + books.length) % books.length);
+  };
+
+  // Обработчик для перехода на страницу книги
+  const handleBookClick = () => {
+    if (currentBook?.slug) {
+      navigate(`/books/${currentBook.slug}`);
+    }
   };
 
   // Текущая книга для отображения
@@ -127,7 +134,13 @@ const HomePage2 = () => {
                 }}
               />
             )}
-            <img className="x3-1-rUQU7Z" src={backgroundImage} alt="3 1" />
+            <img 
+              className="x3-1-rUQU7Z" 
+              src={backgroundImage} 
+              alt="3 1" 
+              onClick={handleBookClick}
+              style={{ cursor: 'pointer' }}
+            />
             <div className="container-home-page">
               <div className="rating-rUQU7Z">
                 {currentBook && (
@@ -169,7 +182,13 @@ const HomePage2 = () => {
                   </>
                 )}
               </div>
-              <img src={BookImg} className="book-img" />
+              <img 
+                src={BookImg} 
+                className="book-img" 
+                onClick={handleBookClick}
+                style={{ cursor: 'pointer' }}
+                alt="Перейти к книзі"
+              />
               <div className="text-book-rUQU7Z">
                 <div className="text-S9xaSz">
                   <h1 className="text_label-S9xaSz text_label pc">
@@ -182,7 +201,11 @@ const HomePage2 = () => {
                       ? `${currentBook?.description.slice(0, 500)}...`
                       : currentBook?.description}
                   </p>
-                  <div className="read_button">
+                  <div 
+                    className="read_button" 
+                    onClick={handleBookClick}
+                    style={{ cursor: 'pointer' }}
+                  >
                     <div className="text_label-dZjTXM text_label a-alleycaticg-alen-rus-regular-normal-tangerine-20px">
                       читати
                     </div>

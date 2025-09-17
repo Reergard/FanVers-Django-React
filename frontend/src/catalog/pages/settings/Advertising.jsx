@@ -247,7 +247,7 @@ function Advertising() {
 
             await refetchBalance();
             success('Реклама успішно створена');
-            navigate('/profile/my-advertisements');
+            navigate(`/books/${slug}`);
         } catch (error) {
             if (error.message && error.message.includes('вже є активна реклама')) {
                 showError(error.message);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { fetchBooks } from '../../api/catalog/catalogAPI';
 
 import { handleCatalogApiError } from "../utils/errorUtils";
@@ -13,8 +13,20 @@ import { BreadCrumb } from '../../main/components/BreadCrumb';
 import CatalogAdvertisingCarousel from '../components/CatalogAdvertisingCarousel';
 import AdultIcon from "../pages/img/18.svg";
 const NovelCard = ({ title, description, image, slug, book_type, adult_content }) => {
+  const navigate = useNavigate();
+
+  const handleCardClick = () => {
+    if (slug) {
+      navigate(`/books/${slug}`);
+    }
+  };
+
   return (
-    <div className="novel-card mobal">
+    <div 
+      className="novel-card mobal" 
+      onClick={handleCardClick}
+      style={{ cursor: 'pointer' }}
+    >
       <div className="novel-cover">
         <div className="image-container">
           <div className="image-wrapper">
