@@ -53,7 +53,6 @@ const Header = () => {
         <UserMenu
           name={username}
           isAuthenticated={isAuthenticated}
-          unreadNotifications={0}
           onOpenMenu={openUnifiedMenu}
         />
       </div>

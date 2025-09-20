@@ -3,14 +3,16 @@ import { ProfileImage } from './ProfileImage';
 import NotificationBell from '../../../assets/images/icons/notification-bell.svg';
 import image_messages from '../../../assets/images/icons/profile-decoration-2.svg';
 import profile_menu from '../../../assets/images/icons/profile-menu.svg';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import LoginModal from '../../../auth/components/LoginModal';
 import RegisterModal from '../../../auth/components/RegisterModal';
 import { FALLBACK_IMAGES } from '../../../constants/fallbackImages';
+import { fetchNotifications } from '../../../notification/notificationSlice';
 
 import { usersAPI } from '../../../api/users/usersAPI';
 
-export const UserMenu = ({ name, unreadNotifications, onOpenMenu }) => {
+export const UserMenu = ({ name, onOpenMenu }) => {
+    const dispatch = useDispatch();
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
     const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
     const { isAuthenticated } = useSelector(state => state.auth);
@@ -24,6 +26,14 @@ export const UserMenu = ({ name, unreadNotifications, onOpenMenu }) => {
         }
     })();
     const profile = useSelector(state => state.auth.user);
+    
+    // Получаем количество непрочитанных уведомлений из Redux store
+    const unreadNotifications = useSelector(state => {
+        if (!state.notification?.notifications) return 0;
+        return state.notification.notifications.filter(notification => 
+            notification && !notification.is_read
+        ).length;
+    });
     
     const [userBalance, setUserBalance] = useState(() => {
         // Инициализируем баланс из localStorage, если он есть
@@ -67,6 +77,13 @@ export const UserMenu = ({ name, unreadNotifications, onOpenMenu }) => {
             setUserBalance(0);
         }
     }, [userBalance]);
+
+    // Загружаем уведомления для авторизованных пользователей
+    useEffect(() => {
+        if (isAuthenticated) {
+            dispatch(fetchNotifications());
+        }
+    }, [isAuthenticated, dispatch]);
 
     const profileData = {
       name: name,
