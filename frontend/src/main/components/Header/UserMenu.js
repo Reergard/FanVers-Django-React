@@ -8,6 +8,8 @@ import LoginModal from '../../../auth/components/LoginModal';
 import RegisterModal from '../../../auth/components/RegisterModal';
 import { FALLBACK_IMAGES } from '../../../constants/fallbackImages';
 import { fetchNotifications } from '../../../notification/notificationSlice';
+import { fetchChats, markMessagesAsRead } from '../../../chat/chatSlice';
+import globalWebSocketService from '../../../chat/services/globalWebSocketService';
 
 import { usersAPI } from '../../../api/users/usersAPI';
 
@@ -33,6 +35,14 @@ export const UserMenu = ({ name, onOpenMenu }) => {
         return state.notification.notifications.filter(notification => 
             notification && !notification.is_read
         ).length;
+    });
+    
+    // Получаем количество непрочитанных сообщений из Redux store
+    const unreadMessages = useSelector(state => {
+        const unread = state.chat?.unreadMessages || 0;
+        console.log('🔔 [UserMenu] unreadMessages from Redux:', unread);
+        console.log('🔔 [UserMenu] state.chat:', state.chat);
+        return unread;
     });
     
     const [userBalance, setUserBalance] = useState(() => {
@@ -78,11 +88,27 @@ export const UserMenu = ({ name, onOpenMenu }) => {
         }
     }, [userBalance]);
 
-    // Загружаем уведомления для авторизованных пользователей
+    // Загружаем уведомления и чаты для авторизованных пользователей
     useEffect(() => {
         if (isAuthenticated) {
             dispatch(fetchNotifications());
+            dispatch(fetchChats());
+            
+            // Подключаемся к глобальному WebSocket для счетчиков
+            globalWebSocketService.connect().catch(error => {
+                console.error('🔔 [UserMenu] Error connecting to global WebSocket:', error);
+            });
+        } else {
+            // Отключаемся от WebSocket если пользователь не авторизован
+            globalWebSocketService.disconnect();
         }
+        
+        // Cleanup при размонтировании компонента
+        return () => {
+            if (!isAuthenticated) {
+                globalWebSocketService.disconnect();
+            }
+        };
     }, [isAuthenticated, dispatch]);
 
     const profileData = {
@@ -100,8 +126,8 @@ export const UserMenu = ({ name, onOpenMenu }) => {
           src: image_messages,
           className: "image_messages",
           alt: "image-messages",
-          badge: null,
-          bg: 'yellow',
+          badge: unreadMessages > 0 ? unreadMessages : null,
+          bg: '#05B4C7',
           style: {width: '43px', height: '38px'}
         },
         {
@@ -116,6 +142,10 @@ export const UserMenu = ({ name, onOpenMenu }) => {
         },
       ]
     };
+
+    // Отладочный лог для profileData
+    console.log('🔔 [UserMenu] profileData:', profileData);
+    console.log('🔔 [UserMenu] unreadMessages badge:', unreadMessages > 0 ? unreadMessages : null);
 
     if (!isAuthenticated) {
         return (

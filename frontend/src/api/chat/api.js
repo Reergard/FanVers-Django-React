@@ -45,6 +45,15 @@ const chatApi = {
         } catch (error) {
             throw error;
         }
+    },
+
+    markChatAsRead: async (chatId) => {
+        try {
+            const response = await api.post(`/chat/${chatId}/mark_as_read/`);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
     }
 };
 

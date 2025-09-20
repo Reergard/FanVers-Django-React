@@ -1,4 +1,6 @@
 import tokenService from '../../auth/tokenService';
+import { store } from '../../store';
+import { addMessage } from '../chatSlice';
 
 class WebSocketService {
     constructor() {
@@ -144,11 +146,14 @@ class WebSocketService {
                     };
 
                     this.socket.onmessage = (event) => {
-                        console.log('🔌 [WebSocketService] === WEBSOCKET ONMESSAGE ===');
+                        console.log('🔌 [WebSocketService] === WEBSOCKET ONMESSAGE START ===');
                         console.log('🔌 [WebSocketService] Time:', new Date().toISOString());
                         console.log('🔌 [WebSocketService] Event:', event);
                         console.log('🔌 [WebSocketService] Raw data:', event.data);
                         console.log('🔌 [WebSocketService] Data type:', typeof event.data);
+                        console.log('🔌 [WebSocketService] Socket readyState:', this.socket.readyState);
+                        console.log('🔌 [WebSocketService] isConnected:', this.isConnected);
+                        console.log('🔌 [WebSocketService] currentChatId:', this.currentChatId);
                         
                         try {
                             const data = JSON.parse(event.data);
@@ -157,6 +162,40 @@ class WebSocketService {
                             
                             // Обновляем время последнего сообщения
                             this.lastPingTime = Date.now();
+                            
+                            // Обновляем Redux store с новым сообщением
+                            console.log('🔌 [WebSocketService] === CHECKING REDUX UPDATE ===');
+                            console.log('🔌 [WebSocketService] this.currentChatId:', this.currentChatId);
+                            console.log('🔌 [WebSocketService] data:', data);
+                            
+                            if (this.currentChatId) {
+                                const newMessage = {
+                                    id: data.id,
+                                    content: data.message,
+                                    sender: { username: data.sender },
+                                    created_at: data.timestamp,
+                                };
+                                // Получаем текущего пользователя из localStorage
+                                const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
+                                const currentUsername = currentUser?.username;
+                                
+                                console.log('🔌 [WebSocketService] currentUser:', currentUser);
+                                console.log('🔌 [WebSocketService] currentUsername:', currentUsername);
+                                
+                                // Проверяем, что currentUsername существует
+                                if (currentUsername) {
+                                    store.dispatch(addMessage({ 
+                                        chatId: this.currentChatId, 
+                                        message: newMessage, 
+                                        currentUsername: currentUsername
+                                    }));
+                                    console.log('🔌 [WebSocketService] ✅ Message added to Redux store');
+                                } else {
+                                    console.error('❌ [WebSocketService] currentUsername is undefined!');
+                                }
+                            } else {
+                                console.error('❌ [WebSocketService] currentChatId is not set!');
+                            }
                             
                             this.messageHandlers.forEach((handler, index) => {
                                 console.log(`🔌 [WebSocketService] Calling handler #${index}:`, handler);

@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from 'react-redux';
 import "../css/ChatList.css";
 import Status from '../../main/pages/img/status.png';
 import { ProfileImage } from '../../main/components/Header/ProfileImage';
@@ -12,6 +13,19 @@ const ChatList = ({
   onCreateChat,
   onOpenChat,
 }) => {
+  // Получаем текущего пользователя из Redux store
+  const { userInfo } = useSelector(state => state.auth);
+  const currentUsername = userInfo?.username;
+  
+  // Отладочная информация для проверки Redux state
+  console.log('🔍 [ChatList] Redux auth state:', useSelector(state => state.auth));
+  console.log('🔍 [ChatList] userInfo:', userInfo);
+  console.log('🔍 [ChatList] currentUsername:', currentUsername);
+  
+  // Добавляем fallback для currentUsername
+  const username = currentUsername || localStorage.getItem('username');
+  console.log('🔍 [ChatList] Final username:', username);
+
   const handleCreateClick = (e) => {
     e.preventDefault();
     console.log("Create chat button clicked");
@@ -24,8 +38,21 @@ const ChatList = ({
 
   const getOtherParticipant = (chat) => {
     if (!chat.participants || chat.participants.length === 0) return null;
-    const currentUsername = localStorage.getItem('username');
-    return chat.participants.find(p => p.username !== currentUsername) || chat.participants[0];
+    
+    // Отладочная информация
+    console.log('🔍 [ChatList] getOtherParticipant:', {
+      currentUsername,
+      participants: chat.participants.map(p => p.username),
+      chatId: chat.id
+    });
+    
+    // Используем username из Redux store вместо localStorage
+    // Если currentUsername не определен, используем localStorage как fallback
+    const finalUsername = currentUsername || localStorage.getItem('username');
+    const otherParticipant = chat.participants.find(p => p.username !== finalUsername) || chat.participants[0];
+    
+    console.log('🔍 [ChatList] Selected participant:', otherParticipant?.username);
+    return otherParticipant;
   };
 
   const truncateMessage = (message, maxLength = 50) => {

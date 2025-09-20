@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import ChatList from '../components/ChatList';
 import ChatWindow from '../components/ChatWindow';
 import CreateChatModal from '../components/CreateChatModal';
@@ -8,20 +8,20 @@ import chatApi from '../../api/chat/api';
 import '../css/ChatPage.css';
 import websocketService from '../services/websocketService';
 import { BreadCrumb } from '../../main/components/BreadCrumb';
+import { fetchChats, createChat, deleteChat, markMessagesAsRead, addMessage } from '../chatSlice';
 
 const ChatPage = () => {
     console.log('🔌 [ChatPage] === COMPONENT RENDER ===');
     console.log('🔌 [ChatPage] Time:', new Date().toISOString());
     
+    const dispatch = useDispatch();
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
     const [showChatWindow, setShowChatWindow] = useState(false);
     const navigate = useNavigate();
     const { isAuthenticated } = useSelector((state) => state.auth);
-    const [chats, setChats] = useState([]);
+    const { chats, loading, error } = useSelector((state) => state.chat);
     const [selectedChat, setSelectedChat] = useState(null);
     const [showCreateModal, setShowCreateModal] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
 
     console.log('🔌 [ChatPage] Current state:', {
         isMobile,
@@ -34,39 +34,29 @@ const ChatPage = () => {
         error
     });
 
-    const loadChats = async () => {
+    const loadChats = useCallback(async () => {
         console.log('🔌 [ChatPage] === LOAD_CHATS FUNCTION START ===');
         console.log('🔌 [ChatPage] Time:', new Date().toISOString());
         console.log('🔌 [ChatPage] Current chats count:', chats.length);
         console.log('🔌 [ChatPage] WebSocket connected:', websocketService.isConnected);
         
         try {
-            console.log('🔌 [ChatPage] Setting loading to true...');
-            setLoading(true);
-            
-            console.log('🔌 [ChatPage] Calling chatApi.getChatList...');
-            const chatList = await chatApi.getChatList();
-            console.log('🔌 [ChatPage] ✅ Chats loaded:', chatList);
-            console.log('🔌 [ChatPage] New chats count:', chatList.length);
-            
-            setChats(chatList);
-            console.log('🔌 [ChatPage] ✅ Chats state updated');
+            console.log('🔌 [ChatPage] Dispatching fetchChats...');
+            await dispatch(fetchChats()).unwrap();
+            console.log('🔌 [ChatPage] ✅ Chats loaded successfully');
             
         } catch (error) {
             console.log('🔌 [ChatPage] ❌ Error loading chats:', error);
             console.log('🔌 [ChatPage] Error response status:', error.response?.status);
-            setError('Помилка завантаження чатів');
             
             if (error.response?.status === 401) {
                 console.log('🔌 [ChatPage] ⚠️ 401 Unauthorized, redirecting to login...');
                 navigate('/login');
             }
-        } finally {
-            console.log('🔌 [ChatPage] Setting loading to false...');
-            setLoading(false);
-            console.log('🔌 [ChatPage] === LOAD_CHATS FUNCTION END ===');
         }
-    };
+        
+        console.log('🔌 [ChatPage] === LOAD_CHATS FUNCTION END ===');
+    }, [dispatch, navigate, chats.length]);
 
     useEffect(() => {
         console.log('🔌 [ChatPage] === AUTH_CHECK useEffect START ===');
@@ -121,7 +111,7 @@ const ChatPage = () => {
             console.log('🔌 [ChatPage] ✅ Interval cleared');
             console.log('🔌 [ChatPage] === MAIN_LOAD useEffect CLEANUP END ===');
         };
-    }, [isAuthenticated, navigate]);
+    }, [isAuthenticated, navigate, loadChats]);
 
     useEffect(() => {
         console.log('🔌 [ChatPage] === RESIZE useEffect START ===');
@@ -189,19 +179,12 @@ const ChatPage = () => {
                 return;
             }
 
-            console.log('🔌 [ChatPage] Setting loading to true...');
-            setLoading(true);
-            setError(null);
-            
             console.log('🔌 [ChatPage] Creating chat with:', { username, message });
-            const newChat = await chatApi.createChat(username, message);
+            const newChat = await dispatch(createChat({ username, message })).unwrap();
             console.log('🔌 [ChatPage] ✅ Chat created:', newChat);
             
             console.log('🔌 [ChatPage] Closing create modal...');
             setShowCreateModal(false);
-            
-            console.log('🔌 [ChatPage] Reloading chats...');
-            await loadChats();
             
             console.log('🔌 [ChatPage] Setting selected chat...');
             setSelectedChat(newChat);
@@ -214,7 +197,6 @@ const ChatPage = () => {
             
             if (error.response?.status === 401) {
                 console.log('🔌 [ChatPage] ⚠️ 401 Unauthorized, redirecting to login...');
-                setError('Необхідна авторизація');
                 navigate('/login');
             } 
             else if (error.response?.status === 404) {
@@ -227,14 +209,11 @@ const ChatPage = () => {
             }
             else {
                 console.log('🔌 [ChatPage] ⚠️ Unknown error');
-                setError('Помилка під час створення чату');
                 alert('Невідома помилка: ' + (error.message || 'Спробуйте пізніше'));
             }
-        } finally {
-            console.log('🔌 [ChatPage] Setting loading to false...');
-            setLoading(false);
-            console.log('🔌 [ChatPage] === HANDLE_CREATE_CHAT END ===');
         }
+        
+        console.log('🔌 [ChatPage] === HANDLE_CREATE_CHAT END ===');
     };
 
     const handleCloseModal = () => {
@@ -264,19 +243,25 @@ const ChatPage = () => {
         console.log('🔌 [ChatPage] ✅ Chat selection completed');
     };
 
-    const handleDeleteChat = (chatId) => {
+    const handleDeleteChat = async (chatId) => {
         console.log('🔌 [ChatPage] === HANDLE_DELETE_CHAT ===');
         console.log('🔌 [ChatPage] Time:', new Date().toISOString());
         console.log('🔌 [ChatPage] Chat ID to delete:', chatId);
         console.log('🔌 [ChatPage] Current chats count:', chats.length);
         console.log('🔌 [ChatPage] Current selected chat ID:', selectedChat?.id);
         
-        console.log('🔌 [ChatPage] Filtering out deleted chat...');
-        setChats(chats.filter(chat => chat.id !== chatId));
-        
-        if (selectedChat?.id === chatId) {
-            console.log('🔌 [ChatPage] Deleted chat was selected, clearing selection...');
-            setSelectedChat(null);
+        try {
+            await dispatch(deleteChat(chatId)).unwrap();
+            console.log('🔌 [ChatPage] ✅ Chat deleted successfully');
+            
+            if (selectedChat?.id === chatId) {
+                console.log('🔌 [ChatPage] Deleted chat was selected, clearing selection...');
+                setSelectedChat(null);
+            }
+            
+        } catch (error) {
+            console.log('🔌 [ChatPage] ❌ Error deleting chat:', error);
+            alert('Помилка при видаленні чату');
         }
         
         console.log('🔌 [ChatPage] ✅ Chat deletion completed');

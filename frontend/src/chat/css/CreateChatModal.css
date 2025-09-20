@@ -75,3 +75,55 @@
 .submit-button:hover {
     background-color: #0056b3;
 }
+
+/* Стили для формы создания чата в новом модальном окне */
+.create-chat-form {
+    margin-top: 1rem;
+}
+
+.create-chat-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.create-chat-form .form-group label {
+    display: block;
+    color: #fff;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.create-chat-form .form-group input,
+.create-chat-form .form-group textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #3a3f5c;
+    border-radius: 6px;
+    background-color: #2a2d47;
+    color: #fff;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box;
+}
+
+.create-chat-form .form-group input:focus,
+.create-chat-form .form-group textarea:focus {
+    outline: none;
+    border-color: #05B4C7;
+}
+
+.create-chat-form .form-group input:disabled,
+.create-chat-form .form-group textarea:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.create-chat-form .form-group input::placeholder,
+.create-chat-form .form-group textarea::placeholder {
+    color: #8a8a8a;
+}
+
+.create-chat-form .form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}

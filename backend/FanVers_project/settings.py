@@ -62,7 +62,7 @@ INSTALLED_APPS = [
     'djoser',
     'apps.rating.apps.RatingConfig',
     'channels',
-    # 'django_celery_beat',  # Временно отключаем для стабильности
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [

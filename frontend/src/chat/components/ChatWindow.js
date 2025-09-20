@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useSelector, useDispatch } from 'react-redux';
 import chatApi from "../../api/chat/api";
+import ConfirmationModal from "../../components/ConfirmationModal";
 import "../css/ChatList.css";
 import "../css/ChatWindow.css";
 import webSocketService from "../services/websocketService";
@@ -7,6 +9,7 @@ import Status from "../../main/pages/img/status.png";
 import { ProfileImage } from "../../main/components/Header/ProfileImage";
 import { FALLBACK_IMAGES, IMAGE_SIZES } from "../../constants/fallbackImages";
 import RightArrow from "../../main/pages/img/right-arrow.png";
+import { markMessagesAsRead, addMessage, markChatAsRead } from "../chatSlice";
 
 const ChatWindow = ({ chat, onDeleteChat, onClose }) => {
   console.log('🔌 [ChatWindow] === COMPONENT RENDER ===');
@@ -14,6 +17,20 @@ const ChatWindow = ({ chat, onDeleteChat, onClose }) => {
   console.log('🔌 [ChatWindow] Props:', { chat, onDeleteChat, onClose });
   console.log('🔌 [ChatWindow] Chat ID:', chat?.id);
   console.log('🔌 [ChatWindow] Chat participants:', chat?.participants);
+  
+  const dispatch = useDispatch();
+  // Получаем текущего пользователя из Redux store
+  const { userInfo } = useSelector(state => state.auth);
+  const currentUsername = userInfo?.username;
+  
+  // Отладочная информация для проверки Redux state
+  console.log('🔍 [ChatWindow] Redux auth state:', useSelector(state => state.auth));
+  console.log('🔍 [ChatWindow] userInfo:', userInfo);
+  console.log('🔍 [ChatWindow] currentUsername:', currentUsername);
+  
+  // Добавляем fallback для currentUsername
+  const username = currentUsername || localStorage.getItem('username');
+  console.log('🔍 [ChatWindow] Final username:', username);
   
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
@@ -61,6 +78,16 @@ const ChatWindow = ({ chat, onDeleteChat, onClose }) => {
         setMessages(chatMessages);
         console.log('🔌 [ChatWindow] ✅ Messages state updated');
         
+        // Отмечаем сообщения как прочитанные в Redux
+        console.log('🔌 [ChatWindow] Marking messages as read in Redux...');
+        dispatch(markMessagesAsRead(chat.id));
+        console.log('🔌 [ChatWindow] ✅ Messages marked as read in Redux');
+        
+        // Отмечаем чат как прочитанный на сервере
+        console.log('🔌 [ChatWindow] Marking chat as read on server...');
+        dispatch(markChatAsRead(chat.id));
+        console.log('🔌 [ChatWindow] ✅ Chat marked as read on server');
+        
       } catch (error) {
         console.log('🔌 [ChatWindow] ❌ Error loading messages:', error);
         setError('Помилка завантаження повідомлень');
@@ -73,7 +100,7 @@ const ChatWindow = ({ chat, onDeleteChat, onClose }) => {
 
     loadMessages();
     console.log('🔌 [ChatWindow] === LOAD_MESSAGES useEffect END ===');
-  }, [chat?.id]);
+  }, [chat?.id, dispatch]);
 
   // WebSocket connection
   useEffect(() => {
@@ -94,19 +121,21 @@ const ChatWindow = ({ chat, onDeleteChat, onClose }) => {
       console.log('🔌 [ChatWindow] Received data:', data);
       console.log('🔌 [ChatWindow] Current messages count:', messages.length);
       
+      const newMessage = {
+        id: data.id,
+        content: data.message,
+        sender: { username: data.sender },
+        created_at: data.timestamp,
+      };
+      
       setMessages((prev) => {
-        const newMessages = [
-          ...prev,
-          {
-            id: data.id,
-            content: data.message,
-            sender: { username: data.sender },
-            created_at: data.timestamp,
-          },
-        ];
+        const newMessages = [...prev, newMessage];
         console.log('🔌 [ChatWindow] New messages array:', newMessages);
         return newMessages;
       });
+      
+      // Добавляем сообщение в Redux store
+      dispatch(addMessage({ chatId: chat.id, message: newMessage, currentUsername: username }));
       
       console.log('🔌 [ChatWindow] ✅ Messages state updated');
       console.log('🔌 [ChatWindow] === MESSAGE_HANDLER END ===');
@@ -298,8 +327,21 @@ const ChatWindow = ({ chat, onDeleteChat, onClose }) => {
 
   const getOtherParticipant = () => {
     if (!chat?.participants || chat.participants.length === 0) return null;
-    const currentUsername = localStorage.getItem('username');
-    return chat.participants.find(p => p.username !== currentUsername) || chat.participants[0];
+    
+    // Отладочная информация
+    console.log('🔍 [ChatWindow] getOtherParticipant:', {
+      currentUsername,
+      participants: chat.participants.map(p => p.username),
+      chatId: chat.id
+    });
+    
+    // Используем username из Redux store вместо localStorage
+    // Если currentUsername не определен, используем localStorage как fallback
+    const finalUsername = currentUsername || localStorage.getItem('username');
+    const otherParticipant = chat.participants.find(p => p.username !== finalUsername) || chat.participants[0];
+    
+    console.log('🔍 [ChatWindow] Selected participant:', otherParticipant?.username);
+    return otherParticipant;
   };
 
   const formatTime = (timestamp) => {
@@ -356,22 +398,21 @@ const ChatWindow = ({ chat, onDeleteChat, onClose }) => {
         </button>
       </div>
 
-      {showDeleteModal && (
-        <div className="modal">
-          <div className="modal-content">
-            <p>Ви впевнені що хочете видалити даний чат?</p>
-            <button onClick={handleDeleteChat}>Так</button>
-            <button onClick={() => setShowDeleteModal(false)}>Ні</button>
-          </div>
-        </div>
-      )}
+      <ConfirmationModal
+        isOpen={showDeleteModal}
+        onRequestClose={() => setShowDeleteModal(false)}
+        onConfirm={handleDeleteChat}
+        message="Ви впевнені що хочете видалити даний чат?"
+        type="confirmation"
+      />
 
       <div className="messages-container">
         {loading && <div className="loading">Завантаження повідомлень...</div>}
         {error && <div className="error-message">{error}</div>}
         {!loading && !error && Array.isArray(messages) && messages.length > 0 ? (
           messages.map((message) => {
-            const isOwnMessage = message.sender?.username === localStorage.getItem('username');
+            const finalUsername = currentUsername || localStorage.getItem('username');
+            const isOwnMessage = message.sender?.username === finalUsername;
             return (
               <div
                 key={message.id}

@@ -7,9 +7,10 @@ const ConfirmationModal = ({
   onRequestClose, 
   onConfirm, 
   message, 
-  type = 'confirmation', // 'confirmation' or 'form'
+  type = 'confirmation', // 'confirmation', 'form', or 'chat'
   formData = null, // для формы создания тома
-  bookTitle = ''
+  bookTitle = '',
+  children = null // для кастомного контента (создание чата)
 }) => {
   const [formTitle, setFormTitle] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -23,7 +24,7 @@ const ConfirmationModal = ({
   }, [isOpen, type]);
 
   const handleConfirm = async () => {
-    if (type === 'form') {
+    if (type === 'form' || type === 'chat') {
       return; // Для формы используем handleFormSubmit
     }
     await onConfirm();
@@ -70,7 +71,7 @@ const ConfirmationModal = ({
     >
       <div className="auth-modal__container">
         <h2 className="auth-modal__title">
-          {type === 'form' ? 'Створити том' : 'Підтвердження'}
+          {type === 'form' ? 'Створити том' : type === 'chat' ? 'Створити новий чат' : 'Підтвердження'}
         </h2>
         
         {type === 'form' ? (
@@ -119,6 +120,25 @@ const ConfirmationModal = ({
                 </button>
               </div>
             </form>
+          </>
+        ) : type === 'chat' ? (
+          <>
+            {children}
+            <div className="confirmation-buttons">
+              <button
+                type="button"
+                onClick={handleClose}
+                className="auth-modal__submit confirmation-btn cancel"
+              >
+                Скасувати
+              </button>
+              <button
+                onClick={onConfirm}
+                className="auth-modal__submit confirmation-btn confirm"
+              >
+                Створити чат
+              </button>
+            </div>
           </>
         ) : (
           <>
