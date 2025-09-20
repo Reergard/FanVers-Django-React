@@ -275,12 +275,6 @@ CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers.DatabaseScheduler'
 
 
 
-# Настройки Redis
-# Эти строки можно удалить, так как они уже определены выше
-# REDIS_HOST = os.getenv('REDIS_HOST', '127.0.0.1')
-# REDIS_PORT = os.getenv('REDIS_PORT', '6379')
-# REDIS_DB = os.getenv('REDIS_DB', '0')
-
 
 
 
@@ -464,7 +458,7 @@ LOGGING = {
 }
 
 # Максимальная сумма операции с балансом
-MAX_BALANCE_OPERATION_AMOUNT = 1000000
+MAX_BALANCE_OPERATION_AMOUNT = 100000
 
 CACHES = {
     'default': {

@@ -5,6 +5,7 @@ import {
     QueryClientProvider,
 } from "@tanstack/react-query";
 import { useCallback } from "react";
+import { useSearchParams } from "react-router-dom";
 import { fetchBooks } from '../../api/catalog/catalogAPI';
 import { handleCatalogApiError } from '../../catalog/utils/errorUtils';
 import { catalogAPI } from '../../api/catalog/catalogAPI';
@@ -22,60 +23,63 @@ import AdultIcon from '../../catalog/pages/img/18.svg';
 
 const NovelCard = ({ title, description, image, slug, book_type, adult_content }) => {
     return (
-        <div className="novel-card UserTranslations">
-            <div className="novel-cover">
-                <div className="image-container">
-                    <div className="image-wrapper">
-                        <img
-                            src={image}
-                            alt={title}
-                            className="novel-image"
-                            onError={(e) => {
-                                e.target.onerror = null;
-                                e.target.style.display = "none";
-                            }}
-                        />
-                        <div
-                            className="divider"
-                            role="separator"
-                            aria-orientation="vertical"
-                        />
-                        {book_type === 'AUTHOR' && (
-                            <span className="novel-letter">a</span>
-                        )}
-                        {adult_content && (
-                            <img src={AdultIcon} alt="18+" className="novel-adult-icon" />
-                        )}
+        <Link to={`/books/${slug}`} className="novel-card-link">
+            <div className="novel-card UserTranslations">
+                <div className="novel-cover">
+                    <div className="image-container">
+                        <div className="image-wrapper">
+                            <img
+                                src={image}
+                                alt={title}
+                                className="novel-image"
+                                onError={(e) => {
+                                    e.target.onerror = null;
+                                    e.target.style.display = "none";
+                                }}
+                            />
+                            <div
+                                className="divider"
+                                role="separator"
+                                aria-orientation="vertical"
+                            />
+                            {book_type === 'AUTHOR' && (
+                                <span className="novel-letter">a</span>
+                            )}
+                            {adult_content && (
+                                <img src={AdultIcon} alt="18+" className="novel-adult-icon" />
+                            )}
+                        </div>
+                    </div>
+                </div>
+                <div className="all-desc-catalog">
+                    <div className="one-desc">
+                        <div className="name-desc-catalog">Дата створення </div>
+                        <span>14.02.2023</span>
+                    </div>
+                    <div className="one-desc">
+                        <div className="name-desc-catalog">Дата останньої активности </div>
+                        <span>14.02.2023</span>
+                    </div>
+                    <div className="one-desc">
+                        <div className="name-desc-catalog">Переглядів за день</div>
+                        <span>150</span>
+                    </div>
+                    <div className="one-desc">
+                        <div className="name-desc-catalog">Дохід за день </div>
+                        <span>15$</span>
+                    </div>
+                    <div className="one-desc">
+                        <div className="name-desc-catalog">Дохід за місяць</div>
+                        <span>15$</span>
                     </div>
                 </div>
             </div>
-            <div className="all-desc-catalog">
-                <div className="one-desc">
-                    <div className="name-desc-catalog">Дата створення </div>
-                    <span>14.02.2023</span>
-                </div>
-                <div className="one-desc">
-                    <div className="name-desc-catalog">Дата останньої активности </div>
-                    <span>14.02.2023</span>
-                </div>
-                <div className="one-desc">
-                    <div className="name-desc-catalog">Переглядів за день</div>
-                    <span>150</span>
-                </div>
-                <div className="one-desc">
-                    <div className="name-desc-catalog">Дохід за день </div>
-                    <span>15$</span>
-                </div>
-                <div className="one-desc">
-                    <div className="name-desc-catalog">Дохід за місяць</div>
-                    <span>15$</span>
-                </div>
-            </div>
-        </div>
+        </Link>
     );
 };
 
 const SearchPage = () => {
+    const [searchParams] = useSearchParams();
     const [searchQuery, setSearchQuery] = useState("");
     const [filters, setFilters] = useState({
         title: "",
@@ -156,6 +160,14 @@ const SearchPage = () => {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
+    // Обработка URL параметров при загрузке страницы
+    useEffect(() => {
+        const queryFromUrl = searchParams.get('q');
+        if (queryFromUrl) {
+            setSearchQuery(queryFromUrl);
+        }
+    }, [searchParams]);
+
     // Очистка таймаута при размонтировании
     useEffect(() => {
         return () => {
@@ -164,15 +176,6 @@ const SearchPage = () => {
             }
         };
     }, [searchTimeout]);
-
-    // Начальный поиск при загрузке страницы
-    useEffect(() => {
-        performSearch();
-    }, [performSearch]); // Добавляем performSearch в зависимости
-
-    const showMoreBooks = () => {
-        setVisibleCount((prevCount) => prevCount + 3);
-    };
 
     const hideAdultContent = useSelector(
         (state) => state.userSettings.hideAdultContent
@@ -204,6 +207,15 @@ const SearchPage = () => {
             setIsSearching(false);
         }
     }, [filters, searchQuery, hideAdultContent]);
+
+    // Начальный поиск при загрузке страницы или изменении searchQuery
+    useEffect(() => {
+        performSearch();
+    }, [performSearch, searchQuery]); // Добавляем searchQuery в зависимости
+
+    const showMoreBooks = () => {
+        setVisibleCount((prevCount) => prevCount + 3);
+    };
 
     // Автоматический поиск с задержкой
     const performSearchWithDelay = useCallback(() => {

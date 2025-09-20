@@ -1,10 +1,11 @@
 import django_filters
+from django.db.models import Q
 
 from apps.catalog.models import Book, Genres, Tag, Fandom, Country
 
 
 class BookFilter(django_filters.FilterSet):
-    title = django_filters.CharFilter(field_name='title', lookup_expr='icontains')
+    title = django_filters.CharFilter(method='filter_title')
     genres = django_filters.ModelMultipleChoiceFilter(
         field_name='genres',
         queryset=Genres.objects.all()
@@ -59,3 +60,14 @@ class BookFilter(django_filters.FilterSet):
         if value:
             return queryset
         return queryset.filter(adult_content=False)
+
+    def filter_title(self, queryset, name, value):
+        """
+        Фильтр по названию книги - ищет как в title, так и в title_en
+        """
+        if not value:
+            return queryset
+        
+        return queryset.filter(
+            Q(title__icontains=value) | Q(title_en__icontains=value)
+        )

@@ -83,4 +83,23 @@
   object-fit: contain;
   z-index: 2;
   pointer-events: none;
+}
+
+/* Стили для кликабельных карточек */
+.novel-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.novel-card-link:hover {
+  text-decoration: none;
+  color: inherit;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.novel-card-link:hover .novel-card {
+  cursor: pointer;
 } 
