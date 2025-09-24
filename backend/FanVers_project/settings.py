@@ -10,7 +10,8 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[
         logging.StreamHandler(),
-        logging.FileHandler('debug.log', encoding='utf-8')
+        # Убираем файловое логирование для продакшена
+        # logging.FileHandler('debug.log', encoding='utf-8')
     ]
 )
 
@@ -79,25 +80,41 @@ MIDDLEWARE = [
 
 
 
-CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOW_CREDENTIALS = True
+# CORS настройки для продакшена
+if DEBUG:
+    CORS_ALLOW_ALL_ORIGINS = True
+    CORS_ALLOWED_ORIGINS = [
+        "http://127.0.0.1:5173",
+        "http://localhost:5173",
+        "http://10.0.2.2:5173",
+        "http://127.0.0.1:3000",
+        "http://localhost:3000",
+        "ws://127.0.0.1:3000",
+        "ws://localhost:3000",
+    ]
+else:
+    CORS_ALLOW_ALL_ORIGINS = False
+    CORS_ALLOWED_ORIGINS = [
+        "https://fan-vers.com",
+        "https://www.fan-vers.com",
+        "wss://fan-vers.com",
+        "wss://www.fan-vers.com",
+    ]
 
-CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:5173",
-    "http://localhost:5173",
-    "http://10.0.2.2:5173",
-    "http://127.0.0.1:3000",
-    "http://localhost:3000",
-    "ws://127.0.0.1:3000",
-    "ws://localhost:3000",
-]
+CORS_ALLOW_CREDENTIALS = True
 
 # WebSocket CORS настройки
 CORS_ALLOW_WEBSOCKET = True
-CORS_ALLOW_WEBSOCKET_ORIGINS = [
-    "ws://127.0.0.1:3000",
-    "ws://localhost:3000",
-]
+if DEBUG:
+    CORS_ALLOW_WEBSOCKET_ORIGINS = [
+        "ws://127.0.0.1:3000",
+        "ws://localhost:3000",
+    ]
+else:
+    CORS_ALLOW_WEBSOCKET_ORIGINS = [
+        "wss://fan-vers.com",
+        "wss://www.fan-vers.com",
+    ]
 
 CORS_ALLOW_HEADERS = [
     "accept",
@@ -211,7 +228,7 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = env("EMAIL_PORT")
 EMAIL_HOST_USER = env("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
-DEFAUND_FROM_EMAIL = "info@journal-bullet.com"
+DEFAULT_FROM_EMAIL = "info@fan-vers.com"
 DOMAIN = env("DOMAIN")
 SITE_NAME = "FanVers"
 
@@ -417,11 +434,12 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'verbose'
         },
-        'file': {
-            'class': 'logging.FileHandler',
-            'filename': 'debug.log',
-            'formatter': 'verbose'
-        },
+        # Убираем файловое логирование для продакшена
+        # 'file': {
+        #     'class': 'logging.FileHandler',
+        #     'filename': 'debug.log',
+        #     'formatter': 'verbose'
+        # },
         'celery_file': {
             'class': 'logging.FileHandler',
             'filename': 'celery.log',
@@ -430,12 +448,12 @@ LOGGING = {
     },
     'loggers': {
         'django': {
-            'handlers': ['console', 'file'],
+            'handlers': ['console'],  # Убираем 'file'
             'level': 'INFO',
             'propagate': True,
         },
         'apps.users': {
-            'handlers': ['console', 'file'],
+            'handlers': ['console'],  # Убираем 'file'
             'level': 'ERROR',
             'propagate': True,
         },
@@ -445,12 +463,12 @@ LOGGING = {
             'propagate': False,
         },
         'channels': {
-            'handlers': ['console', 'file'],
+            'handlers': ['console'],  # Убираем 'file'
             'level': 'DEBUG',
             'propagate': True,
         },
         'apps.chat': {
-            'handlers': ['console', 'file'],
+            'handlers': ['console'],  # Убираем 'file'
             'level': 'DEBUG',
             'propagate': True,
         },
