@@ -28,7 +28,7 @@ export const useAuth = () => {
     const timeSinceLastRequest = now - lastRequestTime.current;
 
     // Діагностичне логування - только при изменении условий
-    if (process.env.NODE_ENV === 'development') {
+    if (import.meta.env.MODE === 'development') {
       console.log('useAuth: Перевірка умов:', {
         isPublic,
         hasToken,

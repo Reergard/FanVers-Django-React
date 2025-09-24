@@ -34,7 +34,7 @@ const GeneralSettings = () => {
 
   // Логування для діагностики - только при изменении состояния
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') {
+    if (import.meta.env.MODE === 'development') {
       console.log('GeneralSettings: Состояние компонента изменилось:', {
         currentUser: !!currentUser,
         userInfo: !!userInfo,

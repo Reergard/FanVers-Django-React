@@ -18,13 +18,17 @@ import BlueDot from "./img/blue-dot.png";
 import BookImg from "./img/book-homepages.svg";
 import BookRatingComponent from '../../rating/components/BookRatingComponent';
 // Импорты звезд рейтинга
-const starFills1 = [...Array(4)].map((_, i) =>
-  require(`./img/star-fill-${8 + i}.svg`)
-);
+import starFill8 from "./img/star-fill-8.svg";
+import starFill9 from "./img/star-fill-9.svg";
+import starFill10 from "./img/star-fill-10.svg";
+import starFill11 from "./img/star-fill-11.svg";
+import starFill12 from "./img/star-fill-12.svg";
+import starFill13 from "./img/star-fill-13.svg";
+import starFill14 from "./img/star-fill-14.svg";
+import starFill15 from "./img/star-fill-15.svg";
 
-const starFills2 = [...Array(4)].map((_, i) =>
-  require(`./img/star-fill-${12 + i}.svg`)
-);
+const starFills1 = [starFill8, starFill9, starFill10, starFill11];
+const starFills2 = [starFill12, starFill13, starFill14, starFill15];
 
 const HomePage2 = () => {
   const navigate = useNavigate();

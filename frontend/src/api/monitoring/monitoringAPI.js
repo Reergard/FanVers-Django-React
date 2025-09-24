@@ -91,9 +91,6 @@ export const monitoringAPI = {
                     case 404:
                         throw new Error('Книга не знайдена');
                     
-                    case 429:
-                        throw new Error('Занадто багато запитів. Спробуйте пізніше');
-                    
                     case 500:
                         throw new Error('Внутрішня помилка сервера. Спробуйте пізніше');
                     

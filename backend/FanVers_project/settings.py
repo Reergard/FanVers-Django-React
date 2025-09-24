@@ -86,7 +86,10 @@ if DEBUG:
     CORS_ALLOWED_ORIGINS = [
         "http://127.0.0.1:5173",
         "http://localhost:5173",
+        "http://127.0.0.1:5174",
+        "http://localhost:5174",
         "http://10.0.2.2:5173",
+        "http://10.0.2.2:5174",
         "http://127.0.0.1:3000",
         "http://localhost:3000",
         "ws://127.0.0.1:3000",
@@ -109,6 +112,10 @@ if DEBUG:
     CORS_ALLOW_WEBSOCKET_ORIGINS = [
         "ws://127.0.0.1:3000",
         "ws://localhost:3000",
+        "ws://127.0.0.1:5173",
+        "ws://localhost:5173",
+        "ws://127.0.0.1:5174",
+        "ws://localhost:5174",
     ]
 else:
     CORS_ALLOW_WEBSOCKET_ORIGINS = [
@@ -298,13 +305,13 @@ CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers.DatabaseScheduler'
 
 
 
-USE_POSTGRES = env("USE_POSTGRES")
+USE_POSTGRES = env.bool("USE_POSTGRES")
 
 if USE_POSTGRES:
     DATABASES = {
         'default': {
             # 'ENGINE': 'django.contrib.gis.db.backends.postgis',
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'ENGINE': 'django.db.backends.postgresql',
             'NAME': env.str('DB_NAME'),
             'USER': env.str('DB_USER'),
             'PASSWORD': env.str('DB_PASS'),

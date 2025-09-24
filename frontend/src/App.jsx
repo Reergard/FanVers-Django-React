@@ -20,7 +20,7 @@ import ChatPage from './chat/pages/ChatPage';
 import EditChapter from './editors/pages/EditChapter';
 import Header from './main/components/Header/Header';
 import Footer from './main/components/Footer';
-import HomePage from './main/pages/HomePage';
+import HomePage from './main/pages/HomePage.jsx';
 import CreateTranslation from './catalog/pages/BookCreate';
 import SearchPage from './search/pages/SearchPage';
 import BookmarksPage from './users/pages/BookmarksPage';

@@ -10,7 +10,7 @@ const TranslatorAccessGuard = ({ children }) => {
 
   useEffect(() => {
     // Логируем только важные изменения состояния
-    if (process.env.NODE_ENV === 'development') {
+    if (import.meta.env.MODE === 'development') {
       console.log('TranslatorAccessGuard: Состояние изменилось:', {
         isAuthenticated,
         hasUser: !!user,
