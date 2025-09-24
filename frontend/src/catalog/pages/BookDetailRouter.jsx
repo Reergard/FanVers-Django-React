@@ -9,6 +9,7 @@ import { mainAPI } from '../../api/main/mainAPI';
 import BookDetailOwner from './BookDetailOwner';
 import BookDetailReader from './BookDetailReader';
 import ChapterRangeSelector from '../../navigation/components/ChapterRangeSelector';
+import CommentSection from '../../reviews/components/CommentSection';
 import useBookAnalytics from '../../hooks/useBookAnalytics';
 import { useToast } from '../../components/CustomToast';
 
@@ -156,6 +157,13 @@ const BookDetailRouter = () => {
       ) : (
         <BookDetailReader {...commonProps} />
       )}
+      
+      {/* Общая секция комментариев */}
+      <CommentSection 
+        type="book"
+        slug={slug} 
+        isOwner={isOwner} 
+      />
     </>
   );
 };

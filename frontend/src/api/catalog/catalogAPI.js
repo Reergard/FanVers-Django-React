@@ -167,6 +167,7 @@ const getChapterDetail = async (bookSlug, chapterSlug) => {
             id: response.data.id,
             book_id: response.data.book_id || response.data.book || bookSlug,
             book_title: response.data.book_title || '',
+            book_owner_id: response.data.book_owner_id || null,
             content: response.data.content,
             title: response.data.title,
             slug: response.data.slug || chapterSlug
@@ -174,9 +175,7 @@ const getChapterDetail = async (bookSlug, chapterSlug) => {
 
         console.log('Processed chapter data:', chapterData);
 
-        return {
-            data: chapterData
-        };
+        return chapterData; // Возвращаем данные напрямую, без обертки в объект data
     } catch (error) {
         console.error('Chapter detail error:', {
             status: error.response?.status,

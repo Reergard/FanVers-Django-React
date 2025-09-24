@@ -3,11 +3,14 @@ import { useQueryClient } from '@tanstack/react-query';
 
 const getChapterNavigation = async (bookSlug, chapterSlug) => {
     try {
+        console.log('getChapterNavigation: Fetching navigation for:', { bookSlug, chapterSlug });
         const response = await api.get(
             `/navigation/books/${bookSlug}/chapters/${chapterSlug}/navigation/`
         );
+        console.log('getChapterNavigation: Response:', response.data);
         return response;
     } catch (error) {
+        console.error('getChapterNavigation: Error:', error);
         throw error;
     }
 };

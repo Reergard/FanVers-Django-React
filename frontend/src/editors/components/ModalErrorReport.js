@@ -19,6 +19,11 @@ const ModalErrorReport = ({ show, onHide, bookId, chapterId, bookTitle, chapterT
         return;
       }
 
+      if (!selectedText || selectedText.trim().length === 0) {
+        showError('Помилка: необхідно виділити текст з помилкою');
+        return;
+      }
+
       const bookIdNum = parseInt(bookId);
       const chapterIdNum = parseInt(chapterId);
 

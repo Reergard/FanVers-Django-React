@@ -164,6 +164,10 @@ def chapter_detail(request, book_slug, chapter_slug):
                 status=status.HTTP_404_NOT_FOUND
             )
 
+        # Отладочная информация
+        book_owner_id = chapter.book.owner.id if chapter.book.owner else None
+        print(f"ChapterDetail API: book_id={chapter.book.id}, owner={chapter.book.owner}, book_owner_id={book_owner_id}")
+        
         return Response({
             'title': chapter.title,
             'content': html_content,
@@ -171,6 +175,7 @@ def chapter_detail(request, book_slug, chapter_slug):
             'book': chapter.book.id,
             'id': chapter.id,
             'book_id': chapter.book.id,
+            'book_owner_id': book_owner_id,
             'is_paid': chapter.is_paid,
             'price': float(chapter.price) if chapter.price else None,
             'slug': chapter.slug

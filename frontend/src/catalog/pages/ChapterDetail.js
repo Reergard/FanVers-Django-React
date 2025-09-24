@@ -3,8 +3,6 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getChapterDetail } from '../../api/catalog/catalogAPI';
 import { Container, Button } from "react-bootstrap";
-import ChapterNavigation from '../../navigation/components/ChapterNavigation';
-import CommentForm from '../../reviews/components/CommentForm';
 import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 import "../../navigation/css/BookmarkButton.css";
 import ModalErrorReport from '../../editors/components/ModalErrorReport';
@@ -16,79 +14,13 @@ import { debounce } from "lodash";
 import RightArrow from '../../main/pages/img/right-arrow.png';
 import { monitoringAPI } from '../../api/monitoring/monitoringAPI';
 import { getChapterNavigation } from '../../api/navigation/navigationAPI';
-import {
-  fetchChapterComments,
-  postChapterComment,
-  updateReaction,
-} from '../../api/reviews/reviewsAPI';
+import CommentSection from '../../reviews/components/CommentSection';
 import { BreadCrumb } from '../../main/components/BreadCrumb';
 import ArrowChapter from '../../main/pages/img/arrow-chapter.png';
 import BgChapter from '../../main/pages/img/bg-chapter.png';
 import ArrowNameChapter from '../../main/pages/img/arrow-name-chapter.png';
-import CommentImg from '../../main/pages/img/comment.jpg';
-import Favorite from '../../main/pages/img/Favorite.png';
-import Trash from '../../main/pages/img/Trash.png';
 
 
-const Comment = ({
-  comment,
-  onReply,
-  onReaction,
-  isAuthenticated,
-  depth = 0,
-}) => {
-  const [showReplyForm, setShowReplyForm] = useState(false);
-
-  const handleReply = (text) => {
-    onReply(text, comment.id);
-    setShowReplyForm(false);
-  };
-
-  return (
-    <div className="comment" style={{ marginLeft: `${depth * 20}px` }}>
-      <p>{comment.text}</p>
-      <p>Автор: {comment.user}</p>
-      <p>Дата: {new Date(comment.created_at).toLocaleString()}</p>
-      <div className="reactions">
-        <button
-          onClick={() => onReaction(comment.id, "like")}
-          disabled={!isAuthenticated}
-        >
-          <FaThumbsUp /> {comment.likes_count}
-        </button>
-        <button
-          onClick={() => onReaction(comment.id, "dislike")}
-          disabled={!isAuthenticated}
-        >
-          <FaThumbsDown /> {comment.dislikes_count}
-        </button>
-      </div>
-      {isAuthenticated && (
-        <button onClick={() => setShowReplyForm(!showReplyForm)}>
-          {showReplyForm ? "Скасувати" : "Відповісти"}
-        </button>
-      )}
-      {showReplyForm && (
-        <CommentForm
-          onSubmit={handleReply}
-          initialText={`Відповідь на: ${comment.text}`}
-          readOnlyInitialText={true}
-        />
-      )}
-      {comment.replies &&
-        comment.replies.map((reply) => (
-          <Comment
-            key={reply.id}
-            comment={reply}
-            onReply={onReply}
-            onReaction={onReaction}
-            isAuthenticated={isAuthenticated}
-            depth={depth + 1}
-          />
-        ))}
-    </div>
-  );
-};
 
 const ChapterDetail = () => {
   const { bookSlug, chapterSlug } = useParams();
@@ -102,15 +34,16 @@ const ChapterDetail = () => {
   const [navigationData, setNavigationData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [comments, setComments] = useState([]);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [selectedText, setSelectedText] = useState("");
   const [isSelectionMode, setIsSelectionMode] = useState(false);
   const [readingStartTime, setReadingStartTime] = useState(null);
   const [isRead, setIsRead] = useState(false);
+  const [showChapterList, setShowChapterList] = useState(false);
   const navigate = useNavigate();
   const contentRef = useRef(null);
+  const currentUser = useSelector(state => state.auth.user);
   const lastScrollTime = useRef(Date.now());
   const scrollPositions = useRef([]);
   const lastProgressUpdate = useRef(Date.now());
@@ -255,8 +188,9 @@ const ChapterDetail = () => {
           getChapterNavigation(bookSlug, chapterSlug),
         ]);
 
+        // Данные уже в правильном формате
         setChapterData(chapterResult);
-        setNavigationData(navigationResult);
+        setNavigationData(navigationResult.data); // Извлекаем data из ответа
       } catch (error) {
         const errorMessage = error.response?.data?.error || error.message;
         setError(errorMessage);
@@ -269,25 +203,6 @@ const ChapterDetail = () => {
     fetchData();
   }, [bookSlug, chapterSlug, navigate, showError]);
 
-  const handleCommentSubmit = async (commentText, parentId = null) => {
-    try {
-      const response = await postChapterComment(chapterData.id, commentText, parentId);
-      setComments((prevComments) => [...prevComments, response]);
-    } catch (error) {
-      handleCatalogApiError(error, { error: showError });
-    }
-  };
-
-  const handleReaction = async (commentId, reactionType) => {
-    try {
-      await updateReaction(commentId, reactionType);
-      // Обновляем комментарии после реакции
-      const updatedComments = await fetchChapterComments(chapterData.id);
-      setComments(updatedComments);
-    } catch (error) {
-      handleCatalogApiError(error, { error: showError });
-    }
-  };
 
   const handleStartSelection = () => {
     setIsSelectionMode(true);
@@ -305,6 +220,32 @@ const ChapterDetail = () => {
     }
   };
 
+  const handleChapterSelect = (chapterSlug) => {
+    navigate(`/books/${bookSlug}/chapters/${chapterSlug}`);
+    setShowChapterList(false);
+  };
+
+  const toggleChapterList = () => {
+    setShowChapterList(!showChapterList);
+  };
+
+  // Закрываем выпадающий список при клике вне его
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (showChapterList && !event.target.closest('.chapter-name') && !event.target.closest('.chapter-list-dropdown')) {
+        setShowChapterList(false);
+      }
+    };
+
+    if (showChapterList) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showChapterList]);
+
   if (loading) {
     return (
       <div className="loading-container">
@@ -316,14 +257,6 @@ const ChapterDetail = () => {
     );
   }
 
-  // if (error) {
-  //     return (
-  //         <div className="error-container alert alert-danger">
-  //             <h3>Помилка</h3>
-  //             <p>{error}</p>
-  //         </div>
-  //     );
-  // }
 
   return (
     <section className="chapter-detail">
@@ -331,92 +264,182 @@ const ChapterDetail = () => {
         <BreadCrumb
           items={[
             { href: "/", label: "Головна" },
-            { href: "/catalog", label: "Назва книги" },
+            { href: `/books/${bookSlug}`, label: chapterData.book_title || "Назва книги" },
           ]}
         />
-        {/* {navigationData && (
-                    <ChapterNavigation
-                        bookSlug={bookSlug}
-                        currentChapter={navigationData.current_chapter}
-                        prevChapter={navigationData.prev_chapter}
-                        nextChapter={navigationData.next_chapter}
-                        allChapters={navigationData.all_chapters}
-                    />
-                )} */}
+        
 
-        {/* <h1>{chapterData.title}</h1>
-                
-                <div ref={contentRef} className="chapter-content">
-                    {chapterData.content ? (
-                        <div 
-                            className="chapter-content-inner"
-                            dangerouslySetInnerHTML={{ __html: chapterData.content }} 
-                        />
-                    ) : (
-                        <p>Зміст глави відсутній.</p>
-                    )}
-                </div> */}
+        {/* Выпадающий список глав */}
+        {showChapterList && navigationData?.all_chapters && (
+          <div style={{ position: 'relative', display: 'flex', justifyContent: 'center' }}>
+            <div className="chapter-list-dropdown" style={{
+              position: 'absolute',
+              top: '0',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              backgroundColor: 'white',
+              border: '1px solid #ccc',
+              borderRadius: '8px',
+              boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+              zIndex: 1000,
+              maxHeight: '300px',
+              overflowY: 'auto',
+              minWidth: '300px',
+              marginTop: '10px'
+            }}>
+            <div style={{ padding: '10px', borderBottom: '1px solid #eee' }}>
+              <strong>Список глав:</strong>
+            </div>
+            {navigationData.all_chapters.map((chapter, index) => (
+              <div
+                key={chapter.slug}
+                onClick={() => handleChapterSelect(chapter.slug)}
+                style={{
+                  padding: '10px 15px',
+                  cursor: 'pointer',
+                  backgroundColor: chapter.slug === chapterSlug ? '#f0f0f0' : 'white',
+                  borderBottom: '1px solid #f0f0f0'
+                }}
+                onMouseEnter={(e) => e.target.style.backgroundColor = '#f5f5f5'}
+                onMouseLeave={(e) => e.target.style.backgroundColor = chapter.slug === chapterSlug ? '#f0f0f0' : 'white'}
+              >
+                <div style={{ fontWeight: chapter.slug === chapterSlug ? 'bold' : 'normal' }}>
+                  {index + 1}. {chapter.title}
+                </div>
+              </div>
+            ))}
+            </div>
+          </div>
+        )}
         <div className="header-chapter-detail">
           <div className="back">
-            <img src={ArrowChapter} />
-            <span>Попередній розділ</span>
+            {navigationData?.prev_chapter ? (
+              <Link to={`/books/${bookSlug}/chapters/${navigationData.prev_chapter.slug}`}>
+                <img src={ArrowChapter} alt="Previous chapter" />
+                <span>Попередній розділ</span>
+              </Link>
+            ) : (
+              <div>
+                <img src={ArrowChapter} alt="No previous chapter" />
+                <span>Попередній розділ</span>
+              </div>
+            )}
           </div>
           <div className="block-name-chapter">
             <img src={BgChapter} className="top-chapter" />
-            <div className="chapter-name">
-              <span>Назва глави</span>
+            <div className="chapter-name" onClick={toggleChapterList} style={{ cursor: 'pointer' }}>
+              <span>{chapterData.title || "Назва глави"}</span>
               <img className="ArrowNameChapter" src={ArrowNameChapter} />
             </div>
             <img src={BgChapter} className="bot-chapter" />
           </div>
           <div className="forward">
-            <span>Наступний розділ</span>
-            <img src={ArrowChapter} />
+            {navigationData?.next_chapter ? (
+              <Link to={`/books/${bookSlug}/chapters/${navigationData.next_chapter.slug}`}>
+                <span>Наступний розділ</span>
+                <img src={ArrowChapter} alt="Next chapter" />
+              </Link>
+            ) : (
+              <div>
+                <span>Наступний розділ</span>
+                <img src={ArrowChapter} alt="No next chapter" />
+              </div>
+            )}
           </div>
         </div>
-        <div className="content-chapter">
-          Чень Янь відчув, що хтось кликав його. – Ваша Високість, прошу,
-          прокиньтеся... – Він відвернувся, але голоси, які він чув, не зникли.
-          Насправді вони, навпаки, стали навіть гучнішими. Потім він відчув, що
-          хтось обережно смикає його за рукав. – Ваша Високість, мій наслідний
-          принц! Чень Янь різко розплющив очі. Добре знайома йому обстава
-          зникла, робочого столу ніде не було, і звичні перегородки, засіяні
-          поштовими адресами, зникли. Їх замінив дивний краєвид: кругла
-          громадська площа, яка з усіх боків була оточена маленькими цегляними
-          будиночками, та шибениця, яка булла встановлена в самому центрі площі.
-          Сам він сидів за столом з іншого боку від шибениці. Замість зручного
-          офісного крісла, що крутиться, він сидів на холодному залізному
-          стільці. Поруч із ним сиділа група людей, і всі вони уважно
-          спостерігали за ним. Деякі з них були одягнені як середньовічні лорди
-          та леді з цих західних кінофільмів і намагалися придушити смішки, що
-          виривалися назовні. Якого біса? Хіба я не поспішав закінчити креслення
-          механізмів до закінчення терміну? – думаючи про це, Чень Янь був
-          розгублений. Три дні поспіль він працював понаднормово. Так що
-          морально фізично він був на межі. Він невиразно пригадував, що ритм
-          серця став нерівним, і йому просто захотілося прилягти на стіл і
-          зробити перерву. – Ваша Високість, прошу, оголосіть Ваш вирок.
+        <div ref={contentRef} className="content-chapter">
+          {chapterData.content ? (
+            <div 
+              className="chapter-content-inner"
+              dangerouslySetInnerHTML={{ __html: chapterData.content }} 
+            />
+          ) : (
+            <p>Зміст глави відсутній.</p>
+          )}
         </div>
 
         <div className="footer-chapter">
           <div className="header-chapter-detail footer-name-chapter">
             <div className="back">
-              <img src={ArrowChapter} />
-              <span>Попередній розділ</span>
+              {navigationData?.prev_chapter ? (
+                <Link to={`/books/${bookSlug}/chapters/${navigationData.prev_chapter.slug}`}>
+                  <img src={ArrowChapter} alt="Previous chapter" />
+                  <span>Попередній розділ</span>
+                </Link>
+              ) : (
+                <div>
+                  <img src={ArrowChapter} alt="No previous chapter" />
+                  <span>Попередній розділ</span>
+                </div>
+              )}
             </div>
             <div className="block-name-chapter">
               <img src={BgChapter} className="top-chapter" />
-              <div className="chapter-name">
-                <span>Назва глави</span>
+              <div className="chapter-name" onClick={toggleChapterList} style={{ cursor: 'pointer' }}>
+                <span>{chapterData.title || "Назва глави"}</span>
                 <img className="ArrowNameChapter" src={ArrowNameChapter} />
               </div>
               <img src={BgChapter} className="bot-chapter" />
             </div>
             <div className="forward">
-              <span>Наступний розділ</span>
-              <img src={ArrowChapter} />
+              {navigationData?.next_chapter ? (
+                <Link to={`/books/${bookSlug}/chapters/${navigationData.next_chapter.slug}`}>
+                  <span>Наступний розділ</span>
+                  <img src={ArrowChapter} alt="Next chapter" />
+                </Link>
+              ) : (
+                <div>
+                  <span>Наступний розділ</span>
+                  <img src={ArrowChapter} alt="No next chapter" />
+                </div>
+              )}
             </div>
           </div>
         </div>
+
+        {/* Выпадающий список глав для нижней навигации */}
+        {showChapterList && navigationData?.all_chapters && (
+          <div style={{ position: 'relative', display: 'flex', justifyContent: 'center' }}>
+            <div className="chapter-list-dropdown" style={{
+              position: 'absolute',
+              top: '0',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              backgroundColor: 'white',
+              border: '1px solid #ccc',
+              borderRadius: '8px',
+              boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+              zIndex: 1000,
+              maxHeight: '300px',
+              overflowY: 'auto',
+              minWidth: '300px',
+              marginTop: '10px'
+            }}>
+            <div style={{ padding: '10px', borderBottom: '1px solid #eee' }}>
+              <strong>Список глав:</strong>
+            </div>
+            {navigationData.all_chapters.map((chapter, index) => (
+              <div
+                key={chapter.slug}
+                onClick={() => handleChapterSelect(chapter.slug)}
+                style={{
+                  padding: '10px 15px',
+                  cursor: 'pointer',
+                  backgroundColor: chapter.slug === chapterSlug ? '#f0f0f0' : 'white',
+                  borderBottom: '1px solid #f0f0f0'
+                }}
+                onMouseEnter={(e) => e.target.style.backgroundColor = '#f5f5f5'}
+                onMouseLeave={(e) => e.target.style.backgroundColor = chapter.slug === chapterSlug ? '#f0f0f0' : 'white'}
+              >
+                <div style={{ fontWeight: chapter.slug === chapterSlug ? 'bold' : 'normal' }}>
+                  {index + 1}. {chapter.title}
+                </div>
+              </div>
+            ))}
+            </div>
+          </div>
+        )}
+
         <div className="container-block-error-chapter">
         <div className="error-report-container">
           {!isSelectionMode ? (
@@ -460,81 +483,20 @@ const ChapterDetail = () => {
           selectedText={selectedText}
         />
 
-        {navigationData && (
-          <div className="chapter-navigation-buttons">
-            {navigationData.prev_chapter && (
-              <Link
-                to={`/books/${bookSlug}/chapters/${navigationData.prev_chapter.slug}`}
-                className="nav-button prev-button"
-              >
-                ← {navigationData.prev_chapter.title}
-              </Link>
-            )}
 
-            {navigationData.next_chapter && (
-              <Link
-                to={`/books/${bookSlug}/chapters/${navigationData.next_chapter.slug}`}
-                className="nav-button next-button"
-              >
-                {navigationData.next_chapter.title} →
-              </Link>
-            )}
-          </div>
-        )}
-
-        <div className="comments-section">
-          <h2>Коментарі</h2>
-          <div className={styles.inputComment}>
-            <input placeholder='Прокоментуйте...' type='text'/>
-            <button type='submit'><img src={RightArrow}></img></button>
-          </div>
-          <div className="comment-block">
-            <img className="user-img" src={CommentImg} />
-            <div className="all-text-comment">
-              <div className="info-user-comment">
-                <div className="name-user-comment">Констянтин Петрович</div>
-                <div className="last-seen">5 годин тому</div>
-              </div>
-              <div className="content-comment">
-                Вітання. Добро пожалувати в систему перекладів «UA Translate».
-                Цей сайт призначений для професійних мов любительських
-                перекладів будь-яких новелів, фанфіків, ранобе з різних мов.
-                Ваші улюблені ранобе, новели та інше на українській мові!
-              </div>
-              <div className="button-comment">
-                <div className="left-button-comment">
-                  <div className="favorite">
-                    <img src={Favorite} />
-                    <span>5</span>
-                  </div>
-                  <button>Відповісти</button>
-                </div>
-                <div className="right-button-comment">
-                  <img src={Trash} />
-                  <button>Видалити коментар</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          {/* {isAuthenticated ? (
-            <CommentForm onSubmit={handleCommentSubmit} />
-          ) : (
-            <p>Увійдіть, щоб залишити коментар</p>
-          )}
-          {comments.length > 0 ? (
-            comments.map((comment) => (
-              <Comment
-                key={comment.id}
-                comment={comment}
-                onReply={handleCommentSubmit}
-                onReaction={handleReaction}
-                isAuthenticated={isAuthenticated}
-              />
-            ))
-          ) : (
-            <p>Коментарів поки ще немає.</p>
-          )} */}
-        </div>
+        {/* Секция комментариев к главе */}
+        {(() => {
+          const isOwner = currentUser && 
+                          chapterData.book_id && 
+                          currentUser.id === chapterData.book_owner_id;
+          return (
+            <CommentSection 
+              type="chapter"
+              slug={chapterSlug} 
+              isOwner={isOwner}
+            />
+          );
+        })()}
       </Container>
     </section>
   );

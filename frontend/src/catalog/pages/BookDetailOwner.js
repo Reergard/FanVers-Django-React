@@ -25,7 +25,6 @@ import BlueDot from '../../main/pages/img/blue-dot.png';
 import Slider from "react-slick";
 // import { websiteAdvertisingAPI } from '../../api/website_advertising/website_advertisingAPI';
 import { mainAPI } from '../../api/main/mainAPI';
-import { reviewsAPI } from '../../api/reviews/reviewsAPI';
 import Edit from "./img/edit.svg";
 import Read from "./img/read.png";
 import Trash from "./img/Trash.svg";
@@ -124,103 +123,6 @@ const ExpandableTags = ({ title, className, items }) => {
   );
 };
 
-const CommentComponent = ({ comment, onReply, onReaction, onOwnerLike, isOwner, currentUser, getUserImage, formatDate, showReplyForm, setShowReplyForm, replyText, setReplyText, handleReplySubmit }) => {
-  const [localShowReplyForm, setLocalShowReplyForm] = useState(false);
-
-  const handleReplyClick = () => {
-    setLocalShowReplyForm(!localShowReplyForm);
-    setShowReplyForm(comment.id);
-  };
-
-  const handleLocalReplySubmit = (e) => {
-    handleReplySubmit(e, comment);
-  };
-
-  // Определяем, является ли это ответом на комментарий
-  const isReply = comment.parent !== null;
-
-  return (
-    <>
-      <div className={isReply ? styles.commentBlockReply : styles.commentBlock}>
-        <img className={styles.userImg} src={getUserImage(comment.user)} alt="User" />
-        <div className={styles.allTextComment}>
-          <div className={styles.infoUserComment}>
-            <div className={styles.nameUserComment}>{comment.user?.username || 'Невідомий користувач'}</div>
-            <div className={styles.lastSeen}>{formatDate(comment.created_at)}</div>
-          </div>
-          <div className={styles.contentComment}>{comment.text}</div>
-          <div className={styles.buttonComment}>
-            <div className={styles.leftButtonComment}>
-              <button onClick={() => onReaction(comment.id, 'like')}>
-                {comment.user_reaction === 'like' ? '❤️' : '🤍'} Лайк
-              </button>
-              <span>{comment.likes_count || 0}</span>
-              <button onClick={() => onReaction(comment.id, 'dislike')}>
-                {comment.user_reaction === 'dislike' ? '💔' : '🖤'} Дизлайк
-              </button>
-              <span>{comment.dislikes_count || 0}</span>
-              <button onClick={handleReplyClick}>Відповісти</button>
-            </div>
-            <div className={styles.rightButtonComment}>
-              {isOwner && (
-                <button onClick={() => onOwnerLike(comment.id)}>
-                  {comment.has_owner_like ? '✅' : '⭐'} {comment.owner_like_type || 'Автора'}
-                </button>
-              )}
-              {currentUser?.id === comment.user?.id && (
-                <>
-                  <img src={Trash} alt="Delete" />
-                  <button>Видалити коментар</button>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-        <img className={styles.LeftFooter} src={LeftFooter} alt="Left footer" />
-        <img className={styles.RightFooter} src={RightFooter} alt="Right footer" />
-      </div>
-      
-      {/* Форма ответа */}
-      {localShowReplyForm && (
-        <div className={styles.replyForm}>
-          <input
-            placeholder="Відповісти на коментар..."
-            type="text"
-            value={replyText}
-            onChange={(e) => setReplyText(e.target.value)}
-          />
-          <button onClick={handleLocalReplySubmit}>
-            <img src={RightArrow} alt="Submit" />
-          </button>
-        </div>
-      )}
-      
-      {/* Рекурсивно отображаем ответы */}
-      {comment.replies && comment.replies.length > 0 && (
-        <div className={styles.repliesContainer}>
-          {comment.replies.map((reply) => (
-            <CommentComponent
-              key={reply.id}
-              comment={reply}
-              onReply={onReply}
-              onReaction={onReaction}
-              onOwnerLike={onOwnerLike}
-              isOwner={isOwner}
-              currentUser={currentUser}
-              getUserImage={getUserImage}
-              formatDate={formatDate}
-              showReplyForm={showReplyForm}
-              setShowReplyForm={setShowReplyForm}
-              replyText={replyText}
-              setReplyText={setReplyText}
-              handleReplySubmit={handleReplySubmit}
-            />
-          ))}
-        </div>
-      )}
-    </>
-  );
-};
 
 const BookDetailOwner = ({ volumes = [], books = [] }) => {
 
@@ -231,11 +133,6 @@ const BookDetailOwner = ({ volumes = [], books = [] }) => {
   const [currentStartChapter, setCurrentStartChapter] = useState(1);
   const sliderRef = useRef(null);
   
-  // Состояние для комментариев
-  const [commentText, setCommentText] = useState('');
-  const [replyText, setReplyText] = useState('');
-  const [replyingTo, setReplyingTo] = useState(null);
-  const [showReplyForm, setShowReplyForm] = useState(null);
   
   // Состояние для модального окна создания тома
   const [isCreateVolumeModalOpen, setIsCreateVolumeModalOpen] = useState(false);
@@ -302,24 +199,6 @@ const BookDetailOwner = ({ volumes = [], books = [] }) => {
 
   // Other books теперь загружаются в BookDetailRouter и передаются как props
 
-  // Load comments for the book
-  const { data: comments = [], refetch: refetchComments } = useQuery({
-    queryKey: ['book-comments', slug],
-    queryFn: async () => {
-      try {
-        const commentsData = await reviewsAPI.fetchBookComments(slug);
-        console.log('Comments loaded:', commentsData);
-        return commentsData;
-      } catch (error) {
-        console.error('Error loading comments:', error);
-        return [];
-      }
-    },
-    enabled: !!slug,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    staleTime: 5 * 60 * 1000, // 5 минут
-  });
 
   // trackView теперь вызывается в BookDetailRouter, убираем дублирование
 
@@ -415,70 +294,6 @@ const BookDetailOwner = ({ volumes = [], books = [] }) => {
     setChapterPositions({});
   };
 
-  // Функции для работы с комментариями
-  const handleCommentSubmit = async (e) => {
-    e.preventDefault();
-    if (!commentText.trim() || !currentUser) return;
-
-    try {
-      await reviewsAPI.postBookComment(slug, commentText);
-      setCommentText('');
-      refetchComments();
-    } catch (error) {
-      console.error('Error posting comment:', error);
-      
-      // Показываем уведомление об ошибке доступа
-      if (error.response?.status === 403) {
-        showError(error.response?.data?.detail || 'У вас немає прав для коментування цієї книги');
-      } else {
-        showError('Помилка при відправці коментаря: ' + (error.message || 'Невідома помилка'));
-      }
-    }
-  };
-
-  const handleReplySubmit = async (e, parentComment) => {
-    e.preventDefault();
-    if (!replyText.trim() || !currentUser) return;
-
-    try {
-      await reviewsAPI.postBookComment(slug, replyText, parentComment.id);
-      setReplyText('');
-      setReplyingTo(null);
-      setShowReplyForm(null);
-      refetchComments();
-    } catch (error) {
-      console.error('Error posting reply:', error);
-      
-      // Показываем уведомление об ошибке доступа
-      if (error.response?.status === 403) {
-        showError(error.response?.data?.detail || 'У вас немає прав для коментування цієї книги');
-      } else {
-        showError('Помилка при відправці відповіді: ' + (error.message || 'Невідома помилка'));
-      }
-    }
-  };
-
-  const handleReaction = async (commentId, action) => {
-    if (!currentUser) return;
-
-    try {
-      await reviewsAPI.updateReaction(commentId, 'book', action);
-      refetchComments();
-    } catch (error) {
-      console.error('Error updating reaction:', error);
-    }
-  };
-
-  const handleOwnerLike = async (commentId) => {
-    if (!currentUser || !isOwner) return;
-
-    try {
-      await reviewsAPI.updateOwnerLike(commentId, 'book');
-      refetchComments();
-    } catch (error) {
-      console.error('Error updating owner like:', error);
-    }
-  };
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -602,14 +417,7 @@ const BookDetailOwner = ({ volumes = [], books = [] }) => {
                 <p>{authorName}</p>
               </div>
             </div>
-            {originalTitle !== '—' && (
-              <div className={styles.rightMobile}>
-                <div className={styles.tableBookMobileBlock}>
-                  <span>Оригінальна назва:</span>
-                  <p>{originalTitle}</p>
-                </div>
-              </div>
-            )}
+        
             <div className={styles.rightMobile}>
               <div className={styles.tableBookMobileBlock}>
                 <span>Перекладач:</span>
@@ -674,12 +482,6 @@ const BookDetailOwner = ({ volumes = [], books = [] }) => {
                       <td>Автор:</td>
                       <td>{authorName}</td>
                     </tr>
-                    {originalTitle !== '—' && (
-                      <tr>
-                        <td>Оригінальна назва:</td>
-                        <td>{originalTitle}</td>
-                      </tr>
-                    )}
                     <tr>
                       <td>Перекладач:</td>
                       <td>{translatorName}</td>
@@ -1001,52 +803,6 @@ const BookDetailOwner = ({ volumes = [], books = [] }) => {
           onRangeSelect={handleRangeSelect}
         />
       )}
-      {/* {isOwner ? (
-        <BookDetailOwner {...commonProps} />
-      ) : (
-        <BookDetailReader {...commonProps} />
-      )} */}
-      <div className={`comments-section ${styles.CommentsSection}`}>
-        <h2>Коментарі</h2>
-        {currentUser ? (
-          <form onSubmit={handleCommentSubmit} className={styles.inputComment}>
-            <input 
-              placeholder='Прокоментуйте...' 
-              type='text' 
-              value={commentText}
-              onChange={(e) => setCommentText(e.target.value)}
-            />
-            <button type='submit'><img src={RightArrow} alt="Submit" /></button>
-          </form>
-        ) : (
-          <p>Увійдіть, щоб залишити коментар</p>
-        )}
-        
-        {comments.length > 0 ? (
-          <div className={styles.commentsList}>
-            {comments.map((comment) => (
-              <CommentComponent
-                key={comment.id}
-                comment={comment}
-                onReply={handleReplySubmit}
-                onReaction={handleReaction}
-                onOwnerLike={handleOwnerLike}
-                isOwner={isOwner}
-                currentUser={currentUser}
-                getUserImage={getUserImage}
-                formatDate={formatDate}
-                showReplyForm={showReplyForm}
-                setShowReplyForm={setShowReplyForm}
-                replyText={replyText}
-                setReplyText={setReplyText}
-                handleReplySubmit={handleReplySubmit}
-              />
-            ))}
-          </div>
-        ) : (
-          <p>Коментарів поки ще немає.</p>
-        )}
-      </div>
       
       {/* Модальное окно для создания тома */}
       <ConfirmationModal
