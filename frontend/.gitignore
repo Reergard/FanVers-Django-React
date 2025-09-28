@@ -12,3 +12,5 @@ __pycache__/
 .venv
 env/
 ENV/
+dump.rdb
+*.rdb
