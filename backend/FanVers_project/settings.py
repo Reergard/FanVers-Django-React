@@ -24,6 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 environ.Env.read_env(BASE_DIR / ".env")  # Читаємо .env файл
 
 SECRET_KEY = env("SECRET_KEY")
+SIGNING_KEY = env("SIGNING_KEY", default=SECRET_KEY)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
@@ -249,7 +250,7 @@ SIMPLE_JWT = {
     'BLACKLIST_AFTER_ROTATION': True,
     'UPDATE_LAST_LOGIN': False,
     'ALGORITHM': 'HS256',
-    'SIGNING_KEY': SECRET_KEY,
+    'SIGNING_KEY': SIGNING_KEY,
     'VERIFYING_KEY': None,
     'AUDIENCE': None,
     'ISSUER': None,
@@ -305,7 +306,7 @@ CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers.DatabaseScheduler'
 
 
 
-USE_POSTGRES = env.bool("USE_POSTGRES")
+USE_POSTGRES = env.bool('USE_POSTGRES')
 
 if USE_POSTGRES:
     DATABASES = {
@@ -404,11 +405,8 @@ else:
     SECURE_SSL_REDIRECT = False
     SESSION_COOKIE_SECURE = False
     CSRF_COOKIE_SECURE = False
-    SECURE_PROXY_SSL_HEADER = None  # Временно отключаем для DEBUG
 
 # Настройки для работы за прокси (Nginx) - КРИТИЧНО для HTTPS редиректов
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-USE_X_FORWARDED_HOST = True
 
 # Налаштування для медіа файлів
 MEDIA_URL = '/media/'
@@ -493,3 +491,17 @@ CACHES = {
         'TIMEOUT': 300,  # 5 минут по умолчанию
     }
 }
+
+CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS', default=[])
+
+# --- Optional: override dev CORS from .env ---
+CORS_DEV_ORIGINS = env.list('CORS_DEV_ORIGINS', default=[])
+if DEBUG and CORS_DEV_ORIGINS:
+    CORS_ALLOWED_ORIGINS = CORS_DEV_ORIGINS
+
+# --- Proxy headers (work behind Nginx) ---
+if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    USE_X_FORWARDED_HOST = True
+else:
+    SECURE_PROXY_SSL_HEADER = None
