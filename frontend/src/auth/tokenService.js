@@ -1,151 +1,69 @@
-import axios from 'axios';
-import { handleAuthError } from './utils/authErrorUtils';
-import { API_URL } from '../api/instance';
+// Простое in-memory хранилище access токена + TTL
+let accessToken = null;
+let accessExp = 0; // epoch seconds
+
+const parseExp = (jwt) => {
+  try {
+    const payload = JSON.parse(atob(jwt.split(".")[1]));
+    return payload.exp || 0;
+  } catch {
+    return 0;
+  }
+};
 
 class TokenService {
-    constructor() {
-        this.refreshPromise = null;
-        this.tokenCheckInterval = null;
+  setAccess(token) {
+    accessToken = token || null;
+    accessExp = token ? parseExp(token) : 0;
+  }
+
+  clear() {
+    this.setAccess(null);
+  }
+
+  // Геттеры для проверки состояния токена
+  getAccessSync() { 
+    return accessToken; 
+  }
+  
+  hasAccess() { 
+    return !!accessToken; 
+  }
+
+  // Если access отсутствует или истекает < 90с — вызовет refreshFn (single-flight передают из instance.js)
+  async getValidAccess(refreshFn) {
+    const now = Math.floor(Date.now() / 1000);
+    const almostExpired = !accessToken || accessExp - now < 90;
+    if (almostExpired) {
+      const newToken = await refreshFn();
+      this.setAccess(newToken);
     }
+    return accessToken;
+  }
 
-    // Получить актуальный токен (с автоматическим обновлением)
-    async getValidToken() {
-        const token = localStorage.getItem('token');
-        const refreshToken = localStorage.getItem('refresh');
-        
-        if (!token || !refreshToken) {
-            throw new Error('Токени не знайдені');
-        }
-
-        // Проверяем, не истек ли токен
-        if (this.isTokenExpired(token)) {
-            console.log('Токен застарів, оновлюємо...');
-            return await this.refreshToken(refreshToken);
-        }
-
-        return token;
+  // Проверка срока действия токена (для совместимости)
+  isTokenExpired(token) {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const currentTime = Date.now() / 1000;
+      const bufferTime = 90; // 90 секунд буфера
+      
+      return payload.exp < (currentTime + bufferTime);
+    } catch (error) {
+      console.error('Помилка перевірки токена:', error);
+      return true;
     }
+  }
 
-    // Проверка срока действия токена
-    isTokenExpired(token) {
-        try {
-            const payload = JSON.parse(atob(token.split('.')[1]));
-            const currentTime = Date.now() / 1000;
-            const bufferTime = 300; // 5 минут буфера для надежности
-            
-            return payload.exp < (currentTime + bufferTime);
-        } catch (error) {
-            console.error('Помилка перевірки токена:', error);
-            return true; // В случае ошибки считаем токен недействительным
-        }
-    }
+  // Очистка токенов (для совместимости)
+  clearTokens() {
+    this.clear();
+  }
 
-    // Обновление токена
-    async refreshToken(refreshToken) {
-        if (this.refreshPromise) {
-            return await this.refreshPromise;
-        }
-
-        this.refreshPromise = (async () => {
-            try {
-                console.log('Оновлюємо токен...');
-                const response = await axios.post(`${API_URL}/auth/jwt/refresh/`, {
-                    refresh: refreshToken
-                });
-
-                const { access, refresh: newRefresh } = response.data || {};
-                if (!access) {
-                    throw new Error('Немає access токена в відповіді');
-                }
-
-                localStorage.setItem('token', access);
-                // Ротация refresh-токена, если сервер его вернул
-                if (newRefresh) {
-                    localStorage.setItem('refresh', newRefresh);
-                    console.log('Refresh токен також оновлено');
-                }
-                console.log('Токен успішно оновлено');
-                return access;
-
-            } catch (error) {
-                console.error('Помилка оновлення токена:', error);
-                const isNetwork = error?.code === 'ERR_NETWORK' || error?.message === 'Network Error';
-                const status = error?.response?.status;
-
-                if (isNetwork) {
-                    // сеть: НЕ чистим токены, позволяем повторить позже
-                    throw handleAuthError(error);
-                }
-                if (status === 400 || status === 401) {
-                    // invalid refresh – чистим
-                    this.clearTokens();
-                }
-                throw handleAuthError(error);
-            } finally {
-                this.refreshPromise = null;
-            }
-        })();
-
-        return await this.refreshPromise;
-    }
-
-    // Проверка валидности токенов без обновления
-    async validateTokens() {
-        try {
-            const token = localStorage.getItem('token');
-            const refreshToken = localStorage.getItem('refresh');
-            
-            if (!token || !refreshToken) {
-                return false;
-            }
-
-            if (this.isTokenExpired(token)) {
-                // Пытаемся обновить токен
-                await this.refreshToken(refreshToken);
-                return true;
-            }
-
-            return true;
-        } catch (error) {
-            console.error('Помилка валідації токенів:', error);
-            return false;
-        }
-    }
-
-    // Мониторинг токенов
-    startTokenMonitoring() {
-        // Если мониторинг уже запущен, не создаем новый интервал
-        if (this.tokenCheckInterval) {
-            console.log('Мониторинг токенов уже запущен');
-            return;
-        }
-        
-        // Проверяем токены каждые 4 минуты
-        this.tokenCheckInterval = setInterval(async () => {
-            try {
-                await this.validateTokens();
-            } catch (error) {
-                console.error('Помилка автоматичного оновлення токена:', error);
-            }
-        }, 4 * 60 * 1000); // 4 минуты
-        
-        console.log('Мониторинг токенов запущен');
-    }
-
-    // Остановка мониторинга
-    stopTokenMonitoring() {
-        if (this.tokenCheckInterval) {
-            clearInterval(this.tokenCheckInterval);
-            this.tokenCheckInterval = null;
-        }
-    }
-
-    // Очистка токенов
-    clearTokens() {
-        localStorage.removeItem('token');
-        localStorage.removeItem('refresh');
-        this.stopTokenMonitoring();
-    }
+  // Остановка мониторинга (для совместимости - больше не нужен)
+  stopTokenMonitoring() {
+    // Больше не нужен при cookie-схеме
+  }
 }
 
 export default new TokenService();

@@ -1,29 +1,32 @@
 import axios from 'axios';
+import tokenService from '../auth/tokenService';
 
 export const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api';
 
 export const api = axios.create({
   baseURL: API_URL,
+  withCredentials: true,  // Обязательно для cookie
 });
 
 let refreshPromise = null;
-let forcingLogout = false; // ⬅️ флаг "логаут выполняется/выполнен"
+let forcingLogout = false;
 
-const isAuthEndpoint = (url = '') =>
-  url.includes('/auth/jwt/refresh/') || url.includes('/auth/jwt/create/');
+const isAuthPath = (url = '') =>
+  url.includes('/users/login/') || url.includes('/users/refresh/') || url.includes('/users/logout/');
 
-const forceLogout = () => {
-  if (forcingLogout) return;        // ⬅️ не повторяем
+export const forceLogout = () => {
+  if (forcingLogout) return;
   forcingLogout = true;
-
+  
   try {
-    // Очищаємо localStorage
-    localStorage.removeItem('token');
-    localStorage.removeItem('refresh');
-    localStorage.removeItem('user');
+    // Очищаем access из памяти
+    tokenService.clear();
     
-    // Очищаємо заголовки axios
+    // Очищаем заголовки axios
     delete api.defaults.headers.common.Authorization;
+    
+    // Очищаем localStorage (для совместимости)
+    localStorage.removeItem('user');
     
     // Додаємо подію для очищення Redux state
     window.dispatchEvent(new CustomEvent('forceLogout'));
@@ -37,22 +40,35 @@ const forceLogout = () => {
   } catch (error) {
     console.error('Помилка при force logout:', error);
   } finally {
-    // важливо: розблокувати підстановку токенів для подальшого логіна без перезавантаження вкладки
     forcingLogout = false;
   }
 };
 
 api.interceptors.request.use(
-  (config) => {
-    // Якщо ми вже логаутимся — не підставляємо токен
-    if (!forcingLogout) {
-      const token = localStorage.getItem('token');
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-      } else {
-        // микрозащита от «застрявшего» дефолтного заголовка
-        delete config.headers.Authorization;
+  async (config) => {
+    if (isAuthPath(config.url)) return config;
+
+    // Гарантированно валидный access в заголовке
+    const token = await tokenService.getValidAccess(() => {
+      // Запускаем refresh один раз для всех запросов
+      if (!refreshPromise) {
+        refreshPromise = api.post('/users/refresh/', null, {
+          headers: { 'X-Requested-With': 'XMLHttpRequest' },
+        }).then((res) => {
+          tokenService.setAccess(res.data?.access);
+          return res.data?.access;
+        }).catch((e) => {
+          forceLogout();
+          throw e;
+        }).finally(() => {
+          refreshPromise = null;
+        });
       }
+      return refreshPromise;
+    });
+
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
     }
 
     // Не форсим Content-Type для FormData
@@ -66,133 +82,32 @@ api.interceptors.request.use(
 );
 
 api.interceptors.response.use(
-  (response) => response,
+  (r) => r,
   async (error) => {
-    const originalRequest = error.config;
-    if (!originalRequest) return Promise.reject(error);
+    const { config, response } = error || {};
+    if (!config || isAuthPath(config.url)) return Promise.reject(error);
 
-    // якщо вже в процесі форс-логаута — просто пробрасываем ошибку
-    if (forcingLogout) return Promise.reject(error);
-
-    // не рефрешим auth ендпоінти
-    if (isAuthEndpoint(originalRequest?.url)) {
-      return Promise.reject(error);
-    }
-
-    // Обробляємо помилки з'єднання
-    if (error.code === 'ERR_NETWORK' || error.message === 'Network Error') {
-      console.error('Помилка з\'єднання з сервером:', error.message);
-      return Promise.reject(error);
-    }
-
-    // 401: пробуем refresh один раз
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
-
-      // якщо немає токена або refresh — одразу виходимо
-      const token = localStorage.getItem('token');
-      const refreshToken = localStorage.getItem('refresh');
-      
-      // 🔸 Гость без токенов — просто отдаем ошибку наверх, НИКАКИХ forceLogout
-      if (!token && !refreshToken) {
-        console.log('Гость без токенов, возвращаем 401 без forceLogout');
-        return Promise.reject(error);
-      }
-      
-      if (!token || !refreshToken) {
-        console.log('Немає токенів для refresh, виконуємо logout');
+    if (response?.status === 401 && !config.__retried) {
+      try {
+        config.__retried = true;
+        const newToken = await tokenService.getValidAccess(() => {
+          if (!refreshPromise) {
+            refreshPromise = api.post('/users/refresh/', null, {
+              headers: { 'X-Requested-With': 'XMLHttpRequest' },
+            }).then((res) => {
+              tokenService.setAccess(res.data?.access);
+              return res.data?.access;
+            }).finally(() => (refreshPromise = null));
+          }
+          return refreshPromise;
+        });
+        config.headers.Authorization = `Bearer ${newToken}`;
+        return api(config);
+      } catch {
         forceLogout();
         return Promise.reject(error);
       }
-
-      // якщо refresh вже йде — дочекатися
-      if (refreshPromise) {
-        try {
-          await refreshPromise;
-          const newToken = localStorage.getItem('token');
-          if (!newToken) {
-            console.log('Refresh не повернув новий токен, logout');
-            forceLogout();
-            return Promise.reject(error);
-          }
-          originalRequest.headers = {
-            ...(originalRequest.headers || {}),
-            Authorization: `Bearer ${newToken}`,
-          };
-          return api(originalRequest);
-        } catch (e) {
-          const isNetwork = e?.code === 'ERR_NETWORK' || e?.message === 'Network Error';
-          const status = e?.response?.status;
-
-          // Логаутим ТОЛЬКО при реально невалидном refresh
-          if (!isNetwork && (status === 400 || status === 401)) {
-            forceLogout();
-          }
-          // при сетевых/прочих - не логаутим, просто пробрасываем
-          return Promise.reject(e);
-        }
-      }
-
-      // запустити refresh
-      refreshPromise = (async () => {
-        try {
-          console.log('Виконуємо refresh токена...');
-          const resp = await axios.post(`${API_URL}/auth/jwt/refresh/`, {
-            refresh: refreshToken,
-          });
-          const { access, refresh: newRefresh } = resp.data || {};
-          if (!access) throw new Error('No access in refresh response');
-
-          localStorage.setItem('token', access);
-          // Ротация refresh-токена, если сервер его вернул
-          if (newRefresh) {
-            localStorage.setItem('refresh', newRefresh);
-            console.log('Refresh токен також оновлено');
-          }
-          api.defaults.headers.common.Authorization = `Bearer ${access}`;
-          console.log('Refresh токена успішний');
-          return access;
-        } catch (e) {
-          console.log('Refresh токена не вдався:', e.message);
-          const isNetwork = e?.code === 'ERR_NETWORK' || e?.message === 'Network Error';
-          const status = e?.response?.status;
-
-          if (isNetwork) {
-            // сеть упала – НЕ логаутим, просто пробрасываем ошибку
-            throw e;
-          }
-          if (status === 400 || status === 401) {
-            // реально невалидный refresh – логаут
-            forceLogout();
-          } else {
-            // любые другие статусы – не логаутим
-            throw e;
-          }
-          throw e;
-        } finally {
-          refreshPromise = null;
-        }
-      })();
-
-      try {
-        await refreshPromise;
-        const newToken = localStorage.getItem('token');
-        if (!newToken) {
-          console.log('Немає нового токена після refresh, logout');
-          forceLogout();
-          return Promise.reject(error);
-        }
-        originalRequest.headers = {
-          ...(originalRequest.headers || {}),
-          Authorization: `Bearer ${newToken}`,
-        };
-        return api(originalRequest);
-      } catch (e) {
-        // важливий момент: пробрасываем ПРИЧИНУ, а не исходную ошибку
-        return Promise.reject(e);
-      }
     }
-
     return Promise.reject(error);
   }
 );

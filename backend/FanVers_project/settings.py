@@ -204,6 +204,10 @@ REST_FRAMEWORK = {
         'profile': '60/min',       # профили (разумный лимит)
         'monitoring': '10/min',    # мониторинг статистики
         'thanks': '5/min',         # благодарности авторам
+        # Auth endpoints
+        'auth_login': '5/min',     # логин
+        'auth_refresh': '30/min',  # обновление токенов
+        'auth_logout': '20/min',   # логаут
     }
 }
 
@@ -243,9 +247,9 @@ SITE_NAME = "FanVers"
 
 # Налаштування SimpleJWT
 SIMPLE_JWT = {
-    'AUTH_HEADER_TYPES': ('Bearer', 'JWT'),  # Підтримка обох префіксів
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'AUTH_HEADER_TYPES': ('Bearer',),  # Тільки Bearer для безпеки
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),  # 15 хвилин
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),  # 7 днів
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
     'UPDATE_LAST_LOGIN': False,
@@ -255,7 +259,7 @@ SIMPLE_JWT = {
     'AUDIENCE': None,
     'ISSUER': None,
     'JWK_URL': None,
-    'LEEWAY': 0,
+    'LEEWAY': 120,  # 2 хвилини буфера для стабільності
     'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
     'USER_ID_FIELD': 'id',
     'USER_ID_CLAIM': 'user_id',

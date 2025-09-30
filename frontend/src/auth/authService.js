@@ -19,12 +19,11 @@ const authService = {
 
     login: async (userData) => {
         try {
-            const response = await api.post('/auth/jwt/create/', userData);
-            if (response.data) {
-                localStorage.setItem('token', response.data.access);
-                localStorage.setItem('refresh', response.data.refresh);
-            }
-            return response.data;
+            const { data } = await api.post('/users/login/', userData, {
+                headers: { 'X-Requested-With': 'XMLHttpRequest' },
+            });
+            tokenService.setAccess(data?.access); // refresh пришёл кукой HttpOnly
+            return data;
         } catch (error) {
             // Используем новую систему обработки ошибок
             const userMessage = handleAuthError(error);
@@ -32,14 +31,12 @@ const authService = {
         }
     },
 
-    logout: () => {
-        tokenService.clearTokens();
-        // Очищаем заголовки axios при обычном логауте
-        if (typeof window !== 'undefined') {
-            delete api.defaults.headers.common.Authorization;
+    logout: async () => {
+        try {
+            await api.post('/users/logout/');
+        } finally {
+            tokenService.clear();
         }
-        // Останавливаем мониторинг токенов при обычном логауте
-        tokenService.stopTokenMonitoring();
     },
 
     activate: async (userData) => {
@@ -127,10 +124,15 @@ const authService = {
         }
     },
 
-    // Новый метод для проверки токенов
+    // Метод для проверки токенов (если нужен)
     checkTokens: async () => {
         try {
-            await tokenService.getValidToken();
+            // Проверяем и обновляем токен если нужно
+            await tokenService.getValidAccess(() =>
+                api.post('/users/refresh/', null, { 
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' } 
+                }).then(r => r.data?.access)
+            );
             return true;
         } catch (error) {
             console.error('authService.checkTokens error:', error);

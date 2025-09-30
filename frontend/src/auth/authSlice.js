@@ -7,7 +7,7 @@ const initialState = {
     user: user ? user : null,
     userInfo: {},
     isAuthenticated: false, // НЕ определяем по localStorage, только после успешной загрузки профиля
-    hasToken: typeof window !== 'undefined' ? !!localStorage.getItem('token') : false, // Синхронно проверяем наличие токена
+    hasToken: false, // Теперь проверяем только в памяти через tokenService
     isError: false,
     isSuccess: false,
     isLoading: true, // Стартуем в состоянии загрузки
@@ -170,9 +170,8 @@ export const authSlice = createSlice({
             state.isLoading = false;
             state.message = "";
             state.hasToken = false; // Сбрасываем флаг токена
+            // Access токен уже очищен в памяти через tokenService.clear
             if (typeof window !== 'undefined') {
-                localStorage.removeItem('token'); // Очищаем токен
-                localStorage.removeItem('refresh'); // Очищаем refresh
                 localStorage.removeItem('user'); // Очищаем пользователя
             }
         },
@@ -213,7 +212,7 @@ export const authSlice = createSlice({
                 };
                 state.hasToken = true; // Фиксируем наличие токена после успешного логина
                 // НЕ встановлюємо userInfo тут - він буде завантажений через getProfile
-                // Токены уже записаны в authService.login, не дублируем здесь
+                // Access токен уже записан в память через tokenService.setAccess
             })
             .addCase(login.rejected, (state, action) => {
                 state.isLoading = false;
@@ -232,8 +231,7 @@ export const authSlice = createSlice({
                 state.isLoading = false;
                 state.message = "";
                 state.hasToken = false; // Сбрасываем флаг токена
-                localStorage.removeItem('token'); // Очищаем токен
-                localStorage.removeItem('refresh'); // Очищаем refresh для консистентности
+                // Access токен уже очищен в памяти через tokenService.clear
                 localStorage.removeItem('user'); // Очищаем пользователя
             })
             .addCase(activate.pending, (state) => {
@@ -311,9 +309,8 @@ export const authSlice = createSlice({
                     state.isAuthenticated = false;
                     state.user = null;
                     state.hasToken = false;
+                    // Access токен уже очищен в памяти через tokenService.clear
                     if (typeof window !== 'undefined') {
-                        localStorage.removeItem('token');
-                        localStorage.removeItem('refresh');
                         localStorage.removeItem('user');
                     }
                 } else {
