@@ -5,18 +5,48 @@ from rest_framework.decorators import api_view, permission_classes, parser_class
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.throttling import ScopedRateThrottle
+from rest_framework.exceptions import AuthenticationFailed
 import logging
 from django.db import transaction
 from django.contrib.auth import update_session_auth_hash
 from django.core.files.storage import default_storage
+from django.conf import settings
 import os
 import time
 
 logger = logging.getLogger(__name__)
+
+# Константи для cookie-based refresh
+REFRESH_COOKIE_NAME = "refresh_token"
+REFRESH_MAX_AGE = 60 * 60 * 24 * 7  # 7 днів
+
+def _cookie_params():
+    """Параметри для refresh cookie"""
+    import os
+    secure = not settings.DEBUG
+    samesite = os.getenv('SAME_SITE_COOKIE', 'Lax')  # Lax для same-site, None для cross-site
+    domain = os.getenv('SESSION_COOKIE_DOMAIN', None)  # для піддоменів можна .example.com
+    return dict(
+        httponly=True,
+        secure=secure,
+        samesite=samesite,
+        domain=domain,
+        path='/',     # кука видна всьому сайту
+        max_age=REFRESH_MAX_AGE,
+    )
+
+def set_refresh_cookie(response, refresh_str: str):
+    """Встановити refresh cookie"""
+    response.set_cookie(REFRESH_COOKIE_NAME, refresh_str, **_cookie_params())
+
+def del_refresh_cookie(response):
+    """Видалити refresh cookie"""
+    params = _cookie_params()
+    response.delete_cookie(REFRESH_COOKIE_NAME, path=params["path"], domain=params["domain"])
 
 from apps.users.api.serializers import (
     ProfileSerializer, 
@@ -70,45 +100,80 @@ class RegisterView(APIView):
 
 
 class LoginView(APIView):
-    # throttle_classes = [ProfileThrottle]  # Розкоментувати на продакшені
+    permission_classes = [AllowAny]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = "auth_login"
 
     def post(self, request):
         username = request.data.get('username')
         password = request.data.get('password')
-        user = authenticate(username=username, password=password)
-        if user:
-            refresh = RefreshToken.for_user(user)
-            return Response({
-                'refresh': str(refresh),
-                'access': str(refresh.access_token),
-            })
-        return Response(
-            {'error': 'Невірні облікові дані'}, 
-            status=status.HTTP_401_UNAUTHORIZED
-        )
+        user = authenticate(request, username=username, password=password)
+        if not user:
+            raise AuthenticationFailed("Невірні облікові дані")
+
+        refresh = RefreshToken.for_user(user)
+        access = str(refresh.access_token)
+
+        resp = Response({"access": access}, status=status.HTTP_200_OK)
+        set_refresh_cookie(resp, str(refresh))
+        return resp
 
 
 class LogoutView(APIView):
-    permission_classes = [IsAuthenticated]
-    # throttle_classes = [ProfileThrottle]  # Розкоментувати на продакшені
+    permission_classes = [AllowAny]  # Более дружелюбный логаут
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = "auth_logout"
 
     def post(self, request):
-        try:
-            refresh_token = request.data.get("refresh_token")
-            if refresh_token:
-                token = RefreshToken(refresh_token)
+        # Пытаемся заблэклистить refresh из cookie
+        refresh_cookie = request.COOKIES.get(REFRESH_COOKIE_NAME)
+        if refresh_cookie:
+            try:
+                token = RefreshToken(refresh_cookie)
                 token.blacklist()
-                return Response(status=status.HTTP_205_RESET_CONTENT)
-            return Response(
-                {'error': 'Потрібен refresh token'}, 
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        except Exception as e:
-            logger.error(f"Помилка виходу: {str(e)}", exc_info=True)
-            return Response(
-                {'error': 'Невірний токен'}, 
-                status=status.HTTP_400_BAD_REQUEST
-            )
+            except Exception:
+                pass
+
+        resp = Response(status=status.HTTP_205_RESET_CONTENT)
+        del_refresh_cookie(resp)
+        return resp
+
+
+class CookieTokenRefreshView(APIView):
+    permission_classes = [AllowAny]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = "auth_refresh"
+
+    def post(self, request):
+        # Бюджетная защита от CSRF: требуем X-Requested-With
+        if request.headers.get("X-Requested-With") != "XMLHttpRequest":
+            return Response({"detail": "Bad CSRF context"}, status=status.HTTP_403_FORBIDDEN)
+
+        refresh_cookie = request.COOKIES.get(REFRESH_COOKIE_NAME)
+        if not refresh_cookie:
+            return Response({"detail": "No refresh cookie"}, status=status.HTTP_401_UNAUTHORIZED)
+
+        try:
+            old = RefreshToken(refresh_cookie)
+            # Ротация: заносим старый в blacklist (если включен), выдаем новый refresh и access
+            try:
+                old.blacklist()
+            except Exception:
+                pass  # на случай, если blacklist app не подключен
+
+            user_id = old.get("user_id")
+            User = get_user_model()
+            user = User.objects.get(id=user_id)
+
+            new_refresh = RefreshToken.for_user(user)
+            new_access = str(new_refresh.access_token)
+
+            resp = Response({"access": new_access}, status=status.HTTP_200_OK)
+            set_refresh_cookie(resp, str(new_refresh))
+            return resp
+
+        except Exception:
+            return Response({"detail": "Invalid refresh"}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 class UserProfileView(APIView):

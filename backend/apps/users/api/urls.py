@@ -5,7 +5,7 @@ from .views import (
     change_password, update_notification_settings, get_translators_list,
     get_authors_list, get_user_profile, become_translator, become_author,
     save_token_view, RegisterView, LoginView, LogoutView, AuthStatusView,
-    get_user_statistics
+    get_user_statistics, CookieTokenRefreshView
 )
 from .balance_views import (
     AddBalanceView, withdraw_balance, update_balance, purchase_chapter
@@ -42,6 +42,7 @@ urlpatterns = [
     # Auth
     path('register/', RegisterView.as_view(), name='register'),
     path('login/', LoginView.as_view(), name='login'),
+    path('refresh/', CookieTokenRefreshView.as_view(), name='refresh'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('auth-status/', AuthStatusView.as_view(), name='auth_status'),
     path('token/save/', save_token_view, name='save_token'),

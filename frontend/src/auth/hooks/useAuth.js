@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProfile, forceLogout, setIsAuthenticated } from '../authSlice';
+import { getProfile, forceLogout, setIsAuthenticated, setHasToken } from '../authSlice';
 import { useLocation } from 'react-router-dom';
 import tokenService from '../tokenService';
 
@@ -24,7 +24,8 @@ export const useAuth = () => {
 
   useEffect(() => {
     const now = Date.now();
-    const hasToken = !!localStorage.getItem('token');
+    // Проверяем наличие токена в памяти через tokenService
+    const hasToken = tokenService.hasAccess();
     const timeSinceLastRequest = now - lastRequestTime.current;
 
     // Діагностичне логування - только при изменении условий
@@ -51,7 +52,6 @@ export const useAuth = () => {
       requestedRef.current = false;
       // Если токена нет — гарантированно считаем неавторизованным,
       // чтобы логика редиректов со страницы логина не уносила на "/"
-      const hasToken = !!localStorage.getItem('token');
       if (!hasToken) {
         if (isAuthenticated) dispatch(setIsAuthenticated(false));
       }
@@ -127,39 +127,22 @@ export const useAuth = () => {
         dispatch(setIsAuthenticated(true));
       }
     }
-  }, [dispatch, isLoading, isError, isPublic, pathname, userInfo]);
+  }, [dispatch, isLoading, isError, isPublic, pathname, userInfo, isAuthenticated]);
 
-  // Дополнительный эффект для мониторинга токенов
-  useEffect(() => {
-    // ВРЕМЕННО ОТКЛЮЧАЕМ ПРОВЕРКУ ТОКЕНОВ ДЛЯ ДИАГНОСТИКИ
-    // if (!isPublic && isAuthenticated) {
-    //   // Проверяем токены каждые 2 минуты
-    //   const tokenCheckInterval = setInterval(async () => {
-    //     try {
-    //       const isValid = await tokenService.getValidToken();
-    //       if (!isValid) {
-    //         console.log('useAuth: Токени недійсні, виконуємо logout');
-    //         dispatch(forceLogout());
-    //       }
-    //     } catch (error) {
-    //       console.error('useAuth: Помилка перевірки токенів:', error);
-    //       dispatch(forceLogout());
-    //     }
-    //   }, 2 * 60 * 1000); // 2 минуты
-
-    //   return () => clearInterval(tokenCheckInterval);
-    // }
-  }, [dispatch, isPublic, isAuthenticated]);
+  // Мониторинг токенов больше не нужен при cookie-схеме
+  // Токены автоматически обновляются через интерсепторы и bootstrap хук
 
   // Обработчик forceLogout для сброса локальных флагов
   useEffect(() => {
     const onForceLogout = () => {
       requestedRef.current = false;
       lastRequestTime.current = 0;
+      // Синхронизируем hasToken с реальным состоянием
+      dispatch(setHasToken(false));
     };
     window.addEventListener('forceLogout', onForceLogout);
     return () => window.removeEventListener('forceLogout', onForceLogout);
-  }, []);
+  }, [dispatch]);
 
   return { user, isSuccess, isLoading, isError, userInfo, isAuthenticated };
 };

@@ -2,7 +2,9 @@ import { api } from '../instance';
 
 export const authAPI = {
     login: async (userData) => {
-        const response = await api.post('/auth/jwt/create/', userData);
+        const response = await api.post('/users/login/', userData, {
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        });
         return response;
     },
     
