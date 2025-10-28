@@ -1,7 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// если у тебя точка входа НЕ /src/index.tsx, просто поправь путь в index.html
 export default defineConfig({
   plugins: [react()],
   define: {
@@ -10,23 +9,29 @@ export default defineConfig({
   esbuild: {
     loader: 'jsx',
     include: /src\/.*\.[jt]sx?$/,
-    exclude: []
+    exclude: [],
   },
   optimizeDeps: {
     esbuildOptions: {
       loader: {
-        '.js': 'jsx'
-      }
-    }
+        '.js': 'jsx',
+      },
+    },
   },
   server: {
-    proxy: {
-      // Прокси на Django во время dev
-      '/api': { target: 'http://127.0.0.1:8000', changeOrigin: true }
-    }
+    host: '127.0.0.1',
+    port: 5173,
+    strictPort: true,
+    origin: 'https://fan-vers.com',
+    hmr: {
+      protocol: 'wss',
+      host: 'fan-vers.com',
+      clientPort: 443,
+    },
   },
   build: {
-    outDir: 'dist',           // куда собирать (оставляем по умолчанию)
-    sourcemap: true
-  }
+    outDir: 'dist',
+    sourcemap: true,
+  },
 })
+
