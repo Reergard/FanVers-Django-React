@@ -382,7 +382,11 @@ USE_TZ = True
 
 # Налаштування для статичних файлів
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
+STATIC_ROOT = os.getenv(
+    "DJANGO_STATIC_ROOT",
+    os.path.join(BASE_DIR, "staticfiles")
+)
 
 # Налаштування безпеки для завантаження файлів
 SECURE_CONTENT_TYPE_NOSNIFF = True

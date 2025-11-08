@@ -86,21 +86,34 @@ def save_token_view(request):
 class RegisterView(APIView):
     # throttle_classes = [ProfileThrottle]  # Розкоментувати на продакшені
 
+    permission_classes = [AllowAny]
+    authentication_classes = []  # чтобы CSRF/Session не мешали на JWT-эндпоинте
+
     def post(self, request):
         serializer = CreateUserSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
             refresh = RefreshToken.for_user(user)
-            return Response({
+            access = str(refresh.access_token)
+
+            resp = Response({
                 'user': serializer.data,
-                'refresh': str(refresh),
-                'access': str(refresh.access_token),
+                'access': access,
+                # можно оставить 'refresh' в теле или убрать — фронт его не читает
+                # 'refresh': str(refresh),
             }, status=status.HTTP_201_CREATED)
+
+            # ВАЖНО: ставим refresh в HttpOnly cookie (как в LoginView)
+            set_refresh_cookie(resp, str(refresh))
+            return resp
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 class LoginView(APIView):
     permission_classes = [AllowAny]
+    authentication_classes = []
     throttle_classes = [ScopedRateThrottle]
     throttle_scope = "auth_login"
 
