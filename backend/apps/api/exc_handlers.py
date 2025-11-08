@@ -1,5 +1,6 @@
 from rest_framework.views import exception_handler
-from rest_framework.exceptions import Throttled
+from rest_framework.exceptions import Throttled, PermissionDenied
+from django.core.exceptions import PermissionDenied as DjangoPermissionDenied
 import logging
 
 logger = logging.getLogger(__name__)
@@ -7,12 +8,18 @@ logger = logging.getLogger(__name__)
 def drf_exception_handler(exc, context):
     """
     Кастомный обработчик исключений для DRF
-    Добавляет детальную информацию для 429 ошибок
+    Добавляет детальную информацию для 429 ошибок и логирует 403 ошибки
     """
+    request = context.get("request")
+    view = context.get("view")
+    
+    # Логируем 403 ошибки для диагностики
+    if isinstance(exc, (PermissionDenied, DjangoPermissionDenied)):
+        logger.error(f"403 Permission Denied: {request.path if request else 'N/A'} - {str(exc)}")
+    
     response = exception_handler(exc, context)
     
     if isinstance(exc, Throttled) and response is not None:
-        view = context.get("view")
         scope = getattr(view, "throttle_scope", None)
         
         # Детальная информация для фронтенда

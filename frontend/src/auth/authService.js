@@ -42,8 +42,11 @@ const authService = {
         headers: { 'X-Requested-With': 'XMLHttpRequest' },
       });
       if (data?.access) {
-        if (typeof tokenService.setAccess === 'function') tokenService.setAccess(data.access);
-        else if (typeof tokenService.set === 'function') tokenService.set(data.access);
+        if (typeof tokenService.setAccess === 'function') {
+          tokenService.setAccess(data.access);
+        } else if (typeof tokenService.set === 'function') {
+          tokenService.set(data.access);
+        }
       }
       return data;
     } catch (error) {
@@ -54,10 +57,23 @@ const authService = {
 
   logout: async () => {
     try {
-      await api.post('/users/logout/');
+      // Получаем CSRF token перед logout
+      const { getCsrfToken } = await import('../utils/csrfToken');
+      const csrfToken = await getCsrfToken(api);
+      
+      await api.post('/users/logout/', null, {
+        headers: {
+          'X-CSRFToken': csrfToken,
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      });
     } finally {
       if (typeof tokenService.clear === 'function') tokenService.clear();
       else if (typeof tokenService.clearAccess === 'function') tokenService.clearAccess();
+      
+      // Очищаем CSRF token при logout
+      const { clearCsrfToken } = await import('../utils/csrfToken');
+      clearCsrfToken();
     }
   },
 
@@ -66,6 +82,16 @@ const authService = {
       // если активация у тебя тоже кастомная — потом поменяем, пока оставил как было
       const response = await api.post('/auth/users/activation/', userData);
       return response.data;
+    } catch (error) {
+      const userMessage = handleAuthError(error);
+      throw userMessage;
+    }
+  },
+
+  getProfile: async () => {
+    try {
+      const { data } = await api.get('/users/profile/');
+      return data;
     } catch (error) {
       const userMessage = handleAuthError(error);
       throw userMessage;

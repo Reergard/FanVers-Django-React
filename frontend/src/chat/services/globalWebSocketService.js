@@ -15,24 +15,22 @@ class GlobalWebSocketService {
 
     async connect() {
         if (this.isConnected || this.socket?.readyState === WebSocket.OPEN) {
-            console.log('🔔 [GlobalWebSocket] Already connected');
             return;
         }
 
         try {
-            const token = await tokenService.getValidToken();
+            // Используем getAccessSync() для синхронного получения токена
+            // или getValidAccess() если нужен refresh
+            const token = tokenService.getAccessSync ? tokenService.getAccessSync() : null;
             if (!token) {
-                console.error('🔔 [GlobalWebSocket] No token available');
                 return;
             }
 
             const wsUrl = `ws://127.0.0.1:8000/ws/counter/?token=${token}`;
-            console.log('🔔 [GlobalWebSocket] Connecting to:', wsUrl);
 
             this.socket = new WebSocket(wsUrl);
 
             this.socket.onopen = () => {
-                console.log('🔔 [GlobalWebSocket] ✅ Connected');
                 this.isConnected = true;
                 this.reconnectAttempts = 0;
                 this.startPingInterval();
@@ -41,7 +39,6 @@ class GlobalWebSocketService {
             this.socket.onmessage = (event) => {
                 try {
                     const data = JSON.parse(event.data);
-                    console.log('🔔 [GlobalWebSocket] Received:', data);
                     
                     if (data.type === 'message') {
                         // Обновляем счетчик непрочитанных сообщений
@@ -59,27 +56,25 @@ class GlobalWebSocketService {
                                 }, 
                                 currentUsername: currentUsername
                             }));
-                            console.log('🔔 [GlobalWebSocket] ✅ Counter updated');
                         }
                     }
                 } catch (error) {
-                    console.error('🔔 [GlobalWebSocket] Error parsing message:', error);
+                    // Ignore parsing errors
                 }
             };
 
             this.socket.onclose = () => {
-                console.log('🔔 [GlobalWebSocket] ❌ Disconnected');
                 this.isConnected = false;
                 this.stopPingInterval();
                 this.attemptReconnect();
             };
 
             this.socket.onerror = (error) => {
-                console.error('🔔 [GlobalWebSocket] ❌ Error:', error);
+                // Connection errors are handled by onclose
             };
 
         } catch (error) {
-            console.error('🔔 [GlobalWebSocket] Connection error:', error);
+            // Connection errors are handled by onerror/onclose
         }
     }
 
@@ -111,13 +106,10 @@ class GlobalWebSocketService {
     attemptReconnect() {
         if (this.reconnectAttempts < this.maxReconnectAttempts) {
             this.reconnectAttempts++;
-            console.log(`🔔 [GlobalWebSocket] Reconnecting... (${this.reconnectAttempts}/${this.maxReconnectAttempts})`);
             
             setTimeout(async () => {
                 await this.connect();
             }, this.reconnectInterval);
-        } else {
-            console.error('🔔 [GlobalWebSocket] Max reconnection attempts reached');
         }
     }
 }

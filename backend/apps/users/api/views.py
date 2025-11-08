@@ -10,6 +10,11 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.throttling import ScopedRateThrottle
 from rest_framework.exceptions import AuthenticationFailed
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+# CSRF защита:
+# - LoginView и RegisterView используют @csrf_exempt (не требуют CSRF)
+# - CookieTokenRefreshView и LogoutView НЕ используют @csrf_exempt (требуют CSRF через CsrfViewMiddleware)
 import logging
 from django.db import transaction
 from django.contrib.auth import update_session_auth_hash
@@ -25,16 +30,29 @@ REFRESH_COOKIE_NAME = "refresh_token"
 REFRESH_MAX_AGE = 60 * 60 * 24 * 7  # 7 днів
 
 def _cookie_params():
-    """Параметри для refresh cookie"""
+    """
+    Параметри для refresh cookie
+    ВАЖНО: Настройки зависят от DEBUG режима для правильной работы в dev/prod
+    """
     import os
+    # Secure: только HTTPS в продакшене
     secure = not settings.DEBUG
-    samesite = os.getenv('SAME_SITE_COOKIE', 'Lax')  # Lax для same-site, None для cross-site
-    domain = os.getenv('SESSION_COOKIE_DOMAIN', None)  # для піддоменів можна .example.com
+    
+    # SameSite: Lax для защиты от CSRF, но позволяет cross-site навигацию
+    # В dev можно использовать Lax, в prod тоже Lax (если фронт и API на одном домене)
+    samesite = os.getenv('SAME_SITE_COOKIE', 'Lax')
+    
+    # Domain: не устанавливаем в dev (localhost), в prod можно указать .fan-vers.com для поддоменов
+    domain = None
+    if not settings.DEBUG:
+        domain = os.getenv('SESSION_COOKIE_DOMAIN', None)  # для піддоменів можна .fan-vers.com
+    
+    
     return dict(
         httponly=True,
         secure=secure,
         samesite=samesite,
-        domain=domain,
+        domain=domain,  # None в dev, может быть установлен в prod
         path='/',     # кука видна всьому сайту
         max_age=REFRESH_MAX_AGE,
     )
@@ -66,6 +84,28 @@ from apps.users.models import Profile
 User = get_user_model()
 
 
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_csrf_token(request):
+    """
+    Endpoint для получения CSRF token.
+    
+    ВАЖНО:
+    - GET запросы НЕ требуют CSRF проверки (CsrfViewMiddleware пропускает GET)
+    - Django автоматически устанавливает csrftoken cookie при первом запросе через CsrfViewMiddleware
+    - get_token(request) возвращает токен из cookie или создает новый, если cookie нет
+    - Токен возвращается в теле ответа для использования в заголовке X-CSRFToken
+    
+    Использование:
+    - Фронтенд вызывает GET /api/users/csrf/ при загрузке
+    - Получает токен из ответа и сохраняет в памяти
+    - Отправляет токен в заголовке X-CSRFToken для всех POST/PUT/PATCH/DELETE запросов
+    """
+    from django.middleware.csrf import get_token
+    csrf_token = get_token(request)
+    return Response({"csrfToken": csrf_token})
+
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def save_token_view(request):
@@ -83,6 +123,7 @@ def save_token_view(request):
     )
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class RegisterView(APIView):
     # throttle_classes = [ProfileThrottle]  # Розкоментувати на продакшені
 
@@ -111,6 +152,7 @@ class RegisterView(APIView):
 
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class LoginView(APIView):
     permission_classes = [AllowAny]
     authentication_classes = []
@@ -120,19 +162,32 @@ class LoginView(APIView):
     def post(self, request):
         username = request.data.get('username')
         password = request.data.get('password')
-        user = authenticate(request, username=username, password=password)
-        if not user:
-            raise AuthenticationFailed("Невірні облікові дані")
-
-        refresh = RefreshToken.for_user(user)
-        access = str(refresh.access_token)
-
-        resp = Response({"access": access}, status=status.HTTP_200_OK)
-        set_refresh_cookie(resp, str(refresh))
-        return resp
+        
+        try:
+            user = authenticate(request, username=username, password=password)
+            
+            if not user:
+                raise AuthenticationFailed("Невірні облікові дані")
+            
+            refresh = RefreshToken.for_user(user)
+            access = str(refresh.access_token)
+            
+            resp = Response({"access": access}, status=status.HTTP_200_OK)
+            set_refresh_cookie(resp, str(refresh))
+            
+            return resp
+        except AuthenticationFailed:
+            raise
+        except Exception as e:
+            logger.error(f"LoginView error: {str(e)}", exc_info=True)
+            raise
 
 
 class LogoutView(APIView):
+    """
+    Выход из системы.
+    CSRF защита включена - использует refresh cookie, поэтому нужна защита.
+    """
     permission_classes = [AllowAny]  # Более дружелюбный логаут
     throttle_classes = [ScopedRateThrottle]
     throttle_scope = "auth_logout"
@@ -153,15 +208,16 @@ class LogoutView(APIView):
 
 
 class CookieTokenRefreshView(APIView):
+    """
+    Обновление access токена через refresh cookie.
+    CSRF защита включена - использует refresh cookie, поэтому нужна защита.
+    Django CsrfViewMiddleware автоматически проверит CSRF token из заголовка X-CSRFToken.
+    """
     permission_classes = [AllowAny]
     throttle_classes = [ScopedRateThrottle]
     throttle_scope = "auth_refresh"
 
     def post(self, request):
-        # Бюджетная защита от CSRF: требуем X-Requested-With
-        if request.headers.get("X-Requested-With") != "XMLHttpRequest":
-            return Response({"detail": "Bad CSRF context"}, status=status.HTTP_403_FORBIDDEN)
-
         refresh_cookie = request.COOKIES.get(REFRESH_COOKIE_NAME)
         if not refresh_cookie:
             return Response({"detail": "No refresh cookie"}, status=status.HTTP_401_UNAUTHORIZED)
@@ -172,7 +228,7 @@ class CookieTokenRefreshView(APIView):
             try:
                 old.blacklist()
             except Exception:
-                pass  # на случай, если blacklist app не подключен
+                pass
 
             user_id = old.get("user_id")
             User = get_user_model()
@@ -183,9 +239,11 @@ class CookieTokenRefreshView(APIView):
 
             resp = Response({"access": new_access}, status=status.HTTP_200_OK)
             set_refresh_cookie(resp, str(new_refresh))
+            
             return resp
 
-        except Exception:
+        except Exception as e:
+            logger.error(f"CookieTokenRefreshView error: {str(e)}", exc_info=True)
             return Response({"detail": "Invalid refresh"}, status=status.HTTP_401_UNAUTHORIZED)
 
 
@@ -223,7 +281,7 @@ class UserProfileView(APIView):
                 status=status.HTTP_404_NOT_FOUND
             )
         except Exception as e:
-            logger.error(f"Помилка в UserProfileView: {str(e)}", exc_info=True)
+            logger.error(f"UserProfileView error: {str(e)}", exc_info=True)
             return Response(
                 {'error': 'Внутрішня помилка сервера'}, 
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR

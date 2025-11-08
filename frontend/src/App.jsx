@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { forceLogout, setIsAuthenticated, setHasToken, getProfile, authFinishedLoading } from "./auth/authSlice";
 import tokenService from "./auth/tokenService";
 import PrivateRoute from "./auth/components/PrivateRoute";
+import useAuthBootstrap from "./auth/hooks/useAuthBootstrap";
 import Catalog from './catalog/pages/Catalog';
 import AbandonedTranslations from './catalog/pages/AbandonedTranslations';
 import MagicalGuide from './main/pages/MagicalGuide';
@@ -77,6 +78,10 @@ function App() {
   
   // Селекторы для состояния авторизации
   const { isAuthenticated, hasToken } = useSelector((state) => state.auth);
+  
+  // Автоматическое восстановление сессии через refresh cookie
+  // Вызывается при загрузке, фокусе окна, изменении видимости
+  useAuthBootstrap();
 
   // Инициализация auth при загрузке приложения
   useEffect(() => {
@@ -86,31 +91,26 @@ function App() {
       return;
     }
     
-    const token = localStorage.getItem('token');
-    dispatch(setHasToken(!!token));
+    // УБРАНА СТАРАЯ ЛОГИКА: больше не проверяем localStorage.getItem('token')
+    // Теперь используем только tokenService.hasAccess() (токен в памяти)
+    // и refresh cookie для восстановления сессии
     
-    if (token) {
-      // Есть токен — загружаем профиль
+    // Проверяем токен в памяти (если был сохранен до перезагрузки страницы)
+    const hasTokenInMemory = tokenService.hasAccess();
+    
+    if (hasTokenInMemory) {
+      // Есть токен в памяти — загружаем профиль
       dispatch(getProfile());
-      // Мониторинг токенов запустится после успешного getProfile
     } else {
-      // Нет токена — явно заканчиваем загрузку
+      // Нет токена в памяти — заканчиваем загрузку
+      // useAuthBootstrap попытается восстановить сессию через refresh cookie
       dispatch(authFinishedLoading());
     }
   }, [dispatch]);
 
-  // Запуск мониторинга токенов после успешной авторизации
-  useEffect(() => {
-    if (isAuthenticated && hasToken) {
-      console.log('🚀 App: Запуск мониторинга токенов после успешной авторизации');
-      tokenService.startTokenMonitoring();
-    }
-  }, [isAuthenticated, hasToken]);
-
   // Обробка події forceLogout від instance.js
   useEffect(() => {
     const handleForceLogout = () => {
-      console.log('🚪 App: Отримано подію forceLogout, очищаємо Redux state');
       dispatch(forceLogout());
       dispatch(setIsAuthenticated(false));
       // Останавливаем мониторинг токенов
@@ -120,7 +120,6 @@ function App() {
     // Синхронизация между вкладками
     const handleStorageChange = (e) => {
       if (e.key === 'auth_logout') {
-        console.log('🚪 App: Синхронизация логаута с другой вкладкой');
         dispatch(forceLogout());
         dispatch(setIsAuthenticated(false));
         // Останавливаем мониторинг токенов

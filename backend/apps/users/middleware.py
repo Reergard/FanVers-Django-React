@@ -1,5 +1,7 @@
 from threading import local
+import logging
 
+logger = logging.getLogger(__name__)
 _thread_locals = local()
 
 class RequestMiddleware:

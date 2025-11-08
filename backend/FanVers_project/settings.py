@@ -69,10 +69,10 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',  # Нужен для CSRF (если CSRF_USE_SESSIONS=True)
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',  # КРИТИЧНО: должен быть ДО AuthenticationMiddleware
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -397,11 +397,17 @@ FILE_UPLOAD_TEMP_DIR = None  # Використовуємо тимчасову �
 # Додаткові налаштування безпеки
 X_FRAME_OPTIONS = 'DENY'
 
+# Настройки CSRF cookie
+# Важно: эти настройки должны быть согласованы с refresh cookie
+CSRF_COOKIE_HTTPONLY = False  # JavaScript должен иметь доступ для чтения (через get_token())
+CSRF_COOKIE_SAMESITE = 'Lax'  # Согласовано с refresh cookie
+CSRF_USE_SESSIONS = False  # Используем cookies, не сессии (по умолчанию)
+
 # HSTS та інші заголовки безпеки (тільки на проде)
 if not DEBUG:
     SECURE_SSL_REDIRECT = True            # Тільки на проде
     SESSION_COOKIE_SECURE = True          # Якщо використовуєте сесії
-    CSRF_COOKIE_SECURE = True             # Якщо десь є CSRF
+    CSRF_COOKIE_SECURE = True             # CSRF cookie только через HTTPS
     SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
     
     # HSTS (HTTP Strict Transport Security) - тільки на проде
@@ -412,7 +418,7 @@ else:
     # Dev налаштування - ВРЕМЕННО ОТКЛЮЧАЕМ ВСЕ HTTPS
     SECURE_SSL_REDIRECT = False
     SESSION_COOKIE_SECURE = False
-    CSRF_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False  # В dev разрешаем HTTP
 
 # Настройки для работы за прокси (Nginx) - КРИТИЧНО для HTTPS редиректов
 
@@ -500,7 +506,22 @@ CACHES = {
     }
 }
 
-CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS', default=[])
+# CSRF_TRUSTED_ORIGINS - домены, которым Django доверяет для CSRF
+# Должны включать все домены, с которых могут приходить запросы
+if DEBUG:
+    # Dev настройки
+    CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS', default=[
+        'http://127.0.0.1:5173',
+        'http://localhost:5173',
+        'http://127.0.0.1:8000',
+        'http://localhost:8000',
+    ])
+else:
+    # Prod настройки
+    CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS', default=[
+        'https://fan-vers.com',
+        'https://www.fan-vers.com',
+    ])
 
 # --- Optional: override dev CORS from .env ---
 CORS_DEV_ORIGINS = env.list('CORS_DEV_ORIGINS', default=[])

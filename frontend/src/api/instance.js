@@ -1,28 +1,34 @@
 import axios from 'axios';
-import * as TS from '../auth/tokenService'; // <- берём всё, чем бы ни экспортировался сервис
+import tokenService from '../auth/tokenService';
+import { getCsrfTokenSync, getCsrfToken, clearCsrfToken } from '../utils/csrfToken';
 
-// Унифицированная обёртка над tokenService (поддержит разные варианты имён/экспортов)
+// Прямое использование tokenService (экспортируется как default)
 const token = {
-  get:
-    TS.get ||
-    TS.getAccess ||
-    TS.getToken ||
-    (TS.default && (TS.default.get || TS.default.getAccess || TS.default.getToken)) ||
-    (() => (typeof window !== 'undefined' ? window.localStorage.getItem('access') : null)),
+  get: () => {
+    // Используем getAccessSync() напрямую
+    if (typeof tokenService.getAccessSync === 'function') {
+      return tokenService.getAccessSync();
+    }
+    // Fallback для совместимости
+    if (typeof tokenService.get === 'function') {
+      return tokenService.get();
+    }
+    return null;
+  },
 
-  set:
-    TS.set ||
-    TS.setAccess ||
-    TS.setToken ||
-    (TS.default && (TS.default.set || TS.default.setAccess || TS.default.setToken)) ||
-    (t => { if (typeof window !== 'undefined') window.localStorage.setItem('access', t); }),
+  set: (t) => {
+    if (typeof tokenService.setAccess === 'function') {
+      tokenService.setAccess(t);
+    } else if (typeof tokenService.set === 'function') {
+      tokenService.set(t);
+    }
+  },
 
-  clear:
-    TS.clear ||
-    TS.clearAccess ||
-    TS.clearToken ||
-    (TS.default && (TS.default.clear || TS.default.clearAccess || TS.default.clearToken)) ||
-    (() => { if (typeof window !== 'undefined') window.localStorage.removeItem('access'); }),
+  clear: () => {
+    if (typeof tokenService.clear === 'function') {
+      tokenService.clear();
+    }
+  },
 };
 
 export const API_URL = import.meta.env.VITE_API_URL || '/api';
@@ -38,16 +44,43 @@ const isAuthPath = (url = '') =>
   url.includes('/users/login/') ||
   url.includes('/users/refresh/') ||
   url.includes('/users/logout/') ||
-  url.includes('/users/register/');
+  url.includes('/users/register/') ||
+  url.includes('/users/csrf/'); // CSRF endpoint не требует CSRF токена
 
-// REQUEST: только подставляем access, не рефрешим тут
-api.interceptors.request.use((config) => {
-  if (isAuthPath(config.url || '')) return config;
-  const access = token.get();
-  if (access) {
-    config.headers = config.headers || {};
-    config.headers.Authorization = `Bearer ${access}`;
+// REQUEST: подставляем access токен и CSRF токен
+api.interceptors.request.use(async (config) => {
+  // Для auth endpoints (кроме refresh/logout) не добавляем CSRF
+  const url = config.url || '';
+  const needsCsrf = !isAuthPath(url) || url.includes('/users/refresh/') || url.includes('/users/logout/');
+  
+  // Добавляем CSRF token для POST/PUT/PATCH/DELETE запросов, которые требуют CSRF
+  if (needsCsrf && ['post', 'put', 'patch', 'delete'].includes(config.method?.toLowerCase())) {
+    const csrfToken = getCsrfTokenSync();
+    if (csrfToken) {
+      config.headers = config.headers || {};
+      config.headers['X-CSRFToken'] = csrfToken;
+    } else {
+      // Если токена нет, пытаемся получить асинхронно
+      // Это может быть проблемой для синхронных запросов, но обычно токен уже есть в cookie
+      try {
+        const token = await getCsrfToken(api);
+        config.headers = config.headers || {};
+        config.headers['X-CSRFToken'] = token;
+      } catch (error) {
+        // CSRF token will be fetched on next request
+      }
+    }
   }
+  
+  // Добавляем access токен для всех запросов (кроме auth endpoints)
+  if (!isAuthPath(url)) {
+    const access = token.get();
+    if (access) {
+      config.headers = config.headers || {};
+      config.headers.Authorization = `Bearer ${access}`;
+    }
+  }
+  
   return config;
 });
 
@@ -70,7 +103,14 @@ api.interceptors.response.use(
 
     try {
       if (!refreshInFlight) {
-        refreshInFlight = api.post('/users/refresh/', {}); // withCredentials=true → кука уйдёт
+        // Получаем CSRF token перед refresh запросом
+        const csrfToken = await getCsrfToken(api);
+        refreshInFlight = api.post('/users/refresh/', {}, {
+          headers: {
+            'X-CSRFToken': csrfToken,
+            'X-Requested-With': 'XMLHttpRequest'
+          }
+        }); // withCredentials=true → кука уйдёт
       }
       const { data } = await refreshInFlight;
       refreshInFlight = null;
@@ -80,12 +120,20 @@ api.interceptors.response.use(
         token.set(newAccess);
         original.headers = original.headers || {};
         original.headers.Authorization = `Bearer ${newAccess}`;
+        // Обновляем CSRF token в заголовке оригинального запроса
+        const csrfToken = getCsrfTokenSync();
+        if (csrfToken) {
+          original.headers['X-CSRFToken'] = csrfToken;
+        }
         return api(original);
       }
       throw new Error('No access in refresh response');
     } catch (e) {
       refreshInFlight = null;
-      try { token.clear(); } catch {}
+      try { 
+        token.clear();
+        clearCsrfToken(); // Очищаем CSRF token при ошибке
+      } catch {}
       if (typeof window !== 'undefined') {
         window.dispatchEvent(new CustomEvent('forceLogout'));
         window.localStorage.setItem('auth_logout', Date.now().toString());
