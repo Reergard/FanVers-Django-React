@@ -56,7 +56,18 @@ import Faq from './catalog/pages/Faq';
 // Custom Toast System
 import { ToastProvider } from './components/CustomToast';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      retry: 1,
+      staleTime: 5 * 60 * 1000, // 5 минут
+      gcTime: 10 * 60 * 1000, // 10 минут (было cacheTime)
+    },
+  },
+});
 
 function App() {
   const [load, updateLoad] = useState(true);
