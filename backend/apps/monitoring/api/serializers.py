@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from apps.monitoring.models import UserChapterProgress, AuthorThanks
+from decimal import Decimal
 
 class UserChapterProgressSerializer(serializers.ModelSerializer):
     class Meta:
@@ -20,7 +21,7 @@ class AuthorThanksSerializer(serializers.ModelSerializer):
 
 class CreateAuthorThanksSerializer(serializers.Serializer):
     book_id = serializers.IntegerField(min_value=1)
-    amount = serializers.DecimalField(max_digits=10, decimal_places=2, min_value=10, max_value=10000)
+    amount = serializers.DecimalField(max_digits=10, decimal_places=2, min_value=Decimal('10'), max_value=Decimal('10000'))
     message = serializers.CharField(max_length=500, required=False, allow_blank=True)
     
     def validate_book_id(self, value):

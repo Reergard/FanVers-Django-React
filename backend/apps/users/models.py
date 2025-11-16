@@ -15,6 +15,7 @@ from django.db.models import Count, Q, F
 from django.contrib.staticfiles.storage import staticfiles_storage
 from datetime import datetime
 import logging
+from decimal import Decimal
 
 logger = logging.getLogger(__name__)
 
@@ -72,7 +73,7 @@ class Profile(models.Model):
     balance = models.DecimalField(
         max_digits=10, 
         decimal_places=2, 
-        default=0,
+        default=Decimal('0'),
         verbose_name='Баланс'
     )
     purchased_chapters = models.ManyToManyField('catalog.Chapter', blank=True, related_name='purchased_by')
@@ -92,7 +93,7 @@ class Profile(models.Model):
     commission = models.DecimalField(
         max_digits=5,
         decimal_places=2,
-        default=15.00,
+        default=Decimal('15.00'),
         verbose_name='Комісія (%)'
     )
     

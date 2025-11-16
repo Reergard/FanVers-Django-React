@@ -10,6 +10,7 @@ from unidecode import unidecode
 import re
 from datetime import timedelta
 import logging
+from decimal import Decimal
 
 logger = logging.getLogger(__name__)
 
@@ -394,7 +395,7 @@ class Chapter(models.Model):
     _position = models.DecimalField(
         max_digits=10, 
         decimal_places=1, 
-        default=0,
+        default=Decimal('0'),
         db_column='position'
     )
     characters_count = models.IntegerField(default=0, verbose_name='Кількість символів')
@@ -403,7 +404,7 @@ class Chapter(models.Model):
     price = models.DecimalField(
         max_digits=10,
         decimal_places=2,
-        default=1.00,
+        default=Decimal('1.00'),
         verbose_name='Вартість розділу'
     )
     reading_time = models.IntegerField(default=0)  # час у секундах
@@ -532,7 +533,7 @@ class Chapter(models.Model):
 class ChapterOrder(models.Model):
     volume = models.ForeignKey(Volume, on_delete=models.CASCADE)
     chapter = models.ForeignKey(Chapter, on_delete=models.CASCADE)
-    position = models.DecimalField(max_digits=10, decimal_places=1, default=0)
+    position = models.DecimalField(max_digits=10, decimal_places=1, default=Decimal('0'))
 
     class Meta:
         ordering = ['position']
