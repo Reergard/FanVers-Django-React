@@ -96,14 +96,18 @@ function App() {
     // и refresh cookie для восстановления сессии
     
     // Проверяем токен в памяти (если был сохранен до перезагрузки страницы)
+    console.log('📱 [App] Проверяем токен в памяти...');
     const hasTokenInMemory = tokenService.hasAccess();
+    console.log('📱 [App] Token в памяти:', hasTokenInMemory ? 'ЕСТЬ' : 'НЕТ');
     
     if (hasTokenInMemory) {
       // Есть токен в памяти — загружаем профиль
+      console.log('📱 [App] Токен найден, загружаем профиль...');
       dispatch(getProfile());
     } else {
       // Нет токена в памяти — заканчиваем загрузку
       // useAuthBootstrap попытается восстановить сессию через refresh cookie
+      console.log('📱 [App] Токена нет, завершаем загрузку. useAuthBootstrap попытается восстановить сессию');
       dispatch(authFinishedLoading());
     }
   }, [dispatch]);
@@ -111,20 +115,24 @@ function App() {
   // Обробка події forceLogout від instance.js
   useEffect(() => {
     const handleForceLogout = () => {
+      console.log('🚪 [App] Получено событие forceLogout, очищаем Redux state');
       dispatch(forceLogout());
       dispatch(setIsAuthenticated(false));
       // Останавливаем мониторинг токенов
       tokenService.stopTokenMonitoring();
+      console.log('🚪 [App] Redux state очищен, мониторинг токенов остановлен');
     };
 
     // Синхронизация между вкладками
     const handleStorageChange = (e) => {
       if (e.key === 'auth_logout') {
+        console.log('🚪 [App] Синхронизация логаута с другой вкладкой');
         dispatch(forceLogout());
         dispatch(setIsAuthenticated(false));
         // Останавливаем мониторинг токенов
         tokenService.stopTokenMonitoring();
         localStorage.removeItem('auth_logout'); // Очищаем ключ для чистоты
+        console.log('🚪 [App] Логаут синхронизирован');
       }
     };
 

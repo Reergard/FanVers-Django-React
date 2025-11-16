@@ -179,7 +179,6 @@ class Book(models.Model):
         auto_now=True,
         verbose_name='Останнє оновлення'
     )
-    adult_content = models.BooleanField(default=False)
     translation_status = models.CharField(
         max_length=20,
         choices=TRANSLATION_STATUSES,
@@ -191,6 +190,7 @@ class Book(models.Model):
     original_status = models.CharField(
         max_length=20,
         choices=ORIGINAL_STATUS_CHOICES,
+        default='ONGOING',
         verbose_name='Статус випуску оригіналу'
     )
 
@@ -243,12 +243,23 @@ class Book(models.Model):
 
     def generate_unique_slug(self):
         """Генерує унікальний слаг для книги"""
+        # Проверяем наличие title
+        if not self.title:
+            # Если нет title, создаем временный slug
+            return f"book-{timezone.now().timestamp()}"
+        
         # Транслітерація та базове очищення
         slug = slugify(unidecode(self.title))
         
+        # Если slug пустой после обработки, создаем временный
+        if not slug:
+            slug = f"book-{timezone.now().timestamp()}"
+        
         # Якщо title_en існує, використовуємо його як основу
         if self.title_en:
-            slug = slugify(unidecode(self.title_en))
+            title_en_slug = slugify(unidecode(self.title_en))
+            if title_en_slug:
+                slug = title_en_slug
             
         # Видаляємо всі спеціальні символи крім дефісу
         slug = re.sub(r'[^a-zA-Z0-9-]', '', slug)
@@ -275,8 +286,19 @@ class Book(models.Model):
 
     def clean(self):
         """Валідація моделі"""
+        from django.core.exceptions import ValidationError
+        
         super().clean()
-        if not self.slug:
+        
+        # Валидация обязательных полей (только если объект уже имеет данные)
+        # Не валидируем при создании через админку, так как форма сама это делает
+        if self.title and not self.title.strip():
+            raise ValidationError({'title': "Поле 'title' не может быть пустым"})
+        if self.author and not self.author.strip():
+            raise ValidationError({'author': "Поле 'author' не может быть пустым"})
+        
+        # Генерируем slug если его нет и есть title
+        if not self.slug and self.title:
             self.slug = self.generate_unique_slug()
 
     def save(self, *args, **kwargs):
@@ -284,12 +306,16 @@ class Book(models.Model):
         # Проверяем, создается ли новая книга или редактируется существующая
         is_new_book = self.pk is None
         
+        # Валидация обязательных полей (ошибки будут показаны через clean())
+        # Не поднимаем исключения здесь, чтобы админка могла показать ошибки формы
+        
         if is_new_book:
             # Для новых книг устанавливаем статус по умолчанию
             if self.book_type == 'AUTHOR':
                 self.translation_status = None
             elif self.book_type == 'TRANSLATION':
-                self.translation_status = 'TRANSLATING'
+                if not self.translation_status:
+                    self.translation_status = 'TRANSLATING'
         else:
             # Для существующих книг проверяем валидность
             if self.book_type == 'AUTHOR' and self.translation_status is not None:
@@ -298,9 +324,13 @@ class Book(models.Model):
             elif self.book_type == 'TRANSLATION' and self.translation_status is None:
                 # Переводы должны иметь статус
                 self.translation_status = 'TRANSLATING'
-            
-        if not self.slug:
+        
+        # Генерируем slug только если его нет и есть title
+        if not self.slug and self.title:
             self.slug = self.generate_unique_slug()
+        elif not self.slug:
+            # Если нет title, создаем временный slug
+            self.slug = f"book-{timezone.now().timestamp()}"
             
         super().save(*args, **kwargs)
 

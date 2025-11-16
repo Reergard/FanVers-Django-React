@@ -12,6 +12,31 @@ class BookAdmin(admin.ModelAdmin):
     list_display = ['title', 'title_en', 'author', 'get_creator', 'get_owner', 'translation_status', 'original_status', 'get_tags', 'get_fandoms', 'get_country', 'get_genres', 'last_updated']
     list_filter = ['author', 'creator', 'owner', 'tags', 'fandoms', 'country', 'genres', 'translation_status', 'original_status', 'last_updated']
     search_fields = ['title', 'author', 'creator__username', 'owner__username']
+    
+    def save_model(self, request, obj, form, change):
+        """Переопределяем сохранение для правильной обработки"""
+        try:
+            logger.info(f"Сохранение книги в админке: change={change}, title={obj.title}, author={obj.author}, country={obj.country_id}")
+            
+            # Если создается новая книга и не указан creator/owner, устанавливаем текущего пользователя
+            if not change:  # Новая книга
+                if not obj.creator:
+                    obj.creator = request.user
+                    logger.info(f"Установлен creator: {request.user.username}")
+                if not obj.owner:
+                    obj.owner = request.user
+                    logger.info(f"Установлен owner: {request.user.username}")
+            
+            # Сохраняем объект (clean() вызывается автоматически через форму)
+            super().save_model(request, obj, form, change)
+            logger.info(f"Книга успешно сохранена: ID={obj.id}, slug={obj.slug}")
+        except Exception as e:
+            logger.error(f"Ошибка сохранения книги в админке: {str(e)}", exc_info=True)
+            raise
+    
+    def save_formset(self, request, form, formset, change):
+        """Обработка формсетов (для inline форм)"""
+        super().save_formset(request, form, formset, change)
 
     def get_fieldsets(self, request, obj=None):
         """Условное отображение полей в зависимости от типа книги"""

@@ -389,7 +389,31 @@ def create_book(request):
     try:
         print(f"create_book: Получен запрос от пользователя {request.user.username}")
         
-        serializer = BookCreateSerializer(data=request.data)
+        # Обработка FormData: DRF может не всегда правильно обрабатывать QueryDict для ManyToMany
+        # Поэтому явно обрабатываем массивы из FormData
+        data = request.data.copy() if hasattr(request.data, 'copy') else request.data
+        
+        # Если это QueryDict (FormData), обрабатываем ManyToMany поля явно
+        if hasattr(request.data, 'getlist'):
+            # Создаем обычный dict для сериализатора, но сохраняем множественные значения
+            processed_data = {}
+            for key in request.data.keys():
+                if key in ['genres', 'tags', 'fandoms']:
+                    # Для ManyToMany полей используем getlist
+                    values = request.data.getlist(key)
+                    # Конвертируем строки в int, если возможно
+                    try:
+                        processed_data[key] = [int(v) if isinstance(v, str) and v.isdigit() else v for v in values]
+                    except (ValueError, TypeError):
+                        processed_data[key] = values
+                else:
+                    # Для остальных полей берем первое значение (или значение как есть)
+                    value = request.data.get(key)
+                    processed_data[key] = value
+            data = processed_data
+            print(f"create_book: Обработанные данные FormData: genres={data.get('genres')}, tags={data.get('tags')}, fandoms={data.get('fandoms')}")
+        
+        serializer = BookCreateSerializer(data=data)
         
         if serializer.is_valid():
             print("create_book: Данные валидны, создаем книгу")
@@ -398,21 +422,14 @@ def create_book(request):
                 creator=request.user
             )
             
-            # Обробка масивів
-            if 'genres' in request.data:
-                genres_ids = request.data.getlist('genres')
-                book.genres.set(genres_ids)
+            print(f"create_book: Книга успешно создана с ID: {book.id}, slug: {book.slug}")
+            print(f"create_book: Жанры: {list(book.genres.values_list('id', flat=True))}")
+            print(f"create_book: Теги: {list(book.tags.values_list('id', flat=True))}")
+            print(f"create_book: Фандомы: {list(book.fandoms.values_list('id', flat=True))}")
             
-            if 'tags' in request.data:
-                tags_ids = request.data.getlist('tags')
-                book.tags.set(tags_ids)
-            
-            if 'fandoms' in request.data:
-                fandoms_ids = request.data.getlist('fandoms')
-                book.fandoms.set(fandoms_ids)
-            
-            print(f"create_book: Книга успешно создана с ID: {book.id}")
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            # Используем BookOwnerSerializer для полного ответа
+            response_serializer = BookOwnerSerializer(book, context={'request': request})
+            return Response(response_serializer.data, status=status.HTTP_201_CREATED)
         else:
             print(f"create_book: Ошибки валидации: {serializer.errors}")
             

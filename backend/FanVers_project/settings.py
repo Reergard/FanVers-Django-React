@@ -234,7 +234,8 @@ DJOSER = {
 
 IS_PRODUCTION_ENV = env.bool("IS_PRODUCTION_ENV")
 
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+# Используем кастомный email backend с логированием
+EMAIL_BACKEND = "apps.users.email_backend.LoggingEmailBackend"
 EMAIL_HOST = env("EMAIL_HOST")
 EMAIL_USE_TLS = True
 EMAIL_PORT = env("EMAIL_PORT")

@@ -15,7 +15,14 @@ def drf_exception_handler(exc, context):
     
     # Логируем 403 ошибки для диагностики
     if isinstance(exc, (PermissionDenied, DjangoPermissionDenied)):
-        logger.error(f"403 Permission Denied: {request.path if request else 'N/A'} - {str(exc)}")
+        logger.error(f"🚫 [ExceptionHandler] === 403 Permission Denied ===")
+        logger.error(f"🚫 [ExceptionHandler] Path: {request.path if request else 'N/A'}")
+        logger.error(f"🚫 [ExceptionHandler] Method: {request.method if request else 'N/A'}")
+        logger.error(f"🚫 [ExceptionHandler] View: {view.__class__.__name__ if view else 'N/A'}")
+        logger.error(f"🚫 [ExceptionHandler] User: {request.user if request and hasattr(request, 'user') else 'N/A'}")
+        logger.error(f"🚫 [ExceptionHandler] Headers: {dict(request.headers) if request else 'N/A'}")
+        logger.error(f"🚫 [ExceptionHandler] Exception type: {type(exc).__name__}")
+        logger.error(f"🚫 [ExceptionHandler] Exception message: {str(exc)}")
     
     response = exception_handler(exc, context)
     
