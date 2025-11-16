@@ -33,19 +33,21 @@ def _cookie_params():
     """
     Параметри для refresh cookie
     ВАЖНО: Настройки зависят от DEBUG режима для правильной работы в dev/prod
+    Согласовано с CSRF_COOKIE_* настройками в settings.py
     """
     import os
     # Secure: только HTTPS в продакшене
     secure = not settings.DEBUG
     
-    # SameSite: Lax для защиты от CSRF, но позволяет cross-site навигацию
-    # В dev можно использовать Lax, в prod тоже Lax (если фронт и API на одном домене)
-    samesite = os.getenv('SAME_SITE_COOKIE', 'Lax')
+    # SameSite: берем из settings или env, по умолчанию None для кросс-сайт (Telegram/WebView)
+    # Должно совпадать с CSRF_COOKIE_SAMESITE в settings.py
+    samesite = getattr(settings, 'CSRF_COOKIE_SAMESITE', os.getenv('SAME_SITE_COOKIE', 'None'))
     
-    # Domain: не устанавливаем в dev (localhost), в prod можно указать .fan-vers.com для поддоменов
+    # Domain: берем из settings или env, по умолчанию .fan-vers.com в prod
+    # Должно совпадать с SESSION_COOKIE_DOMAIN и CSRF_COOKIE_DOMAIN в settings.py
     domain = None
     if not settings.DEBUG:
-        domain = os.getenv('SESSION_COOKIE_DOMAIN', None)  # для піддоменів можна .fan-vers.com
+        domain = getattr(settings, 'SESSION_COOKIE_DOMAIN', os.getenv('SESSION_COOKIE_DOMAIN', '.fan-vers.com'))
     
     logger.info(f"🔐 [CookieParams] Cookie parameters: secure={secure}, samesite={samesite}, domain={domain or 'None'}")
     
@@ -53,8 +55,8 @@ def _cookie_params():
         httponly=True,
         secure=secure,
         samesite=samesite,
-        domain=domain,  # None в dev, может быть установлен в prod
-        path='/',     # кука видна всьому сайту
+        domain=domain,  # None в dev, .fan-vers.com в prod
+        path='/',       # кука видна всьому сайту
         max_age=REFRESH_MAX_AGE,
     )
 
@@ -69,12 +71,21 @@ def set_refresh_cookie(response, refresh_str: str):
     logger.info(f"🍪 [set_refresh_cookie] Refresh cookie установлена")
 
 def del_refresh_cookie(response):
-    """Видалити refresh cookie"""
+    """Видалити refresh cookie
+    ВАЖНО: Используем те же параметры (domain/path/samesite), что и при установке,
+    иначе браузер не удалит старую куку
+    """
     params = _cookie_params()
     logger.info(f"🍪 [del_refresh_cookie] Удаляем refresh cookie...")
     logger.info(f"🍪 [del_refresh_cookie] Cookie name: {REFRESH_COOKIE_NAME}")
-    logger.info(f"🍪 [del_refresh_cookie] Cookie params: path={params['path']}, domain={params.get('domain', 'None')}")
-    response.delete_cookie(REFRESH_COOKIE_NAME, path=params["path"], domain=params["domain"])
+    logger.info(f"🍪 [del_refresh_cookie] Cookie params: path={params['path']}, domain={params.get('domain', 'None')}, samesite={params.get('samesite', 'None')}")
+    # delete_cookie требует те же параметры, что и set_cookie
+    response.delete_cookie(
+        REFRESH_COOKIE_NAME,
+        path=params["path"],
+        domain=params.get("domain"),  # Может быть None
+        samesite=params.get("samesite", "None")
+    )
     logger.info(f"🍪 [del_refresh_cookie] Refresh cookie удалена")
 
 from apps.users.api.serializers import (

@@ -105,13 +105,26 @@ export const useAuth = () => {
             console.log('useAuth: Профіль успішно завантажено');
             dispatch(setIsAuthenticated(true));
           } else {
-            console.log('useAuth: Помилка завантаження профілю');
-            dispatch(setIsAuthenticated(false));
+            // Проверяем код ошибки - разлогиниваем только при AUTH ошибке
+            const errorCode = result.payload?.code;
+            if (errorCode === 'AUTH') {
+              console.log('useAuth: Помилка авторизації, розлогинюємо');
+              dispatch(setIsAuthenticated(false));
+            } else {
+              // При NETWORK/THROTTLED ошибках не меняем isAuthenticated
+              // authSlice уже правильно обработал это
+              console.log('useAuth: Тимчасова помилка (NETWORK/THROTTLED), залишаємо авторизованим');
+            }
           }
         })
         .catch((error) => {
           console.error('useAuth: Критична помилка:', error);
-          dispatch(setIsAuthenticated(false));
+          // При критических ошибках тоже проверяем код
+          const errorCode = error?.payload?.code || error?.code;
+          if (errorCode === 'AUTH') {
+            dispatch(setIsAuthenticated(false));
+          }
+          // При других ошибках не меняем isAuthenticated
         })
         .finally(() => {
           // Дозволяємо повторну спробу через 5 секунд

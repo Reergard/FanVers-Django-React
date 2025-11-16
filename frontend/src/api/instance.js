@@ -40,12 +40,13 @@ export const api = axios.create({
 });
 
 let refreshInFlight = null;
-const isAuthPath = (url = '') =>
-  url.includes('/users/login/') ||
+// Эндпоинты, где точно НЕ НУЖЕН Authorization header (access token)
+const skipAuthzHeader = (url = '') =>
   url.includes('/users/refresh/') ||
   url.includes('/users/logout/') ||
-  url.includes('/users/register/') ||
-  url.includes('/users/csrf/'); // CSRF endpoint не требует CSRF токена
+  url.includes('/users/csrf/') ||
+  url.includes('/users/login/') ||   // ← добавили
+  url.includes('/users/register/');  // ← добавили
 
 // REQUEST: подставляем access токен и CSRF токен
 api.interceptors.request.use(async (config) => {
@@ -57,13 +58,14 @@ api.interceptors.request.use(async (config) => {
   console.log('🌐 [instance.request] URL:', url);
   console.log('🌐 [instance.request] Time:', new Date().toISOString());
   
-  // Для auth endpoints (кроме refresh/logout) не добавляем CSRF
-  const needsCsrf = !isAuthPath(url) || url.includes('/users/refresh/') || url.includes('/users/logout/');
+  // CSRF токен требуется для всех небезопасных методов (POST, PUT, PATCH, DELETE)
+  // включая login и register для защиты от CSRF атак
+  const needsCsrf = ['post', 'put', 'patch', 'delete'].includes((config.method || 'get').toLowerCase());
   console.log('🌐 [instance.request] Needs CSRF:', needsCsrf);
-  console.log('🌐 [instance.request] Is auth path:', isAuthPath(url));
+  console.log('🌐 [instance.request] Skip authz header:', skipAuthzHeader(url));
   
-  // Добавляем CSRF token для POST/PUT/PATCH/DELETE запросов, которые требуют CSRF
-  if (needsCsrf && ['post', 'put', 'patch', 'delete'].includes(config.method?.toLowerCase())) {
+  // Добавляем CSRF token для всех небезопасных методов
+  if (needsCsrf) {
     console.log('🌐 [instance.request] Шаг 1: Проверяем CSRF token...');
     const csrfToken = getCsrfTokenSync();
     if (csrfToken) {
@@ -86,8 +88,8 @@ api.interceptors.request.use(async (config) => {
     }
   }
   
-  // Добавляем access токен для всех запросов (кроме auth endpoints)
-  if (!isAuthPath(url)) {
+  // Добавляем access токен везде, КРОМЕ логина/регистрации/рефреша/логаута/CSRF
+  if (!skipAuthzHeader(url)) {
     console.log('🌐 [instance.request] Шаг 2: Проверяем access token...');
     const access = token.get();
     if (access) {
@@ -100,7 +102,7 @@ api.interceptors.request.use(async (config) => {
       console.warn('🌐 [instance.request] Шаг 2: Access token не найден!');
     }
   } else {
-    console.log('🌐 [instance.request] Шаг 2: Auth endpoint, пропускаем Authorization header');
+    console.log('🌐 [instance.request] Шаг 2: Skip authz header for this path');
   }
   
   console.log('🌐 [instance.request] Final headers:', {
@@ -153,7 +155,7 @@ api.interceptors.response.use(
     console.log('🌐 [instance.response.error] Error data:', response?.data);
     console.log('🌐 [instance.response.error] Error message:', error.message);
 
-    if (status !== 401 || isAuthPath(original.url || '')) {
+    if (status !== 401 || skipAuthzHeader(original.url || '')) {
       console.log('🌐 [instance.response.error] Not a 401 or auth path, rejecting...');
       return Promise.reject(error);
     }
@@ -225,16 +227,34 @@ api.interceptors.response.use(
       console.error('🔄 [instance.interceptor] === REFRESH FAILED ===');
       console.error('🔄 [instance.interceptor] Error:', e.response?.status, e.response?.data);
       refreshInFlight = null;
-      try { 
-        console.log('🔄 [instance.interceptor] Очищаем токены...');
-        token.clear();
-        clearCsrfToken(); // Очищаем CSRF token при ошибке
-        console.log('🔄 [instance.interceptor] Токены очищены');
-      } catch {}
-      if (typeof window !== 'undefined') {
-        console.log('🔄 [instance.interceptor] Отправляем событие forceLogout...');
-        window.dispatchEvent(new CustomEvent('forceLogout'));
-        window.localStorage.setItem('auth_logout', Date.now().toString());
+      
+      // Проверяем тип ошибки - разлогиниваем только при реальных ошибках авторизации
+      const refreshStatus = e.response?.status;
+      const isNetworkError = 
+        e.code === 'ERR_NETWORK' || 
+        e.message === 'Network Error' ||
+        !e.response; // Нет ответа от сервера
+      
+      // Разлогиниваем только при 401 (нет refresh cookie или она невалидна)
+      // или при других ошибках авторизации (403, но не при сетевых ошибках)
+      const isAuthError = refreshStatus === 401 || (refreshStatus === 403 && !isNetworkError);
+      
+      if (isAuthError && !isNetworkError) {
+        // Только при реальных ошибках авторизации очищаем токены и разлогиниваем
+        try { 
+          console.log('🔄 [instance.interceptor] Очищаем токены (ошибка авторизации)...');
+          token.clear();
+          clearCsrfToken(); // Очищаем CSRF token при ошибке
+          console.log('🔄 [instance.interceptor] Токены очищены');
+        } catch {}
+        if (typeof window !== 'undefined') {
+          console.log('🔄 [instance.interceptor] Отправляем событие forceLogout...');
+          window.dispatchEvent(new CustomEvent('forceLogout'));
+          window.localStorage.setItem('auth_logout', Date.now().toString());
+        }
+      } else {
+        // При сетевых ошибках или временных проблемах не разлогиниваем
+        console.log('🔄 [instance.interceptor] Сетевая ошибка или временная проблема, не разлогиниваем');
       }
       return Promise.reject(error);
     }

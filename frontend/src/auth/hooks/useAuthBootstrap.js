@@ -78,9 +78,26 @@ function useAuthBootstrap() {
           console.error('🔄 [Bootstrap] Error data:', error.response?.data);
           console.error('🔄 [Bootstrap] Error message:', error.message);
           
-          console.log('🔄 [Bootstrap] Обновляем Redux state (setHasToken(false))...');
-          dispatch(setHasToken(false));
-          // Молча игнорируем ошибки - пользователь остается гостем
+          // Проверяем тип ошибки - устанавливаем hasToken=false только при реальных ошибках авторизации
+          const refreshStatus = error.response?.status;
+          const isNetworkError = 
+            error.code === 'ERR_NETWORK' || 
+            error.message === 'Network Error' ||
+            !error.response; // Нет ответа от сервера
+          
+          // Устанавливаем hasToken=false только при 401 (нет refresh cookie или она невалидна)
+          // При сетевых ошибках не меняем состояние - возможно, это временная проблема
+          if (refreshStatus === 401 && !isNetworkError) {
+            console.log('🔄 [Bootstrap] Ошибка авторизации (401), устанавливаем hasToken=false...');
+            dispatch(setHasToken(false));
+          } else if (isNetworkError) {
+            console.log('🔄 [Bootstrap] Сетевая ошибка, не меняем hasToken (возможно временная проблема)');
+            // При сетевых ошибках не меняем hasToken - возможно, это временная проблема
+          } else {
+            // Другие ошибки (403, 500 и т.д.) - тоже не меняем hasToken, чтобы не разлогинивать
+            console.log('🔄 [Bootstrap] Другая ошибка, не меняем hasToken');
+          }
+          // Молча игнорируем ошибки - пользователь остается в текущем состоянии
           throw error;
         } finally {
           refreshInFlightRef.current = null;

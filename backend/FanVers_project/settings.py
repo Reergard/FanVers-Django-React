@@ -401,7 +401,6 @@ X_FRAME_OPTIONS = 'DENY'
 # Настройки CSRF cookie
 # Важно: эти настройки должны быть согласованы с refresh cookie
 CSRF_COOKIE_HTTPONLY = False  # JavaScript должен иметь доступ для чтения (через get_token())
-CSRF_COOKIE_SAMESITE = 'Lax'  # Согласовано с refresh cookie
 CSRF_USE_SESSIONS = False  # Используем cookies, не сессии (по умолчанию)
 
 # HSTS та інші заголовки безпеки (тільки на проде)
@@ -410,6 +409,14 @@ if not DEBUG:
     SESSION_COOKIE_SECURE = True          # Якщо використовуєте сесії
     CSRF_COOKIE_SECURE = True             # CSRF cookie только через HTTPS
     SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
+    
+    # Cookie домены для работы на www и apex доменах
+    SESSION_COOKIE_DOMAIN = ".fan-vers.com"  # Работает для fan-vers.com и www.fan-vers.com
+    CSRF_COOKIE_DOMAIN = ".fan-vers.com"    # Работает для fan-vers.com и www.fan-vers.com
+    
+    # SameSite для кросс-сайт запросов (если открываете из Telegram/Instagram/WebView)
+    # Используйте "None" если нужен кросс-сайт доступ, "Lax" если только same-site
+    CSRF_COOKIE_SAMESITE = os.getenv('CSRF_COOKIE_SAMESITE', 'None')  # None для кросс-сайт, Lax для same-site
     
     # HSTS (HTTP Strict Transport Security) - тільки на проде
     SECURE_HSTS_SECONDS = 31536000  # 1 рік
@@ -420,6 +427,7 @@ else:
     SECURE_SSL_REDIRECT = False
     SESSION_COOKIE_SECURE = False
     CSRF_COOKIE_SECURE = False  # В dev разрешаем HTTP
+    CSRF_COOKIE_SAMESITE = 'Lax'  # В dev можно Lax
 
 # Настройки для работы за прокси (Nginx) - КРИТИЧНО для HTTPS редиректов
 
